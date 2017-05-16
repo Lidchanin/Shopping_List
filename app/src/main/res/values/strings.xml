@@ -1,0 +1,83 @@
+<resources>
+    <string name="app_name">Shopping List</string>
+    <string name="shortcut_name">Your lists</string>
+
+    <string name="add_a_new_shopping_list">Add a new shopping list</string>
+    <string name="save_shopping_list_with_current_name">Save shopping list with current name</string>
+    <string name="enter_name_of_the_shopping_list">Enter name of the shopping list</string>
+    <string name="enter_name">Enter name</string>
+    <string name="enter_cost">Enter cost</string>
+    <string name="enter_new_name">Enter new name</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="delete_shopping_list">Delete shopping list?</string>
+    <string name="you_are_sure_you_want_to_delete_this_shopping_list">You are sure you want to delete this shopping list?</string>
+    <string name="delete_product">Delete product?</string>
+    <string name="you_are_sure_you_want_to_delete_this_product">You are sure you want to delete this product?</string>
+    <string name="are_you_forgot">Are you forgot?</string>
+    <string name="add_selected_products">Add selected products</string>
+    <string name="no_thanks">No, thanks</string>
+    <string name="estimated_amount">Estimated amount = %1$s</string>
+    <string name="name">name</string>
+    <string name="cost">cost</string>
+    <string name="total">total</string>
+    <string name="quantity">quantity</string>
+    <string name="accept">accept</string>
+    <string name="delete">delete</string>
+    <string name="close">close</string>
+    <string name="add_product">add product</string>
+    <string name="update_product">update product</string>
+    <string name="update_shopping_list">update shopping list</string>
+    <string name="you_did_not_select_anything">You did not select anything</string>
+    <string name="database_date_format">yyyy-MM-dd HH:mm:ss</string>
+    <string name="needed_date_format">dd.MM.yyyy   HH:mm:ss</string>
+
+    <string name="scan_btn">Scan</string>
+    <string name="ok_btn">OK</string>
+    <string name="hint_choice_activity_name">Choose item under</string>
+    <string name="hint_choice_activity_cost">Cost</string>
+    <string name="choose_lang_title">Choose your language</string>
+    <string name="rus_tessdata">Russian</string>
+    <string name="eng_tessdata">English</string>
+    <string name="go_to_shop">Go To Shop!</string>
+    <string name="done">Done!</string>
+    <string name="scan_item_button">Scan item</string>
+    <string name="print_item_button">Print item</string>
+	
+    <string name="potatoes">potatoes</string>
+    <string name="cabbage">cabbage</string>
+    <string name="carrot">carrot</string>
+    <string name="tomatoes">tomatoes</string>
+    <string name="cucumbers">cucumbers</string>
+    <string name="garlic">garlic</string>
+    <string name="onion">onion</string>
+    <string name="beetroot">beetroot</string>
+    <string name="apples">apples</string>
+    <string name="bananas">bananas</string>
+    <string name="oranges">oranges</string>
+    <string name="lemons">lemons</string>
+    <string name="butter">butter</string>
+    <string name="olive_oil">olive oil</string>
+    <string name="sunflower_oil">sunflower oil</string>
+    <string name="milk">milk</string>
+    <string name="fish">fish</string>
+    <string name="peas">peas</string>
+    <string name="corn">corn</string>
+    <string name="mushrooms">mushrooms</string>
+    <string name="chicken_meat">chicken_meat</string>
+    <string name="pork">pork</string>
+    <string name="beef">beef</string>
+    <string name="spaghetti">spaghetti</string>
+    <string name="rice">rice</string>
+    <string name="buckwheat">buckwheat</string>
+    <string name="mustard">mustard</string>
+    <string name="eggs">eggs</string>
+    <string name="sugar">sugar</string>
+    <string name="salt">salt</string>
+    <string name="coffee">coffee</string>
+    <string name="black_tea">black tea</string>
+    <string name="green_tea">green tea</string>
+    <string name="red_tea">red tea</string>
+    <string name="cocoa">cocoa</string>
+	
+</resources>

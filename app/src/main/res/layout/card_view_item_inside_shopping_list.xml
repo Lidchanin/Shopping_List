@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/inside_shopping_list_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/inside_shopping_list_text_view_product_name_in_card_view"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:background="@drawable/border_rectangle"
+                android:gravity="center"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/inside_shopping_list_text_view_product_cost_in_card_view"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/border_rectangle"
+                android:gravity="center"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/inside_shopping_list_text_view_total_cost_in_card_view"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/border_rectangle"
+                android:gravity="center"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/inside_shopping_list_edit_text_quantity_of_product_in_card_view"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:inputType="numberDecimal"
+                android:background="@drawable/border_rectangle"
+                android:gravity="center"
+                android:hint="@string/quantity"/>
+
+            <ImageButton
+                android:id="@+id/inside_shopping_list_image_button_accept_in_card_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/ic_check_black_24dp"
+                android:contentDescription="@string/quantity"/>
+
+            <ImageButton
+                android:id="@+id/inside_shopping_list_image_button_delete_in_card_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/ic_close_black_24dp"
+                android:contentDescription="@string/delete_product" />
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

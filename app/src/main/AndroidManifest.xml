@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.lidchanin.crudindiploma">
+
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher_1"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_1"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".activities.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.MainScreenActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activities.AddingShoppingListActivity" />
+        <activity
+            android:name=".activities.InsideShoppingListActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.InsideShoppingListAddProductPopUpWindowActivity"
+            android:theme="@style/AppTheme.PopUpWindow" />
+        <activity
+            android:name=".activities.MainScreenPopUpWindowActivity"
+            android:theme="@style/AppTheme.PopUpWindow" />
+        <activity
+            android:name=".activities.InsideShoppingListUpdateProductPopUpWindowActivity"
+            android:theme="@style/AppTheme.PopUpWindow" />
+
+        <activity android:name=".activities.NameAndCostEditActivity"/>
+        <activity android:name=".activities.CameraActivity" />
+        <activity android:name=".activities.ChoiceActivity" />
+    </application>
+
+</manifest>
