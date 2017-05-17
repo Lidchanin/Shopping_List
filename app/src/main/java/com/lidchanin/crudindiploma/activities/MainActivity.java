@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -35,34 +36,50 @@ public class MainActivity extends AppCompatActivity {
         progressEng = (ProgressBar) findViewById(R.id.eng_tessdata_progress);
         progressRus = (ProgressBar) findViewById(R.id.rus_tessdata_progress);
         buttonGoToCam = (Button) findViewById(R.id.to_camera);
-        File f = new File(Environment.getExternalStorageDirectory() + Constants.Tessaract.SLASH + Constants.Tessaract.RUSTRAIN);
-        if (f.exists()) {
+        progressRus.setVisibility(View.GONE);
+        progressEng.setVisibility(View.GONE);
+        final File rusTessaract = new File(String.valueOf(Environment.getExternalStorageDirectory()) + Constants.Tessaract.SLASH +Constants.Tessaract.TESSDATA+Constants.Tessaract.SLASH+ Constants.Tessaract.RUSTRAIN);
+        final File engTessaract = new File(String.valueOf(Environment.getExternalStorageDirectory()) + Constants.Tessaract.SLASH +Constants.Tessaract.TESSDATA+Constants.Tessaract.SLASH+ Constants.Tessaract.ENGTRAIN);
+        /*if (rusTessaract.exists()) {
             buttonRus.setVisibility(View.GONE);
-        } else {
-            Toast.makeText(this, "BOOM!", Toast.LENGTH_SHORT).show();
         }
+        if (engTessaract.exists()) {
+            buttonEng.setVisibility(View.GONE);
+        }*/
         if ((buttonEng.getVisibility() == View.GONE) && (buttonRus.getVisibility() == View.GONE)) {
-            final Intent intent = new Intent(MainActivity.this, MainScreenActivity.class);
-            startActivity(intent);
+            startActivity( new Intent(MainActivity.this, MainScreenActivity.class));
         } else
             buttonEng.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new DownloadTask(MainActivity.this, progressEng, Constants.Tessaract.ENGTRAIN).execute("https://firebasestorage.googleapis.com/v0/b/testdb-5f32a.appspot.com/o/tessaract%2Feng.traineddata?alt=media&token=58c2aa2d-417f-4d22-87eb-80627577feb8");
+                    if (engTessaract.exists()) {
+                        Toast.makeText(MainActivity.this, "It's also exists!", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        new DownloadTask(MainActivity.this, progressEng, Constants.Tessaract.ENGTRAIN).execute("https://firebasestorage.googleapis.com/v0/b/testdb-5f32a.appspot.com/o/tessaract%2Feng.traineddata?alt=media&token=58c2aa2d-417f-4d22-87eb-80627577feb8");
+                    }
                 }
             });
         buttonRus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new DownloadTask(MainActivity.this, progressRus, Constants.Tessaract.RUSTRAIN).execute("https://firebasestorage.googleapis.com/v0/b/testdb-5f32a.appspot.com/o/tessaract%2Frus.traineddata?alt=media&token=9cf09afa-e1bd-4f2c-b0dd-3bc457d2f5f0");
+                if (rusTessaract.exists()) {
+                    Toast.makeText(MainActivity.this, "It's also exists!", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    new DownloadTask(MainActivity.this, progressRus, Constants.Tessaract.RUSTRAIN).execute("https://firebasestorage.googleapis.com/v0/b/testdb-5f32a.appspot.com/o/tessaract%2Frus.traineddata?alt=media&token=9cf09afa-e1bd-4f2c-b0dd-3bc457d2f5f0");
+                }
             }
         });
         buttonGoToCam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if ((progressRus.getProgress() < 100 && progressRus.getProgress() > 0) || (progressRus.getProgress() > 0 && progressEng.getProgress() < 100)) {
+                if(engTessaract.exists()||rusTessaract.exists()) {
+                    startActivity(new Intent(MainActivity.this, MainScreenActivity.class));
                 }
-                startActivity(new Intent(MainActivity.this, MainScreenActivity.class));
+                else {
+                    Toast.makeText(MainActivity.this, "Choose Recognize language!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

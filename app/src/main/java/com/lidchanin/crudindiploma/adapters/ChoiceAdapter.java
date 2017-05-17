@@ -22,10 +22,12 @@ public class ChoiceAdapter extends RecyclerView.Adapter<ChoiceAdapter.ChoiceView
     private List<String> NameList;
     private String outputName;
     private String outputCost;
+    private long shoppingListId;
     final String TAG = this.getClass().getSimpleName();
-    public ChoiceAdapter (final List<String> nameList,final List<String> costList) {
+    public ChoiceAdapter (final List<String> nameList,final List<String> costList,long shoppingListId) {
         this.NameList = new ArrayList<>(nameList);
         this.CostList = new ArrayList<>(costList);
+        this.shoppingListId= shoppingListId;
     }
 
 
@@ -54,6 +56,8 @@ public class ChoiceAdapter extends RecyclerView.Adapter<ChoiceAdapter.ChoiceView
                     Intent intent= new Intent(v.getContext().getApplicationContext(), NameAndCostEditActivity.class);
                     intent.putExtra("OutPutName",outputName);
                     intent.putExtra("OutPutCost",outputCost);
+                    Log.d(TAG, "id"+String.valueOf(shoppingListId));
+                    intent.putExtra("shoppingListId",shoppingListId);
                     v.getContext().getApplicationContext().startActivity(intent);
                 }
                 else {

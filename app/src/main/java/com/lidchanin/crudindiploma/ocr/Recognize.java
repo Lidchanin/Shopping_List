@@ -17,9 +17,11 @@ public class Recognize extends AsyncTask<Bitmap,TessBaseAPI.ProgressValues,Void>
     private final Regex mRegex= new Regex();
     private ProgressBar progressBar;
     private Context context;
-    public Recognize(ProgressBar progressBar, final Context context){
+    private long shoppingListId;
+    public Recognize(ProgressBar progressBar, final Context context,long shoppingListId){
         this.context=context;
         this.progressBar= progressBar;
+        this.shoppingListId = shoppingListId;
     }
 
     @Override
@@ -39,6 +41,8 @@ public class Recognize extends AsyncTask<Bitmap,TessBaseAPI.ProgressValues,Void>
         final ArrayList<String> nameRec=mRegex.parseName(splited);
         final ArrayList<String> costRec=mRegex.parseCost(splited);
         final Intent intent = new Intent(context, ChoiceActivity.class);
+        Log.d(TAG, String.valueOf(shoppingListId));
+        intent.putExtra("shoppingListId",shoppingListId);
         intent.putExtra("NameList",  nameRec);
         intent.putExtra("CostList",  costRec);
         context.startActivity(intent);

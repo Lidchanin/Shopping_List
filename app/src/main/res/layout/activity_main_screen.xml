@@ -5,10 +5,23 @@
     android:layout_height="match_parent"
     tools:context="com.lidchanin.crudindiploma.activities.MainScreenActivity">
 
+    <FrameLayout
+        android:background="@color/cardview_dark_background"
+        android:layout_width="match_parent"
+        android:layout_height="30dp">
+        <TextView
+            android:text="Lists"
+            android:layout_gravity="center"
+            android:textSize="18dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/cardview_light_background"/>
+    </FrameLayout>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/main_screen_recycler_view_all_shopping_lists"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         android:layout_above="@+id/main_screen_button_add_shopping_list"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"

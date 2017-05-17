@@ -123,8 +123,10 @@ public class InsideShoppingListAddProductPopUpWindowActivity extends AppCompatAc
         imageButtonScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(InsideShoppingListAddProductPopUpWindowActivity.this,
-                        CameraActivity.class));
+                Intent intent = new Intent(InsideShoppingListAddProductPopUpWindowActivity.this,
+                        CameraActivity.class);
+                intent.putExtra("shoppingListId", shoppingListId);
+                startActivity(intent);
             }
         });
     }

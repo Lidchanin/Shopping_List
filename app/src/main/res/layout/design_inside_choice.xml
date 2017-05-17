@@ -8,6 +8,7 @@
         android:background="@drawable/shape"
         android:elevation="7dp">
         <TextView
+            android:textColor="@color/cardview_light_background"
             android:id="@+id/cost_or_name_choice"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

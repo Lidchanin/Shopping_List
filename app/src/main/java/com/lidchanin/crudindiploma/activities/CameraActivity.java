@@ -73,6 +73,7 @@ public class CameraActivity extends AppCompatActivity {
     private TextView mTextView;
     private TextureView textureView;
     private String cameraId;
+    private long shoppingListId;
     private Size imageDimension;
     // private ImageView imageView;
     TextureView.SurfaceTextureListener textureListener = new TextureView.SurfaceTextureListener() {
@@ -137,7 +138,7 @@ public class CameraActivity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_camera);
         //imageView= (ImageView) findViewById(R.id.preview_photo) ;
-
+        shoppingListId = getIntent().getLongExtra("shoppingListId", -1);
         textureView = (TextureView) findViewById(R.id.texture);
         assert textureView != null;
         textureView.setSurfaceTextureListener(textureListener);
@@ -150,7 +151,7 @@ public class CameraActivity extends AppCompatActivity {
             public void onClick(final View v) {
                 id +=1;
                 final Bitmap bitmap = textureView.getBitmap();
-                new Recognize(progressBar,getApplicationContext()).execute(bitmap);
+                new Recognize(progressBar,getApplicationContext(),shoppingListId).execute(bitmap);
                 createCameraPreview();
                 //imageView.setImageBitmap(new ImageFilters().changeBitmapContrastBrightness(bitmap,1.8f,0));
                 NotificationCompat.Builder notificationCompat=new NotificationCompat.Builder(CameraActivity.this);

@@ -27,20 +27,25 @@ public class NameAndCostEditActivity extends AppCompatActivity{
         doneButton=(Button) findViewById(R.id.edit_done);
         editTextCost = (EditText) findViewById(R.id.edit_cost);
         editTextName = (EditText) findViewById(R.id.edit_name);
-        Intent intent = getIntent();
-        String nameToPut=intent.getExtras().getString("OutPutName");
-        String costToPut=intent.getExtras().getString("OutPutCost");
+        productDAO = new ProductDAO(this);
+        String nameToPut=getIntent().getExtras().getString("OutPutName");
+        String costToPut=getIntent().getExtras().getString("OutPutCost");
+        final long shoppingListId = getIntent().getLongExtra("shoppingListId", -1);
         editTextName.setText(nameToPut);
         editTextCost.setText(costToPut);
 
         final Product product = new Product();
-        product.setName(nameToPut);
-        product.setCost(Double.parseDouble(costToPut));
+
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // FIXME: 16.05.2017 Needed getIntent().getLongExtra("shoppingListId",-1);
-                productDAO.addInCurrentShoppingList(product, 100500);
+                productDAO.open();
+                product.setName(editTextName.getText().toString());
+                product.setCost(Double.parseDouble(editTextCost.getText().toString()));
+                productDAO.addInCurrentShoppingList(product, shoppingListId);
+                Intent intent= new Intent(NameAndCostEditActivity.this,InsideShoppingListActivity.class);
+                intent.putExtra("shoppingListId",shoppingListId);
+                startActivity(intent);
             }
         });
 

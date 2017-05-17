@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.PowerManager;
+import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -97,6 +98,7 @@ public class DownloadTask extends AsyncTask<String,Integer,String> {
     @Override
     protected void onProgressUpdate(Integer... progress) {
         super.onProgressUpdate(progress);
+        progressBar.setVisibility(View.VISIBLE);
         progressBar.setIndeterminate(false);
         progressBar.setMax(100);
         progressBar.setProgress(progress[0]);

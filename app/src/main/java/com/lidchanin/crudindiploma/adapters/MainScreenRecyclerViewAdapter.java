@@ -65,14 +65,13 @@ public class MainScreenRecyclerViewAdapter
                 context.startActivity(intent);
             }
         });
-        holder.cardViewShoppingList.setOnLongClickListener(new View.OnLongClickListener() {
+        holder.imageButtonEdit.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View v) {
+            public void onClick(View v) {
                 Intent intent = new Intent(context, MainScreenPopUpWindowActivity.class);
                 intent.putExtra("shoppingListId",
                         shoppingLists.get(holder.getAdapterPosition()).getId());
                 context.startActivity(intent);
-                return true;
             }
         });
         holder.imageButtonDelete.setOnClickListener(new View.OnClickListener() {
@@ -145,6 +144,7 @@ public class MainScreenRecyclerViewAdapter
         private TextView textViewShoppingListName;
         private TextView textViewDateOfCreation;
         private ImageButton imageButtonDelete;
+        private ImageButton imageButtonEdit;
 
         MainScreenViewHolder(View itemView) {
             super(itemView);
@@ -156,6 +156,7 @@ public class MainScreenRecyclerViewAdapter
                     itemView.findViewById(R.id.main_screen_text_view_date_of_creation_in_card_view);
             imageButtonDelete = (ImageButton)
                     itemView.findViewById(R.id.main_screen_image_button_delete_in_card_view);
+            imageButtonEdit = (ImageButton) itemView.findViewById(R.id.edit_list_name);
         }
     }
 }
