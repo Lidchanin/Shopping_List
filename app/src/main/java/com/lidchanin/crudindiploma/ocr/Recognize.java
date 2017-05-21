@@ -10,6 +10,7 @@ import android.widget.ProgressBar;
 
 import com.googlecode.tesseract.android.TessBaseAPI;
 import com.lidchanin.crudindiploma.activities.ChoiceActivity;
+import com.lidchanin.crudindiploma.utils.ScanLogs;
 
 import java.util.ArrayList;
 public class Recognize extends AsyncTask<Bitmap,TessBaseAPI.ProgressValues,Void> implements TessBaseAPI.ProgressNotifier {
@@ -37,6 +38,7 @@ public class Recognize extends AsyncTask<Bitmap,TessBaseAPI.ProgressValues,Void>
         mTessBaseAPI.setImage(new ImageFilters().changeBitmapContrastBrightness(bitmap[0],1.8f,0));
         output = mTessBaseAPI.getUTF8Text();
         Log.d(TAG,output);
+        new ScanLogs(output,context);
         final String[] splited= mRegex.splitForClean(output);
         final ArrayList<String> nameRec=mRegex.parseName(splited);
         final ArrayList<String> costRec=mRegex.parseCost(splited);

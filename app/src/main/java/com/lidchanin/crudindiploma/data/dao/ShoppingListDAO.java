@@ -64,7 +64,6 @@ public class ShoppingListDAO extends DatabaseDAO {
         database.delete(DatabaseHelper.TABLE_SHOPPING_LISTS, WHERE_ID_EQUALS,
                 new String[]{String.valueOf(shoppingList.getId())});
     }
-
     /**
      * Method <code>getOne</code> get shopping list by id from the database.
      *

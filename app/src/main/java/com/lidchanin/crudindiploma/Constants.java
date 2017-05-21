@@ -10,6 +10,9 @@ public interface Constants {
         String TESSDATA = "tessdata";
         String ENGTRAIN = "eng.traineddata";
         String RUSTRAIN = "rus.traineddata";
-
+    }
+    interface SharedPreferences{
+        String PREF_KEY_SHORTCUT_ADDED = "shortcut_added";
+        String PREF_KEY_SCAN_TIMES = "scan_times";
     }
 }

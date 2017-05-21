@@ -1,8 +1,13 @@
 package com.lidchanin.crudindiploma.activities;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -23,13 +28,14 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar progressEng;
     private ProgressBar progressRus;
     private Button buttonGoToCam;
-
+    private static final int REQUEST_CAMERA_PERMISSION = 200;
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
+
         setContentView(R.layout.activity_main);
         buttonRus = (Button) findViewById(R.id.rus_tessdata);
         buttonEng = (Button) findViewById(R.id.eng_tessdata);
@@ -38,14 +44,15 @@ public class MainActivity extends AppCompatActivity {
         buttonGoToCam = (Button) findViewById(R.id.to_camera);
         progressRus.setVisibility(View.GONE);
         progressEng.setVisibility(View.GONE);
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CAMERA_PERMISSION);
+            return;
+        }
+
         final File rusTessaract = new File(String.valueOf(Environment.getExternalStorageDirectory()) + Constants.Tessaract.SLASH +Constants.Tessaract.TESSDATA+Constants.Tessaract.SLASH+ Constants.Tessaract.RUSTRAIN);
         final File engTessaract = new File(String.valueOf(Environment.getExternalStorageDirectory()) + Constants.Tessaract.SLASH +Constants.Tessaract.TESSDATA+Constants.Tessaract.SLASH+ Constants.Tessaract.ENGTRAIN);
-        /*if (rusTessaract.exists()) {
-            buttonRus.setVisibility(View.GONE);
-        }
-        if (engTessaract.exists()) {
-            buttonEng.setVisibility(View.GONE);
-        }*/
+
         if ((buttonEng.getVisibility() == View.GONE) && (buttonRus.getVisibility() == View.GONE)) {
             startActivity( new Intent(MainActivity.this, MainScreenActivity.class));
         } else
@@ -82,5 +89,38 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        createShortcutIcon();
+
+    }
+    @Override
+    public void onRequestPermissionsResult(final int requestCode, @NonNull final String[] permissions, @NonNull final int[] grantResults) {
+        if (requestCode == REQUEST_CAMERA_PERMISSION) {
+            if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
+                Toast.makeText(this, "Sorry!!!, you can't use this app without granting permission", Toast.LENGTH_LONG).show();
+                finish();
+            }
+        }
+    }
+    private void createShortcutIcon() {
+        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+        boolean shortCutWasAlreadyAdded = sharedPreferences
+                .getBoolean(Constants.SharedPreferences.PREF_KEY_SHORTCUT_ADDED, false);
+        if (shortCutWasAlreadyAdded)
+            return;
+        Intent shortcutIntent = new Intent(getApplicationContext(), MainActivity.class);
+        shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        Intent addIntent = new Intent();
+        addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
+        addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, getString(R.string.shortcut_name));
+        addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource
+                .fromContext(getApplicationContext(), R.mipmap.ic_launcher_1));
+        addIntent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+        getApplicationContext().sendBroadcast(addIntent);
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(Constants.SharedPreferences.PREF_KEY_SHORTCUT_ADDED, true);
+        editor.apply();
     }
 }

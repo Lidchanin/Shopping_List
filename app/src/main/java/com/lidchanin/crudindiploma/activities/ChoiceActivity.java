@@ -29,7 +29,13 @@ public class ChoiceActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
         final Intent intent=getIntent();
         final ArrayList<String> nameChoice = intent.getStringArrayListExtra("NameList");
+        if (nameChoice.size()==0){
+            nameChoice.add("Empty");
+        }
         final ArrayList<String> costChoice = intent.getStringArrayListExtra("CostList");
+        if(costChoice.size()==0){
+            costChoice.add("0");
+        }
         final long shoppingListId =     getIntent().getLongExtra("shoppingListId",-1);
         Log.d("Test ID", "id"+String.valueOf(shoppingListId));
 
