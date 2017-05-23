@@ -58,6 +58,7 @@ public class ChoiceAdapter extends RecyclerView.Adapter<ChoiceAdapter.ChoiceView
                     intent.putExtra("OutPutCost",outputCost);
                     Log.d(TAG, "id"+String.valueOf(shoppingListId));
                     intent.putExtra("shoppingListId",shoppingListId);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     v.getContext().getApplicationContext().startActivity(intent);
                 }
                 else {

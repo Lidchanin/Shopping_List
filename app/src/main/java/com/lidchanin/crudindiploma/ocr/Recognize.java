@@ -2,6 +2,7 @@ package com.lidchanin.crudindiploma.ocr;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Environment;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.widget.ProgressBar;
 
 import com.googlecode.tesseract.android.TessBaseAPI;
+import com.lidchanin.crudindiploma.Constants;
 import com.lidchanin.crudindiploma.activities.ChoiceActivity;
 import com.lidchanin.crudindiploma.utils.ScanLogs;
 
@@ -19,6 +21,7 @@ public class Recognize extends AsyncTask<Bitmap,TessBaseAPI.ProgressValues,Void>
     private ProgressBar progressBar;
     private Context context;
     private long shoppingListId;
+    SharedPreferences sharedPreferences;
     public Recognize(ProgressBar progressBar, final Context context,long shoppingListId){
         this.context=context;
         this.progressBar= progressBar;
@@ -34,8 +37,8 @@ public class Recognize extends AsyncTask<Bitmap,TessBaseAPI.ProgressValues,Void>
                 progressBar.setProgress(progressValues.getPercent());
             }
         });
-        mTessBaseAPI.init(String.valueOf(Environment.getExternalStorageDirectory()), "rus");
-        mTessBaseAPI.setImage(new ImageFilters().changeBitmapContrastBrightness(bitmap[0],1.8f,0));
+        mTessBaseAPI.init(String.valueOf(Environment.getExternalStorageDirectory()), sharedPreferences.getString(Constants.SharedPreferences.PREF_KEY_LANG_RECOGNIZE,""));
+        mTessBaseAPI.setImage(new ImageFilters().changeBitmapContrastBrightness(context, bitmap[0],1.8f,0));
         output = mTessBaseAPI.getUTF8Text();
         Log.d(TAG,output);
         new ScanLogs(output,context);
@@ -47,6 +50,7 @@ public class Recognize extends AsyncTask<Bitmap,TessBaseAPI.ProgressValues,Void>
         intent.putExtra("shoppingListId",shoppingListId);
         intent.putExtra("NameList",  nameRec);
         intent.putExtra("CostList",  costRec);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
         mTessBaseAPI.end();
         return null;

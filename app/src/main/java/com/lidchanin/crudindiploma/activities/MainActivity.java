@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
@@ -18,11 +19,13 @@ import android.widget.Toast;
 import com.lidchanin.crudindiploma.Constants;
 import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.utils.DownloadTask;
+import com.lidchanin.crudindiploma.utils.SharedPrefsManager;
 
 import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
-
+    //// TODO: 21.05.2017 Log in google at start!!!!!!!!!!
+    //// TODO: 22.05.2017  fix all layout
     private Button buttonRus;
     private Button buttonEng;
     private ProgressBar progressEng;
@@ -44,10 +47,11 @@ public class MainActivity extends AppCompatActivity {
         buttonGoToCam = (Button) findViewById(R.id.to_camera);
         progressRus.setVisibility(View.GONE);
         progressEng.setVisibility(View.GONE);
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CAMERA_PERMISSION);
-            return;
+        if(Build.VERSION.SDK_INT>=21){
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CAMERA_PERMISSION);
+                return;
+            }
         }
 
         final File rusTessaract = new File(String.valueOf(Environment.getExternalStorageDirectory()) + Constants.Tessaract.SLASH +Constants.Tessaract.TESSDATA+Constants.Tessaract.SLASH+ Constants.Tessaract.RUSTRAIN);
@@ -60,9 +64,11 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     if (engTessaract.exists()) {
+                        new SharedPrefsManager(getApplicationContext(),"eng");
                         Toast.makeText(MainActivity.this, "It's also exists!", Toast.LENGTH_SHORT).show();
                     }
                     else{
+                        new SharedPrefsManager(getApplicationContext(),"eng");
                         new DownloadTask(MainActivity.this, progressEng, Constants.Tessaract.ENGTRAIN).execute("https://firebasestorage.googleapis.com/v0/b/testdb-5f32a.appspot.com/o/tessaract%2Feng.traineddata?alt=media&token=58c2aa2d-417f-4d22-87eb-80627577feb8");
                     }
                 }
@@ -71,9 +77,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (rusTessaract.exists()) {
+                    new SharedPrefsManager(getApplicationContext(),"rus");
                     Toast.makeText(MainActivity.this, "It's also exists!", Toast.LENGTH_SHORT).show();
                 }
                 else{
+                    new SharedPrefsManager(getApplicationContext(),"rus");
                     new DownloadTask(MainActivity.this, progressRus, Constants.Tessaract.RUSTRAIN).execute("https://firebasestorage.googleapis.com/v0/b/testdb-5f32a.appspot.com/o/tessaract%2Frus.traineddata?alt=media&token=9cf09afa-e1bd-4f2c-b0dd-3bc457d2f5f0");
                 }
             }

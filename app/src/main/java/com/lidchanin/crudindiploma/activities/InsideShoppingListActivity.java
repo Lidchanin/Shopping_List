@@ -1,9 +1,13 @@
 package com.lidchanin.crudindiploma.activities;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +15,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,7 +48,8 @@ public class InsideShoppingListActivity extends AppCompatActivity {
     private List<ExistingProduct> existingProducts;
     private long shoppingListId;
     private double costsSum = 0;
-
+    private Button scan;
+    private Button type;
     private ShoppingListDAO shoppingListDAO;
     private ProductDAO productDAO;
     private ExistingProductDAO existingProductDAO;
@@ -127,10 +133,32 @@ public class InsideShoppingListActivity extends AppCompatActivity {
      * @param shoppingListId is the current shopping list id.
      */
     private void initializeViewsAndButtons(final long shoppingListId) {
-        FloatingActionButton floatingActionButtonAddProduct = (FloatingActionButton)
-                findViewById(R.id.inside_shopping_list_floating_action_button);
+        /*FloatingActionButton floatingActionButtonAddProduct = (FloatingActionButton)
+                findViewById(R.id.inside_shopping_list_floating_action_button);*/
         // FIXME: 06.04.2017 fab is need to fix?
-        floatingActionButtonAddProduct.setOnClickListener(new View.OnClickListener() {
+        //// TODO: 21.05.2017 need to delete floating action button? 
+        type = (Button) findViewById(R.id.enter_by_type);
+        scan = (Button) findViewById(R.id.scan);
+        type.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(InsideShoppingListActivity.this,
+                        InsideShoppingListAddProductPopUpWindowActivity.class);
+                intent.putExtra("shoppingListId", shoppingListId);
+                startActivity(intent);
+            }
+        });
+        scan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(InsideShoppingListActivity.this,
+                        CameraActivity.class);
+                intent.putExtra("shoppingListId", shoppingListId);
+                startActivity(intent);
+
+            }
+        });
+        /*floatingActionButtonAddProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(InsideShoppingListActivity.this,
@@ -138,7 +166,7 @@ public class InsideShoppingListActivity extends AppCompatActivity {
                 intent.putExtra("shoppingListId", shoppingListId);
                 startActivity(intent);
             }
-        });
+        });*/
         String shoppingListName = shoppingListDAO.getOne(shoppingListId).getName();
         TextView textViewShoppingListName = (TextView)
                 findViewById(R.id.inside_shopping_list_text_view_shopping_list_name);
