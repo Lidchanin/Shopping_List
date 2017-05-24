@@ -35,13 +35,6 @@ public class InsideShoppingListUpdateProductPopUpWindowActivity extends AppCompa
             getSupportActionBar().hide();
         }
 
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        int width = displayMetrics.widthPixels;
-        getWindow().setLayout((int) (width * .8), ActionBar.LayoutParams.WRAP_CONTENT);
-//        getWindow().setGravity(Gravity.CENTER);
-//        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
-
         productDAO = new ProductDAO(this);
         productId = getIntent().getLongExtra("productId", -1);
         shoppingListId = getIntent().getLongExtra("shoppingListId", -1);

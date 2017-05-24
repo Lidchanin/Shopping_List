@@ -20,7 +20,7 @@ import com.lidchanin.crudindiploma.data.dao.ExistingProductDAO;
 import com.lidchanin.crudindiploma.data.dao.ProductDAO;
 import com.lidchanin.crudindiploma.data.models.ExistingProduct;
 import com.lidchanin.crudindiploma.data.models.Product;
-import com.lidchanin.crudindiploma.filters.DecimalDigitsInputFilter;
+import com.lidchanin.crudindiploma.utils.filters.DecimalDigitsInputFilter;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -39,7 +39,6 @@ public class InsideShoppingListRecyclerViewAdapter extends RecyclerView
     private List<ExistingProduct> existingProducts;
     private long shoppingListId;
     private Context context;
-    private ProductDAO productDAO;
     private ExistingProductDAO existingProductDAO;
 
     public InsideShoppingListRecyclerViewAdapter(List<Product> products, List<ExistingProduct>
@@ -48,7 +47,6 @@ public class InsideShoppingListRecyclerViewAdapter extends RecyclerView
         this.existingProducts = existingProducts;
         this.context = context;
         this.shoppingListId = shoppingListId;
-        productDAO = new ProductDAO(context);
         existingProductDAO = new ExistingProductDAO(context);
     }
 

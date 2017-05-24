@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="30dp">
         <TextView
-            android:text="Lists"
+            android:text="@string/lists"
             android:layout_gravity="center"
             android:textSize="18dp"
             android:layout_width="wrap_content"

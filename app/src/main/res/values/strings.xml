@@ -29,20 +29,23 @@
     <string name="update_product">update product</string>
     <string name="update_shopping_list">update shopping list</string>
     <string name="you_did_not_select_anything">You did not select anything</string>
-    <string name="database_date_format">yyyy-MM-dd HH:mm:ss</string>
-    <string name="needed_date_format">dd.MM.yyyy   HH:mm:ss</string>
-
-    <string name="scan_btn">Scan</string>
-    <string name="ok_btn">OK</string>
-    <string name="hint_choice_activity_name">Choose item under</string>
-    <string name="hint_choice_activity_cost">Cost</string>
+    <string name="database_date_format" translatable="false">yyyy-MM-dd HH:mm:ss</string>
+    <string name="needed_date_format" translatable="false">dd.MM.yyyy   HH:mm:ss</string>
+    <string name="main_screen_logo" translatable="false">main screen logo</string>
+    <string name="main_screen_background" translatable="false">main screen background</string>
+    <string name="lists">Lists</string>
+    <string name="all_existing_products">All existing products</string>
+    <string name="scan_btn" translatable="false">Scan</string>
+    <string name="ok_btn" translatable="false">OK</string>
+    <string name="hint_choice_activity_name" translatable="false">Choose item under</string>
+    <string name="hint_choice_activity_cost" translatable="false">Cost</string>
     <string name="choose_lang_title">Choose your language</string>
-    <string name="rus_tessdata">Russian</string>
-    <string name="eng_tessdata">English</string>
+    <string name="rus_tessdata" translatable="false">Русский</string>
+    <string name="eng_tessdata" translatable="false">English</string>
     <string name="go_to_shop">Go To Shop!</string>
     <string name="done">Done!</string>
-    <string name="scan_item_button">Scan item</string>
-    <string name="print_item_button">Print item</string>
+    <string name="scan_item_button" translatable="false">Scan item</string>
+    <string name="print_item_button" translatable="false">Print item</string>
 	
     <string name="potatoes">potatoes</string>
     <string name="cabbage">cabbage</string>
@@ -79,5 +82,44 @@
     <string name="green_tea">green tea</string>
     <string name="red_tea">red tea</string>
     <string name="cocoa">cocoa</string>
-	
+    <string name="dish_soap">dish soap</string>
+    <string name="white_bread">white bread</string>
+    <string name="bread">bread</string>
+    <string name="juice">juice</string>
+    <string name="cheese">cheese</string>
+    <string name="sour_cream">sour cream</string>
+    <string name="ketchup">ketchup</string>
+    <string name="mayonnaise">mayonnaise</string>
+    <string name="garbage_bag">garbage bag</string>
+    <string name="gum">gum</string>
+    <string name="flour">flour</string>
+    <string name="honey">honey</string>
+    <string name="vinegar">vinegar</string>
+    <string name="margarine">margarine</string>
+    <string name="soda">soda</string>
+    <string name="bay_leaf">bay leaf</string>
+    <string name="radish">radish</string>
+    <string name="tomato_paste">tomato paste</string>
+    <string name="condensed_milk">condensed milk</string>
+    <string name="chocolate">chocolate</string>
+    <string name="foil_for_baking">foil for baking</string>
+    <string name="nuts">nuts</string>
+    <string name="beans">beans</string>
+    <string name="dried_fruits">dried fruits</string>
+    <string name="yogurt">yogurt</string>
+    <string name="cookie">cookie</string>
+    <string name="toilet_paper">toilet paper</string>
+    <string name="pita">pita</string>
+    <string name="waffles">waffles</string>
+    <string name="ice_cream">ice cream</string>
+    <string name="smoked_sausage">smoked sausage</string>
+    <string name="sausage">sausage</string>
+    <string name="pate">pate</string>
+    <string name="spice">spice</string>
+    <string name="chips">chips</string>
+    <string name="muesli">muesli</string>
+    <string name="marshmallows">marshmallows</string>
+    <string name="marmalade">marmalade</string>
+    <string name="dumplings">dumplings</string>
+
 </resources>

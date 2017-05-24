@@ -72,7 +72,11 @@ public class Product {
         this.popularity = popularity;
     }
 
-    // getters and setters
+    @Override
+    public String toString() {
+        return name;
+    }
+// getters and setters
 
     public long getId() {
         return id;

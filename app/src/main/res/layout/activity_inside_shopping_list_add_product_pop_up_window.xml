@@ -18,13 +18,13 @@
         tools:ignore="VectorDrawableCompat"
         android:contentDescription="@string/close" />
 
-    <EditText
-        android:id="@+id/inside_shopping_list_add_product_pop_up_window_edit_text_product_name"
+    <AutoCompleteTextView
+        android:id="@+id/inside_shopping_list_add_product_pop_up_window_auto_complete_text_view_product_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="21dp"
         android:layout_marginStart="21dp"
-        android:ems="10"
+        android:ems="15"
         android:inputType="text"
         android:hint="@string/enter_name"
         android:imeOptions="actionDone"
@@ -36,23 +36,15 @@
         android:id="@+id/inside_shopping_list_add_product_pop_up_window_edit_text_product_cost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/inside_shopping_list_add_product_pop_up_window_edit_text_product_name"
-        android:layout_alignStart="@+id/inside_shopping_list_add_product_pop_up_window_edit_text_product_name"
-        android:layout_below="@+id/inside_shopping_list_add_product_pop_up_window_edit_text_product_name"
+        android:layout_alignLeft="@+id/inside_shopping_list_add_product_pop_up_window_auto_complete_text_view_product_name"
+        android:layout_alignStart="@+id/inside_shopping_list_add_product_pop_up_window_auto_complete_text_view_product_name"
+        android:layout_below="@+id/inside_shopping_list_add_product_pop_up_window_auto_complete_text_view_product_name"
         android:layout_marginTop="15dp"
-        android:ems="10"
+        android:ems="15"
+        android:completionThreshold="2"
         android:imeOptions="actionDone"
         android:inputType="numberDecimal"
         android:hint="@string/enter_cost"/>
-
-    <ImageButton
-        android:id="@+id/inside_shopping_list_add_product_pop_up_window_image_button_scan"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_photo_camera_black_24dp"
-        android:layout_alignTop="@+id/inside_shopping_list_add_product_pop_up_window_image_button_add"
-        android:layout_toStartOf="@+id/inside_shopping_list_add_product_pop_up_window_image_button_add"
-        android:layout_alignBottom="@+id/inside_shopping_list_add_product_pop_up_window_image_button_add" />
 
     <ImageButton
         android:id="@+id/inside_shopping_list_add_product_pop_up_window_image_button_add"
@@ -73,9 +65,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/add_product"
-        android:layout_above="@+id/inside_shopping_list_add_product_pop_up_window_edit_text_product_name"
-        android:layout_alignLeft="@+id/inside_shopping_list_add_product_pop_up_window_edit_text_product_name"
-        android:layout_alignStart="@+id/inside_shopping_list_add_product_pop_up_window_edit_text_product_name"
+        android:layout_above="@+id/inside_shopping_list_add_product_pop_up_window_auto_complete_text_view_product_name"
+        android:layout_alignLeft="@+id/inside_shopping_list_add_product_pop_up_window_auto_complete_text_view_product_name"
+        android:layout_alignStart="@+id/inside_shopping_list_add_product_pop_up_window_auto_complete_text_view_product_name"
         android:layout_marginBottom="13dp" />
 
 </RelativeLayout>

@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.lidchanin.shoppinglist.ui.activities.MainActivity">
+    android:orientation="vertical">
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@mipmap/shop_im"
         android:scaleType="centerCrop"
-        android:adjustViewBounds="true"/>
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/main_screen_background" />
     <ImageView
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
@@ -19,7 +18,8 @@
         android:layout_height="180dp"
         android:scaleType="centerCrop"
         android:adjustViewBounds="true"
-        android:background="@mipmap/logo_im" />
+        android:background="@mipmap/logo_im"
+        android:contentDescription="@string/main_screen_logo" />
     <Button
         android:background="@drawable/round_buttons_main"
         android:layout_gravity="center"

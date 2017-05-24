@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar progressRus;
     private Button buttonGoToCam;
     private static final int REQUEST_CAMERA_PERMISSION = 200;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
