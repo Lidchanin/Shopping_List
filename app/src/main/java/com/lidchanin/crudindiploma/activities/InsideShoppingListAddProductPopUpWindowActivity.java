@@ -2,19 +2,23 @@ package com.lidchanin.crudindiploma.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.lidchanin.crudindiploma.R;
+import com.lidchanin.crudindiploma.adapters.AutoCompleteProductNamesAndCostsAdapter;
 import com.lidchanin.crudindiploma.data.dao.ProductDAO;
 import com.lidchanin.crudindiploma.data.models.Product;
+
+import java.util.List;
 
 /**
  * Class <code>InsideShoppingListAddProductPopUpWindowActivity</code> is a activity and extends
@@ -25,11 +29,11 @@ import com.lidchanin.crudindiploma.data.models.Product;
  */
 public class InsideShoppingListAddProductPopUpWindowActivity extends AppCompatActivity {
 
-    private EditText editTextProductName;
+    private AutoCompleteTextView autoCompleteTextProductNameAndCost;
     private EditText editTextProductCost;
 
     private long shoppingListId;
-
+    private List<Product> products;
     private ProductDAO productDAO;
 
     @Override
@@ -40,11 +44,6 @@ public class InsideShoppingListAddProductPopUpWindowActivity extends AppCompatAc
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
-
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        int width = displayMetrics.widthPixels;
-        getWindow().setLayout((int) (width * .8), ActionBar.LayoutParams.WRAP_CONTENT);
 
         productDAO = new ProductDAO(this);
 
@@ -72,10 +71,24 @@ public class InsideShoppingListAddProductPopUpWindowActivity extends AppCompatAc
      * @param shoppingListId is the current shopping list id.
      */
     private void initializeButtons(final long shoppingListId) {
-        editTextProductName = (EditText)
-                findViewById(R.id.inside_shopping_list_add_product_pop_up_window_edit_text_product_name);
+        autoCompleteTextProductNameAndCost = (AutoCompleteTextView)
+                findViewById(R.id.inside_shopping_list_add_product_pop_up_window_auto_complete_text_view_product_name);
         editTextProductCost = (EditText)
                 findViewById(R.id.inside_shopping_list_add_product_pop_up_window_edit_text_product_cost);
+
+        products = productDAO.getAll();
+        AutoCompleteProductNamesAndCostsAdapter adapter
+                = new AutoCompleteProductNamesAndCostsAdapter(this, products);
+        autoCompleteTextProductNameAndCost.setAdapter(adapter);
+        autoCompleteTextProductNameAndCost.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Product selected = (Product) parent.getAdapter().getItem(position);
+                Log.d("MY_LOG", "getItem = " + selected.getId());
+//                autoCompleteTextProductNameAndCost.setText(selected.getName());
+                editTextProductCost.setText(String.valueOf(selected.getCost()));
+            }
+        });
 
         ImageButton imageButtonClose = (ImageButton)
                 findViewById(R.id.inside_shopping_list_add_product_pop_up_window_image_button_close);
@@ -95,10 +108,10 @@ public class InsideShoppingListAddProductPopUpWindowActivity extends AppCompatAc
             // FIXME: 07.04.2017 delete all ifs
             @Override
             public void onClick(View v) {
-                if (editTextProductName.length() <= 1 && editTextProductCost.length() == 0) {
+                if (autoCompleteTextProductNameAndCost.length() <= 1 && editTextProductCost.length() == 0) {
                     Toast.makeText(InsideShoppingListAddProductPopUpWindowActivity.this,
                             "Enter name and cost!", Toast.LENGTH_SHORT).show();
-                } else if (editTextProductName.length() <= 1) {
+                } else if (autoCompleteTextProductNameAndCost.length() <= 1) {
                     Toast.makeText(InsideShoppingListAddProductPopUpWindowActivity.this,
                             "Enter name!", Toast.LENGTH_SHORT).show();
                 } else if (editTextProductCost.length() == 0) {
@@ -106,7 +119,7 @@ public class InsideShoppingListAddProductPopUpWindowActivity extends AppCompatAc
                             "Enter cost!", Toast.LENGTH_SHORT).show();
                 } else {
                     Product product = new Product();
-                    product.setName(editTextProductName.getText().toString());
+                    product.setName(autoCompleteTextProductNameAndCost.getText().toString());
                     product.setCost(Double.valueOf(editTextProductCost.getText().toString()));
                     productDAO.addInCurrentShoppingList(product, shoppingListId);
 
@@ -118,9 +131,9 @@ public class InsideShoppingListAddProductPopUpWindowActivity extends AppCompatAc
             }
         });
 
-        ImageButton imageButtonScan = (ImageButton)
+        /*ImageButton imageButtonScan = (ImageButton)
                 findViewById(R.id.inside_shopping_list_add_product_pop_up_window_image_button_scan);
-        imageButtonScan.setOnClickListener(new View.OnClickListener() {
+        /*imageButtonScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(InsideShoppingListAddProductPopUpWindowActivity.this,
@@ -128,7 +141,7 @@ public class InsideShoppingListAddProductPopUpWindowActivity extends AppCompatAc
                 intent.putExtra("shoppingListId", shoppingListId);
                 startActivity(intent);
             }
-        });
+        });*/
     }
 
     @Override

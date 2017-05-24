@@ -1,4 +1,4 @@
-package com.lidchanin.crudindiploma.filters;
+package com.lidchanin.crudindiploma.utils.filters;
 
 import android.text.InputFilter;
 import android.text.Spanned;

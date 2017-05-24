@@ -15,7 +15,7 @@ import static com.lidchanin.crudindiploma.data.DatabaseHelper.TABLE_SHOPPING_LIS
 
 /**
  * Class <code>ShoppingListDAO</code> extends {@link DatabaseDAO} and implements database operations
- * such as add, update, deleteInDatabase, get
+ * such as add, update, delete, get, ...
  * {@link com.lidchanin.crudindiploma.data.models.ShoppingList}.
  *
  * @author Lidchanin

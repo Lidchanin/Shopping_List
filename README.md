@@ -2,4 +2,5 @@ Shopping List - is an Android app to compile your shopping list with automatic c
   Features:
   1. Reminder about products, you forgot to buy.
   2. Ability to add by scanning price tag(Using your phone camera)
-Minimal Api Version : API 21
+Minimal Api Version : API 16
+Recommended Api Version : API 21 and higher

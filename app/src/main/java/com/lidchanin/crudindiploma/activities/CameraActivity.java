@@ -250,7 +250,7 @@ public class CameraActivity extends AppCompatActivity {
         stopBackgroundThread();
         super.onPause();
     }
-
+//// FIXME: 21.05.2017 fix box in the center+ add resolution control
     private void openCamera() {
         final CameraManager manager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
         Log.e(TAG, "is camera open");
