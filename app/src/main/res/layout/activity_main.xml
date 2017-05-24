@@ -58,4 +58,10 @@
         android:id="@+id/eng_tessdata_progress"
         android:layout_width="300dp"
         android:layout_height="wrap_content" />
+    <com.google.android.gms.common.SignInButton
+        android:layout_gravity="center"
+        android:layout_marginTop="120dp"
+        android:id="@+id/sing_in_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 </FrameLayout>

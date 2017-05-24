@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "3630700868",
+    "firebase_url": "https://shoppinglist-fb138.firebaseio.com",
+    "project_id": "shoppinglist-fb138",
+    "storage_bucket": "shoppinglist-fb138.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:3630700868:android:b4d9d1bbaaf76147",
+        "android_client_info": {
+          "package_name": "com.lidchanin.crudindiploma"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "3630700868-eb8p21sliss9u4ddvb0djaihvcf6cb1e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lidchanin.crudindiploma",
+            "certificate_hash": "c56dedfcb7c06da59abbca42fde279d2b4bc3134"
+          }
+        },
+        {
+          "client_id": "3630700868-8brht5co1cg7ociqmvitvj4c5uvhcska.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7ME4Eybq1_JCQNA1qaZZ2SuWwXhuLlyc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "3630700868-8brht5co1cg7ociqmvitvj4c5uvhcska.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
