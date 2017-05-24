@@ -51,7 +51,6 @@ public class ScanLogs {
             final File txtOutput = new File(String.valueOf(Environment.getExternalStorageDirectory()) + Constants.Tessaract.SLASH +Constants.Tessaract.TESSDATA+Constants.Tessaract.SLASH+"scan"+calendar.get(Calendar.DATE)+"_"+calendar.get(Calendar.MONTH)+"_"+calendar.get(Calendar.YEAR)+".txt");
 
             try {
-                //// FIXME: 19.05.2017 not remove, before write!
                 FileOutputStream fileOutputStream= new FileOutputStream(txtOutput,true);
                 fileOutputStream.write(("/-----Scan Starts-----/\n"+data+" \n/-----Scan Ended----/\n").getBytes());
                 fileOutputStream.close();
@@ -62,7 +61,7 @@ public class ScanLogs {
         }
         else {
             Log.d(TAG,"Also done 30 scans");
-            // TODO: 19.05.2017 then send to Firebase or E-mail 
+            // TODO: 19.05.2017 then send to Firebase by Error reports
         }
     }
 }

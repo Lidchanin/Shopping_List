@@ -133,7 +133,7 @@ public class InsideShoppingListAddProductPopUpWindowActivity extends AppCompatAc
 
         /*ImageButton imageButtonScan = (ImageButton)
                 findViewById(R.id.inside_shopping_list_add_product_pop_up_window_image_button_scan);
-        imageButtonScan.setOnClickListener(new View.OnClickListener() {
+        /*imageButtonScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(InsideShoppingListAddProductPopUpWindowActivity.this,
