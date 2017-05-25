@@ -14,7 +14,7 @@
         android:background="@drawable/rect_buttons_main"
         android:layout_margin="20dp"
         android:layout_gravity="bottom|start"
-        android:text="Scan"
+        android:text="@string/scan"
         android:id="@+id/scan"
         android:visibility="gone"
         android:layout_width="wrap_content"
@@ -27,7 +27,7 @@
         android:layout_margin="20dp"
         android:layout_gravity="bottom|end"
         android:id="@+id/enter_by_type"
-        android:text="Add by Type"
+        android:text="@string/type"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <!--<android.support.design.widget.FloatingActionButton

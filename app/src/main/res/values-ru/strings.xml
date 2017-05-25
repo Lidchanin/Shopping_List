@@ -21,7 +21,7 @@
     <string name="name">название</string>
     <string name="cost">стоимость</string>
     <string name="total">итого</string>
-    <string name="quantity">количество</string>
+    <string name="quantity">количество(штук или кг)</string>
     <string name="accept">принять</string>
     <string name="delete">удалить</string>
     <string name="close">закрыть</string>
@@ -67,13 +67,13 @@
     <string name="sugar">сахар</string>
     <string name="sunflower_oil">подсолнечное масло</string>
     <string name="tomatoes">помидоры</string>
-    <string name="eng_tessdata"></string>
+    <string name="eng_tessdata">English</string>
     <string name="done">Выполнено</string>
     <string name="choose_lang_title">Выберите Ваш язык</string>
     <string name="dish_soap">Средство для мытья посуды</string>
     <string name="go_to_shop">В магазин!</string>
     <string name="hint_choice_activity_name"></string>
-    <string name="rus_tessdata"></string>
+    <string name="rus_tessdata">Русский</string>
     <string name="bay_leaf">лавровый лист</string>
     <string name="beans">фасоль</string>
     <string name="bread">хлеб</string>
@@ -112,4 +112,7 @@
     <string name="waffles">вафли</string>
     <string name="white_bread">батон</string>
     <string name="yogurt">йогурт</string>
+    <string name="ok_btn">OK</string>
+    <string name="scan">скан</string>
+    <string name="type">вручную</string>
 </resources>

@@ -21,7 +21,7 @@
     <string name="name">name</string>
     <string name="cost">cost</string>
     <string name="total">total</string>
-    <string name="quantity">quantity</string>
+    <string name="quantity">quantity(pieces or kg)</string>
     <string name="accept">accept</string>
     <string name="delete">delete</string>
     <string name="close">close</string>
@@ -36,17 +36,19 @@
     <string name="lists">Lists</string>
     <string name="all_existing_products">All existing products</string>
     <string name="scan_btn" translatable="false">Scan</string>
-    <string name="ok_btn" translatable="false">OK</string>
+    <string name="ok_btn">OK</string>
     <string name="hint_choice_activity_name" translatable="false">Choose item under</string>
     <string name="hint_choice_activity_cost" translatable="false">Cost</string>
     <string name="choose_lang_title">Choose your language</string>
-    <string name="rus_tessdata" translatable="false">Русский</string>
-    <string name="eng_tessdata" translatable="false">English</string>
+    <string name="rus_tessdata">Русский</string>
+    <string name="eng_tessdata">English</string>
     <string name="go_to_shop">Go To Shop!</string>
     <string name="done">Done!</string>
     <string name="scan_item_button" translatable="false">Scan item</string>
     <string name="print_item_button" translatable="false">Print item</string>
-	
+    <string name="scan">scan</string>
+    <string name="type">type</string>
+
     <string name="potatoes">potatoes</string>
     <string name="cabbage">cabbage</string>
     <string name="carrot">carrot</string>

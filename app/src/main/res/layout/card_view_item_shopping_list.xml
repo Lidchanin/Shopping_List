@@ -10,58 +10,60 @@
         android:layout_height="70dp">
 
         <FrameLayout
-            android:background="@color/cardview_dark_background"
-            android:layout_marginTop="1dp"
-            android:layout_marginBottom="1dp"
             android:layout_width="match_parent"
             android:layout_height="70dp"
+            android:layout_marginBottom="1dp"
+            android:layout_marginTop="1dp"
+            android:background="@color/cardview_dark_background"
             android:orientation="horizontal">
 
             <ImageButton
                 android:id="@+id/edit_list_name"
                 android:layout_width="45dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left|center_vertical"
+                android:layout_gravity="start|center_vertical"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
-                android:contentDescription="@string/add_a_new_shopping_list"
                 android:background="@drawable/icons_background"
+                android:contentDescription="@string/add_a_new_shopping_list"
                 android:padding="10dp"
                 android:src="@drawable/ic_mode_edit_black_24dp" />
 
 
-                <TextView
-                    android:id="@+id/main_screen_text_view_name_shopping_list_in_card_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
-                    android:layout_gravity="left"
-                    android:layout_marginLeft="70dp"
-                    android:layout_marginTop="8dp"
-                    android:textColor="@color/cardview_light_background"
-                    android:paddingRight="10dp"
-                    android:textSize="25sp" />
+            <TextView
+                android:id="@+id/main_screen_text_view_name_shopping_list_in_card_view"
+                android:layout_width="256dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginLeft="70dp"
+                android:layout_marginTop="8dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="@string/name"
+                android:textColor="@color/cardview_light_background"
+                android:textSize="25sp" />
 
-                <TextView
-                    android:id="@+id/main_screen_text_view_date_of_creation_in_card_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end|bottom"
-                    android:textColor="@color/cardview_light_background"
-                    android:layout_marginRight="70dp"
-                    android:layout_marginBottom="8dp"
-                    android:textSize="16sp"/>
+            <TextView
+                android:id="@+id/main_screen_text_view_date_of_creation_in_card_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|bottom"
+                android:layout_marginBottom="8dp"
+                android:layout_marginRight="70dp"
+                android:text="date_of_creation"
+                android:textColor="@color/cardview_light_background"
+                android:textSize="16sp" />
 
 
             <ImageButton
                 android:id="@+id/main_screen_image_button_delete_in_card_view"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
-                android:layout_gravity="right|center_vertical"
+                android:layout_gravity="end|center_vertical"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
-                android:contentDescription="@string/delete_shopping_list"
                 android:background="@drawable/icons_background"
+                android:contentDescription="@string/delete_shopping_list"
                 android:src="@drawable/ic_clear_black_24dp" />
 
         </FrameLayout>
