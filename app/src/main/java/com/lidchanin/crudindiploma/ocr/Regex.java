@@ -30,6 +30,7 @@ class Regex {
 
     ArrayList<String> parseCost(final String[] input) {
         //1 type
+        //// TODO: 29.05.2017 fix regex by uploaded scans 
         Pattern costPattern = Pattern.compile("[0-9]\\s{0,999}.*?\\s");
         final ArrayList<String> output = new ArrayList<>();
         int count=0;

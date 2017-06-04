@@ -18,6 +18,7 @@ import java.util.List;
 
 public class ChoiceAdapter extends RecyclerView.Adapter<ChoiceAdapter.ChoiceViewHolder> {
 
+    //// TODO: 29.05.2017 make on activitycloseListener 
     private List<String> CostList;
     private List<String> NameList;
     private String outputName;

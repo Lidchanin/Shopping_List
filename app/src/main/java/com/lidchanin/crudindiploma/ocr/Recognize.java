@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.ProgressBar;
 
@@ -24,6 +25,7 @@ public class Recognize extends AsyncTask<Bitmap,TessBaseAPI.ProgressValues,Void>
     SharedPreferences sharedPreferences;
     public Recognize(ProgressBar progressBar, final Context context,long shoppingListId){
         this.context=context;
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         this.progressBar= progressBar;
         this.shoppingListId = shoppingListId;
     }
@@ -37,7 +39,9 @@ public class Recognize extends AsyncTask<Bitmap,TessBaseAPI.ProgressValues,Void>
                 progressBar.setProgress(progressValues.getPercent());
             }
         });
-        mTessBaseAPI.init(String.valueOf(Environment.getExternalStorageDirectory()), sharedPreferences.getString(Constants.SharedPreferences.PREF_KEY_LANG_RECOGNIZE,""));
+        //// FIXME: 28.05.2017 fix sharedpref
+        mTessBaseAPI.init(String.valueOf(Environment.getExternalStorageDirectory()), /*sharedPreferences.getString(Constants.SharedPreferences.PREF_KEY_LANG_RECOGNIZE,""*/
+        "rus");
         mTessBaseAPI.setImage(new ImageFilters().changeBitmapContrastBrightness(context, bitmap[0],1.8f,0));
         output = mTessBaseAPI.getUTF8Text();
         Log.d(TAG,output);

@@ -11,6 +11,8 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.Display;
 
 import com.lidchanin.crudindiploma.R;
 
@@ -21,7 +23,6 @@ import com.lidchanin.crudindiploma.R;
 public class ImageFilters {
     public Bitmap changeBitmapContrastBrightness(Context context,Bitmap bmp, float contrast, float brightness)
     {
-        //// TODO: 21.05.2017  may be delete contrast or brightness? tests! 
         ColorMatrix cm = new ColorMatrix(new float[]
                 {
                         contrast, 0, 0, 0, brightness,
@@ -42,18 +43,15 @@ public class ImageFilters {
         return cropBitmap1(context,ret);
     }
     private Bitmap cropBitmap1(Context context, Bitmap bitmap) {
-        Activity activity = (Activity)context;
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        activity.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        int width =displayMetrics.widthPixels;
-        int height = displayMetrics.heightPixels;
-        Bitmap bmOverlay = Bitmap.createBitmap(800 , 600, Bitmap.Config.ARGB_8888);
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        int width = displayMetrics.widthPixels;
+        int heigth= displayMetrics.heightPixels;
+        Bitmap bmOverlay = Bitmap.createBitmap((heigth*42)/100 , (width*55)/100, Bitmap.Config.ARGB_8888);
 
         Paint paint = new Paint();
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-        //// TODO: 21.05.2017  get size by display resolution 
         Canvas canvas = new Canvas(bmOverlay);
-        canvas.drawBitmap(bitmap, -150, -400, null);
+        canvas.drawBitmap(bitmap, -((width*22)/100), -((heigth*22)/100), null);
 
         return bmOverlay;
     }

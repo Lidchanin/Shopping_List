@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.percent.PercentFrameLayout
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/activity_main">
+    android:orientation="vertical">
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -13,42 +12,41 @@
         android:adjustViewBounds="true"
         android:contentDescription="@string/main_screen_background" />
     <RelativeLayout
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="50dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="120dp"
         android:background="@drawable/under_google_shape"
         android:layout_width="wrap_content"
         android:id="@+id/google_background"
         android:layout_height="wrap_content">
         <ImageView
-            android:padding="10dp"
-            android:layout_marginTop="3dp"
-            android:layout_toRightOf="@+id/mail_name"
+            android:padding="5dp"
+            android:layout_toEndOf="@+id/mail_name"
             android:id="@+id/mail_photo"
             android:src="@mipmap/ic_launcher"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
-            android:layout_marginTop="15dp"
             android:id="@+id/mail_name"
             android:text="Name"
+            android:padding="10dp"
+            android:layout_marginTop="3dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </RelativeLayout>
     <ImageView
         android:layout_gravity="center_horizontal"
-        app:layout_marginTopPercent="3%"
-        app:layout_widthPercent="40%"
-        app:layout_heightPercent="37%"
+        android:layout_marginTop="20dp"
+        android:layout_width="150dp"
+        android:layout_height="180dp"
         android:scaleType="centerCrop"
         android:adjustViewBounds="true"
         android:background="@mipmap/logo_im"
         android:contentDescription="@string/main_screen_logo" />
     <Button
         android:background="@drawable/round_buttons_main"
-        app:layout_marginTopPercent="50%"
-        android:layout_gravity="center_horizontal"
-        app:layout_widthPercent="30%"
-        app:layout_heightPercent="22%"
+        android:layout_gravity="center"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:text="@string/go_to_shop"
         android:textColor="@color/cardview_light_background"
         android:id="@+id/to_camera"/>
@@ -60,10 +58,8 @@
         android:layout_marginBottom="100dp"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:id="@+id/rus_tessdata" />
     <ProgressBar
-        android:visibility="gone"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="92dp"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
@@ -77,11 +73,9 @@
         android:layout_marginBottom="40dp"
         android:text="@string/eng_tessdata"
         android:layout_width="300dp"
-        android:visibility="gone"
         android:layout_height="wrap_content"
         android:id="@+id/eng_tessdata"/>
     <ProgressBar
-        android:visibility="gone"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="32dp"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
@@ -89,9 +83,9 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content" />
     <com.google.android.gms.common.SignInButton
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="50dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="120dp"
         android:id="@+id/sing_in_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
-</android.support.percent.PercentFrameLayout>
+</FrameLayout>
