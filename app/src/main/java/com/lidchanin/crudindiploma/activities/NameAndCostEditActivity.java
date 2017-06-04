@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputFilter;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,6 +12,7 @@ import android.widget.EditText;
 import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.data.dao.ProductDAO;
 import com.lidchanin.crudindiploma.data.models.Product;
+import com.lidchanin.crudindiploma.utils.filters.DecimalDigitsInputFilter;
 
 public class NameAndCostEditActivity extends AppCompatActivity{
 
@@ -32,6 +34,7 @@ public class NameAndCostEditActivity extends AppCompatActivity{
         String costToPut=getIntent().getExtras().getString("OutPutCost");
         final long shoppingListId = getIntent().getLongExtra("shoppingListId", -1);
         editTextName.setText(nameToPut);
+        editTextCost.setFilters(new InputFilter[]{new DecimalDigitsInputFilter(2, 2)});
         editTextCost.setText(costToPut);
 
         final Product product = new Product();

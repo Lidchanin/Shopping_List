@@ -4,17 +4,22 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -29,17 +34,21 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.crash.FirebaseCrash;
 import com.lidchanin.crudindiploma.Constants;
 import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.utils.DownloadTask;
 import com.lidchanin.crudindiploma.utils.SharedPrefsManager;
+import com.makeramen.roundedimageview.RoundedTransformationBuilder;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import java.io.File;
+import java.net.URI;
 
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
     private static final int RC_SIGN_IN = 9001;
-    //// TODO: 21.05.2017 Add analytics and Crush report!
     //// TODO: 22.05.2017  fix all layout
     private Button buttonRus;
     private Button buttonEng;
@@ -49,6 +58,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private GoogleApiClient googleApiClient;
     private SignInButton signInButton;
     private FirebaseAuth mAuth;
+    private Uri photoUrl;
+    private String accountName;
+    private ImageView userPhoto;
+    private TextView userName;
+    private RelativeLayout googleBackground;
+    private FirebaseUser currentUser ;
+    private Transformation transformation;
     private static final int REQUEST_CAMERA_PERMISSION = 200;
 
     @Override
@@ -57,14 +73,17 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
-
         setContentView(R.layout.activity_main);
+        transformation = new RoundedTransformationBuilder().oval(true).build();
+        userPhoto = (ImageView) findViewById(R.id.mail_photo);
+        userName = (TextView) findViewById(R.id.mail_name);
         buttonRus = (Button) findViewById(R.id.rus_tessdata);
         buttonEng = (Button) findViewById(R.id.eng_tessdata);
         progressEng = (ProgressBar) findViewById(R.id.eng_tessdata_progress);
         progressRus = (ProgressBar) findViewById(R.id.rus_tessdata_progress);
         buttonGoToCam = (Button) findViewById(R.id.to_camera);
         signInButton = (SignInButton) findViewById(R.id.sing_in_button);
+        googleBackground = (RelativeLayout) findViewById(R.id.google_background);
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,13 +106,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 return;
             }
         }
-
         final File rusTessaract = new File(String.valueOf(Environment.getExternalStorageDirectory()) + Constants.Tessaract.SLASH +Constants.Tessaract.TESSDATA+Constants.Tessaract.SLASH+ Constants.Tessaract.RUSTRAIN);
         final File engTessaract = new File(String.valueOf(Environment.getExternalStorageDirectory()) + Constants.Tessaract.SLASH +Constants.Tessaract.TESSDATA+Constants.Tessaract.SLASH+ Constants.Tessaract.ENGTRAIN);
 
-        if ((buttonEng.getVisibility() == View.GONE) && (buttonRus.getVisibility() == View.GONE)) {
-            startActivity( new Intent(MainActivity.this, MainScreenActivity.class));
-        } else
             buttonEng.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -121,17 +136,37 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 }
             }
         });
+                if ((buttonEng.getVisibility() == View.GONE) && (buttonRus.getVisibility() == View.GONE)) {
+                    buttonGoToCam.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                                startActivity(new Intent(MainActivity.this, MainScreenActivity.class));
+                        }
+        });}
+        else {
         buttonGoToCam.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(engTessaract.exists()||rusTessaract.exists()) {
-                    startActivity(new Intent(MainActivity.this, MainScreenActivity.class));
-                }
-                else {
-                    Toast.makeText(MainActivity.this, "Choose Recognize language!", Toast.LENGTH_SHORT).show();
-                }
-            }
+                                             @Override
+                                             public void onClick(View v) {
+                                                 if(engTessaract.exists()||rusTessaract.exists()) {
+                                                     startActivity(new Intent(MainActivity.this, MainScreenActivity.class));
+                                                 }
+                                                 else {
+                                                     Toast.makeText(MainActivity.this, "Choose Recognize language!", Toast.LENGTH_SHORT).show();
+                                                 }
+                                             }
         });
+                }
+                googleBackground.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        signOut();
+                        googleBackground.setVisibility(View.GONE);
+                        userName.setVisibility(View.GONE);
+                        userPhoto.setVisibility(View.GONE);
+                        Log.d("click", "onClick: ");
+                    }
+                });
+
         createShortcutIcon();
 
     }
@@ -170,6 +205,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
+    private void signOut() {
+        Auth.GoogleSignInApi.signOut(googleApiClient);
+        mAuth.signOut();
+        googleBackground.setVisibility(View.GONE);
+        userName.setVisibility(View.GONE);
+        userPhoto.setVisibility(View.GONE);
+        signInButton.setVisibility(View.VISIBLE);
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -180,14 +223,43 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             if (result.isSuccess()) {
                 GoogleSignInAccount account = result.getSignInAccount();
                 firebaseAuthWithGoogle(account);
+                assert account != null;
+                photoUrl=account.getPhotoUrl();
+                accountName = account.getDisplayName();
+                userName.setText(accountName);
+                Picasso.with(getApplicationContext()).load(photoUrl).transform(transformation).into(userPhoto);
+                signInButton.setVisibility(View.GONE);
+                googleBackground.setVisibility(View.VISIBLE);
+                userName.setVisibility(View.VISIBLE);
+                userPhoto.setVisibility(View.VISIBLE);
+
             } else {
+                googleBackground.setVisibility(View.GONE);
+                userName.setVisibility(View.GONE);
+                userPhoto.setVisibility(View.GONE);
+                signInButton.setVisibility(View.VISIBLE);
+                Toast.makeText(getApplicationContext(),"Что-то пошло не так ;)", Toast.LENGTH_SHORT).show();
             }
         }
     }
     @Override
     public void onStart() {
         super.onStart();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+        currentUser = mAuth.getCurrentUser();
+        if(currentUser!=null){
+            assert currentUser != null;
+            photoUrl=currentUser.getPhotoUrl();
+            accountName = currentUser.getDisplayName();
+            userName.setText(accountName);
+            Picasso.with(getApplicationContext()).load(photoUrl).transform(transformation).into(userPhoto);
+            signInButton.setVisibility(View.GONE);
+        }
+        else {
+            googleBackground.setVisibility(View.GONE);
+            userName.setVisibility(View.GONE);
+            userPhoto.setVisibility(View.GONE);
+            signInButton.setVisibility(View.VISIBLE);
+        }
     }
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
 
