@@ -9,6 +9,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.adapters.MainScreenRecyclerViewAdapter;
@@ -16,6 +17,8 @@ import com.lidchanin.crudindiploma.data.dao.ShoppingListDAO;
 import com.lidchanin.crudindiploma.data.models.ShoppingList;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -29,6 +32,7 @@ import java.util.List;
 public class MainScreenActivity extends AppCompatActivity {
 
     private RecyclerView recyclerViewAllShoppingLists;
+    private MainScreenRecyclerViewAdapter adapter;
     private List<ShoppingList> shoppingLists;
 
     private ShoppingListDAO shoppingListDAO;
@@ -63,7 +67,8 @@ public class MainScreenActivity extends AppCompatActivity {
     }
 
     /**
-     * Method <code>initializeViewsAndButtons</code> add an actions for {@link Button}.
+     * Method <code>initializeViewsAndButtons</code> add an actions for {@link Button}s and
+     * {@link ImageButton}s.
      */
     private void initializeViewsAndButtons() {
         Button buttonAdd = (Button) findViewById(R.id.main_screen_button_add_shopping_list);
@@ -73,6 +78,37 @@ public class MainScreenActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainScreenActivity.this,
                         AddingShoppingListActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        ImageButton buttonSortByAlphabet
+                = (ImageButton) findViewById(R.id.main_screen_image_button_alphabetical_sort);
+        buttonSortByAlphabet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Collections.sort(shoppingLists, new Comparator<ShoppingList>() {
+                    @Override
+                    public int compare(ShoppingList o1, ShoppingList o2) {
+                        return o1.getName().compareToIgnoreCase(o2.getName());
+                    }
+                });
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+        ImageButton buttonSortByDate
+                = (ImageButton) findViewById(R.id.main_screen_image_button_date_sort);
+        buttonSortByDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Collections.sort(shoppingLists, new Comparator<ShoppingList>() {
+                    @Override
+                    public int compare(ShoppingList o1, ShoppingList o2) {
+                        return o1.getDateOfCreation()
+                                .compareToIgnoreCase(o2.getDateOfCreation());
+                    }
+                });
+                adapter.notifyDataSetChanged();
             }
         });
     }
@@ -101,8 +137,7 @@ public class MainScreenActivity extends AppCompatActivity {
      * Method <code>initializeAdapters</code> initializes adapter for {@link RecyclerView}.
      */
     private void initializeAdapters() {
-        MainScreenRecyclerViewAdapter adapter
-                = new MainScreenRecyclerViewAdapter(shoppingLists, this);
+        adapter = new MainScreenRecyclerViewAdapter(shoppingLists, this);
         recyclerViewAllShoppingLists.setAdapter(adapter);
     }
 

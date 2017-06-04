@@ -11,8 +11,6 @@
     android:focusable="true"
     android:focusableInTouchMode="true">
 
-
-
     <TextView
         android:textColor="@color/cardview_light_background"
         android:id="@+id/inside_shopping_list_text_view_shopping_list_name"
@@ -42,66 +40,62 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:orientation="horizontal"
         android:background="@color/cardview_dark_background"
         android:layout_below="@+id/inside_shopping_list_text_view_shopping_list_name">
 
         <TextView
             android:textColor="@color/cardview_light_background"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="2"
             android:gravity="center"
             android:textStyle="bold"
-            android:textSize="11sp"
+            android:textSize="12sp"
             android:text="@string/name" />
 
         <TextView
             android:textColor="@color/cardview_light_background"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
             android:textStyle="bold"
-            android:textSize="11sp"
-
+            android:textSize="12sp"
             android:text="@string/cost" />
 
         <TextView
             android:textColor="@color/cardview_light_background"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
             android:textStyle="bold"
-            android:textSize="11sp"
-
+            android:textSize="12sp"
             android:text="@string/total" />
 
         <TextView
             android:textColor="@color/cardview_light_background"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="2"
             android:gravity="center"
             android:textStyle="bold"
-            android:textSize="11sp"
-
+            android:textSize="12sp"
             android:text="@string/quantity" />
-
-
 
         <TextView
             android:textColor="@color/cardview_light_background"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:textSize="11sp"
-
+            android:textSize="12sp"
             android:textStyle="bold"
             android:text="@string/delete" />
 
     </LinearLayout>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/inside_shopping_list_recycler_view_all_products"
         android:layout_width="match_parent"

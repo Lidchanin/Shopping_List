@@ -95,6 +95,10 @@ public class InsideShoppingListRecyclerViewAdapter extends RecyclerView
                         .setTotalCost(product.getCost() * existingProduct.getQuantityOrWeight());
                 existingProductDAO.update(existingProduct);
                 notifyDataSetChanged();
+                // TODO: 01.06.2017 check this part
+                if (onDataChangeListener != null) {
+                    onDataChangeListener.onDataChanged(existingProducts.size());
+                }
             }
         });
     }
@@ -134,6 +138,11 @@ public class InsideShoppingListRecyclerViewAdapter extends RecyclerView
         dialog.show();
     }
 
+    private OnDataChangeListener onDataChangeListener;
+    public void setOnDataChangeListener(OnDataChangeListener onDataChangeListener) {
+        this.onDataChangeListener = onDataChangeListener;
+    }
+
     /**
      * Class <code>InsideShoppingListViewHolder</code> is the View Holder for
      * {@link android.support.v7.widget.RecyclerView.Adapter}
@@ -168,5 +177,9 @@ public class InsideShoppingListRecyclerViewAdapter extends RecyclerView
             imageButtonDelete = (ImageButton) itemView
                     .findViewById(R.id.inside_shopping_list_image_button_delete_in_card_view);
         }
+    }
+
+    public interface OnDataChangeListener {
+        public void onDataChanged(int size);
     }
 }

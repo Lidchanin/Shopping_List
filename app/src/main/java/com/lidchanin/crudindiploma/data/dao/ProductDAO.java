@@ -275,7 +275,6 @@ public class ProductDAO extends DatabaseDAO {
                 + DatabaseHelper.COLUMN_LIST_ID + " = " + shoppingListId
                 + " AND "
                 + DatabaseHelper.COLUMN_PRODUCT_ID + " = " + productId;
-        Log.i("MY_LOG", selectQuery);
         Cursor cursor = database.rawQuery(selectQuery, null);
         if (cursor.moveToFirst()) {
             cursor.close();

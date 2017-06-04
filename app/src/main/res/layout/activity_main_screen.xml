@@ -5,18 +5,40 @@
     android:layout_height="match_parent"
     tools:context="com.lidchanin.crudindiploma.activities.MainScreenActivity">
 
-    <FrameLayout
+    <LinearLayout
         android:background="@color/cardview_dark_background"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="30dp">
+
         <TextView
             android:text="@string/lists"
             android:layout_gravity="center"
-            android:textSize="18dp"
-            android:layout_width="wrap_content"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="8"
             android:textColor="@color/cardview_light_background"/>
-    </FrameLayout>
+
+        <ImageButton
+            android:id="@+id/main_screen_image_button_alphabetical_sort"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/ic_arrow_drop_down_black_24dp"
+            android:contentDescription="@string/sort_by_alphabet" />
+
+        <ImageButton
+            android:id="@+id/main_screen_image_button_date_sort"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/ic_arrow_drop_up_black_24dp"
+            android:contentDescription="@string/sort_by_date" />
+
+    </LinearLayout>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/main_screen_recycler_view_all_shopping_lists"
         android:layout_width="match_parent"
@@ -35,6 +57,8 @@
         android:text="@string/add_a_new_shopping_list"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:background="@color/cardview_dark_background"
+        android:textColor="@color/cardview_light_background"/>
 
 </RelativeLayout>
