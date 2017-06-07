@@ -123,5 +123,8 @@
     <string name="marshmallows">marshmallows</string>
     <string name="marmalade">marmalade</string>
     <string name="dumplings">dumplings</string>
-
+    <string name="navigation_drawer_open">Drawer Open</string>
+    <string name="navigation_drawer_close">Drawer Closed</string>
+    <string name="profit">Profit</string>
+    <string name="settings">Settings</string>
 </resources>

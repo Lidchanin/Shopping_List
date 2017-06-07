@@ -4,21 +4,33 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.adapters.InsideShoppingListRecyclerViewAdapter;
 import com.lidchanin.crudindiploma.data.dao.ExistingProductDAO;
@@ -26,6 +38,9 @@ import com.lidchanin.crudindiploma.data.dao.ProductDAO;
 import com.lidchanin.crudindiploma.data.dao.ShoppingListDAO;
 import com.lidchanin.crudindiploma.data.models.ExistingProduct;
 import com.lidchanin.crudindiploma.data.models.Product;
+import com.makeramen.roundedimageview.RoundedTransformationBuilder;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -40,7 +55,7 @@ import java.util.List;
  * @author Lidchanin
  * @see android.app.Activity
  */
-public class InsideShoppingListActivity extends AppCompatActivity {
+public class InsideShoppingListActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private RecyclerView recyclerViewAllProducts;
 
@@ -53,6 +68,17 @@ public class InsideShoppingListActivity extends AppCompatActivity {
     private ShoppingListDAO shoppingListDAO;
     private ProductDAO productDAO;
     private ExistingProductDAO existingProductDAO;
+    private DrawerLayout drawer;
+    private Uri photoUrl;
+    private String accountName;
+    private String accountEmail;
+    private FirebaseUser currentUser ;
+    private FirebaseAuth mAuth;
+    private ImageButton buttonHamburger;
+    private TextView nameTextView;
+    private TextView emailTextView;
+    private ImageView headerImageView;
+    private Transformation transformation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,11 +90,10 @@ public class InsideShoppingListActivity extends AppCompatActivity {
         }
 
         shoppingListId = getIntent().getLongExtra("shoppingListId", -1);
-
         shoppingListDAO = new ShoppingListDAO(this);
         productDAO = new ProductDAO(this);
         existingProductDAO = new ExistingProductDAO(this);
-
+        initNavigationDrawer();
         initializeData(shoppingListId);
         initializeViewsAndButtons(shoppingListId);
         initializeRecyclerViews();
@@ -134,8 +159,15 @@ public class InsideShoppingListActivity extends AppCompatActivity {
      */
     private void initializeViewsAndButtons(final long shoppingListId) {
         // FIXME: 06.04.2017 fab is need to fix?
+        buttonHamburger = (ImageButton) findViewById(R.id.hamburger);
         type = (Button) findViewById(R.id.enter_by_type);
         scan = (Button) findViewById(R.id.scan);
+        buttonHamburger.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawer.openDrawer(Gravity.START);
+            }
+        });
         type.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -166,7 +198,22 @@ public class InsideShoppingListActivity extends AppCompatActivity {
         textViewCostsSum.setText(getString(R.string.estimated_amount,
                 new DecimalFormat("#.##").format(costsSum)));
     }
-
+    private void initNavigationDrawer() {
+        mAuth = FirebaseAuth.getInstance();
+        transformation = new RoundedTransformationBuilder().oval(true).build();
+        shoppingListDAO = new ShoppingListDAO(this);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
+        headerImageView =(ImageView) headerLayout.findViewById(R.id.headerImageView);
+        emailTextView =(TextView) headerLayout.findViewById(R.id.user_mail);
+        nameTextView =(TextView) headerLayout.findViewById(R.id.user_name);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, null,R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        navigationView.setNavigationItemSelectedListener(this);
+        toggle.syncState();
+    }
     /**
      * Method <code>initializeRecyclerViews</code> initializes {@link RecyclerView}s.
      */
@@ -274,6 +321,39 @@ public class InsideShoppingListActivity extends AppCompatActivity {
             if (state)
                 return false;
         }
+        return true;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        currentUser = mAuth.getCurrentUser();
+        if(currentUser!=null){
+            assert currentUser != null;
+            photoUrl=currentUser.getPhotoUrl();
+            accountName = currentUser.getDisplayName();
+            accountEmail = currentUser.getEmail();
+            emailTextView.setText(accountEmail);
+            nameTextView.setText(accountName);
+            Picasso.with(getApplicationContext()).load(photoUrl).transform(transformation).into(headerImageView);
+        }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.nav_lists) {
+            startActivity(new Intent(this,MainScreenActivity.class));
+        } else if (id == R.id.nav_existing_products) {
+
+        } else if (id == R.id.nav_profit) {
+
+        } else if (id == R.id.nav_settings) {
+
+        }
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 }

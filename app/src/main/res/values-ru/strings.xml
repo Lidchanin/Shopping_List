@@ -115,4 +115,7 @@
     <string name="ok_btn">OK</string>
     <string name="scan">скан</string>
     <string name="type">вручную</string>
+    <string name="profit">Выгода</string>
+    <string name="settings">Настройки</string>
+
 </resources>
