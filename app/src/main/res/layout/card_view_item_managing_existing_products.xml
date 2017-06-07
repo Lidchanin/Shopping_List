@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/managing_existing_products_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageButton
+                android:id="@+id/managing_existing_products_image_button_edit_in_card_view"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.5"
+                android:background="@drawable/border_rectangle"
+                android:contentDescription="@string/edit_product"
+                android:src="@drawable/ic_mode_edit_black_24dp" />
+
+            <TextView
+                android:id="@+id/managing_existing_products_text_view_product_name_in_card_view"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:background="@drawable/border_rectangle"
+                android:gravity="center"
+                android:text="@string/name" />
+
+            <TextView
+                android:id="@+id/managing_existing_products_text_view_product_cost_in_card_view"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:background="@drawable/border_rectangle"
+                android:gravity="center"
+                android:text="@string/cost" />
+
+            <TextView
+                android:id="@+id/managing_existing_products_text_view_product_popularity_in_card_view"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:background="@drawable/border_rectangle"
+                android:gravity="center"
+                android:text="@string/popularity" />
+
+            <ImageButton
+                android:id="@+id/managing_existing_products_image_button_delete_in_card_view"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.5"
+                android:background="@drawable/border_rectangle"
+                android:contentDescription="@string/delete"
+                android:src="@drawable/ic_close_black_24dp" />
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

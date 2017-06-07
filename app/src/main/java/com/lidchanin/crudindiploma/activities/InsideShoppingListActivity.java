@@ -1,16 +1,11 @@
 package com.lidchanin.crudindiploma.activities;
 
-import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -55,7 +50,8 @@ import java.util.List;
  * @author Lidchanin
  * @see android.app.Activity
  */
-public class InsideShoppingListActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class InsideShoppingListActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener{
 
     private RecyclerView recyclerViewAllProducts;
 
@@ -63,11 +59,13 @@ public class InsideShoppingListActivity extends AppCompatActivity implements Nav
     private List<ExistingProduct> existingProducts;
     private long shoppingListId;
     private double costsSum = 0;
+
+    private ShoppingListDAO shoppingListDAO;
+    private ExistingProductDAO existingProductDAO;
+
     private Button scan;
     private Button type;
-    private ShoppingListDAO shoppingListDAO;
     private ProductDAO productDAO;
-    private ExistingProductDAO existingProductDAO;
     private DrawerLayout drawer;
     private Uri photoUrl;
     private String accountName;
@@ -101,16 +99,6 @@ public class InsideShoppingListActivity extends AppCompatActivity implements Nav
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
         shoppingListDAO.open();
@@ -118,8 +106,8 @@ public class InsideShoppingListActivity extends AppCompatActivity implements Nav
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onDestroy() {
+        super.onDestroy();
         shoppingListDAO.close();
         productDAO.close();
     }
@@ -147,7 +135,6 @@ public class InsideShoppingListActivity extends AppCompatActivity implements Nav
                     costsSum += existingProducts.get(i).getTotalCost();
                 }
             }
-            Log.d("MY_LOG", "" + costsSum);
         }
     }
 
@@ -214,8 +201,9 @@ public class InsideShoppingListActivity extends AppCompatActivity implements Nav
         navigationView.setNavigationItemSelectedListener(this);
         toggle.syncState();
     }
+
     /**
-     * Method <code>initializeRecyclerViews</code> initializes {@link RecyclerView}s.
+     * Method <code>initializeRecyclerView</code> initializes {@link RecyclerView}s.
      */
     public void initializeRecyclerViews() {
         recyclerViewAllProducts
@@ -346,7 +334,7 @@ public class InsideShoppingListActivity extends AppCompatActivity implements Nav
         if (id == R.id.nav_lists) {
             startActivity(new Intent(this,MainScreenActivity.class));
         } else if (id == R.id.nav_existing_products) {
-
+            startActivity(new Intent(this, ManagingExistingProductsActivity.class));
         } else if (id == R.id.nav_profit) {
 
         } else if (id == R.id.nav_settings) {

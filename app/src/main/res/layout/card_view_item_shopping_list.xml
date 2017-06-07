@@ -25,10 +25,9 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:background="@drawable/icons_background"
-                android:contentDescription="@string/add_a_new_shopping_list"
+                android:contentDescription="@string/edit_shopping_list"
                 android:padding="10dp"
                 android:src="@drawable/ic_mode_edit_black_24dp" />
-
 
             <TextView
                 android:id="@+id/main_screen_text_view_name_shopping_list_in_card_view"
@@ -36,6 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:layout_marginLeft="70dp"
+                android:layout_marginRight="70dp"
                 android:layout_marginTop="8dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
@@ -49,11 +49,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|bottom"
                 android:layout_marginBottom="8dp"
+                android:layout_marginLeft="70dp"
                 android:layout_marginRight="70dp"
-                android:text="date_of_creation"
+                android:text="@string/date_of_creation"
                 android:textColor="@color/cardview_light_background"
                 android:textSize="16sp" />
-
 
             <ImageButton
                 android:id="@+id/main_screen_image_button_delete_in_card_view"

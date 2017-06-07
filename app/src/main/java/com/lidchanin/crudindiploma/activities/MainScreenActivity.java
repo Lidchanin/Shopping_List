@@ -218,7 +218,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
     }
 
     /**
-     * Method <code>initializeRecyclerViews</code> initializes {@link RecyclerView}.
+     * Method <code>initializeRecyclerView</code> initializes {@link RecyclerView}.
      */
     public void initializeRecyclerViews() {
         recyclerViewAllShoppingLists = (RecyclerView)

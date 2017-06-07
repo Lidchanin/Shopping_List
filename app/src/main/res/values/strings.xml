@@ -129,5 +129,9 @@
     <string name="settings">Settings</string>
     <string name="sort_by_alphabet">sort by alphabet</string>
     <string name="sort_by_date">sort by date</string>
+    <string name="date_of_creation">date of creation</string>
+    <string name="edit_shopping_list">Edit shopping list</string>
+    <string name="edit_product">Edit product</string>
+    <string name="popularity">popularity</string>
 
 </resources>
