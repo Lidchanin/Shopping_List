@@ -16,7 +16,6 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -31,9 +30,11 @@ import com.lidchanin.crudindiploma.data.models.ShoppingList;
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
+import com.lidchanin.crudindiploma.utils.SharedPrefsManager;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import static com.lidchanin.crudindiploma.R.id.toolbar;
@@ -47,9 +48,20 @@ import static com.lidchanin.crudindiploma.R.id.toolbar;
  */
 public class MainScreenActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
+    public static final String KEY_DEFAULT_SORT_BY = "defaultSortBy";
+    public static final String KEY_DEFAULT_ORDER_BY = "defaultOrderBy";
+
     private RecyclerView recyclerViewAllShoppingLists;
+    private MainScreenRecyclerViewAdapter mainScreenRecyclerViewAdapter;
+
+    private boolean defaultSortBy; // false - by date, true - alphabetically
+    private boolean defaultOrderBy;
+
     private List<ShoppingList> shoppingLists;
     private ImageButton buttonHamburger;
+
+    private SharedPrefsManager sharedPrefsManager;
+
     private ShoppingListDAO shoppingListDAO;
     private DrawerLayout drawer;
     private Uri photoUrl;
@@ -73,8 +85,15 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         initNavigationDrawer();
         initializeViewsAndButtons();
         initializeRecyclerViews();
+
+        shoppingListDAO = new ShoppingListDAO(this);
+
         initializeData();
+        initializeRecyclerViews();
         initializeAdapters();
+        initializeViewsAndButtons();
+
+        startedSortShoppingList();
     }
 
     private void initNavigationDrawer() {
@@ -116,13 +135,14 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onDestroy() {
+        super.onDestroy();
         shoppingListDAO.close();
     }
 
     /**
-     * Method <code>initializeViewsAndButtons</code> add an actions for {@link Button}.
+     * Method <code>initializeViewsAndButtons</code> initializes {@link Button}s and
+     * {@link android.widget.ImageButton}s.
      */
     private void initializeViewsAndButtons() {
         buttonHamburger = (ImageButton) findViewById(R.id.hamburger);
@@ -132,13 +152,57 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
                 drawer.openDrawer(Gravity.START);
             }
         });
-        Button buttonAdd = (Button) findViewById(R.id.main_screen_button_add_shopping_list);
-        buttonAdd.setOnClickListener(new View.OnClickListener() {
+
+        initializeButtonAdd();
+        initializeButtonSortByAlphabet();
+        initializeButtonSortByDate();
+    }
+
+    /**
+     * Method <code>initializeButtonAdd</code> initializes {@link Button} for adding shopping list.
+     */
+    private void initializeButtonAdd() {
+        Button button = (Button) findViewById(R.id.main_screen_button_add_shopping_list);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainScreenActivity.this,
                         AddingShoppingListActivity.class);
                 startActivity(intent);
+            }
+        });
+    }
+
+    /**
+     * Method <code>initializeButtonSortByAlphabet</code> initializes {@link ImageButton} for
+     * sorting all shopping lists by alphabet.
+     */
+    private void initializeButtonSortByAlphabet() {
+        ImageButton button = (ImageButton)
+                findViewById(R.id.main_screen_image_button_sort_by_alphabet);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sortShoppingLists(defaultSortBy, defaultOrderBy);
+                defaultOrderBy = !defaultOrderBy;
+                defaultSortBy = true;
+            }
+        });
+    }
+
+    /**
+     * Method <code>initializeButtonSortByDate</code> initializes {@link ImageButton} for
+     * sorting all shopping lists by date.
+     */
+    private void initializeButtonSortByDate() {
+        ImageButton button = (ImageButton)
+                findViewById(R.id.main_screen_image_button_sort_by_date);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sortShoppingLists(defaultSortBy, defaultOrderBy);
+                defaultOrderBy = !defaultOrderBy;
+                defaultSortBy = false;
             }
         });
     }
@@ -167,9 +231,49 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
      * Method <code>initializeAdapters</code> initializes adapter for {@link RecyclerView}.
      */
     private void initializeAdapters() {
-        MainScreenRecyclerViewAdapter adapter
+        mainScreenRecyclerViewAdapter
                 = new MainScreenRecyclerViewAdapter(shoppingLists, this);
-        recyclerViewAllShoppingLists.setAdapter(adapter);
+        recyclerViewAllShoppingLists.setAdapter(mainScreenRecyclerViewAdapter);
+    }
+
+    /**
+     * The method <code>sortShoppingLists</code> sorts shopping lists by name or by date.
+     *
+     * @param lastSortedBy is the last sorted value.
+     * @param lastOrderBy is the last ordered value.
+     */
+    private void sortShoppingLists(final boolean lastSortedBy, final boolean lastOrderBy) {
+        Collections.sort(shoppingLists, new Comparator<ShoppingList>() {
+            @Override
+            public int compare(ShoppingList s1, ShoppingList s2) {
+                if (!lastSortedBy) {
+                    if (!lastOrderBy) {
+                        return s1.getDateOfCreation().compareToIgnoreCase(s2.getDateOfCreation());
+                    } else {
+                        return s2.getDateOfCreation().compareToIgnoreCase(s1.getDateOfCreation());
+                    }
+                } else {
+                    if (!lastOrderBy) {
+                        return s1.getName().compareToIgnoreCase(s2.getName());
+                    } else {
+                        return s2.getName().compareToIgnoreCase(s1.getName());
+                    }
+                }
+            }
+        });
+        sharedPrefsManager.editBoolean(KEY_DEFAULT_SORT_BY, lastSortedBy);
+        sharedPrefsManager.editBoolean(KEY_DEFAULT_ORDER_BY, lastOrderBy);
+        mainScreenRecyclerViewAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * The method <code>startedSortShoppingList</code> sorts shopping lists, when activity start.
+     */
+    private void startedSortShoppingList() {
+        sharedPrefsManager = new SharedPrefsManager(this);
+        defaultSortBy = sharedPrefsManager.readBoolean(KEY_DEFAULT_SORT_BY);
+        defaultOrderBy = sharedPrefsManager.readBoolean(KEY_DEFAULT_ORDER_BY);
+        sortShoppingLists(defaultSortBy, defaultOrderBy);
     }
 
     @Override

@@ -17,20 +17,44 @@
         android:layout_width="match_parent"
         android:background="@color/cardview_dark_background"
         android:layout_height="54dp">
+
         <ImageButton
             android:id="@+id/hamburger"
             android:background="?attr/selectableItemBackground"
             android:src="@drawable/ic_menu_24dp"
             android:layout_width="54dp"
             android:layout_height="54dp" />
+
         <TextView
             android:text="@string/lists"
-            android:layout_gravity="center"
-            android:textSize="18dp"
+            android:textSize="18sp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_gravity="center"
             android:textColor="@color/cardview_light_background"/>
+
+        <ImageButton
+            android:id="@+id/main_screen_image_button_sort_by_alphabet"
+            android:layout_width="54dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|end"
+            android:layout_marginRight="54dp"
+            android:layout_marginLeft="54dp"
+            android:background="?attr/selectableItemBackground"
+            android:src="@drawable/ic_arrow_drop_down_black_24dp"
+            android:contentDescription="@string/sort_by_alphabet"/>
+
+        <ImageButton
+            android:id="@+id/main_screen_image_button_sort_by_date"
+            android:layout_width="54dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|end"
+            android:src="@drawable/ic_arrow_drop_up_black_24dp"
+            android:background="?attr/selectableItemBackground"
+            android:contentDescription="@string/sort_by_date" />
     </FrameLayout>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/main_screen_recycler_view_all_shopping_lists"
         android:layout_width="match_parent"
@@ -45,6 +69,8 @@
         android:id="@+id/main_screen_button_add_shopping_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/cardview_dark_background"
+        android:textColor="@color/cardview_light_background"
         android:text="@string/add_a_new_shopping_list"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"

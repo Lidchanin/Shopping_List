@@ -21,7 +21,7 @@
     <string name="name">название</string>
     <string name="cost">стоимость</string>
     <string name="total">итого</string>
-    <string name="quantity">количество(штук или кг)</string>
+    <string name="quantity">количество\n(штук или кг)</string>
     <string name="accept">принять</string>
     <string name="delete">удалить</string>
     <string name="close">закрыть</string>

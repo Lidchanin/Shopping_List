@@ -118,6 +118,12 @@ public class MainScreenRecyclerViewAdapter
         dialog.show();
     }
 
+    /**
+     * Method <code>dateConverter</code> converts date to needed format.
+     *
+     * @param previousDate is the date before converting.
+     * @return date after converting.
+     */
     private String dateConverter(String previousDate) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(context
                 .getString(R.string.database_date_format), Locale.getDefault());

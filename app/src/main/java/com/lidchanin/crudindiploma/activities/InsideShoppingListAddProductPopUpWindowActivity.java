@@ -121,7 +121,11 @@ public class InsideShoppingListAddProductPopUpWindowActivity extends AppCompatAc
                     Product product = new Product();
                     product.setName(autoCompleteTextProductNameAndCost.getText().toString());
                     product.setCost(Double.valueOf(editTextProductCost.getText().toString()));
+
+                    // FIXME: 06.06.2017 delete this shit code
+                    productDAO.open();
                     productDAO.addInCurrentShoppingList(product, shoppingListId);
+                    productDAO.close();
 
                     Intent intent = new Intent(InsideShoppingListAddProductPopUpWindowActivity.this,
                             InsideShoppingListActivity.class);
