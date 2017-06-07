@@ -32,7 +32,6 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.lidchanin.crudindiploma.Constants;
 import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.utils.DownloadTask;
-import com.lidchanin.crudindiploma.utils.SharedPrefsManager;
 
 import java.io.File;
 
@@ -98,11 +97,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 @Override
                 public void onClick(View v) {
                     if (engTessaract.exists()) {
-                        new SharedPrefsManager(getApplicationContext(),"eng");
                         Toast.makeText(MainActivity.this, "It's also exists!", Toast.LENGTH_SHORT).show();
                     }
                     else{
-                        new SharedPrefsManager(getApplicationContext(),"eng");
                         new DownloadTask(MainActivity.this, progressEng, Constants.Tessaract.ENGTRAIN).execute("https://firebasestorage.googleapis.com/v0/b/testdb-5f32a.appspot.com/o/tessaract%2Feng.traineddata?alt=media&token=58c2aa2d-417f-4d22-87eb-80627577feb8");
                     }
                 }
@@ -112,11 +109,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             @Override
             public void onClick(View v) {
                 if (rusTessaract.exists()) {
-                    new SharedPrefsManager(getApplicationContext(),"rus");
                     Toast.makeText(MainActivity.this, "It's also exists!", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    new SharedPrefsManager(getApplicationContext(),"rus");
                     new DownloadTask(MainActivity.this, progressRus, Constants.Tessaract.RUSTRAIN).execute("https://firebasestorage.googleapis.com/v0/b/testdb-5f32a.appspot.com/o/tessaract%2Frus.traineddata?alt=media&token=9cf09afa-e1bd-4f2c-b0dd-3bc457d2f5f0");
                 }
             }

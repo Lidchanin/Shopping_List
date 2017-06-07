@@ -121,5 +121,7 @@
     <string name="marshmallows">marshmallows</string>
     <string name="marmalade">marmalade</string>
     <string name="dumplings">dumplings</string>
+    <string name="sort_by_alphabet">sort by alphabet</string>
+    <string name="sort_by_date">sort by date</string>
 
 </resources>
