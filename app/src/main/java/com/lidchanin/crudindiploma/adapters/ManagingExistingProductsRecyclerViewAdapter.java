@@ -2,27 +2,23 @@ package com.lidchanin.crudindiploma.adapters;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.text.InputFilter;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lidchanin.crudindiploma.R;
-import com.lidchanin.crudindiploma.activities.InsideShoppingListUpdateProductPopUpWindowActivity;
-import com.lidchanin.crudindiploma.data.dao.ExistingProductDAO;
 import com.lidchanin.crudindiploma.data.dao.ProductDAO;
-import com.lidchanin.crudindiploma.data.models.ExistingProduct;
 import com.lidchanin.crudindiploma.data.models.Product;
-import com.lidchanin.crudindiploma.utils.filters.DecimalDigitsInputFilter;
 
-import java.text.DecimalFormat;
 import java.util.List;
 
 /**
@@ -37,10 +33,15 @@ public class ManagingExistingProductsRecyclerViewAdapter extends RecyclerView
         .Adapter<ManagingExistingProductsRecyclerViewAdapter.ManagingExistingProductsViewHolder> {
 
     private List<Product> products;
+
     private Context context;
 
-    public ManagingExistingProductsRecyclerViewAdapter(List<Product> products, Context context) {
+    private ProductDAO productDAO;
+
+    public ManagingExistingProductsRecyclerViewAdapter(List<Product> products,
+                                                       ProductDAO productDAO, Context context) {
         this.products = products;
+        this.productDAO = productDAO;
         this.context = context;
     }
 
@@ -52,7 +53,7 @@ public class ManagingExistingProductsRecyclerViewAdapter extends RecyclerView
     }
 
     @Override
-    public void onBindViewHolder(ManagingExistingProductsViewHolder holder, int position) {
+    public void onBindViewHolder(final ManagingExistingProductsViewHolder holder, int position) {
         final Product product = products.get(holder.getAdapterPosition());
         holder.textViewProductName.setText(product.getName());
         holder.textViewProductCost.setText(String.valueOf(product.getCost()));
@@ -60,21 +61,118 @@ public class ManagingExistingProductsRecyclerViewAdapter extends RecyclerView
         holder.imageButtonDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: 08.06.2017 code to delete button
+                createAndShowAlertDialogForDelete(holder.getAdapterPosition());
             }
         });
         holder.imageButtonEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: 08.06.2017 code to edit button
+                createAndShowAlertDialogForUpdate(holder.getAdapterPosition());
             }
         });
-
     }
 
     @Override
     public int getItemCount() {
         return products.size();
+    }
+
+    /**
+     * The method <code>createAndShowAlertDialogForDelete</code> create and shows a dialog, which
+     * need to confirm deleting shopping list.
+     *
+     * @param adapterPosition is the position, where record about shopping list are located.
+     */
+    private void createAndShowAlertDialogForDelete(final int adapterPosition) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(context.getString(R.string.ask_delete_product,
+                products.get(adapterPosition).getName()));
+        builder.setMessage(R.string.ask_delete_product_from_database);
+        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                productDAO.deleteFromDatabase(products.get(adapterPosition).getId());
+                products.remove(adapterPosition);
+                notifyItemRemoved(adapterPosition);
+                notifyItemRangeChanged(adapterPosition, products.size());
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    // FIXME: 08.06.2017 update existing product
+
+    /**
+     * The method <code>createAndShowAlertDialogForUpdate</code> create and shows a dialog, which
+     * need to confirm deleting shopping list.
+     *
+     * @param adapterPosition is the position, where record about shopping list are located.
+     */
+    private void createAndShowAlertDialogForUpdate(final int adapterPosition) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(context.getString(R.string.ask_update_product,
+                products.get(adapterPosition).getName()));
+        // FIXME: 08.06.2017 message string resource
+        builder.setMessage(context.getString(R.string.ask_update_product_from_database));
+
+        LinearLayout layout = new LinearLayout(context);
+        layout.setOrientation(LinearLayout.VERTICAL);
+
+        final EditText editTextName = new EditText(context);
+        editTextName.setInputType(InputType.TYPE_CLASS_TEXT);
+        editTextName.setHint(context.getString(R.string.enter_name));
+        editTextName.setText(products.get(adapterPosition).getName());
+        layout.addView(editTextName);
+
+        final EditText editTextCost = new EditText(context);
+        editTextCost.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        editTextCost.setHint(context.getString(R.string.enter_cost));
+        editTextCost.setText(String.valueOf(products.get(adapterPosition).getCost()));
+        layout.addView(editTextCost);
+
+        builder.setView(layout);
+
+        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String name = editTextName.getText().toString();
+                Double cost = Double.valueOf(editTextCost.getText().toString());
+                if (name.length() == 0) {
+                    Toast.makeText(context, context.getString(R.string.enter_name) + "!",
+                            Toast.LENGTH_SHORT).show();
+                } else if (cost <= 0) {
+                    Toast.makeText(context, context.getString(R.string.enter_cost) + "!",
+                            Toast.LENGTH_SHORT).show();
+                } else if (name.length() == 0 && cost <= 0) {
+                    Toast.makeText(context, context.getString(R.string.enter_name_and_cost) + "!",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    Product product = products.get(adapterPosition);
+                    product.setName(name);
+                    product.setCost(cost);
+                    productDAO.update(product);
+                    products.set(adapterPosition, product);
+                    notifyItemChanged(adapterPosition);
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     /**

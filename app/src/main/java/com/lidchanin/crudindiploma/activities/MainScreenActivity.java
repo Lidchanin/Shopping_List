@@ -292,7 +292,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         int id = item.getItemId();
 
         if (id == R.id.nav_existing_products) {
-
+            startActivity(new Intent(this, ManagingExistingProductsActivity.class));
         } else if (id == R.id.nav_profit) {
 
         } else if (id == R.id.nav_settings) {

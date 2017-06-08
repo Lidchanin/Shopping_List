@@ -15,7 +15,6 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,7 +24,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.adapters.ManagingExistingProductsRecyclerViewAdapter;
 import com.lidchanin.crudindiploma.data.dao.ProductDAO;
-import com.lidchanin.crudindiploma.data.dao.ShoppingListDAO;
 import com.lidchanin.crudindiploma.data.models.Product;
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
@@ -52,19 +50,17 @@ public class ManagingExistingProductsActivity extends AppCompatActivity
     private List<Product> products;
 
     private ImageButton buttonHamburger;
-
-
-
     private DrawerLayout drawer;
     private Uri photoUrl;
     private String accountName;
     private String accountEmail;
-    private FirebaseUser currentUser ;
+    private FirebaseUser currentUser;
     private FirebaseAuth mAuth;
     private TextView nameTextView;
     private TextView emailTextView;
     private ImageView headerImageView;
     private Transformation transformation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,13 +70,7 @@ public class ManagingExistingProductsActivity extends AppCompatActivity
             getSupportActionBar().hide();
         }
 
-        productDAO = new ProductDAO(this);
-        products = productDAO.getAll();
-        if (products == null) {
-            products = new ArrayList<>();
-        }
-
-        buttonHamburger=(ImageButton) findViewById(R.id.hamburger);
+        buttonHamburger = (ImageButton) findViewById(R.id.hamburger);
         initNavigationDrawer();
         buttonHamburger.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,6 +78,8 @@ public class ManagingExistingProductsActivity extends AppCompatActivity
                 drawer.openDrawer(Gravity.LEFT);
             }
         });
+
+        initializeData();
         initializeRecyclerView();
         initializeAdapter();
     }
@@ -105,9 +97,20 @@ public class ManagingExistingProductsActivity extends AppCompatActivity
     }
 
     /**
+     * Method <code>initializeData</code> receives all products from the database.
+     */
+    private void initializeData() {
+        productDAO = new ProductDAO(this);
+        products = productDAO.getAll();
+        if (products == null) {
+            products = new ArrayList<>();
+        }
+    }
+
+    /**
      * Method <code>initializeRecyclerView</code> initializes {@link RecyclerView}s.
      */
-    public void initializeRecyclerView() {
+    private void initializeRecyclerView() {
         recyclerViewAllProducts = (RecyclerView)
                 findViewById(R.id.managing_existing_products_recycler_view_all_products);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -119,21 +122,21 @@ public class ManagingExistingProductsActivity extends AppCompatActivity
      */
     private void initializeAdapter() {
         ManagingExistingProductsRecyclerViewAdapter adapter
-                = new ManagingExistingProductsRecyclerViewAdapter(products, this);
+                = new ManagingExistingProductsRecyclerViewAdapter(products, productDAO, this);
         recyclerViewAllProducts.setAdapter(adapter);
     }
 
-     void initNavigationDrawer() {
+    void initNavigationDrawer() {
         mAuth = FirebaseAuth.getInstance();
         transformation = new RoundedTransformationBuilder().oval(true).build();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
-        headerImageView =(ImageView) headerLayout.findViewById(R.id.headerImageView);
-        emailTextView =(TextView) headerLayout.findViewById(R.id.user_mail);
-        nameTextView =(TextView) headerLayout.findViewById(R.id.user_name);
+        headerImageView = (ImageView) headerLayout.findViewById(R.id.headerImageView);
+        emailTextView = (TextView) headerLayout.findViewById(R.id.user_mail);
+        nameTextView = (TextView) headerLayout.findViewById(R.id.user_name);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, null,R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, null, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         navigationView.setNavigationItemSelectedListener(this);
         toggle.syncState();
@@ -145,8 +148,6 @@ public class ManagingExistingProductsActivity extends AppCompatActivity
 
         if (id == R.id.nav_lists) {
             startActivity(new Intent(this, MainScreenActivity.class));
-        } else if (id == R.id.nav_existing_products) {
-            startActivity(new Intent(this, ManagingExistingProductsActivity.class));
         } else if (id == R.id.nav_profit) {
 
         } else if (id == R.id.nav_settings) {
@@ -160,7 +161,7 @@ public class ManagingExistingProductsActivity extends AppCompatActivity
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            // TODO: 08.06.2017 need code to onKeyDown
+            startActivity(new Intent(this, MainScreenActivity.class));
             return true;
         }
         return super.onKeyDown(keyCode, event);
@@ -170,9 +171,9 @@ public class ManagingExistingProductsActivity extends AppCompatActivity
     protected void onStart() {
         super.onStart();
         currentUser = mAuth.getCurrentUser();
-        if(currentUser!=null){
+        if (currentUser != null) {
             assert currentUser != null;
-            photoUrl=currentUser.getPhotoUrl();
+            photoUrl = currentUser.getPhotoUrl();
             accountName = currentUser.getDisplayName();
             accountEmail = currentUser.getEmail();
             emailTextView.setText(accountEmail);

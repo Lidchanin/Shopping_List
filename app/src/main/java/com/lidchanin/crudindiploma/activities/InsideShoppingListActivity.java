@@ -91,7 +91,9 @@ public class InsideShoppingListActivity extends AppCompatActivity
         shoppingListDAO = new ShoppingListDAO(this);
         productDAO = new ProductDAO(this);
         existingProductDAO = new ExistingProductDAO(this);
+
         initNavigationDrawer();
+
         initializeData(shoppingListId);
         initializeViewsAndButtons(shoppingListId);
         initializeRecyclerViews();
@@ -205,7 +207,7 @@ public class InsideShoppingListActivity extends AppCompatActivity
     /**
      * Method <code>initializeRecyclerView</code> initializes {@link RecyclerView}s.
      */
-    public void initializeRecyclerViews() {
+    private void initializeRecyclerViews() {
         recyclerViewAllProducts
                 = (RecyclerView) findViewById(R.id.inside_shopping_list_recycler_view_all_products);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);

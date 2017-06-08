@@ -11,12 +11,12 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <ImageButton
                 android:id="@+id/managing_existing_products_image_button_edit_in_card_view"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1.5"
                 android:background="@drawable/border_rectangle"
                 android:contentDescription="@string/edit_product"
@@ -29,7 +29,8 @@
                 android:layout_weight="5"
                 android:background="@drawable/border_rectangle"
                 android:gravity="center"
-                android:text="@string/name" />
+                android:text="@string/name"
+                android:textColor="#FFF"/>
 
             <TextView
                 android:id="@+id/managing_existing_products_text_view_product_cost_in_card_view"
@@ -38,7 +39,8 @@
                 android:layout_weight="2"
                 android:background="@drawable/border_rectangle"
                 android:gravity="center"
-                android:text="@string/cost" />
+                android:text="@string/cost"
+                android:textColor="#FFF"/>
 
             <TextView
                 android:id="@+id/managing_existing_products_text_view_product_popularity_in_card_view"
@@ -47,12 +49,13 @@
                 android:layout_weight="2"
                 android:background="@drawable/border_rectangle"
                 android:gravity="center"
-                android:text="@string/popularity" />
+                android:text="@string/popularity"
+                android:textColor="#FFF"/>
 
             <ImageButton
                 android:id="@+id/managing_existing_products_image_button_delete_in_card_view"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1.5"
                 android:background="@drawable/border_rectangle"
                 android:contentDescription="@string/delete"

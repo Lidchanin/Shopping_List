@@ -55,9 +55,9 @@ public class ShoppingListDAO extends DatabaseDAO {
     }
 
     /**
-     * Method <code>deleteInDatabase</code> deleteInDatabase shopping list in the database.
+     * Method <code>deleteFromDatabase</code> deleteFromDatabase shopping list in the database.
      *
-     * @param shoppingList is the shopping list, which you want to deleteInDatabase.
+     * @param shoppingList is the shopping list, which you want to deleteFromDatabase.
      */
     public void delete(ShoppingList shoppingList) {
         deleteRelationships(shoppingList.getId());
@@ -113,7 +113,7 @@ public class ShoppingListDAO extends DatabaseDAO {
     }
 
     /**
-     * Method <code>deleteRelationships</code> need to deleteInDatabase relationships, i.e.
+     * Method <code>deleteRelationships</code> need to deleteFromDatabase relationships, i.e.
      * delete in database all products from the current shopping list.
      *
      * @param shoppingListId is the current shopping list id.

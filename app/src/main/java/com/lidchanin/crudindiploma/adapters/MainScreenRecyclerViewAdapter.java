@@ -96,7 +96,7 @@ public class MainScreenRecyclerViewAdapter
     private void createAndShowAlertDialogForDelete(final int adapterPosition) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(R.string.delete_shopping_list);
-        builder.setMessage(R.string.you_are_sure_you_want_to_delete_this_shopping_list);
+        builder.setMessage(R.string.are_you_sure_you_want_to_delete_this_shopping_list);
         builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

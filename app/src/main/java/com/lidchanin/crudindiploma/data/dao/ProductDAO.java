@@ -228,17 +228,18 @@ public class ProductDAO extends DatabaseDAO {
     }
 
     /**
-     * Method <code>deleteInDatabase</code> delete product in the database.
+     * The method <code>deleteFromDatabase</code> delete product from the database.
      *
-     * @param productId is the product id, which you want to deleteInDatabase.
+     * @param productId is the product id, which you want to delete from the database.
      */
-    public void deleteInDatabase(long productId) {
+    public void deleteFromDatabase(long productId) {
+        deleteOneFromAnywhere(productId);
         database.delete(DatabaseHelper.TABLE_PRODUCTS, WHERE_ID_EQUALS,
                 new String[]{String.valueOf(productId)});
     }
 
     /**
-     * Method <code>delete</code> delete product only in shopping list.
+     * The method <code>delete</code> delete product only in shopping list.
      *
      * @param shoppingListId is the current shopping list id, which contains needed product.
      * @param productId      is the product id, which you want to delete form shopping list.
@@ -250,12 +251,12 @@ public class ProductDAO extends DatabaseDAO {
     }
 
     /**
-     * Method <code>assignProductToShoppingList</code> assign product to shopping list.
+     * The method <code>assignProductToShoppingList</code> assign product to shopping list.
      *
      * @param shoppingListId is the shopping list id.
      * @param productId      is the product id, which you want to assign to shopping list.
      */
-    public void assignProductToShoppingList(long shoppingListId, long productId) {
+    public void assignProductToShoppingList(final long shoppingListId, final long productId) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(DatabaseHelper.COLUMN_LIST_ID, shoppingListId);
         contentValues.put(DatabaseHelper.COLUMN_PRODUCT_ID, productId);
@@ -263,13 +264,13 @@ public class ProductDAO extends DatabaseDAO {
     }
 
     /**
-     * Method <code>isExistRelationship</code> checks the relationship exists or not.
+     * The method <code>isExistRelationship</code> checks the relationship exists or not.
      *
      * @param shoppingListId is the shopping list id.
      * @param productId      is the product id.
      * @return there is relationship or not.
      */
-    private boolean isExistRelationship(long shoppingListId, long productId) {
+    private boolean isExistRelationship(final long shoppingListId, final long productId) {
         String selectQuery = "SELECT * FROM " + DatabaseHelper.TABLE_EXISTING_PRODUCTS
                 + " WHERE "
                 + DatabaseHelper.COLUMN_LIST_ID + " = " + shoppingListId
@@ -284,5 +285,16 @@ public class ProductDAO extends DatabaseDAO {
             cursor.close();
             return false;
         }
+    }
+
+    /**
+     * The method <code>deleteOneFromAnywhere</code> deleting product from the all shopping lists.
+     *
+     * @param productId is the product id, which you want to delete.
+     */
+    private void deleteOneFromAnywhere(final long productId) {
+        database.delete(DatabaseHelper.TABLE_EXISTING_PRODUCTS,
+                WHERE_PRODUCT_ID_EQUALS,
+                new String[]{String.valueOf(productId)});
     }
 }

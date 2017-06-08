@@ -17,7 +17,7 @@
     <string name="add_selected_products">Добавить выбранные продукты</string>
     <string name="no_thanks">Нет, спасибо</string>
     <string name="estimated_amount">Приблизительная стоимость = %1$s</string>
-    <string name="you_are_sure_you_want_to_delete_this_shopping_list">Вы уверены, что хотите удалить этот список покупок?</string>
+    <string name="are_you_sure_you_want_to_delete_this_shopping_list">Вы уверены, что хотите удалить этот список покупок?</string>
     <string name="name">название</string>
     <string name="cost">стоимость</string>
     <string name="total">итого</string>
