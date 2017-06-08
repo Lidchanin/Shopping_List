@@ -138,5 +138,6 @@
     <string name="ask_update_product_from_database">Do you really want to update this product from anywhere?</string>
     <string name="ask_update_product">Update \"%1$s\"?</string>
     <string name="enter_name_and_cost">Enter name and cost</string>
+    <string name="please_enter_all_data">Please, enter all data!</string>
 
 </resources>

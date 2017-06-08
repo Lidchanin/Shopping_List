@@ -70,6 +70,13 @@ public class ManagingExistingProductsRecyclerViewAdapter extends RecyclerView
                 createAndShowAlertDialogForUpdate(holder.getAdapterPosition());
             }
         });
+        holder.cardViewProduct.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                createAndShowAlertDialogForUpdate(holder.getAdapterPosition());
+                return true;
+            }
+        });
     }
 
     @Override
@@ -108,8 +115,6 @@ public class ManagingExistingProductsRecyclerViewAdapter extends RecyclerView
         dialog.show();
     }
 
-    // FIXME: 08.06.2017 update existing product
-
     /**
      * The method <code>createAndShowAlertDialogForUpdate</code> create and shows a dialog, which
      * need to confirm deleting shopping list.
@@ -117,10 +122,9 @@ public class ManagingExistingProductsRecyclerViewAdapter extends RecyclerView
      * @param adapterPosition is the position, where record about shopping list are located.
      */
     private void createAndShowAlertDialogForUpdate(final int adapterPosition) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(context.getString(R.string.ask_update_product,
                 products.get(adapterPosition).getName()));
-        // FIXME: 08.06.2017 message string resource
         builder.setMessage(context.getString(R.string.ask_update_product_from_database));
 
         LinearLayout layout = new LinearLayout(context);
@@ -143,25 +147,21 @@ public class ManagingExistingProductsRecyclerViewAdapter extends RecyclerView
         builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String name = editTextName.getText().toString();
-                Double cost = Double.valueOf(editTextCost.getText().toString());
-                if (name.length() == 0) {
-                    Toast.makeText(context, context.getString(R.string.enter_name) + "!",
-                            Toast.LENGTH_SHORT).show();
-                } else if (cost <= 0) {
-                    Toast.makeText(context, context.getString(R.string.enter_cost) + "!",
-                            Toast.LENGTH_SHORT).show();
-                } else if (name.length() == 0 && cost <= 0) {
-                    Toast.makeText(context, context.getString(R.string.enter_name_and_cost) + "!",
-                            Toast.LENGTH_SHORT).show();
-                } else {
+                if (editTextName.getText() != null
+                        && editTextName.getText().toString().length() != 0
+                        && editTextCost.getText() != null
+                        && editTextCost.getText().toString().length() != 0) {
                     Product product = products.get(adapterPosition);
-                    product.setName(name);
-                    product.setCost(cost);
+                    product.setName(editTextName.getText().toString());
+                    product.setCost(Double.valueOf(editTextCost.getText().toString()));
                     productDAO.update(product);
                     products.set(adapterPosition, product);
                     notifyItemChanged(adapterPosition);
                     dialog.dismiss();
+                } else {
+                    // FIXME: 09.06.2017 alert dialog for update
+                    Toast.makeText(context, R.string.please_enter_all_data, Toast.LENGTH_SHORT).show();
+                    createAndShowAlertDialogForUpdate(adapterPosition);
                 }
             }
         });

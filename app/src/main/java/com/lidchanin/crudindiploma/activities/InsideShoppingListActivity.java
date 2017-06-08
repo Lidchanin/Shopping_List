@@ -13,7 +13,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -54,6 +53,7 @@ public class InsideShoppingListActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
     private RecyclerView recyclerViewAllProducts;
+    private InsideShoppingListRecyclerViewAdapter adapter;
 
     private List<Product> products;
     private List<ExistingProduct> existingProducts;
@@ -95,9 +95,9 @@ public class InsideShoppingListActivity extends AppCompatActivity
         initNavigationDrawer();
 
         initializeData(shoppingListId);
-        initializeViewsAndButtons(shoppingListId);
         initializeRecyclerViews();
         initializeAdapters();
+        initializeViewsAndButtons(shoppingListId);
     }
 
     @Override
@@ -147,7 +147,6 @@ public class InsideShoppingListActivity extends AppCompatActivity
      * @param shoppingListId is the current shopping list id.
      */
     private void initializeViewsAndButtons(final long shoppingListId) {
-        // FIXME: 06.04.2017 fab is need to fix?
         buttonHamburger = (ImageButton) findViewById(R.id.hamburger);
         type = (Button) findViewById(R.id.enter_by_type);
         scan = (Button) findViewById(R.id.scan);
@@ -218,25 +217,25 @@ public class InsideShoppingListActivity extends AppCompatActivity
      * Method <code>initializeAdapters</code> initializes adapter for {@link RecyclerView}.
      */
     private void initializeAdapters() {
-        InsideShoppingListRecyclerViewAdapter adapter = new InsideShoppingListRecyclerViewAdapter(
-                products, existingProducts, this, shoppingListId);
+        adapter = new InsideShoppingListRecyclerViewAdapter(
+                products, existingProducts, existingProductDAO, this, shoppingListId);
         recyclerViewAllProducts.setAdapter(adapter);
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            createAndShowAlertDialog();
+            createAndShowAlertDialogTopFive();
             return true;
         }
         return super.onKeyDown(keyCode, event);
     }
 
     /**
-     * Method <code>createAndShowAlertDialog</code> creates and displays an alert dialog. Dialog
-     * reminding the user that he forgot to buy.
+     * Method <code>createAndShowAlertDialogTopFive</code> creates and displays an alert dialog.
+     * Dialog reminding the user that he forgot to buy.
      */
-    private void createAndShowAlertDialog() {
+    private void createAndShowAlertDialogTopFive() {
         AlertDialog dialog;
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.are_you_forgot);
@@ -268,12 +267,11 @@ public class InsideShoppingListActivity extends AppCompatActivity
                                 if (states[i]) {
                                     productDAO.assignProductToShoppingList(shoppingListId,
                                             topFiveProducts.get(i).getId());
+                                    products.add(topFiveProducts.get(i));
+                                    existingProducts.add(new ExistingProduct(1.0));
                                 }
                             }
-                            Intent intent = new Intent(InsideShoppingListActivity.this,
-                                    InsideShoppingListActivity.class);
-                            intent.putExtra("shoppingListId", shoppingListId);
-                            startActivity(intent);
+                            adapter.notifyDataSetChanged();
                             dialog.dismiss();
                         }
                     }

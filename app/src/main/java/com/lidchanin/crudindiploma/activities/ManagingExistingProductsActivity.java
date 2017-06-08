@@ -108,7 +108,7 @@ public class ManagingExistingProductsActivity extends AppCompatActivity
     }
 
     /**
-     * Method <code>initializeRecyclerView</code> initializes {@link RecyclerView}s.
+     * Method <code>initializeRecyclerView</code> initializes {@link RecyclerView}.
      */
     private void initializeRecyclerView() {
         recyclerViewAllProducts = (RecyclerView)

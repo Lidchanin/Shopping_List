@@ -42,12 +42,13 @@ public class InsideShoppingListRecyclerViewAdapter extends RecyclerView
     private ExistingProductDAO existingProductDAO;
 
     public InsideShoppingListRecyclerViewAdapter(List<Product> products, List<ExistingProduct>
-            existingProducts, Context context, long shoppingListId) {
+            existingProducts, ExistingProductDAO existingProductDAO, Context context,
+                                                 long shoppingListId) {
         this.products = products;
         this.existingProducts = existingProducts;
         this.context = context;
         this.shoppingListId = shoppingListId;
-        existingProductDAO = new ExistingProductDAO(context);
+        this.existingProductDAO = existingProductDAO;
     }
 
     @Override
