@@ -190,7 +190,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         if (id == R.id.nav_existing_products) {
 
         } else if (id == R.id.nav_profit) {
-
+            startActivity(new Intent(this,ProfitActivity.class));
         } else if (id == R.id.nav_settings) {
 
         }
