@@ -1,5 +1,6 @@
 package com.lidchanin.crudindiploma.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,24 +9,33 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.text.InputType;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.lidchanin.crudindiploma.R;
+import com.lidchanin.crudindiploma.adapters.AutoCompleteProductNamesAndCostsAdapter;
 import com.lidchanin.crudindiploma.adapters.MainScreenRecyclerViewAdapter;
 import com.lidchanin.crudindiploma.data.dao.ShoppingListDAO;
+import com.lidchanin.crudindiploma.data.models.ExistingProduct;
+import com.lidchanin.crudindiploma.data.models.Product;
 import com.lidchanin.crudindiploma.data.models.ShoppingList;
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
@@ -36,8 +46,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
-import static com.lidchanin.crudindiploma.R.id.toolbar;
 
 /**
  * Class <code>MainScreenActivity</code> is a activity and extends {@link AppCompatActivity}.
@@ -166,9 +174,10 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainScreenActivity.this,
+                /*Intent intent = new Intent(MainScreenActivity.this,
                         AddingShoppingListActivity.class);
-                startActivity(intent);
+                startActivity(intent);*/
+                createAndShowAlertDialogForAdd();
             }
         });
     }
@@ -274,6 +283,53 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         defaultSortBy = sharedPrefsManager.readBoolean(KEY_DEFAULT_SORT_BY);
         defaultOrderBy = sharedPrefsManager.readBoolean(KEY_DEFAULT_ORDER_BY);
         sortShoppingLists(defaultSortBy, defaultOrderBy);
+    }
+
+    /**
+     * The method <code>createAndShowAlertDialogForAdd</code> create and shows a dialog, which
+     * need to add new shopping list.
+     */
+    private void createAndShowAlertDialogForAdd() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.add_a_new_shopping_list);
+
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+
+        final EditText editTextName = new EditText(this);
+        editTextName.setInputType(InputType.TYPE_CLASS_TEXT);
+        editTextName.setHint(getString(R.string.enter_name));
+
+        builder.setView(editTextName);
+
+        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (editTextName.getText() != null
+                        && editTextName.getText().toString().length() != 0) {
+                    long shoppingListId = shoppingListDAO.add(
+                            new ShoppingList(editTextName.getText().toString()));
+                    Intent intent = new Intent(MainScreenActivity.this,
+                            InsideShoppingListActivity.class);
+                    intent.putExtra("shoppingListId", shoppingListId);
+                    startActivity(intent);
+                    dialog.dismiss();
+                } else {
+                    // FIXME: 09.06.2017 alert dialog for add
+                    Toast.makeText(getApplicationContext(), R.string.please_enter_name,
+                            Toast.LENGTH_SHORT).show();
+                    createAndShowAlertDialogForAdd();
+                }
+            }
+        });
+        builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     @Override

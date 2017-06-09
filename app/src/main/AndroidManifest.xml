@@ -28,7 +28,6 @@
         <activity
             android:name=".activities.MainScreenActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activities.AddingShoppingListActivity" />
         <activity
             android:name=".activities.InsideShoppingListActivity"
             android:theme="@style/AppTheme.NoActionBar" />

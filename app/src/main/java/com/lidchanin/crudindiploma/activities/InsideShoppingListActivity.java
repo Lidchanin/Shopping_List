@@ -363,7 +363,6 @@ public class InsideShoppingListActivity extends AppCompatActivity
                     boolean existence
                             = productDAO.addInCurrentShoppingListAndCheck(newProduct, shoppingListId);
                     if (!existence) {
-                        // FIXME: 09.06.2017 need to fix update products on screen
                         products.add(products.size(), newProduct);
                         existingProducts.add(new ExistingProduct(1));
                         recyclerViewAdapter.notifyItemInserted(products.size());
