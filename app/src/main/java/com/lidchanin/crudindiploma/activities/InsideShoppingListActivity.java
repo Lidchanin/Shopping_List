@@ -60,11 +60,11 @@ public class InsideShoppingListActivity extends AppCompatActivity
 
     private RecyclerView recyclerViewAllProducts;
     private InsideShoppingListRecyclerViewAdapter recyclerViewAdapter;
+    private TextView textViewEstimatedAmount;
 
     private List<Product> products;
     private List<ExistingProduct> existingProducts;
     private long shoppingListId;
-    private double costsSum = 0;
 
     private ShoppingListDAO shoppingListDAO;
     private ExistingProductDAO existingProductDAO;
@@ -116,6 +116,7 @@ public class InsideShoppingListActivity extends AppCompatActivity
         initNavigationDrawer();
 
         initializeData(shoppingListId);
+        initializeTextViewWithCostsSum();
         initializeRecyclerViews();
         initializeAdapters();
         initializeViewsAndButtons(shoppingListId);
@@ -150,14 +151,7 @@ public class InsideShoppingListActivity extends AppCompatActivity
         if (existingProducts == null) {
             existingProducts = new ArrayList<>();
         } else {
-            for (int i = 0; i < existingProducts.size(); i++) {
-                double existingProductCost = existingProducts.get(i).getTotalCost();
-                if (existingProductCost == 0) {
-                    costsSum += products.get(i).getCost();
-                } else {
-                    costsSum += existingProducts.get(i).getTotalCost();
-                }
-            }
+            calculationOfEstimatedAmount(existingProducts);
         }
     }
 
@@ -193,15 +187,39 @@ public class InsideShoppingListActivity extends AppCompatActivity
             }
         });
 
+        initializeTextViewWithShoppingListName();
+    }
+
+    /**
+     * The method <code>initializeTextViewWithShoppingListName</code> initializes the
+     * textViewShoppingListName and adds some actions to it.
+     */
+    private void initializeTextViewWithShoppingListName() {
         String shoppingListName = shoppingListDAO.getOne(shoppingListId).getName();
         TextView textViewShoppingListName = (TextView)
                 findViewById(R.id.inside_shopping_list_text_view_shopping_list_name);
         textViewShoppingListName.setText(shoppingListName);
+    }
 
-        TextView textViewCostsSum = (TextView)
+    /**
+     * The method <code>initializeTextViewWithCostsSum</code> initializes the textViewCostsSum and
+     * adds some actions to it.
+     */
+    private void initializeTextViewWithCostsSum() {
+        textViewEstimatedAmount = (TextView)
                 findViewById(R.id.inside_shopping_list_text_view_products_costs_sum);
+        setTextForTextViewCostsSum(textViewEstimatedAmount);
+    }
+
+    /**
+     * The method <code>setTextForTextViewCostsSum</code> adds text to TextView with estimated
+     * amount.
+     *
+     * @param textViewCostsSum is the TextView with estimated amount.
+     */
+    private void setTextForTextViewCostsSum(TextView textViewCostsSum) {
         textViewCostsSum.setText(getString(R.string.estimated_amount,
-                new DecimalFormat("#.##").format(costsSum)));
+                new DecimalFormat("#.##").format(calculationOfEstimatedAmount(existingProducts))));
     }
 
     private void initNavigationDrawer() {
@@ -222,7 +240,7 @@ public class InsideShoppingListActivity extends AppCompatActivity
     }
 
     /**
-     * Method <code>initializeRecyclerView</code> initializes {@link RecyclerView}.
+     * The method <code>initializeRecyclerView</code> initializes {@link RecyclerView}.
      */
     private void initializeRecyclerViews() {
         recyclerViewAllProducts
@@ -236,7 +254,15 @@ public class InsideShoppingListActivity extends AppCompatActivity
      */
     private void initializeAdapters() {
         recyclerViewAdapter = new InsideShoppingListRecyclerViewAdapter(
-                products, existingProducts, productDAO, existingProductDAO, this, shoppingListId);
+                products, existingProducts,
+                productDAO, existingProductDAO,
+                this, shoppingListId);
+        recyclerViewAdapter.setOnDataChangeListener(new InsideShoppingListRecyclerViewAdapter.OnDataChangeListener() {
+            @Override
+            public void onDataChanged(List<ExistingProduct> existingProducts) {
+                setTextForTextViewCostsSum(textViewEstimatedAmount);
+            }
+        });
         recyclerViewAllProducts.setAdapter(recyclerViewAdapter);
     }
 
@@ -290,6 +316,7 @@ public class InsideShoppingListActivity extends AppCompatActivity
                                 }
                             }
                             recyclerViewAdapter.notifyDataSetChanged();
+                            setTextForTextViewCostsSum(textViewEstimatedAmount);
                             dialog.dismiss();
                         }
                     }
@@ -376,6 +403,7 @@ public class InsideShoppingListActivity extends AppCompatActivity
                             }
                         }
                     }
+                    setTextForTextViewCostsSum(textViewEstimatedAmount);
                     dialog.dismiss();
                 } else {
                     // FIXME: 09.06.2017 alert dialog for update
@@ -393,6 +421,26 @@ public class InsideShoppingListActivity extends AppCompatActivity
         });
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    /**
+     * The method <code>calculationOfEstimatedAmount</code> is calculating total amount of costs
+     * products.
+     *
+     * @param existingProducts - all existing products from shopping list.
+     * @return estimated amount.
+     */
+    private double calculationOfEstimatedAmount(List<ExistingProduct> existingProducts) {
+        double estimatedAmount = 0;
+        for (int i = 0; i < existingProducts.size(); i++) {
+            double existingProductCost = existingProducts.get(i).getTotalCost();
+            if (existingProductCost == 0) {
+                estimatedAmount += products.get(i).getCost();
+            } else {
+                estimatedAmount += existingProducts.get(i).getTotalCost();
+            }
+        }
+        return estimatedAmount;
     }
 
     @Override
