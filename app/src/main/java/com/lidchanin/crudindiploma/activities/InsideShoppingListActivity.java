@@ -50,7 +50,7 @@ import java.util.List;
  * @see android.app.Activity
  */
 public class InsideShoppingListActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     private RecyclerView recyclerViewAllProducts;
     private InsideShoppingListRecyclerViewAdapter adapter;
@@ -70,13 +70,28 @@ public class InsideShoppingListActivity extends AppCompatActivity
     private Uri photoUrl;
     private String accountName;
     private String accountEmail;
-    private FirebaseUser currentUser ;
+    private FirebaseUser currentUser;
     private FirebaseAuth mAuth;
     private ImageButton buttonHamburger;
     private TextView nameTextView;
     private TextView emailTextView;
     private ImageView headerImageView;
     private Transformation transformation;
+
+    /**
+     * The method <code>allFalse</code> checks the boolean array and gives us the answer that all
+     * elements are false or not.
+     *
+     * @param states contains all checkboxes states.
+     * @return if true all elements are false, else true.
+     */
+    private static boolean allFalse(Boolean[] states) {
+        for (boolean state : states) {
+            if (state)
+                return false;
+        }
+        return true;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,7 +187,6 @@ public class InsideShoppingListActivity extends AppCompatActivity
                         CameraActivity.class);
                 intent.putExtra("shoppingListId", shoppingListId);
                 startActivity(intent);
-
             }
         });
 
@@ -186,18 +200,19 @@ public class InsideShoppingListActivity extends AppCompatActivity
         textViewCostsSum.setText(getString(R.string.estimated_amount,
                 new DecimalFormat("#.##").format(costsSum)));
     }
+
     private void initNavigationDrawer() {
         mAuth = FirebaseAuth.getInstance();
         transformation = new RoundedTransformationBuilder().oval(true).build();
         shoppingListDAO = new ShoppingListDAO(this);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
-        headerImageView =(ImageView) headerLayout.findViewById(R.id.headerImageView);
-        emailTextView =(TextView) headerLayout.findViewById(R.id.user_mail);
-        nameTextView =(TextView) headerLayout.findViewById(R.id.user_name);
+        headerImageView = (ImageView) headerLayout.findViewById(R.id.headerImageView);
+        emailTextView = (TextView) headerLayout.findViewById(R.id.user_mail);
+        nameTextView = (TextView) headerLayout.findViewById(R.id.user_name);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, null,R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, null, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         navigationView.setNavigationItemSelectedListener(this);
         toggle.syncState();
@@ -218,7 +233,7 @@ public class InsideShoppingListActivity extends AppCompatActivity
      */
     private void initializeAdapters() {
         adapter = new InsideShoppingListRecyclerViewAdapter(
-                products, existingProducts, existingProductDAO, this, shoppingListId);
+                products, existingProducts, productDAO, existingProductDAO, this, shoppingListId);
         recyclerViewAllProducts.setAdapter(adapter);
     }
 
@@ -297,28 +312,13 @@ public class InsideShoppingListActivity extends AppCompatActivity
         dialog.show();
     }
 
-    /**
-     * Method <code>allFalse</code> checks the boolean array and gives us the answer that all
-     * elements are false or not.
-     *
-     * @param states contains all checkboxes states.
-     * @return if true all elements are false, else true.
-     */
-    private static boolean allFalse(Boolean[] states) {
-        for (boolean state : states) {
-            if (state)
-                return false;
-        }
-        return true;
-    }
-
     @Override
     protected void onStart() {
         super.onStart();
         currentUser = mAuth.getCurrentUser();
-        if(currentUser!=null){
+        if (currentUser != null) {
             assert currentUser != null;
-            photoUrl=currentUser.getPhotoUrl();
+            photoUrl = currentUser.getPhotoUrl();
             accountName = currentUser.getDisplayName();
             accountEmail = currentUser.getEmail();
             emailTextView.setText(accountEmail);
@@ -332,7 +332,7 @@ public class InsideShoppingListActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_lists) {
-            startActivity(new Intent(this,MainScreenActivity.class));
+            startActivity(new Intent(this, MainScreenActivity.class));
         } else if (id == R.id.nav_existing_products) {
             startActivity(new Intent(this, ManagingExistingProductsActivity.class));
         } else if (id == R.id.nav_profit) {

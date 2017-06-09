@@ -117,9 +117,9 @@ public class ManagingExistingProductsRecyclerViewAdapter extends RecyclerView
 
     /**
      * The method <code>createAndShowAlertDialogForUpdate</code> create and shows a dialog, which
-     * need to confirm deleting shopping list.
+     * need to update product.
      *
-     * @param adapterPosition is the position, where record about shopping list are located.
+     * @param adapterPosition is the position, where record about product are located.
      */
     private void createAndShowAlertDialogForUpdate(final int adapterPosition) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(context);
