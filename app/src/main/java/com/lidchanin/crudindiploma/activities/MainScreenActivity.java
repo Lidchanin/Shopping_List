@@ -18,8 +18,6 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -31,16 +29,13 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.lidchanin.crudindiploma.R;
-import com.lidchanin.crudindiploma.adapters.AutoCompleteProductNamesAndCostsAdapter;
 import com.lidchanin.crudindiploma.adapters.MainScreenRecyclerViewAdapter;
 import com.lidchanin.crudindiploma.data.dao.ShoppingListDAO;
-import com.lidchanin.crudindiploma.data.models.ExistingProduct;
-import com.lidchanin.crudindiploma.data.models.Product;
 import com.lidchanin.crudindiploma.data.models.ShoppingList;
+import com.lidchanin.crudindiploma.utils.SharedPrefsManager;
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
-import com.lidchanin.crudindiploma.utils.SharedPrefsManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -54,7 +49,7 @@ import java.util.List;
  * @author Lidchanin
  * @see android.app.Activity
  */
-public class MainScreenActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class MainScreenActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     public static final String KEY_DEFAULT_SORT_BY = "defaultSortBy";
     public static final String KEY_DEFAULT_ORDER_BY = "defaultOrderBy";
@@ -75,7 +70,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
     private Uri photoUrl;
     private String accountName;
     private String accountEmail;
-    private FirebaseUser currentUser ;
+    private FirebaseUser currentUser;
     private FirebaseAuth mAuth;
     private TextView nameTextView;
     private TextView emailTextView;
@@ -110,12 +105,12 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         shoppingListDAO = new ShoppingListDAO(this);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
-        headerImageView =(ImageView) headerLayout.findViewById(R.id.headerImageView);
-        emailTextView =(TextView) headerLayout.findViewById(R.id.user_mail);
-        nameTextView =(TextView) headerLayout.findViewById(R.id.user_name);
+        headerImageView = (ImageView) headerLayout.findViewById(R.id.headerImageView);
+        emailTextView = (TextView) headerLayout.findViewById(R.id.user_mail);
+        nameTextView = (TextView) headerLayout.findViewById(R.id.user_name);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, null,R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, null, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         navigationView.setNavigationItemSelectedListener(this);
         toggle.syncState();
@@ -125,9 +120,9 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
     protected void onStart() {
         super.onStart();
         currentUser = mAuth.getCurrentUser();
-        if(currentUser!=null){
+        if (currentUser != null) {
             assert currentUser != null;
-            photoUrl=currentUser.getPhotoUrl();
+            photoUrl = currentUser.getPhotoUrl();
             accountName = currentUser.getDisplayName();
             accountEmail = currentUser.getEmail();
             emailTextView.setText(accountEmail);
@@ -174,9 +169,6 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent intent = new Intent(MainScreenActivity.this,
-                        AddingShoppingListActivity.class);
-                startActivity(intent);*/
                 createAndShowAlertDialogForAdd();
             }
         });
@@ -249,7 +241,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
      * The method <code>sortShoppingLists</code> sorts shopping lists by name or by date.
      *
      * @param lastSortedBy is the last sorted value.
-     * @param lastOrderBy is the last ordered value.
+     * @param lastOrderBy  is the last ordered value.
      */
     private void sortShoppingLists(final boolean lastSortedBy, final boolean lastOrderBy) {
         Collections.sort(shoppingLists, new Comparator<ShoppingList>() {

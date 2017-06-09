@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lidchanin.crudindiploma.R;
+import com.lidchanin.crudindiploma.activities.InsideShoppingListActivity;
 import com.lidchanin.crudindiploma.data.dao.ExistingProductDAO;
 import com.lidchanin.crudindiploma.data.dao.ProductDAO;
 import com.lidchanin.crudindiploma.data.models.ExistingProduct;
@@ -97,6 +98,11 @@ public class InsideShoppingListRecyclerViewAdapter extends RecyclerView
                 existingProduct
                         .setTotalCost(product.getCost() * existingProduct.getQuantityOrWeight());
                 existingProductDAO.update(existingProduct);
+                existingProducts.set(holder.getAdapterPosition(), existingProduct);
+                // TODO: 09.06.2017 callback
+                if(mOnDataChangeListener != null){
+                    mOnDataChangeListener.onDataChanged(existingProducts);
+                }
                 notifyDataSetChanged();
             }
         });
@@ -123,8 +129,14 @@ public class InsideShoppingListRecyclerViewAdapter extends RecyclerView
             public void onClick(DialogInterface dialog, int which) {
                 productDAO.delete(shoppingListId, products.get(adapterPosition).getId());
                 products.remove(adapterPosition);
+                existingProducts.remove(adapterPosition);
+                // TODO: 09.06.2017 callback
+                if(mOnDataChangeListener != null){
+                    mOnDataChangeListener.onDataChanged(existingProducts);
+                }
                 notifyItemRemoved(adapterPosition);
                 notifyItemRangeChanged(adapterPosition, products.size());
+                dialog.dismiss();
             }
         });
         builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
@@ -173,11 +185,19 @@ public class InsideShoppingListRecyclerViewAdapter extends RecyclerView
                         && editTextName.getText().toString().length() != 0
                         && editTextCost.getText() != null
                         && editTextCost.getText().toString().length() != 0) {
-                    Product product = products.get(adapterPosition);
-                    product.setName(editTextName.getText().toString());
-                    product.setCost(Double.valueOf(editTextCost.getText().toString()));
-                    productDAO.update(product);
-                    products.set(adapterPosition, product);
+                    Product updatedProduct = products.get(adapterPosition);
+                    updatedProduct.setName(editTextName.getText().toString());
+                    updatedProduct.setCost(Double.valueOf(editTextCost.getText().toString()));
+                    productDAO.update(updatedProduct);
+                    products.set(adapterPosition, updatedProduct);
+                    ExistingProduct updatedExistingProduct = existingProducts.get(adapterPosition);
+                    updatedExistingProduct.setTotalCost(updatedExistingProduct.getQuantityOrWeight()
+                    * updatedProduct.getCost());
+                    existingProducts.set(adapterPosition, updatedExistingProduct);
+                    // TODO: 09.06.2017 callback
+                    if(mOnDataChangeListener != null){
+                        mOnDataChangeListener.onDataChanged(existingProducts);
+                    }
                     notifyItemChanged(adapterPosition);
                     dialog.dismiss();
                 } else {
@@ -197,7 +217,16 @@ public class InsideShoppingListRecyclerViewAdapter extends RecyclerView
         dialog.show();
     }
 
-    
+    // TODO: 09.06.2017 callback
+    private OnDataChangeListener mOnDataChangeListener;
+    public void setOnDataChangeListener(OnDataChangeListener onDataChangeListener){
+        mOnDataChangeListener = onDataChangeListener;
+    }
+
+    // TODO: 09.06.2017 callback
+    public interface OnDataChangeListener{
+        void onDataChanged(List<ExistingProduct> existingProducts);
+    }
 
     /**
      * Class <code>InsideShoppingListViewHolder</code> is the View Holder for

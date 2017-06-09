@@ -21,6 +21,11 @@ public class ExistingProduct {
         this.quantityOrWeight = quantityOrWeight;
     }
 
+    public ExistingProduct(double quantityOrWeight, double totalCost) {
+        this.quantityOrWeight = quantityOrWeight;
+        this.totalCost = totalCost;
+    }
+
     //getters and setters
 
     public long getId() {

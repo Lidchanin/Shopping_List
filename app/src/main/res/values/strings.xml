@@ -123,8 +123,8 @@
     <string name="marshmallows">marshmallows</string>
     <string name="marmalade">marmalade</string>
     <string name="dumplings">dumplings</string>
-    <string name="navigation_drawer_open">Drawer Open</string>
-    <string name="navigation_drawer_close">Drawer Closed</string>
+    <string name="navigation_drawer_open" translatable="false">Drawer Open</string>
+    <string name="navigation_drawer_close" translatable="false">Drawer Closed</string>
     <string name="profit">Profit</string>
     <string name="settings">Settings</string>
     <string name="sort_by_alphabet">sort by alphabet</string>
@@ -136,7 +136,7 @@
     <string name="ask_delete_product_from_database">Do you really want to permanently delete this product from anywhere?</string>
     <string name="ask_delete_product">Delete \"%1$s\"?</string>
     <string name="ask_update_product_from_database">Do you really want to update this product from anywhere?</string>
-    <string name="ask_update_shopping_list_from_database">Do you really want to update this shopping list from anywhere?</string>
+    <string name="ask_update_shopping_list_from_database">Do you really want to update this shopping list?</string>
     <string name="ask_update_product">Update \"%1$s\"?</string>
     <string name="enter_name_and_cost">Enter name and cost</string>
     <string name="please_enter_all_data">Please, enter all data!</string>

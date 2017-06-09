@@ -51,10 +51,8 @@ public class AutoCompleteProductNamesAndCostsAdapter extends ArrayAdapter<Produc
     @NonNull
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-        // Get the data item from filtered list.
         Product product = resultList.get(position);
 
-        // Inflate your custom row layout as usual.
         LayoutInflater inflater = LayoutInflater.from(getContext());
         convertView = inflater.inflate(R.layout.item_auto_complete_name_and_cost, parent, false);
 
