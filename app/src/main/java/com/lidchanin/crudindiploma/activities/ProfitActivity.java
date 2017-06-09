@@ -10,6 +10,9 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +23,7 @@ import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.lidchanin.crudindiploma.R;
+import com.lidchanin.crudindiploma.adapters.ProfitAdapter;
 import com.lidchanin.crudindiploma.data.dao.ShoppingListDAO;
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
@@ -37,6 +41,10 @@ public class ProfitActivity extends AppCompatActivity implements NavigationView.
     private TextView emailTextView;
     private ImageView headerImageView;
     private Transformation transformation;
+    private ImageButton buttonAdd;
+    private RecyclerView profitRecyclerView;
+    private ProfitAdapter profitAdapter;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,8 +52,24 @@ public class ProfitActivity extends AppCompatActivity implements NavigationView.
         if(getSupportActionBar()!=null) {
             getSupportActionBar().hide();
         }
-        buttonHamburger = (ImageButton) findViewById(R.id.hamburger);
+        profitAdapter =new ProfitAdapter();
+        profitRecyclerView = (RecyclerView) findViewById(R.id.recycler_profit);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        profitRecyclerView.setLayoutManager(layoutManager);
+        profitRecyclerView.setAdapter(profitAdapter);
         initNavigationDrawer();
+        initButtons();
+    }
+
+    private void initButtons() {
+        buttonAdd = (ImageButton) findViewById(R.id.add_item);
+        buttonAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                profitAdapter.addNewItem();
+            }
+        });
+        buttonHamburger = (ImageButton) findViewById(R.id.hamburger);
         buttonHamburger.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

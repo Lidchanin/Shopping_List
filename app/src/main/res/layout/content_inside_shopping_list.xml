@@ -87,7 +87,7 @@
             android:gravity="center"
             android:textStyle="bold"
             android:textSize="11sp"
-            android:text="@string/quantity" />
+            android:text="@string/quantity_and_weight" />
 
 
 

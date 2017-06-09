@@ -8,8 +8,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
-    <LinearLayout
-        android:orientation="vertical"
+    <android.support.percent.PercentRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -33,77 +32,27 @@
                 android:layout_gravity="center"
                 android:textAlignment="center"
                 android:textSize="20sp"/>
+            <ImageButton
+                android:layout_gravity="end"
+                android:id="@+id/add_item"
+                android:background="?attr/selectableItemBackground"
+                android:src="@drawable/ic_add_white_24dp"
+                android:layout_width="54dp"
+                android:layout_height="54dp" />
         </FrameLayout>
+        <android.support.v7.widget.RecyclerView
+            android:layout_below="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:id="@+id/recycler_profit"
+            app:layout_heightPercent="80%"/>
 
-        <android.support.v7.widget.CardView
-            app:cardBackgroundColor="@color/cardview_dark_background"
-            android:layout_width="match_parent"
-            android:layout_margin="5dp"
-            android:layout_height="wrap_content"
-            android:padding="15dp">
-            <TextView
-                android:id="@+id/first_name"
-                android:layout_margin="15dp"
-                android:textSize="25dp"
-                android:text="Name"
-                android:textColor="@color/cardview_light_background"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:id="@+id/first_cost"
-                android:textSize="20dp"
-                android:text="Cost"
-                android:layout_marginTop="60dp"
-                android:layout_marginLeft="15dp"
-                android:textColor="@color/cardview_light_background"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:id="@+id/first_weight"
-                android:textSize="20dp"
-                android:text="Weight"
-                android:layout_marginTop="100dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginBottom="15dp"
-                android:textColor="@color/cardview_light_background"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            </android.support.v7.widget.CardView>
-        <android.support.v7.widget.CardView
-            app:cardBackgroundColor="@color/cardview_dark_background"
-            android:layout_width="match_parent"
-            android:layout_margin="5dp"
-            android:layout_height="wrap_content"
-            android:padding="15dp">
-            <TextView
-                android:layout_margin="15dp"
-                android:textSize="25dp"
-                android:text="Name"
-                android:textColor="@color/cardview_light_background"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:textSize="20dp"
-                android:text="Cost"
-                android:layout_marginTop="60dp"
-                android:layout_marginLeft="15dp"
-                android:textColor="@color/cardview_light_background"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:textSize="20dp"
-                android:text="Weight"
-                android:layout_marginTop="100dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginBottom="15dp"
-                android:textColor="@color/cardview_light_background"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            </android.support.v7.widget.CardView>
+
         <LinearLayout
-            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:layout_below="@+id/recycler_profit"
+            android:id="@+id/buttonHolder"
             android:orientation="horizontal"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <Button
                 android:layout_margin="5dp"
@@ -111,16 +60,16 @@
                 android:textColor="@color/cardview_light_background"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Add best"/>
+                android:text="@string/add_best"/>
             <Button
                 android:layout_margin="5dp"
                 android:background="@drawable/rect_buttons_main"
                 android:textColor="@color/cardview_light_background"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Exit"/>
+                android:text="@string/clear"/>
         </LinearLayout>
-    </LinearLayout>
+    </android.support.percent.PercentRelativeLayout>
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
         android:visibility="gone"

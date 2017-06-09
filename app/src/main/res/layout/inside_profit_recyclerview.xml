@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    app:cardBackgroundColor="@color/cardview_dark_background"
+    android:layout_width="match_parent"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginTop="5dp"
+    android:layout_height="wrap_content"
+    android:padding="15dp"
+    app:cardCornerRadius="5dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <EditText
+            android:id="@+id/cost"
+            android:textSize="20sp"
+            android:hint="@string/cost"
+            android:layout_margin="10dp"
+            android:textColorHint="@color/cardview_light_background"
+            android:textColor="@color/cardview_light_background"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:layout_toRightOf="@+id/cost"
+            android:id="@+id/weight"
+            android:textSize="20sp"
+            android:hint="@string/weight"
+            android:layout_margin="10dp"
+            android:textColorHint="@color/cardview_light_background"
+            android:textColor="@color/cardview_light_background"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:layout_toRightOf="@+id/weight"
+            android:id="@+id/quantity"
+            android:textSize="20sp"
+            android:hint="@string/quantity"
+            android:layout_margin="10dp"
+            android:textColorHint="@color/cardview_light_background"
+            android:textColor="@color/cardview_light_background"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@+id/quantity"
+            android:textColor="@color/cardview_light_background"
+            android:textColorHint="@color/cardview_light_background"
+            android:hint="Sum"
+            android:id="@+id/sum"
+            android:textSize="20sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ImageButton
+            android:layout_toRightOf="@+id/sum"
+            android:id="@+id/profit_delete"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="18dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/icons_background"
+            android:src="@drawable/ic_clear_black_24dp" />
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

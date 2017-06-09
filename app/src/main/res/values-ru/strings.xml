@@ -18,10 +18,10 @@
     <string name="no_thanks">Нет, спасибо</string>
     <string name="estimated_amount">Приблизительная стоимость = %1$s</string>
     <string name="you_are_sure_you_want_to_delete_this_shopping_list">Вы уверены, что хотите удалить этот список покупок?</string>
-    <string name="name">название</string>
-    <string name="cost">стоимость</string>
+    <string name="name">Название</string>
+    <string name="cost">Цена</string>
     <string name="total">итого</string>
-    <string name="quantity">количество(штук или кг)</string>
+    <string name="quantity_and_weight">количество(штук или кг)</string>
     <string name="accept">принять</string>
     <string name="delete">удалить</string>
     <string name="close">закрыть</string>
@@ -117,5 +117,9 @@
     <string name="type">вручную</string>
     <string name="profit">Выгода</string>
     <string name="settings">Настройки</string>
+    <string name="weight">Вес</string>
+    <string name="quantity">Кол-во</string>
+    <string name="add_best">Добавить лучший</string>
+    <string name="clear">Очистить</string>
 
 </resources>
