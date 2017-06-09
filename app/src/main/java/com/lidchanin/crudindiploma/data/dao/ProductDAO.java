@@ -213,6 +213,42 @@ public class ProductDAO extends DatabaseDAO {
     }
 
     /**
+     * Method <code>addInCurrentShoppingListAndCheck</code> adds product in the database and assign
+     * it to shopping list.
+     *
+     * @param product        is the product, which you want to add to the database.
+     * @param shoppingListId is the shopping list id.
+     * @return true if product exist in current shopping list, false - does not exist.
+     * @see #assignProductToShoppingList(long, long)
+     * @see #isExistRelationship(long, long)
+     */
+    public boolean addInCurrentShoppingListAndCheck(Product product, long shoppingListId) {
+        Product existedProduct = getOneByName(product.getName());
+        if (existedProduct == null) {
+            Log.i("MY_LOG " + ProductDAO.class.getSimpleName(),
+                    "Product doesn't exist from the database.");
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(DatabaseHelper.COLUMN_NAME, product.getName());
+            contentValues.put(DatabaseHelper.COLUMN_COST, product.getCost());
+            contentValues.put(DatabaseHelper.COLUMN_POPULARITY, product.getPopularity());
+            database.insert(DatabaseHelper.TABLE_PRODUCTS, null, contentValues);
+            assignProductToShoppingList(shoppingListId, product.getId());
+            return false;
+        } else {
+            Log.i("MY_LOG " + ProductDAO.class.getSimpleName(),
+                    "Product is already exist from the database.");
+            product.setId(existedProduct.getId());
+            product.setPopularity(existedProduct.getPopularity() + 1);
+            update(product);
+            if (!isExistRelationship(shoppingListId, product.getId())) {
+                assignProductToShoppingList(shoppingListId, product.getId());
+                return false;
+            }
+            return true;
+        }
+    }
+
+    /**
      * Method <code>update</code> update product in the database.
      *
      * @param product is the product, which you need to update.
@@ -268,7 +304,7 @@ public class ProductDAO extends DatabaseDAO {
      *
      * @param shoppingListId is the shopping list id.
      * @param productId      is the product id.
-     * @return there is relationship or not.
+     * @return true if relationship is exist, false - doesn't exist.
      */
     private boolean isExistRelationship(final long shoppingListId, final long productId) {
         String selectQuery = "SELECT * FROM " + DatabaseHelper.TABLE_EXISTING_PRODUCTS
@@ -276,7 +312,6 @@ public class ProductDAO extends DatabaseDAO {
                 + DatabaseHelper.COLUMN_LIST_ID + " = " + shoppingListId
                 + " AND "
                 + DatabaseHelper.COLUMN_PRODUCT_ID + " = " + productId;
-        Log.i("MY_LOG", selectQuery);
         Cursor cursor = database.rawQuery(selectQuery, null);
         if (cursor.moveToFirst()) {
             cursor.close();

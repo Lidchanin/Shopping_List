@@ -13,19 +13,25 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.lidchanin.crudindiploma.R;
+import com.lidchanin.crudindiploma.adapters.AutoCompleteProductNamesAndCostsAdapter;
 import com.lidchanin.crudindiploma.adapters.InsideShoppingListRecyclerViewAdapter;
 import com.lidchanin.crudindiploma.data.dao.ExistingProductDAO;
 import com.lidchanin.crudindiploma.data.dao.ProductDAO;
@@ -53,7 +59,7 @@ public class InsideShoppingListActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private RecyclerView recyclerViewAllProducts;
-    private InsideShoppingListRecyclerViewAdapter adapter;
+    private InsideShoppingListRecyclerViewAdapter recyclerViewAdapter;
 
     private List<Product> products;
     private List<ExistingProduct> existingProducts;
@@ -174,10 +180,7 @@ public class InsideShoppingListActivity extends AppCompatActivity
         type.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(InsideShoppingListActivity.this,
-                        InsideShoppingListAddProductPopUpWindowActivity.class);
-                intent.putExtra("shoppingListId", shoppingListId);
-                startActivity(intent);
+                createAndShowAlertDialogForManualType();
             }
         });
         scan.setOnClickListener(new View.OnClickListener() {
@@ -219,7 +222,7 @@ public class InsideShoppingListActivity extends AppCompatActivity
     }
 
     /**
-     * Method <code>initializeRecyclerView</code> initializes {@link RecyclerView}s.
+     * Method <code>initializeRecyclerView</code> initializes {@link RecyclerView}.
      */
     private void initializeRecyclerViews() {
         recyclerViewAllProducts
@@ -229,12 +232,12 @@ public class InsideShoppingListActivity extends AppCompatActivity
     }
 
     /**
-     * Method <code>initializeAdapters</code> initializes adapter for {@link RecyclerView}.
+     * Method <code>initializeAdapters</code> initializes recyclerViewAdapter for {@link RecyclerView}.
      */
     private void initializeAdapters() {
-        adapter = new InsideShoppingListRecyclerViewAdapter(
+        recyclerViewAdapter = new InsideShoppingListRecyclerViewAdapter(
                 products, existingProducts, productDAO, existingProductDAO, this, shoppingListId);
-        recyclerViewAllProducts.setAdapter(adapter);
+        recyclerViewAllProducts.setAdapter(recyclerViewAdapter);
     }
 
     @Override
@@ -286,7 +289,7 @@ public class InsideShoppingListActivity extends AppCompatActivity
                                     existingProducts.add(new ExistingProduct(1.0));
                                 }
                             }
-                            adapter.notifyDataSetChanged();
+                            recyclerViewAdapter.notifyDataSetChanged();
                             dialog.dismiss();
                         }
                     }
@@ -309,6 +312,87 @@ public class InsideShoppingListActivity extends AppCompatActivity
                 dialog.dismiss();
             }
         });
+        dialog.show();
+    }
+
+    /**
+     * The method <code>createAndShowAlertDialogForManualType</code> create and shows a dialog, which
+     * need to update product.
+     */
+    private void createAndShowAlertDialogForManualType() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.add_new_product);
+
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+
+        final EditText editTextCost = new EditText(this);
+        editTextCost.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        editTextCost.setHint(getString(R.string.enter_cost));
+
+        final AutoCompleteTextView autoCompleteTextViewName = new AutoCompleteTextView(this);
+        autoCompleteTextViewName.setInputType(InputType.TYPE_CLASS_TEXT);
+        autoCompleteTextViewName.setHint(getString(R.string.enter_name));
+        List<Product> allProducts = productDAO.getAll();
+        AutoCompleteProductNamesAndCostsAdapter autoCompleteAdapter
+                = new AutoCompleteProductNamesAndCostsAdapter(this, allProducts);
+        autoCompleteTextViewName.setAdapter(autoCompleteAdapter);
+        autoCompleteTextViewName.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Product selected = (Product) parent.getAdapter().getItem(position);
+                editTextCost.setText(String.valueOf(selected.getCost()));
+            }
+        });
+
+        layout.addView(autoCompleteTextViewName);
+        layout.addView(editTextCost);
+
+        builder.setView(layout);
+
+        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (autoCompleteTextViewName.getText() != null
+                        && autoCompleteTextViewName.getText().toString().length() != 0
+                        && editTextCost.getText() != null
+                        && editTextCost.getText().toString().length() != 0) {
+                    Product newProduct = new Product();
+                    newProduct.setName(autoCompleteTextViewName.getText().toString());
+                    newProduct.setCost(Double.valueOf(editTextCost.getText().toString()));
+                    boolean existence
+                            = productDAO.addInCurrentShoppingListAndCheck(newProduct, shoppingListId);
+                    if (!existence) {
+                        // FIXME: 09.06.2017 need to fix update products on screen
+                        products.add(products.size(), newProduct);
+                        existingProducts.add(new ExistingProduct(1));
+                        recyclerViewAdapter.notifyItemInserted(products.size());
+                    } else {
+                        for (Product p : products) {
+                            if (p.getName() != null && p.getName().contains(newProduct.getName())) {
+                                int position = products.indexOf(p);
+                                products.set(position, newProduct);
+                                recyclerViewAdapter.notifyItemChanged(position);
+                                break;
+                            }
+                        }
+                    }
+                    dialog.dismiss();
+                } else {
+                    // FIXME: 09.06.2017 alert dialog for update
+                    Toast.makeText(getApplicationContext(), R.string.please_enter_all_data,
+                            Toast.LENGTH_SHORT).show();
+                    createAndShowAlertDialogForManualType();
+                }
+            }
+        });
+        builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
         dialog.show();
     }
 

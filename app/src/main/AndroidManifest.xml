@@ -32,9 +32,6 @@
         <activity
             android:name=".activities.InsideShoppingListActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".activities.InsideShoppingListAddProductPopUpWindowActivity"
-            android:theme="@style/AppTheme.PopUpWindow" />
         <activity android:name=".activities.NameAndCostEditActivity" />
         <activity
             android:name=".activities.CameraActivity"
