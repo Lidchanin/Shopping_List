@@ -174,9 +174,6 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent intent = new Intent(MainScreenActivity.this,
-                        AddingShoppingListActivity.class);
-                startActivity(intent);*/
                 createAndShowAlertDialogForAdd();
             }
         });
