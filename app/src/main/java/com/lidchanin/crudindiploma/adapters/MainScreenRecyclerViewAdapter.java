@@ -6,15 +6,17 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.activities.InsideShoppingListActivity;
-import com.lidchanin.crudindiploma.activities.MainScreenPopUpWindowActivity;
 import com.lidchanin.crudindiploma.data.dao.ShoppingListDAO;
 import com.lidchanin.crudindiploma.data.models.ShoppingList;
 
@@ -37,9 +39,12 @@ public class MainScreenRecyclerViewAdapter
 
     private Context context;
     private List<ShoppingList> shoppingLists;
+    private ShoppingListDAO shoppingListDAO;
 
-    public MainScreenRecyclerViewAdapter(List<ShoppingList> shoppingLists, Context context) {
+    public MainScreenRecyclerViewAdapter(List<ShoppingList> shoppingLists,
+                                         ShoppingListDAO shoppingListDAO, Context context) {
         this.shoppingLists = shoppingLists;
+        this.shoppingListDAO = shoppingListDAO;
         this.context = context;
     }
 
@@ -65,13 +70,17 @@ public class MainScreenRecyclerViewAdapter
                 context.startActivity(intent);
             }
         });
+        holder.cardViewShoppingList.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                createAndShowAlertDialogForUpdate(holder.getAdapterPosition());
+                return true;
+            }
+        });
         holder.imageButtonEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, MainScreenPopUpWindowActivity.class);
-                intent.putExtra("shoppingListId",
-                        shoppingLists.get(holder.getAdapterPosition()).getId());
-                context.startActivity(intent);
+                createAndShowAlertDialogForUpdate(holder.getAdapterPosition());
             }
         });
         holder.imageButtonDelete.setOnClickListener(new View.OnClickListener() {
@@ -95,17 +104,65 @@ public class MainScreenRecyclerViewAdapter
      */
     private void createAndShowAlertDialogForDelete(final int adapterPosition) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle(R.string.delete_shopping_list);
-        builder.setMessage(R.string.are_you_sure_you_want_to_delete_this_shopping_list);
+        builder.setTitle(context.getString(R.string.delete_shopping_list,
+                shoppingLists.get(adapterPosition).getName()));
+        builder.setMessage(context
+                .getString(R.string.are_you_sure_you_want_to_delete_this_shopping_list));
         builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                ShoppingListDAO shoppingListDAO = new ShoppingListDAO(context);
                 shoppingListDAO.delete(shoppingLists.get(adapterPosition));
                 shoppingLists.remove(adapterPosition);
                 notifyItemRemoved(adapterPosition);
                 notifyItemRangeChanged(adapterPosition, shoppingLists.size());
                 dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    /**
+     * The method <code>createAndShowAlertDialogForUpdate</code> create and shows a dialog for
+     * update shopping list.
+     *
+     * @param adapterPosition is the position, where record about shopping list are located.
+     */
+    private void createAndShowAlertDialogForUpdate(final int adapterPosition) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(context.getString(R.string.ask_update_shopping_list,
+                shoppingLists.get(adapterPosition).getName()));
+        builder.setMessage(context.getString(R.string.ask_update_shopping_list_from_database));
+
+        final EditText editTextName = new EditText(context);
+        editTextName.setInputType(InputType.TYPE_CLASS_TEXT);
+        editTextName.setHint(context.getString(R.string.enter_name));
+        editTextName.setText(shoppingLists.get(adapterPosition).getName());
+
+        builder.setView(editTextName);
+
+        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (editTextName.getText() != null
+                        && editTextName.getText().toString().length() != 0) {
+                    ShoppingList shoppingList = shoppingLists.get(adapterPosition);
+                    shoppingList.setName(editTextName.getText().toString());
+                    shoppingListDAO.update(shoppingList);
+                    shoppingLists.set(adapterPosition, shoppingList);
+                    notifyItemChanged(adapterPosition);
+                    dialog.dismiss();
+                } else {
+                    // FIXME: 09.06.2017 alert dialog for update
+                    Toast.makeText(context, R.string.please_enter_name, Toast.LENGTH_SHORT).show();
+                    createAndShowAlertDialogForUpdate(adapterPosition);
+                }
             }
         });
         builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {

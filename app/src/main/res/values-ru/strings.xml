@@ -10,7 +10,7 @@
     <string name="enter_new_name">Введите новое имя</string>
     <string name="yes">Да</string>
     <string name="no">Нет</string>
-    <string name="delete_shopping_list">Удалить список покупок?</string>
+    <string name="delete_shopping_list">Удалить \"%1$s\"?</string>
     <string name="delete_product">Удалить продукт?</string>
     <string name="you_are_sure_you_want_to_delete_this_product">Вы уверены, что хотите удалить этот продукт?</string>
     <string name="are_you_forgot">Вы не забыли?</string>

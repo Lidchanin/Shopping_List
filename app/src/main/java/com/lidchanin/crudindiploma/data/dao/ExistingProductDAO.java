@@ -25,26 +25,6 @@ public class ExistingProductDAO extends DatabaseDAO {
         super(context);
     }
 
-    // FIXME: 15.05.2017 only test
-    public List<String[]> getAllExistingProducts() {
-        List<String[]> relationships = new ArrayList<>();
-        Cursor cursor = database.query(DatabaseHelper.TABLE_EXISTING_PRODUCTS,
-                null, null, null, null, null, null);
-        if ((cursor.moveToFirst())) {
-            do {
-                String[] relationship = new String[5];
-                relationship[0] = String.valueOf(cursor.getLong(0));
-                relationship[1] = String.valueOf(cursor.getLong(1));
-                relationship[2] = String.valueOf(cursor.getLong(2));
-                relationship[3] = String.valueOf(cursor.getDouble(3));
-                relationship[4] = String.valueOf(cursor.getDouble(4));
-                relationships.add(relationship);
-            } while (cursor.moveToNext());
-            cursor.close();
-        }
-        return relationships;
-    }
-
     /**
      * Method <code>getOne</code> gets existing product in the database.
      *

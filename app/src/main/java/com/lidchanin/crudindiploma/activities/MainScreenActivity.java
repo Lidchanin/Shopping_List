@@ -232,7 +232,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
      */
     private void initializeAdapters() {
         mainScreenRecyclerViewAdapter
-                = new MainScreenRecyclerViewAdapter(shoppingLists, this);
+                = new MainScreenRecyclerViewAdapter(shoppingLists, shoppingListDAO, this);
         recyclerViewAllShoppingLists.setAdapter(mainScreenRecyclerViewAdapter);
     }
 
