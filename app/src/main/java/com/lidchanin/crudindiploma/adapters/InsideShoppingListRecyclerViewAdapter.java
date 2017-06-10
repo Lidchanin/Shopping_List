@@ -67,14 +67,12 @@ public class InsideShoppingListRecyclerViewAdapter extends RecyclerView
     public void onBindViewHolder(final InsideShoppingListViewHolder holder, final int position) {
         final Product product = products.get(holder.getAdapterPosition());
         final ExistingProduct existingProduct = existingProducts.get(holder.getAdapterPosition());
-        if (existingProduct.getTotalCost() == 0.0) {
-            existingProduct.setTotalCost(product.getCost());
-        }
 
         holder.textViewProductName.setText(product.getName());
         holder.textViewProductCost.setText(new DecimalFormat("#0.00").format(product.getCost()));
+        double totalCost = product.getCost() * existingProduct.getQuantityOrWeight();
         holder.textViewTotalCost.setText(new DecimalFormat("#0.00")
-                .format(existingProduct.getTotalCost()));
+                .format(totalCost));
         holder.editTextQuantity.setText(String.valueOf(existingProduct.getQuantityOrWeight()));
         holder.imageButtonDelete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,8 +93,8 @@ public class InsideShoppingListRecyclerViewAdapter extends RecyclerView
             public void onClick(View v) {
                 existingProduct.setQuantityOrWeight(Double
                         .valueOf(holder.editTextQuantity.getText().toString()));
-                existingProduct
-                        .setTotalCost(product.getCost() * existingProduct.getQuantityOrWeight());
+                /*existingProduct
+                        .setTotalCost(product.getCost() * existingProduct.getQuantityOrWeight());*/
                 existingProductDAO.update(existingProduct);
                 existingProducts.set(holder.getAdapterPosition(), existingProduct);
                 // TODO: 09.06.2017 callback
@@ -191,8 +189,6 @@ public class InsideShoppingListRecyclerViewAdapter extends RecyclerView
                     productDAO.update(updatedProduct);
                     products.set(adapterPosition, updatedProduct);
                     ExistingProduct updatedExistingProduct = existingProducts.get(adapterPosition);
-                    updatedExistingProduct.setTotalCost(updatedExistingProduct.getQuantityOrWeight()
-                    * updatedProduct.getCost());
                     existingProducts.set(adapterPosition, updatedExistingProduct);
                     // TODO: 09.06.2017 callback
                     if(mOnDataChangeListener != null){

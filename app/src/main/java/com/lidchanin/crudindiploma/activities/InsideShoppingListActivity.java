@@ -151,7 +151,7 @@ public class InsideShoppingListActivity extends AppCompatActivity
         if (existingProducts == null) {
             existingProducts = new ArrayList<>();
         } else {
-            calculationOfEstimatedAmount(existingProducts);
+            calculationOfEstimatedAmount(products, existingProducts);
         }
     }
 
@@ -219,7 +219,8 @@ public class InsideShoppingListActivity extends AppCompatActivity
      */
     private void setTextForTextViewCostsSum(TextView textViewCostsSum) {
         textViewCostsSum.setText(getString(R.string.estimated_amount,
-                new DecimalFormat("#.##").format(calculationOfEstimatedAmount(existingProducts))));
+                new DecimalFormat("#.##").format(
+                        calculationOfEstimatedAmount(products, existingProducts))));
     }
 
     private void initNavigationDrawer() {
@@ -427,18 +428,17 @@ public class InsideShoppingListActivity extends AppCompatActivity
      * The method <code>calculationOfEstimatedAmount</code> is calculating total amount of costs
      * products.
      *
+     * @param products - all products from shopping list.
      * @param existingProducts - all existing products from shopping list.
      * @return estimated amount.
      */
-    private double calculationOfEstimatedAmount(List<ExistingProduct> existingProducts) {
+    private double calculationOfEstimatedAmount(List<Product> products,
+                                                List<ExistingProduct> existingProducts) {
         double estimatedAmount = 0;
         for (int i = 0; i < existingProducts.size(); i++) {
-            double existingProductCost = existingProducts.get(i).getTotalCost();
-            if (existingProductCost == 0) {
-                estimatedAmount += products.get(i).getCost();
-            } else {
-                estimatedAmount += existingProducts.get(i).getTotalCost();
-            }
+            double productCost = products.get(i).getCost();
+            double existingProductQuantity = existingProducts.get(i).getQuantityOrWeight();
+            estimatedAmount += productCost * existingProductQuantity;
         }
         return estimatedAmount;
     }

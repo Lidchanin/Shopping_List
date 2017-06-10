@@ -36,8 +36,7 @@ public class ExistingProductDAO extends DatabaseDAO {
         String selectQuery
                 = "SELECT " + DatabaseHelper.COLUMN_ID + ", "
                 + DatabaseHelper.COLUMN_LIST_ID + ", " + DatabaseHelper.COLUMN_PRODUCT_ID + ", "
-                + DatabaseHelper.COLUMN_QUANTITY_OR_WEIGHT + ", "
-                + DatabaseHelper.COLUMN_TOTAL_COST
+                + DatabaseHelper.COLUMN_QUANTITY_OR_WEIGHT
                 + " FROM " + DatabaseHelper.TABLE_EXISTING_PRODUCTS
                 + " WHERE " + DatabaseHelper.COLUMN_LIST_ID + " ='" + shoppingListId + "'"
                 + " AND " + DatabaseHelper.COLUMN_PRODUCT_ID + " ='" + productId + "'"
@@ -49,7 +48,6 @@ public class ExistingProductDAO extends DatabaseDAO {
             existingProduct.setShoppingListId(cursor.getLong(1));
             existingProduct.setProductId(cursor.getLong(2));
             existingProduct.setQuantityOrWeight(cursor.getDouble(3));
-            existingProduct.setTotalCost(cursor.getDouble(4));
             cursor.close();
             return existingProduct;
         } else {
@@ -70,8 +68,7 @@ public class ExistingProductDAO extends DatabaseDAO {
         String selectQuery
                 = "SELECT " + DatabaseHelper.COLUMN_ID + ", "
                 + DatabaseHelper.COLUMN_LIST_ID + ", " + DatabaseHelper.COLUMN_PRODUCT_ID + ", "
-                + DatabaseHelper.COLUMN_QUANTITY_OR_WEIGHT + ", "
-                + DatabaseHelper.COLUMN_TOTAL_COST
+                + DatabaseHelper.COLUMN_QUANTITY_OR_WEIGHT
                 + " FROM " + DatabaseHelper.TABLE_EXISTING_PRODUCTS
                 + " WHERE " + DatabaseHelper.COLUMN_LIST_ID + " = '" + shoppingListId + "'";
         Cursor cursor = database.rawQuery(selectQuery, null);
@@ -82,7 +79,6 @@ public class ExistingProductDAO extends DatabaseDAO {
                 existingProduct.setShoppingListId(cursor.getLong(1));
                 existingProduct.setProductId(cursor.getLong(2));
                 existingProduct.setQuantityOrWeight(cursor.getDouble(3));
-                existingProduct.setTotalCost(cursor.getDouble(4));
                 existingProducts.add(existingProduct);
             } while (cursor.moveToNext());
             cursor.close();
@@ -106,7 +102,6 @@ public class ExistingProductDAO extends DatabaseDAO {
         contentValues.put(DatabaseHelper.COLUMN_PRODUCT_ID, existingProduct.getProductId());
         contentValues.put(DatabaseHelper.COLUMN_QUANTITY_OR_WEIGHT,
                 existingProduct.getQuantityOrWeight());
-        contentValues.put(DatabaseHelper.COLUMN_TOTAL_COST, existingProduct.getTotalCost());
         return database.update(DatabaseHelper.TABLE_EXISTING_PRODUCTS, contentValues,
                 WHERE_ID_EQUALS, new String[]{String.valueOf(existingProduct.getId())});
     }
