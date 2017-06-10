@@ -330,8 +330,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
      */
     private void createAndShowAlertDialogForExit() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Are you sure you want to close the application?");
-
+        builder.setTitle(getString(R.string.ask_close_app, getString(R.string.app_name)));
         builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -345,15 +344,6 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-            }
-        });
-        builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                Intent intent = new Intent(Intent.ACTION_MAIN);
-                intent.addCategory(Intent.CATEGORY_HOME);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
             }
         });
         AlertDialog dialog = builder.create();
