@@ -7,6 +7,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputFilter;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +30,7 @@ import java.util.List;
 
 /**
  * Class <code>InsideShoppingListRecyclerViewAdapter</code> is an adapter for {@link RecyclerView}
- * from {@link com.lidchanin.crudindiploma.activities.InsideShoppingListActivity}.
+ * from {@link InsideShoppingListActivity}.
  *
  * @author Lidchanin
  * @see android.support.v7.widget.RecyclerView.Adapter
@@ -43,6 +44,8 @@ public class InsideShoppingListRecyclerViewAdapter extends RecyclerView
     private ExistingProductDAO existingProductDAO;
     private Context context;
     private long shoppingListId;
+    // TODO: 09.06.2017 callback
+    private OnDataChangeListener mOnDataChangeListener;
 
     public InsideShoppingListRecyclerViewAdapter(
             List<Product> products, List<ExistingProduct> existingProducts,
@@ -93,12 +96,10 @@ public class InsideShoppingListRecyclerViewAdapter extends RecyclerView
             public void onClick(View v) {
                 existingProduct.setQuantityOrWeight(Double
                         .valueOf(holder.editTextQuantity.getText().toString()));
-                /*existingProduct
-                        .setTotalCost(product.getCost() * existingProduct.getQuantityOrWeight());*/
-                existingProductDAO.update(existingProduct);
                 existingProducts.set(holder.getAdapterPosition(), existingProduct);
+                existingProductDAO.update(existingProduct);
                 // TODO: 09.06.2017 callback
-                if(mOnDataChangeListener != null){
+                if (mOnDataChangeListener != null) {
                     mOnDataChangeListener.onDataChanged(existingProducts);
                 }
                 notifyDataSetChanged();
@@ -129,7 +130,7 @@ public class InsideShoppingListRecyclerViewAdapter extends RecyclerView
                 products.remove(adapterPosition);
                 existingProducts.remove(adapterPosition);
                 // TODO: 09.06.2017 callback
-                if(mOnDataChangeListener != null){
+                if (mOnDataChangeListener != null) {
                     mOnDataChangeListener.onDataChanged(existingProducts);
                 }
                 notifyItemRemoved(adapterPosition);
@@ -191,7 +192,7 @@ public class InsideShoppingListRecyclerViewAdapter extends RecyclerView
                     ExistingProduct updatedExistingProduct = existingProducts.get(adapterPosition);
                     existingProducts.set(adapterPosition, updatedExistingProduct);
                     // TODO: 09.06.2017 callback
-                    if(mOnDataChangeListener != null){
+                    if (mOnDataChangeListener != null) {
                         mOnDataChangeListener.onDataChanged(existingProducts);
                     }
                     notifyItemChanged(adapterPosition);
@@ -213,14 +214,12 @@ public class InsideShoppingListRecyclerViewAdapter extends RecyclerView
         dialog.show();
     }
 
-    // TODO: 09.06.2017 callback
-    private OnDataChangeListener mOnDataChangeListener;
-    public void setOnDataChangeListener(OnDataChangeListener onDataChangeListener){
+    public void setOnDataChangeListener(OnDataChangeListener onDataChangeListener) {
         mOnDataChangeListener = onDataChangeListener;
     }
 
     // TODO: 09.06.2017 callback
-    public interface OnDataChangeListener{
+    public interface OnDataChangeListener {
         void onDataChanged(List<ExistingProduct> existingProducts);
     }
 

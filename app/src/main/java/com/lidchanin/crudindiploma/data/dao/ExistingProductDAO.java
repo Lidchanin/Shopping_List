@@ -3,6 +3,7 @@ package com.lidchanin.crudindiploma.data.dao;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 
 import com.lidchanin.crudindiploma.data.DatabaseHelper;
 import com.lidchanin.crudindiploma.data.models.ExistingProduct;
@@ -23,6 +24,25 @@ public class ExistingProductDAO extends DatabaseDAO {
 
     public ExistingProductDAO(Context context) {
         super(context);
+    }
+
+    // FIXME: 15.05.2017 only test
+    public List<String[]> getAllExistingProducts() {
+        List<String[]> relationships = new ArrayList<>();
+        Cursor cursor = database.query(DatabaseHelper.TABLE_EXISTING_PRODUCTS,
+                null, null, null, null, null, null);
+        if ((cursor.moveToFirst())) {
+            do {
+                String[] relationship = new String[5];
+                relationship[0] = String.valueOf(cursor.getLong(0));
+                relationship[1] = String.valueOf(cursor.getLong(1));
+                relationship[2] = String.valueOf(cursor.getLong(2));
+                relationship[3] = String.valueOf(cursor.getDouble(3));
+                relationships.add(relationship);
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+        return relationships;
     }
 
     /**
@@ -97,7 +117,6 @@ public class ExistingProductDAO extends DatabaseDAO {
      */
     public int update(ExistingProduct existingProduct) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(DatabaseHelper.COLUMN_ID, existingProduct.getId());
         contentValues.put(DatabaseHelper.COLUMN_LIST_ID, existingProduct.getShoppingListId());
         contentValues.put(DatabaseHelper.COLUMN_PRODUCT_ID, existingProduct.getProductId());
         contentValues.put(DatabaseHelper.COLUMN_QUANTITY_OR_WEIGHT,
