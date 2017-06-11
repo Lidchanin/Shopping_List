@@ -388,11 +388,12 @@ public class InsideShoppingListActivity extends AppCompatActivity
                     Product newProduct = new Product();
                     newProduct.setName(autoCompleteTextViewName.getText().toString());
                     newProduct.setCost(Double.valueOf(editTextCost.getText().toString()));
-                    boolean existence
-                            = productDAO.addInCurrentShoppingListAndCheck(newProduct, shoppingListId);
+                    boolean existence = productDAO
+                            .addInCurrentShoppingListAndCheck(newProduct, shoppingListId);
                     if (!existence) {
                         products.add(products.size(), newProduct);
-                        existingProducts.add(new ExistingProduct(1));
+                        existingProducts.add(existingProductDAO.getOne(shoppingListId,
+                                newProduct.getId()));
                         recyclerViewAdapter.notifyItemInserted(products.size());
                     } else {
                         for (Product p : products) {
@@ -428,7 +429,7 @@ public class InsideShoppingListActivity extends AppCompatActivity
      * The method <code>calculationOfEstimatedAmount</code> is calculating total amount of costs
      * products.
      *
-     * @param products - all products from shopping list.
+     * @param products         - all products from shopping list.
      * @param existingProducts - all existing products from shopping list.
      * @return estimated amount.
      */

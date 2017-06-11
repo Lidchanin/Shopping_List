@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Class <code>ProductDAO</code> extends {@link DatabaseDAO} and implements database operations
  * such as add, update, delete, get, ...
- * {@link com.lidchanin.crudindiploma.data.models.Product}.
+ * {@link Product}.
  *
  * @author Lidchanin
  */
