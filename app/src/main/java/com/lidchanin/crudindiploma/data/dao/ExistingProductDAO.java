@@ -25,6 +25,8 @@ import static com.lidchanin.crudindiploma.data.DatabaseHelper.TABLE_EXISTING_PRO
 public class ExistingProductDAO extends DatabaseDAO {
 
     private static final String WHERE_ID_EQUALS = COLUMN_ID + " =?";
+    private static final String WHERE_LIST_ID_EQUALS = COLUMN_LIST_ID + " =?";
+    private static final String WHERE_PRODUCT_ID_EQUALS = COLUMN_PRODUCT_ID + " =?";
 
     public ExistingProductDAO(Context context) {
         super(context);
@@ -46,7 +48,7 @@ public class ExistingProductDAO extends DatabaseDAO {
     }
 
     /**
-     * The method <code>queryShoppingLists</code> wraps the {@link Cursor}.
+     * The method <code>queryExistingProducts</code> wraps the {@link Cursor}.
      *
      * @param columns       A list of which columns to return. Passing null will return all columns,
      *                      which is discouraged to prevent reading data from storage that isn't
@@ -71,10 +73,10 @@ public class ExistingProductDAO extends DatabaseDAO {
      *                      clause. Passing null denotes no LIMIT clause.
      * @return wrapped cursor.
      */
-    private ShoppingListCursorWrapper queryProducts(String[] columns, String selection,
-                                                    String[] selectionArgs, String groupBy,
-                                                    String having, String orderBy,
-                                                    String limit) {
+    private ShoppingListCursorWrapper queryExistingProducts(String[] columns, String selection,
+                                                            String[] selectionArgs, String groupBy,
+                                                            String having, String orderBy,
+                                                            String limit) {
         Cursor cursor = database.query(TABLE_EXISTING_PRODUCTS, columns, selection, selectionArgs,
                 groupBy, having, orderBy, limit);
         return new ShoppingListCursorWrapper(cursor);
@@ -88,7 +90,23 @@ public class ExistingProductDAO extends DatabaseDAO {
      * @return existed product, which you need, or null.
      */
     public ExistingProduct getOne(long shoppingListId, long productId) {
-        String selectQuery
+        String[] columns = {COLUMN_ID, COLUMN_LIST_ID, COLUMN_PRODUCT_ID,
+                COLUMN_QUANTITY_OR_WEIGHT};
+        String selection = WHERE_LIST_ID_EQUALS + " AND " + WHERE_PRODUCT_ID_EQUALS;
+        String[] selectionArgs = {String.valueOf(shoppingListId), String.valueOf(productId)};
+        String limit = String.valueOf(1);
+        ShoppingListCursorWrapper cursor = queryExistingProducts(columns, selection, selectionArgs,
+                null, null, null, limit);
+        try {
+            if (cursor.getCount() == 0) {
+                return null;
+            }
+            cursor.moveToFirst();
+            return cursor.getExistingProduct();
+        } finally {
+            cursor.close();
+        }
+        /*String selectQuery
                 = "SELECT " + COLUMN_ID + ", " + COLUMN_LIST_ID + ", " + COLUMN_PRODUCT_ID + ", "
                 + COLUMN_QUANTITY_OR_WEIGHT
                 + " FROM " + TABLE_EXISTING_PRODUCTS
@@ -107,7 +125,7 @@ public class ExistingProductDAO extends DatabaseDAO {
         } else {
             cursor.close();
             return new ExistingProduct();
-        }
+        }*/
     }
 
     /**
@@ -119,6 +137,21 @@ public class ExistingProductDAO extends DatabaseDAO {
      */
     public List<ExistingProduct> getAllFromCurrentShoppingList(long shoppingListId) {
         List<ExistingProduct> existingProducts = new ArrayList<>();
+        String[] columns = {COLUMN_ID, COLUMN_LIST_ID, COLUMN_PRODUCT_ID,
+                COLUMN_QUANTITY_OR_WEIGHT};
+        ShoppingListCursorWrapper cursor = queryExistingProducts(columns, null, null, null, null,
+                null, null);
+        try {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                existingProducts.add(cursor.getExistingProduct());
+                cursor.moveToNext();
+            }
+        } finally {
+            cursor.close();
+        }
+        return existingProducts;
+        /*List<ExistingProduct> existingProducts = new ArrayList<>();
         String selectQuery
                 = "SELECT " + COLUMN_ID + ", " + COLUMN_LIST_ID + ", " + COLUMN_PRODUCT_ID + ", "
                 + COLUMN_QUANTITY_OR_WEIGHT
@@ -139,7 +172,7 @@ public class ExistingProductDAO extends DatabaseDAO {
         } else {
             cursor.close();
             return null;
-        }
+        }*/
     }
 
     /**

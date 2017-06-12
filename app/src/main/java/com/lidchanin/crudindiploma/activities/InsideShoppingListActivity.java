@@ -310,10 +310,24 @@ public class InsideShoppingListActivity extends AppCompatActivity
                         } else {
                             for (int i = 0; i < 5; i++) {
                                 if (states[i]) {
-                                    productDAO.assignProductToShoppingList(shoppingListId,
-                                            topFiveProducts.get(i).getId());
-                                    products.add(topFiveProducts.get(i));
-                                    existingProducts.add(new ExistingProduct(1.0));
+                                    Product newProduct = topFiveProducts.get(i);
+                                    boolean existence = productDAO
+                                            .addInCurrentShoppingListAndCheck(newProduct, shoppingListId);
+                                    if (!existence) {
+                                        products.add(products.size(), newProduct);
+                                        long temp = productDAO.getOneByName(newProduct.getName()).getId();
+                                        existingProducts.add(existingProductDAO.getOne(shoppingListId, temp));
+                                        recyclerViewAdapter.notifyItemInserted(products.size());
+                                    } else {
+                                        for (Product p : products) {
+                                            if (p.getName() != null && p.getName().contains(newProduct.getName())) {
+                                                int position = products.indexOf(p);
+                                                products.set(position, newProduct);
+                                                recyclerViewAdapter.notifyItemChanged(position);
+                                                break;
+                                            }
+                                        }
+                                    }
                                 }
                             }
                             recyclerViewAdapter.notifyDataSetChanged();

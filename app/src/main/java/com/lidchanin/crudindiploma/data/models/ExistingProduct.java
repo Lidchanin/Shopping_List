@@ -19,6 +19,12 @@ public class ExistingProduct {
         this.quantityOrWeight = quantityOrWeight;
     }
 
+    public ExistingProduct(long shoppingListId, long productId, double quantityOrWeight) {
+        this.shoppingListId = shoppingListId;
+        this.productId = productId;
+        this.quantityOrWeight = quantityOrWeight;
+    }
+
     //getters and setters
 
     public long getId() {
