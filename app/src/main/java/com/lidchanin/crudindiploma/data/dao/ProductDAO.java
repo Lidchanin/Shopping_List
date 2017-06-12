@@ -66,11 +66,6 @@ public class ProductDAO extends DatabaseDAO {
      * @return filled ContentValues.
      */
     private static ContentValues getContentValuesExistingProducts(ExistingProduct existingProduct) {
-//        ExistingProduct existingProduct = new ExistingProduct();
-//        existingProduct.setShoppingListId(shoppingListId);
-//        existingProduct.setProductId(productId);
-//        existingProduct.setQuantityOrWeight(1);
-//
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_LIST_ID, existingProduct.getShoppingListId());
         contentValues.put(COLUMN_PRODUCT_ID, existingProduct.getProductId());
@@ -79,7 +74,7 @@ public class ProductDAO extends DatabaseDAO {
     }
 
     /**
-     * The method <code>queryShoppingLists</code> wraps the {@link Cursor}.
+     * The method <code>queryProducts</code> wraps the {@link Cursor}.
      *
      * @param columns       A list of which columns to return. Passing null will return all columns,
      *                      which is discouraged to prevent reading data from storage that isn't
@@ -109,6 +104,41 @@ public class ProductDAO extends DatabaseDAO {
                                                     String having, String orderBy,
                                                     String limit) {
         Cursor cursor = database.query(TABLE_PRODUCTS, columns, selection, selectionArgs,
+                groupBy, having, orderBy, limit);
+        return new ShoppingListCursorWrapper(cursor);
+    }
+
+    /**
+     * The method <code>queryExistingProducts</code> wraps the {@link Cursor}.
+     *
+     * @param columns       A list of which columns to return. Passing null will return all columns,
+     *                      which is discouraged to prevent reading data from storage that isn't
+     *                      going to be used.
+     * @param selection     A filter declaring which rows to return, formatted as an SQL WHERE
+     *                      clause (excluding the WHERE itself). Passing null will return all rows
+     *                      for the given table.
+     * @param selectionArgs You may include ?s in selection, which will be replaced by the values
+     *                      from selectionArgs, in order that they appear in the selection. The
+     *                      values will be bound as Strings.
+     * @param groupBy       A filter declaring how to group rows, formatted as an SQL GROUP BY
+     *                      clause (excluding the GROUP BY itself). Passing null will cause the rows
+     *                      to not be grouped.
+     * @param having        A filter declare which row groups to include in the cursor, if row
+     *                      grouping is being used, formatted as an SQL HAVING clause (excluding
+     *                      the HAVING itself). Passing null will cause all row groups to be
+     *                      included, and is required when row grouping is not being used.
+     * @param orderBy       How to order the rows, formatted as an SQL ORDER BY clause (excluding
+     *                      the ORDER BY itself). Passing null will use the default sort order,
+     *                      which may be unordered.
+     * @param limit         Limits the number of rows returned by the query, formatted as LIMIT
+     *                      clause. Passing null denotes no LIMIT clause.
+     * @return wrapped cursor.
+     */
+    private ShoppingListCursorWrapper queryExistingProducts(String[] columns, String selection,
+                                                            String[] selectionArgs, String groupBy,
+                                                            String having, String orderBy,
+                                                            String limit) {
+        Cursor cursor = database.query(TABLE_EXISTING_PRODUCTS, columns, selection, selectionArgs,
                 groupBy, having, orderBy, limit);
         return new ShoppingListCursorWrapper(cursor);
     }
@@ -272,10 +302,33 @@ public class ProductDAO extends DatabaseDAO {
      * database without already existed products.
      *
      * @param existedProducts are products that exist in the shopping list.
-     * @return five products or null.
+     * @return five top products or not five).
      */
     public List<Product> getTopFiveProducts(List<Product> existedProducts) {
         List<Product> products = new ArrayList<>();
+        String[] selectionArgs = new String[existedProducts.size()];
+        for (int i = 0; i < selectionArgs.length; i++) {
+            selectionArgs[i] = "'" + existedProducts.get(i).getId() + "'";
+        }
+        String[] columns = {COLUMN_ID, COLUMN_NAME, COLUMN_COST, COLUMN_POPULARITY};
+        String selection = COLUMN_ID
+                + " NOT IN (" + TextUtils.join(", ", selectionArgs) + ")";
+        String orderBy = COLUMN_POPULARITY + " DESC";
+        String limit = String.valueOf(5);
+        ShoppingListCursorWrapper cursor = queryProducts(columns, selection, null, null,
+                null, orderBy, limit);
+        try {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                products.add(cursor.getProduct());
+                cursor.moveToNext();
+            }
+        } finally {
+            cursor.close();
+        }
+        return products;
+
+        /*List<Product> products = new ArrayList<>();
         String[] existedProductsIdsArray = new String[existedProducts.size()];
         for (int i = 0; i < existedProductsIdsArray.length; i++) {
             existedProductsIdsArray[i] = String.valueOf(existedProducts.get(i).getId());
@@ -300,7 +353,7 @@ public class ProductDAO extends DatabaseDAO {
         } else {
             cursor.close();
             return null;
-        }
+        }*/
     }
 
     /**
@@ -393,7 +446,7 @@ public class ProductDAO extends DatabaseDAO {
      * @param shoppingListId is the current shopping list id, which contains needed product.
      * @param productId      is the product id, which you want to delete form shopping list.
      */
-    public void delete(long shoppingListId, long productId) {
+    public void delete(final long shoppingListId, final long productId) {
         database.delete(TABLE_EXISTING_PRODUCTS,
                 WHERE_LIST_ID_EQUALS + " AND " + WHERE_PRODUCT_ID_EQUALS,
                 new String[]{String.valueOf(shoppingListId), String.valueOf(productId)});
@@ -405,11 +458,8 @@ public class ProductDAO extends DatabaseDAO {
      * @param shoppingListId is the shopping list id.
      * @param productId      is the product id, which you want to assign to shopping list.
      */
-    public void assignProductToShoppingList(final long shoppingListId, final long productId) {
-        ExistingProduct existingProduct = new ExistingProduct();
-        existingProduct.setShoppingListId(shoppingListId);
-        existingProduct.setProductId(productId);
-        existingProduct.setQuantityOrWeight(1.0);
+    private void assignProductToShoppingList(final long shoppingListId, final long productId) {
+        ExistingProduct existingProduct = new ExistingProduct(shoppingListId, productId, 1);
         ContentValues contentValues = getContentValuesExistingProducts(existingProduct);
         database.insert(TABLE_EXISTING_PRODUCTS, null, contentValues);
     }
@@ -422,7 +472,22 @@ public class ProductDAO extends DatabaseDAO {
      * @return true if relationship is exist, false - doesn't exist.
      */
     private boolean isExistRelationship(final long shoppingListId, final long productId) {
-        String selectQuery = "SELECT * FROM " + TABLE_EXISTING_PRODUCTS
+        String[] columns = {COLUMN_ID, COLUMN_LIST_ID, COLUMN_PRODUCT_ID};
+        String selection = WHERE_LIST_ID_EQUALS + " AND " + WHERE_PRODUCT_ID_EQUALS;
+        String[] selectionArgs = {String.valueOf(shoppingListId), String.valueOf(productId)};
+        String limit = String.valueOf(1);
+        ShoppingListCursorWrapper cursor = queryExistingProducts(columns, selection, selectionArgs,
+                null, null, null, limit);
+        try {
+            if (cursor.getCount() == 0) {
+                return false;
+            }
+            cursor.moveToFirst();
+            return true;
+        } finally {
+            cursor.close();
+        }
+        /*String selectQuery = "SELECT * FROM " + TABLE_EXISTING_PRODUCTS
                 + " WHERE "
                 + COLUMN_LIST_ID + " = " + shoppingListId
                 + " AND "
@@ -434,7 +499,7 @@ public class ProductDAO extends DatabaseDAO {
         } else {
             cursor.close();
             return false;
-        }
+        }*/
     }
 
     /**
