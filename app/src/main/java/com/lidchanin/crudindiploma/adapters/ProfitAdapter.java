@@ -3,6 +3,7 @@ package com.lidchanin.crudindiploma.adapters;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,15 +18,21 @@ import java.text.DecimalFormat;
 public class ProfitAdapter extends RecyclerView.Adapter {
     private int counter=2;
     @Override
-    public ProfitViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ProfitViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
         final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.inside_profit_recyclerview,parent,false);
-        ProfitAdapter.ProfitViewHolder profitViewHolder= new ProfitViewHolder(view);
+        final ProfitAdapter.ProfitViewHolder profitViewHolder= new ProfitViewHolder(view);
+        profitViewHolder.buttonDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                notifyItemRemoved(profitViewHolder.getAdapterPosition());
+                counter--;
+            }
+        });
         return profitViewHolder;
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
     }
 
     @Override
@@ -67,8 +74,9 @@ public class ProfitAdapter extends RecyclerView.Adapter {
                 public void afterTextChanged(Editable s) {
                     if(editTextWeight.getText().toString().trim().length()>=1&&editTextCost.getText().toString().trim().length()>=1&&editTextQuantity.getText().toString().trim().length()>=1){
                         double weight = Double.parseDouble(editTextWeight.getText().toString());
+                        double quantity = Double.parseDouble(editTextQuantity.getText().toString());
                         double cost = Double.parseDouble(editTextCost.getText().toString());
-                        textViewSum.setText(new DecimalFormat("#####.##").format(cost*1000/weight));
+                        textViewSum.setText(new DecimalFormat("#####.##").format((cost/weight)*quantity));
                     }
                 }
             };

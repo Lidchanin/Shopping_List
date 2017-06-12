@@ -15,7 +15,7 @@
     <FrameLayout
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:background="@color/cardview_dark_background"
+        android:background="@drawable/toolbar_background"
         android:layout_height="54dp">
         <ImageButton
             android:id="@+id/hamburger"

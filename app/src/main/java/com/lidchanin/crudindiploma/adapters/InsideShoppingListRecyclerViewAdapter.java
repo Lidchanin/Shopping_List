@@ -7,6 +7,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputFilter;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,17 +87,7 @@ public class InsideShoppingListRecyclerViewAdapter extends RecyclerView
                 return true;
             }
         });
-        holder.imageButtonAccept.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                existingProduct.setQuantityOrWeight(Double
-                        .valueOf(holder.editTextQuantity.getText().toString()));
-                existingProduct
-                        .setTotalCost(product.getCost() * existingProduct.getQuantityOrWeight());
-                existingProductDAO.update(existingProduct);
-                notifyDataSetChanged();
-            }
-        });
+
     }
 
     @Override
@@ -146,7 +137,7 @@ public class InsideShoppingListRecyclerViewAdapter extends RecyclerView
         private TextView textViewProductName;
         private TextView textViewProductCost;
         private TextView textViewTotalCost;
-        private EditText editTextQuantity;
+        private TextView editTextQuantity;
         private ImageButton imageButtonAccept;
         private ImageButton imageButtonDelete;
 
@@ -160,11 +151,10 @@ public class InsideShoppingListRecyclerViewAdapter extends RecyclerView
                     findViewById(R.id.inside_shopping_list_text_view_product_cost_in_card_view);
             textViewTotalCost = (TextView) itemView
                     .findViewById(R.id.inside_shopping_list_text_view_total_cost_in_card_view);
-            editTextQuantity = (EditText) itemView.findViewById(
+            editTextQuantity = (TextView) itemView.findViewById(
                     R.id.inside_shopping_list_edit_text_quantity_of_product_in_card_view);
             editTextQuantity.setFilters(new InputFilter[]{new DecimalDigitsInputFilter(2, 2)});
-            imageButtonAccept = (ImageButton) itemView
-                    .findViewById(R.id.inside_shopping_list_image_button_accept_in_card_view);
+
             imageButtonDelete = (ImageButton) itemView
                     .findViewById(R.id.inside_shopping_list_image_button_delete_in_card_view);
         }

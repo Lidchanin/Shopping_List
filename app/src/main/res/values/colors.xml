@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#515350</color>
-    <color name="colorPrimaryDark">#515350</color>
-    <color name="colorAccent">#4a4e46</color>
-
+    <color name="colorPrimary">#ff9900</color>
+    <color name="colorPrimaryDark">#ff9900</color>
+    <color name="colorAccent">#ff9900</color>
+    <color name="startGradient">#ffd900</color>
+    <color name="endGradient">#ff9900</color>
     <color name="fragmentChoiceColor">#cecece</color>
     <color name="colorPopupBackground">#4a4e46</color>
     <color name="colorPopupBar">#272825</color>
