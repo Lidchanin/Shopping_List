@@ -1,8 +1,8 @@
 package com.lidchanin.crudindiploma.data.models;
 
 /**
- * Class <code>ExistingProduct</code> is an entity. Existing product contains references on unique
- * product and on shopping list, where it's located, and product quantity or product weight.
+ * The lass <code>ExistingProduct</code> is an entity. Existing product contains references on
+ * unique product and on shopping list, where it's located, and product quantity or product weight.
  *
  * @author Lidchanin
  */

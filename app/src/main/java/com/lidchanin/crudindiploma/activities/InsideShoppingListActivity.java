@@ -392,8 +392,8 @@ public class InsideShoppingListActivity extends AppCompatActivity
                             .addInCurrentShoppingListAndCheck(newProduct, shoppingListId);
                     if (!existence) {
                         products.add(products.size(), newProduct);
-                        existingProducts.add(existingProductDAO.getOne(shoppingListId,
-                                newProduct.getId()));
+                        long temp = productDAO.getOneByName(newProduct.getName()).getId();
+                        existingProducts.add(existingProductDAO.getOne(shoppingListId, temp));
                         recyclerViewAdapter.notifyItemInserted(products.size());
                     } else {
                         for (Product p : products) {
