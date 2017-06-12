@@ -1,7 +1,7 @@
 package com.lidchanin.crudindiploma.data.models;
 
 /**
- * Class {@link ShoppingList} is an entity. Shopping list contains id, name.
+ * The class {@link ShoppingList} is an entity. Shopping list contains id, name.
  *
  * @author Lidchanin
  */

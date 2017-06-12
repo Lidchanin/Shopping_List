@@ -7,11 +7,11 @@ import android.util.Log;
 import com.lidchanin.crudindiploma.data.DatabaseHelper;
 
 /**
- * Class <code>DatabaseDAO</code> parent class for work with database.
+ * The class <code>DatabaseDAO</code> parent class for work with database.
  *
  * @author Lidchanin
  */
-public class DatabaseDAO {
+class DatabaseDAO {
 
     protected SQLiteDatabase database;
     private DatabaseHelper databaseHelper;
@@ -24,7 +24,7 @@ public class DatabaseDAO {
     }
 
     /**
-     * Method <code>open</code> is used to get a writable database object.
+     * The method <code>open</code> is used to get a writable database object.
      */
     public void open() {
         Log.i(DatabaseDAO.class.getSimpleName(), "Database is opened.");
@@ -35,7 +35,7 @@ public class DatabaseDAO {
     }
 
     /**
-     * Method <code>close</code> is used to disconnect a writable database object.
+     * The method <code>close</code> is used to disconnecting a writable database object.
      */
     public void close() {
         Log.i(DatabaseDAO.class.getSimpleName(), "Database is closed.");
