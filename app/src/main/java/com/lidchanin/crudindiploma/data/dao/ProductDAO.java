@@ -274,11 +274,12 @@ public class ProductDAO extends DatabaseDAO {
         String selectQuery = "SELECT * FROM " + TABLE_PRODUCTS + " tp, "
                 + TABLE_SHOPPING_LISTS + " tl, "
                 + TABLE_EXISTING_PRODUCTS + " tep "
-                + "WHERE tl." + COLUMN_ID + " = '" + shoppingListId + "'"
-                + " AND " + "tp." + COLUMN_ID
-                + " = " + "tep." + COLUMN_PRODUCT_ID
-                + " AND " + "tl." + COLUMN_ID
-                + " = " + "tep." + COLUMN_LIST_ID;
+                + "WHERE "
+                + "tl." + COLUMN_ID + " = '" + shoppingListId + "'"
+                + " AND "
+                + "tp." + COLUMN_ID + " = " + "tep." + COLUMN_PRODUCT_ID
+                + " AND "
+                + "tl." + COLUMN_ID + " = " + "tep." + COLUMN_LIST_ID;
         Cursor cursor = database.rawQuery(selectQuery, null);
         if (cursor.moveToFirst()) {
             do {
