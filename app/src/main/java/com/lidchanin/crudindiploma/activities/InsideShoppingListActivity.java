@@ -311,9 +311,10 @@ public class InsideShoppingListActivity extends AppCompatActivity
                             for (int i = 0; i < 5; i++) {
                                 if (states[i]) {
                                     Product newProduct = topFiveProducts.get(i);
-                                    boolean existence = productDAO
-                                            .addInCurrentShoppingListAndCheck(newProduct, shoppingListId);
-                                    notifyListsChanges(existence, newProduct);
+                                    boolean existence = productDAO.addInCurrentShoppingListAndCheck(
+                                            newProduct, shoppingListId);
+                                    notifyListsChanges(existence, newProduct,
+                                            new ExistingProduct(1));
                                 }
                             }
                             setTextForTextViewCostsSum(textViewEstimatedAmount);
@@ -343,8 +344,8 @@ public class InsideShoppingListActivity extends AppCompatActivity
     }
 
     /**
-     * The method <code>createAndShowAlertDialogForManualType</code> create and shows a dialog, which
-     * need to update product.
+     * The method <code>createAndShowAlertDialogForManualType</code> create and shows a dialog,
+     * which need to manual adding product.
      */
     private void createAndShowAlertDialogForManualType() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -372,8 +373,14 @@ public class InsideShoppingListActivity extends AppCompatActivity
             }
         });
 
+        final EditText editTextQuantity = new EditText(this);
+        editTextQuantity.setInputType(InputType.TYPE_CLASS_NUMBER
+                | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        editTextQuantity.setHint(getString(R.string.enter_quantity));
+
         layout.addView(autoCompleteTextViewName);
         layout.addView(editTextCost);
+        layout.addView(editTextQuantity);
 
         builder.setView(layout);
 
@@ -383,17 +390,24 @@ public class InsideShoppingListActivity extends AppCompatActivity
                 if (autoCompleteTextViewName.getText() != null
                         && autoCompleteTextViewName.getText().toString().length() != 0
                         && editTextCost.getText() != null
-                        && editTextCost.getText().toString().length() != 0) {
+                        && editTextCost.getText().toString().length() != 0
+                        && editTextQuantity.getText() != null
+                        && editTextQuantity.getText().toString().length() != 0) {
                     Product newProduct = new Product();
                     newProduct.setName(autoCompleteTextViewName.getText().toString());
                     newProduct.setCost(Double.valueOf(editTextCost.getText().toString()));
+
+                    ExistingProduct newExistingProduct = new ExistingProduct(Double
+                            .parseDouble(editTextQuantity.getText().toString()));
+//                    ExistingProduct newExistingProduct =
+
                     boolean existence = productDAO
                             .addInCurrentShoppingListAndCheck(newProduct, shoppingListId);
-                    notifyListsChanges(existence, newProduct);
+
+                    notifyListsChanges(existence, newProduct, newExistingProduct);
                     setTextForTextViewCostsSum(textViewEstimatedAmount);
                     dialog.dismiss();
                 } else {
-                    // FIXME: 09.06.2017 alert dialog for update
                     Toast.makeText(getApplicationContext(), R.string.please_enter_all_data,
                             Toast.LENGTH_SHORT).show();
                     createAndShowAlertDialogForManualType();
@@ -411,22 +425,30 @@ public class InsideShoppingListActivity extends AppCompatActivity
     }
 
     /**
-     * The method <code>notifyListsChanges</code> updates Product in lists on screen.
-     * 
-     * @param existence is the existence Product in lists.
+     * The method <code>notifyListsChanges</code> updates Product and ExistingProduct in lists
+     * on screen.
+     *
+     * @param existence  is the existence Product in lists.
      * @param newProduct is the new Product.
      */
-    private void notifyListsChanges(boolean existence, Product newProduct) {
+    private void notifyListsChanges(boolean existence, Product newProduct,
+                                    ExistingProduct newExistingProduct) {
+        long tempProductId = productDAO.getOneByName(newProduct.getName()).getId();
+        ExistingProduct tempExistingProduct = existingProductDAO
+                .getOne(shoppingListId, tempProductId);
+        tempExistingProduct.setQuantityOrWeight(newExistingProduct.getQuantityOrWeight());
+        existingProductDAO.update(tempExistingProduct);
+
         if (!existence) {
             products.add(products.size(), newProduct);
-            long newProductId = productDAO.getOneByName(newProduct.getName()).getId();
-            existingProducts.add(existingProductDAO.getOne(shoppingListId, newProductId));
+            existingProducts.add(tempExistingProduct);
             recyclerViewAdapter.notifyItemInserted(products.size());
         } else {
             for (Product p : products) {
                 if (p.getName() != null && p.getName().contains(newProduct.getName())) {
                     int position = products.indexOf(p);
                     products.set(position, newProduct);
+                    existingProducts.set(position, newExistingProduct);
                     recyclerViewAdapter.notifyItemChanged(position);
                     break;
                 }

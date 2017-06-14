@@ -7,7 +7,6 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputFilter;
 import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,7 +74,7 @@ public class InsideShoppingListRecyclerViewAdapter extends RecyclerView
         double totalCost = product.getCost() * existingProduct.getQuantityOrWeight();
         holder.textViewTotalCost.setText(new DecimalFormat("#0.00")
                 .format(totalCost));
-        holder.editTextQuantity.setText(String.valueOf(existingProduct.getQuantityOrWeight()));
+        holder.textViewQuantity.setText(String.valueOf(existingProduct.getQuantityOrWeight()));
         holder.imageButtonDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,18 +88,10 @@ public class InsideShoppingListRecyclerViewAdapter extends RecyclerView
                 return true;
             }
         });
-        // TODO: 09.06.2017 Delete button "Accept"
-        holder.imageButtonAccept.setOnClickListener(new View.OnClickListener() {
+        holder.cardViewProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                existingProduct.setQuantityOrWeight(Double
-                        .valueOf(holder.editTextQuantity.getText().toString()));
-                existingProducts.set(holder.getAdapterPosition(), existingProduct);
-                existingProductDAO.update(existingProduct);
-                if (mOnDataChangeListener != null) {
-                    mOnDataChangeListener.onDataChanged(existingProducts);
-                }
-                notifyDataSetChanged();
+                createAndShowAlertDialogForUpdate(holder.getAdapterPosition());
             }
         });
     }
@@ -164,13 +155,22 @@ public class InsideShoppingListRecyclerViewAdapter extends RecyclerView
         editTextName.setInputType(InputType.TYPE_CLASS_TEXT);
         editTextName.setHint(context.getString(R.string.enter_name));
         editTextName.setText(products.get(adapterPosition).getName());
-        layout.addView(editTextName);
 
         final EditText editTextCost = new EditText(context);
         editTextCost.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         editTextCost.setHint(context.getString(R.string.enter_cost));
         editTextCost.setText(String.valueOf(products.get(adapterPosition).getCost()));
+
+        final EditText editTextQuantity = new EditText(context);
+        editTextQuantity.setInputType(InputType.TYPE_CLASS_NUMBER
+                | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        editTextQuantity.setHint(R.string.enter_quantity);
+        editTextQuantity.setText(String.valueOf(existingProducts.get(adapterPosition)
+                .getQuantityOrWeight()));
+
+        layout.addView(editTextName);
         layout.addView(editTextCost);
+        layout.addView(editTextQuantity);
 
         builder.setView(layout);
 
@@ -180,21 +180,27 @@ public class InsideShoppingListRecyclerViewAdapter extends RecyclerView
                 if (editTextName.getText() != null
                         && editTextName.getText().toString().length() != 0
                         && editTextCost.getText() != null
-                        && editTextCost.getText().toString().length() != 0) {
+                        && editTextCost.getText().toString().length() != 0
+                        && editTextQuantity.getText() != null
+                        && editTextQuantity.getText().toString().length() != 0) {
                     Product updatedProduct = products.get(adapterPosition);
                     updatedProduct.setName(editTextName.getText().toString());
                     updatedProduct.setCost(Double.valueOf(editTextCost.getText().toString()));
                     productDAO.update(updatedProduct);
                     products.set(adapterPosition, updatedProduct);
+
                     ExistingProduct updatedExistingProduct = existingProducts.get(adapterPosition);
+                    updatedExistingProduct.setQuantityOrWeight(Double
+                            .parseDouble(editTextQuantity.getText().toString()));
+                    existingProductDAO.update(updatedExistingProduct);
                     existingProducts.set(adapterPosition, updatedExistingProduct);
+
                     if (mOnDataChangeListener != null) {
                         mOnDataChangeListener.onDataChanged(existingProducts);
                     }
                     notifyItemChanged(adapterPosition);
                     dialog.dismiss();
                 } else {
-                    // FIXME: 09.06.2017 alert dialog for update
                     Toast.makeText(context, R.string.please_enter_all_data, Toast.LENGTH_SHORT).show();
                     createAndShowAlertDialogForUpdate(adapterPosition);
                 }
@@ -230,8 +236,7 @@ public class InsideShoppingListRecyclerViewAdapter extends RecyclerView
         private TextView textViewProductName;
         private TextView textViewProductCost;
         private TextView textViewTotalCost;
-        private EditText editTextQuantity;
-        private ImageButton imageButtonAccept;
+        private TextView textViewQuantity;
         private ImageButton imageButtonDelete;
 
         InsideShoppingListViewHolder(View itemView) {
@@ -244,12 +249,10 @@ public class InsideShoppingListRecyclerViewAdapter extends RecyclerView
                     findViewById(R.id.inside_shopping_list_text_view_product_cost_in_card_view);
             textViewTotalCost = (TextView) itemView
                     .findViewById(R.id.inside_shopping_list_text_view_total_cost_in_card_view);
-            editTextQuantity = (EditText) itemView.findViewById(
-                    R.id.inside_shopping_list_edit_text_quantity_of_product_in_card_view);
+            textViewQuantity = (TextView) itemView.findViewById(
+                    R.id.inside_shopping_list_text_view_quantity_of_product_in_card_view);
             // FIXME: 09.06.2017 filter's work is not correct
-            editTextQuantity.setFilters(new InputFilter[]{new DecimalDigitsInputFilter(2, 2)});
-            imageButtonAccept = (ImageButton) itemView
-                    .findViewById(R.id.inside_shopping_list_image_button_accept_in_card_view);
+            textViewQuantity.setFilters(new InputFilter[]{new DecimalDigitsInputFilter(2, 2)});
             imageButtonDelete = (ImageButton) itemView
                     .findViewById(R.id.inside_shopping_list_image_button_delete_in_card_view);
         }

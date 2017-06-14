@@ -29,7 +29,6 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:textColor="@color/cardview_light_background"
-
                 android:background="@drawable/border_rectangle"
                 android:gravity="center"
                 android:textSize="16sp" />
@@ -40,33 +39,19 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:textColor="@color/cardview_light_background"
-
                 android:background="@drawable/border_rectangle"
                 android:gravity="center"
                 android:textSize="16sp" />
 
-            <EditText
-                android:id="@+id/inside_shopping_list_edit_text_quantity_of_product_in_card_view"
+            <TextView
+                android:id="@+id/inside_shopping_list_text_view_quantity_of_product_in_card_view"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:textSize="16sp"
-                android:inputType="numberDecimal"
                 android:background="@drawable/border_rectangle"
                 android:gravity="center"
-                android:textColor="@color/cardview_light_background"
-                android:textColorHint="@color/cardview_light_background"
-                android:hint="@string/quantity"/>
-
-            <ImageButton
-                android:id="@+id/inside_shopping_list_image_button_accept_in_card_view"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:src="@drawable/ic_check_black_24dp"
-                android:background="@drawable/border_rectangle"
-
-                android:contentDescription="@string/quantity"/>
+                android:textColor="@color/cardview_light_background"/>
 
             <ImageButton
                 android:id="@+id/inside_shopping_list_image_button_delete_in_card_view"
