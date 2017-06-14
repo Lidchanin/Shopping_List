@@ -150,6 +150,7 @@ public class CameraActivity extends AppCompatActivity {
             @Override
             public void onClick(final View v) {
                 id +=1;
+                if(id<3){
                 final Bitmap bitmap = textureView.getBitmap();
                 new Recognize(progressBar,getApplicationContext(),shoppingListId).execute(bitmap);
                 createCameraPreview();
@@ -164,6 +165,9 @@ public class CameraActivity extends AppCompatActivity {
                     NotificationManager mNotificationManager =
                             (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                     mNotificationManager.notify(id,notificationCompat.build());
+                }}
+                else{
+                    Toast.makeText(getApplicationContext(),"Подождите завершения обработки",Toast.LENGTH_LONG).show();
                 }
             }
         });

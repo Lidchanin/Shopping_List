@@ -350,7 +350,7 @@ public class InsideShoppingListActivity extends AppCompatActivity implements Nav
         } else if (id == R.id.nav_profit) {
             startActivity(new Intent(this,ProfitActivity.class));
         } else if (id == R.id.nav_settings) {
-
+            startActivity(new Intent(this,SettingsActivity.class));
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

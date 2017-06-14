@@ -17,6 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activities.MainActivity"
+            android:theme="@style/PurpleGradientTheme"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -42,7 +43,7 @@
         <activity
             android:name=".activities.InsideShoppingListUpdateProductPopUpWindowActivity"
             android:theme="@style/AppTheme.PopUpWindow" />
-
+        <activity android:name=".activities.SettingsActivity" android:theme="@style/PurpleGradientTheme"/>
         <activity android:name=".activities.NameAndCostEditActivity"/>
         <activity android:name=".activities.CameraActivity"
                     android:screenOrientation="portrait"/>

@@ -16,18 +16,25 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.adapters.ProfitAdapter;
 import com.lidchanin.crudindiploma.data.dao.ShoppingListDAO;
+import com.lidchanin.crudindiploma.utils.MathUtils;
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ProfitActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     private DrawerLayout drawer;
@@ -42,8 +49,10 @@ public class ProfitActivity extends AppCompatActivity implements NavigationView.
     private ImageView headerImageView;
     private Transformation transformation;
     private ImageButton buttonAdd;
+    private Button buttonClean;
     private RecyclerView profitRecyclerView;
     private ProfitAdapter profitAdapter;
+    private Map<Integer,Double> sumMap;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,11 +61,20 @@ public class ProfitActivity extends AppCompatActivity implements NavigationView.
         if(getSupportActionBar()!=null) {
             getSupportActionBar().hide();
         }
+        sumMap=new HashMap<>();
         profitAdapter =new ProfitAdapter();
         profitRecyclerView = (RecyclerView) findViewById(R.id.recycler_profit);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         profitRecyclerView.setLayoutManager(layoutManager);
         profitRecyclerView.setAdapter(profitAdapter);
+        profitAdapter.setOnSumChangeListener(new ProfitAdapter.OnSumChangeListener() {
+            @Override
+            public void onSumChanged(int key, double sum) {
+                sumMap.put(key,sum);
+                Toast.makeText(getApplicationContext(),"Товар номер "+String.valueOf((new MathUtils().min(sumMap))+1)+" является более выгодным!",Toast.LENGTH_LONG).show();
+                Log.d("better key is:", String.valueOf(new MathUtils().min(sumMap)));
+            }
+        });
         initNavigationDrawer();
         initButtons();
     }
@@ -74,6 +92,12 @@ public class ProfitActivity extends AppCompatActivity implements NavigationView.
             @Override
             public void onClick(View v) {
                 drawer.openDrawer(Gravity.START);
+            }
+        });
+        buttonClean.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recreate();
             }
         });
     }
@@ -101,7 +125,7 @@ public class ProfitActivity extends AppCompatActivity implements NavigationView.
         } else if (id == R.id.nav_existing_products) {
 
         } else if (id == R.id.nav_settings) {
-
+            startActivity(new Intent(this,SettingsActivity.class));
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -115,6 +139,7 @@ public class ProfitActivity extends AppCompatActivity implements NavigationView.
         headerImageView =(ImageView) headerLayout.findViewById(R.id.headerImageView);
         emailTextView =(TextView) headerLayout.findViewById(R.id.user_mail);
         nameTextView =(TextView) headerLayout.findViewById(R.id.user_name);
+        buttonClean = (Button) findViewById(R.id.button_clean);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, null,R.string.navigation_drawer_open, R.string.navigation_drawer_close);
