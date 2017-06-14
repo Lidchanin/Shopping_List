@@ -313,24 +313,9 @@ public class InsideShoppingListActivity extends AppCompatActivity
                                     Product newProduct = topFiveProducts.get(i);
                                     boolean existence = productDAO
                                             .addInCurrentShoppingListAndCheck(newProduct, shoppingListId);
-                                    if (!existence) {
-                                        products.add(products.size(), newProduct);
-                                        long temp = productDAO.getOneByName(newProduct.getName()).getId();
-                                        existingProducts.add(existingProductDAO.getOne(shoppingListId, temp));
-                                        recyclerViewAdapter.notifyItemInserted(products.size());
-                                    } else {
-                                        for (Product p : products) {
-                                            if (p.getName() != null && p.getName().contains(newProduct.getName())) {
-                                                int position = products.indexOf(p);
-                                                products.set(position, newProduct);
-                                                recyclerViewAdapter.notifyItemChanged(position);
-                                                break;
-                                            }
-                                        }
-                                    }
+                                    notifyListsChanges(existence, newProduct);
                                 }
                             }
-                            recyclerViewAdapter.notifyDataSetChanged();
                             setTextForTextViewCostsSum(textViewEstimatedAmount);
                             dialog.dismiss();
                         }
@@ -404,21 +389,7 @@ public class InsideShoppingListActivity extends AppCompatActivity
                     newProduct.setCost(Double.valueOf(editTextCost.getText().toString()));
                     boolean existence = productDAO
                             .addInCurrentShoppingListAndCheck(newProduct, shoppingListId);
-                    if (!existence) {
-                        products.add(products.size(), newProduct);
-                        long temp = productDAO.getOneByName(newProduct.getName()).getId();
-                        existingProducts.add(existingProductDAO.getOne(shoppingListId, temp));
-                        recyclerViewAdapter.notifyItemInserted(products.size());
-                    } else {
-                        for (Product p : products) {
-                            if (p.getName() != null && p.getName().contains(newProduct.getName())) {
-                                int position = products.indexOf(p);
-                                products.set(position, newProduct);
-                                recyclerViewAdapter.notifyItemChanged(position);
-                                break;
-                            }
-                        }
-                    }
+                    notifyListsChanges(existence, newProduct);
                     setTextForTextViewCostsSum(textViewEstimatedAmount);
                     dialog.dismiss();
                 } else {
@@ -437,6 +408,30 @@ public class InsideShoppingListActivity extends AppCompatActivity
         });
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    /**
+     * The method <code>notifyListsChanges</code> updates Product in lists on screen.
+     * 
+     * @param existence is the existence Product in lists.
+     * @param newProduct is the new Product.
+     */
+    private void notifyListsChanges(boolean existence, Product newProduct) {
+        if (!existence) {
+            products.add(products.size(), newProduct);
+            long newProductId = productDAO.getOneByName(newProduct.getName()).getId();
+            existingProducts.add(existingProductDAO.getOne(shoppingListId, newProductId));
+            recyclerViewAdapter.notifyItemInserted(products.size());
+        } else {
+            for (Product p : products) {
+                if (p.getName() != null && p.getName().contains(newProduct.getName())) {
+                    int position = products.indexOf(p);
+                    products.set(position, newProduct);
+                    recyclerViewAdapter.notifyItemChanged(position);
+                    break;
+                }
+            }
+        }
     }
 
     /**
