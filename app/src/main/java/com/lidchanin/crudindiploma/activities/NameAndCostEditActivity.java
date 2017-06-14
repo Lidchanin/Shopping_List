@@ -12,6 +12,7 @@ import android.widget.EditText;
 import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.data.dao.ProductDAO;
 import com.lidchanin.crudindiploma.data.models.Product;
+import com.lidchanin.crudindiploma.utils.ThemeManager;
 import com.lidchanin.crudindiploma.utils.filters.DecimalDigitsInputFilter;
 
 public class NameAndCostEditActivity extends AppCompatActivity{
@@ -24,6 +25,7 @@ public class NameAndCostEditActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        new ThemeManager(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_name_and_cost);
         doneButton=(Button) findViewById(R.id.edit_done);

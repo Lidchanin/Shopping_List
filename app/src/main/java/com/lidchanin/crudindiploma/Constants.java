@@ -15,5 +15,6 @@ public interface Constants {
         String PREF_KEY_LANG_RECOGNIZE = "recognize_lang";
         String PREF_KEY_SHORTCUT_ADDED = "shortcut_added";
         String PREF_KEY_SCAN_TIMES = "scan_times";
+        String PREF_KEY_THEME="theme";
     }
 }

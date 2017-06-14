@@ -17,32 +17,25 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activities.MainActivity"
-            android:theme="@style/PurpleGradientTheme"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.ProfitActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activities.ProfitActivity" />
 
         <activity
-            android:name=".activities.MainScreenActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:name=".activities.MainScreenActivity" />
         <activity android:name=".activities.AddingShoppingListActivity" />
         <activity
-            android:name=".activities.InsideShoppingListActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:name=".activities.InsideShoppingListActivity"/>
         <activity
-            android:name=".activities.InsideShoppingListAddProductPopUpWindowActivity"
-            android:theme="@style/AppTheme.PopUpWindow" />
+            android:name=".activities.InsideShoppingListAddProductPopUpWindowActivity" />
         <activity
-            android:name=".activities.MainScreenPopUpWindowActivity"
-            android:theme="@style/AppTheme.PopUpWindow" />
+            android:name=".activities.MainScreenPopUpWindowActivity" />
         <activity
-            android:name=".activities.InsideShoppingListUpdateProductPopUpWindowActivity"
-            android:theme="@style/AppTheme.PopUpWindow" />
+            android:name=".activities.InsideShoppingListUpdateProductPopUpWindowActivity" />
         <activity android:name=".activities.SettingsActivity" android:theme="@style/PurpleGradientTheme"/>
         <activity android:name=".activities.NameAndCostEditActivity"/>
         <activity android:name=".activities.CameraActivity"

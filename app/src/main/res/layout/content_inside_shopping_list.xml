@@ -8,8 +8,7 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.lidchanin.crudindiploma.activities.InsideShoppingListActivity"
     tools:showIn="@layout/activity_inside_shopping_list"
-    android:focusable="true"
-    android:focusableInTouchMode="true">
+    android:focusable="true">
 
 
     <FrameLayout

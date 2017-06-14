@@ -41,6 +41,7 @@ import android.widget.Toast;
 import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.ocr.ImageFilters;
 import com.lidchanin.crudindiploma.ocr.Recognize;
+import com.lidchanin.crudindiploma.utils.ThemeManager;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -132,6 +133,7 @@ public class CameraActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
+        new ThemeManager(this);
         super.onCreate(savedInstanceState);
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();

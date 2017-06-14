@@ -28,6 +28,7 @@ import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.adapters.ProfitAdapter;
 import com.lidchanin.crudindiploma.data.dao.ShoppingListDAO;
 import com.lidchanin.crudindiploma.utils.MathUtils;
+import com.lidchanin.crudindiploma.utils.ThemeManager;
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
@@ -56,6 +57,7 @@ public class ProfitActivity extends AppCompatActivity implements NavigationView.
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        new ThemeManager(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profit);
         if(getSupportActionBar()!=null) {

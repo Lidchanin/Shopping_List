@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.data.dao.ProductDAO;
 import com.lidchanin.crudindiploma.data.models.Product;
+import com.lidchanin.crudindiploma.utils.ThemeManager;
 
 public class InsideShoppingListUpdateProductPopUpWindowActivity extends AppCompatActivity {
 
@@ -28,6 +29,7 @@ public class InsideShoppingListUpdateProductPopUpWindowActivity extends AppCompa
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        new ThemeManager(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inside_shopping_list_update_product_pop_up_window);
 

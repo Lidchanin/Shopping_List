@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.data.dao.ShoppingListDAO;
 import com.lidchanin.crudindiploma.data.models.ShoppingList;
+import com.lidchanin.crudindiploma.utils.ThemeManager;
 
 public class MainScreenPopUpWindowActivity extends AppCompatActivity {
 
@@ -26,6 +27,7 @@ public class MainScreenPopUpWindowActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        new ThemeManager(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen_pop_up_window);
 

@@ -7,10 +7,6 @@ import android.widget.Toast;
 
 import com.lidchanin.crudindiploma.Constants;
 
-/**
- * Created by Alexander Destroyed on 21.05.2017.
- */
-
 public class SharedPrefsManager {
     private Context context;
     private SharedPreferences sharedPreferences ;
@@ -19,6 +15,18 @@ public class SharedPrefsManager {
         this.context=context;
         sharedPreferences= PreferenceManager.getDefaultSharedPreferences(context);
         sharedPreferencesEditor= sharedPreferences.edit();
+    }
+
+    public void editString(String key,String value){
+        sharedPreferencesEditor.putString(key,value).apply();
+    }
+
+    String readString(String key) {
+        if (sharedPreferences.contains(key)){
+           return sharedPreferences.getString(key, null);
+        }else{
+            return "blue";
+        }
     }
 
 }

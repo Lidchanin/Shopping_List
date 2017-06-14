@@ -17,6 +17,7 @@ import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.adapters.AutoCompleteProductNamesAndCostsAdapter;
 import com.lidchanin.crudindiploma.data.dao.ProductDAO;
 import com.lidchanin.crudindiploma.data.models.Product;
+import com.lidchanin.crudindiploma.utils.ThemeManager;
 
 import java.util.List;
 
@@ -38,6 +39,7 @@ public class InsideShoppingListAddProductPopUpWindowActivity extends AppCompatAc
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        new ThemeManager(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inside_shopping_list_add_product_pop_up_window);
 

@@ -6,11 +6,9 @@
     <color name="purple">#9000ff</color>
     <color name="yellow">#ffd900</color>
     <color name="orange">#ff9900</color>
-    <color name="colorPrimary">@color/endGradient</color>
-    <color name="colorPrimaryDark">@color/endGradient</color>
-    <color name="colorAccent">@color/endGradient</color>
-    <color name="startGradient">@color/blue</color>
-    <color name="endGradient">@color/blueLittleDarker</color>
+    <color name="colorPrimary">@color/blueLittleDarker</color>
+    <color name="colorPrimaryDark">@color/blueLittleDarker</color>
+    <color name="colorAccent">@color/blueLittleDarker</color>
     <color name="fragmentChoiceColor">#cecece</color>
     <color name="colorPopupBackground">#4a4e46</color>
     <color name="colorPopupBar">#272825</color>

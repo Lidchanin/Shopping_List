@@ -31,9 +31,9 @@
     <style name="BlueGradientTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="startGradient">@color/blue</item>
         <item name="endGradient">@color/blueLittleDarker</item>
-        <item name="colorPrimary">@color/endGradient</item>
-        <item name="colorPrimaryDark">@color/endGradient</item>
-        <item name="colorAccent">@color/endGradient</item>
+        <item name="colorPrimary">?attr/endGradient</item>
+        <item name="colorPrimaryDark">?attr/endGradient</item>
+        <item name="colorAccent">?attr/endGradient</item>
     </style>
     <style name="PurpleGradientTheme" parent="Theme.AppCompat.Light">
         <item name="startGradient">@color/blue</item>

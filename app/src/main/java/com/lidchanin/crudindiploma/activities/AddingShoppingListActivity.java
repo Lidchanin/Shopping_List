@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.data.dao.ShoppingListDAO;
 import com.lidchanin.crudindiploma.data.models.ShoppingList;
+import com.lidchanin.crudindiploma.utils.ThemeManager;
 
 /**
  * Class <code>AddingShoppingListActivity</code> is a activity and extends
@@ -28,6 +29,7 @@ public class AddingShoppingListActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        new ThemeManager(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adding_shopping_list);
 

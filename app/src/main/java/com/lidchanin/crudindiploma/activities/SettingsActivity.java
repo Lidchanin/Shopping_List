@@ -21,8 +21,11 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.lidchanin.crudindiploma.Constants;
 import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.data.dao.ShoppingListDAO;
+import com.lidchanin.crudindiploma.utils.SharedPrefsManager;
+import com.lidchanin.crudindiploma.utils.ThemeManager;
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
@@ -46,6 +49,7 @@ public class SettingsActivity extends AppCompatActivity implements NavigationVie
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        new ThemeManager(this);
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_settings);
@@ -55,10 +59,19 @@ public class SettingsActivity extends AppCompatActivity implements NavigationVie
             initNavigationDrawer();
         buttonHamburger = (ImageButton) findViewById(R.id.hamburger);
         blueGradient = (FrameLayout) findViewById(R.id.blue_gradient);
+        blueGradient.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new SharedPrefsManager(getApplicationContext()).editString(Constants.SharedPreferences.PREF_KEY_THEME,"blue");
+                recreate();
+            }
+        });
         purpleGradient = (FrameLayout) findViewById(R.id.blue_purple_gradient);
         purpleGradient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                new SharedPrefsManager(getApplicationContext()).editString(Constants.SharedPreferences.PREF_KEY_THEME,"purple");
+                recreate();
             }
         });
         buttonHamburger.setOnClickListener(new View.OnClickListener() {
