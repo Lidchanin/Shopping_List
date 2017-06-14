@@ -144,5 +144,6 @@
     <string name="ask_update_shopping_list">Update \"%1$s\"?</string>
     <string name="add_new_product">Add new product</string>
     <string name="ask_close_app">Are you sure you want to close \"%1$s\"?</string>
+    <string name="enter_quantity">Enter quantity</string>
 
 </resources>
