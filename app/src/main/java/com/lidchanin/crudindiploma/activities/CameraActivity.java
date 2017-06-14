@@ -41,6 +41,7 @@ import android.widget.Toast;
 import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.ocr.ImageFilters;
 import com.lidchanin.crudindiploma.ocr.Recognize;
+import com.lidchanin.crudindiploma.utils.ThemeManager;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -132,6 +133,7 @@ public class CameraActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
+        new ThemeManager(this);
         super.onCreate(savedInstanceState);
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
@@ -150,6 +152,7 @@ public class CameraActivity extends AppCompatActivity {
             @Override
             public void onClick(final View v) {
                 id +=1;
+                if(id<3){
                 final Bitmap bitmap = textureView.getBitmap();
                 new Recognize(progressBar,getApplicationContext(),shoppingListId).execute(bitmap);
                 createCameraPreview();
@@ -164,6 +167,9 @@ public class CameraActivity extends AppCompatActivity {
                     NotificationManager mNotificationManager =
                             (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                     mNotificationManager.notify(id,notificationCompat.build());
+                }}
+                else{
+                    Toast.makeText(getApplicationContext(),"Подождите завершения обработки",Toast.LENGTH_LONG).show();
                 }
             }
         });

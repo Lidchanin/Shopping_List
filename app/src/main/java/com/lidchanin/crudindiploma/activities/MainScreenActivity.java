@@ -33,6 +33,7 @@ import com.lidchanin.crudindiploma.adapters.MainScreenRecyclerViewAdapter;
 import com.lidchanin.crudindiploma.data.dao.ShoppingListDAO;
 import com.lidchanin.crudindiploma.data.models.ShoppingList;
 import com.lidchanin.crudindiploma.utils.SharedPrefsManager;
+import com.lidchanin.crudindiploma.utils.ThemeManager;
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
@@ -79,6 +80,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        new ThemeManager(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
 
@@ -366,9 +368,9 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         if (id == R.id.nav_existing_products) {
             startActivity(new Intent(this, ManagingExistingProductsActivity.class));
         } else if (id == R.id.nav_profit) {
-
+            startActivity(new Intent(this,ProfitActivity.class));
         } else if (id == R.id.nav_settings) {
-
+            startActivity(new Intent(this,SettingsActivity.class));
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

@@ -6,7 +6,6 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     tools:openDrawer="start">
     <android.support.percent.PercentFrameLayout
     android:layout_width="match_parent"
@@ -15,35 +14,40 @@
     <include layout="@layout/content_inside_shopping_list"
         app:layout_heightPercent="88%"
         app:layout_widthPercent="100%"/>
-
-    <Button
-        android:textColor="@color/cardview_light_background"
-        android:background="@drawable/rect_buttons_main"
-        android:layout_margin="20dp"
-        android:layout_gravity="bottom|start"
-        android:text="@string/scan"
-        android:id="@+id/scan"
-        android:visibility="gone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <Button
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
-        android:textColor="@color/cardview_light_background"
-        android:background="@drawable/rect_buttons_main"
-        android:layout_margin="20dp"
-        android:layout_gravity="bottom|end"
-        android:id="@+id/enter_by_type"
-        android:text="@string/type"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
+        <LinearLayout
+            android:layout_gravity="bottom"
+            android:gravity="center_horizontal"
+            android:layout_below="@+id/recycler_profit"
+            android:id="@+id/buttonHolder"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="5dp"
+            android:layout_height="wrap_content">
+            <Button
+                android:textColor="@color/cardview_light_background"
+                android:background="@drawable/rect_buttons_main"
+                android:text="@string/scan"
+                android:id="@+id/scan"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <Button
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textColor="@color/cardview_light_background"
+                android:background="@drawable/rect_buttons_main"
+                android:id="@+id/enter_by_type"
+                android:text="@string/type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+    </LinearLayout>
     <TextView
         android:id="@+id/inside_shopping_list_text_view_products_costs_sum"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="bottom"
         android:gravity="center"
+        android:layout_marginBottom="60dp"
         android:textStyle="bold" />
 
     </android.support.percent.PercentFrameLayout >

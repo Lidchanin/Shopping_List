@@ -25,6 +25,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activities.ProfitActivity" />
+
         <activity
             android:name=".activities.MainScreenActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -34,7 +36,14 @@
         <activity android:name=".activities.NameAndCostEditActivity" />
         <activity
             android:name=".activities.CameraActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" /><![CDATA[
+            android:name=".activities.MainScreenActivity" />
+
+
+
+        ]]>
+        <activity android:name=".activities.SettingsActivity" android:theme="@style/PurpleGradientTheme"/>
+                    android:screenOrientation="portrait"/>
         <activity android:name=".activities.ChoiceActivity" />
         <activity android:name=".activities.ManagingExistingProductsActivity"></activity>
     </application>

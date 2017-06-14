@@ -5,10 +5,6 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-/**
- * Created by Alexander Destroyed on 21.05.2017.
- */
-
 public class SharedPrefsManager {
 
     private Context context;
@@ -31,6 +27,20 @@ public class SharedPrefsManager {
         } else {
             editBoolean(key, false);
             return false;
+        }
+    }
+
+
+
+    public void editString(String key,String value){
+        sharedPreferencesEditor.putString(key,value).apply();
+    }
+
+    String readString(String key) {
+        if (sharedPreferences.contains(key)){
+           return sharedPreferences.getString(key, null);
+        }else{
+            return "blue";
         }
     }
 

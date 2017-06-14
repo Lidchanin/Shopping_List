@@ -38,6 +38,7 @@ import com.lidchanin.crudindiploma.data.dao.ProductDAO;
 import com.lidchanin.crudindiploma.data.dao.ShoppingListDAO;
 import com.lidchanin.crudindiploma.data.models.ExistingProduct;
 import com.lidchanin.crudindiploma.data.models.Product;
+import com.lidchanin.crudindiploma.utils.ThemeManager;
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
@@ -101,6 +102,7 @@ public class InsideShoppingListActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        new ThemeManager(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inside_shopping_list);
 
@@ -499,9 +501,9 @@ public class InsideShoppingListActivity extends AppCompatActivity
         } else if (id == R.id.nav_existing_products) {
             startActivity(new Intent(this, ManagingExistingProductsActivity.class));
         } else if (id == R.id.nav_profit) {
-
+            startActivity(new Intent(this,ProfitActivity.class));
         } else if (id == R.id.nav_settings) {
-
+            startActivity(new Intent(this,SettingsActivity.class));
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

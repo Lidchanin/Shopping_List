@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.adapters.ChoiceAdapter;
+import com.lidchanin.crudindiploma.utils.ThemeManager;
 
 import java.util.ArrayList;
 
@@ -19,6 +20,7 @@ public class ChoiceActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
+        new ThemeManager(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choice);
         if(getSupportActionBar()!=null){

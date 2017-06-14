@@ -25,6 +25,7 @@ import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.adapters.ManagingExistingProductsRecyclerViewAdapter;
 import com.lidchanin.crudindiploma.data.dao.ProductDAO;
 import com.lidchanin.crudindiploma.data.models.Product;
+import com.lidchanin.crudindiploma.utils.ThemeManager;
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
@@ -63,6 +64,7 @@ public class ManagingExistingProductsActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        new ThemeManager(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_managing_existing_products);
 

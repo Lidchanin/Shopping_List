@@ -1,5 +1,6 @@
 <resources>
-
+    <attr name="startGradient" format="reference|color" />
+    <attr name="endGradient" format="reference|color" />
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
@@ -26,5 +27,19 @@
         <item name="android:colorBackground">@color/colorPopupBackground</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowCloseOnTouchOutside">true</item>
+    </style>
+    <style name="BlueGradientTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="startGradient">@color/blue</item>
+        <item name="endGradient">@color/blueLittleDarker</item>
+        <item name="colorPrimary">?attr/endGradient</item>
+        <item name="colorPrimaryDark">?attr/endGradient</item>
+        <item name="colorAccent">?attr/endGradient</item>
+    </style>
+    <style name="PurpleGradientTheme" parent="Theme.AppCompat.Light">
+        <item name="startGradient">@color/blue</item>
+        <item name="endGradient">@color/purple</item>
+        <item name="colorPrimary">?attr/endGradient</item>
+        <item name="colorPrimaryDark">?attr/endGradient</item>
+        <item name="colorAccent">?attr/endGradient</item>
     </style>
 </resources>

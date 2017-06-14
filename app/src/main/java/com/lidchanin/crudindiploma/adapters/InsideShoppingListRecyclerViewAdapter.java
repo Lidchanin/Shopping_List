@@ -237,6 +237,8 @@ public class InsideShoppingListRecyclerViewAdapter extends RecyclerView
         private TextView textViewProductCost;
         private TextView textViewTotalCost;
         private TextView textViewQuantity;
+        private TextView editTextQuantity;
+        private ImageButton imageButtonAccept;
         private ImageButton imageButtonDelete;
 
         InsideShoppingListViewHolder(View itemView) {
@@ -250,7 +252,7 @@ public class InsideShoppingListRecyclerViewAdapter extends RecyclerView
             textViewTotalCost = (TextView) itemView
                     .findViewById(R.id.inside_shopping_list_text_view_total_cost_in_card_view);
             textViewQuantity = (TextView) itemView.findViewById(
-                    R.id.inside_shopping_list_text_view_quantity_of_product_in_card_view);
+                    R.id.inside_shopping_list_edit_text_quantity_of_product_in_card_view);
             // FIXME: 09.06.2017 filter's work is not correct
             textViewQuantity.setFilters(new InputFilter[]{new DecimalDigitsInputFilter(2, 2)});
             imageButtonDelete = (ImageButton) itemView
