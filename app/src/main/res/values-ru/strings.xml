@@ -134,5 +134,6 @@
     <string name="popularity">популярность</string>
     <string name="sort_by_alphabet">сортировка по алфавиту</string>
     <string name="sort_by_date">сортировка по дате</string>
+    <string name="ask_close_app">Закрыть приложение \"%1$s\"?</string>
 
 </resources>

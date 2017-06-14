@@ -3,6 +3,7 @@ package com.lidchanin.crudindiploma.data.dao;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -165,24 +166,6 @@ public class ProductDAO extends DatabaseDAO {
         } finally {
             cursor.close();
         }
-        /*String[] columns = {COLUMN_ID, COLUMN_NAME, COLUMN_COST, COLUMN_POPULARITY};
-        String selection = WHERE_ID_EQUALS;
-        String[] selectionArgs = {String.valueOf(productId)};
-        String limit = String.valueOf(1);
-        Cursor cursor = database.query(TABLE_PRODUCTS, columns, selection, selectionArgs,
-                null, null, null, limit);
-        if (cursor.moveToFirst()) {
-            Product product = new Product();
-            product.setId(cursor.getLong(0));
-            product.setName(cursor.getString(1));
-            product.setCost(cursor.getDouble(2));
-            product.setPopularity(cursor.getLong(3));
-            cursor.close();
-            return product;
-        } else {
-            cursor.close();
-            return null;
-        }*/
     }
 
     /**
@@ -207,24 +190,6 @@ public class ProductDAO extends DatabaseDAO {
         } finally {
             cursor.close();
         }
-        /*String[] columns = {COLUMN_ID, COLUMN_NAME, COLUMN_COST, COLUMN_POPULARITY};
-        String selection = WHERE_NAME_EQUALS;
-        String[] selectionArgs = {productName};
-        String limit = String.valueOf(1);
-        Cursor cursor = database.query(TABLE_PRODUCTS, columns, selection, selectionArgs,
-                null, null, null, limit);
-        if (cursor.moveToFirst()) {
-            Product product = new Product();
-            product.setId(cursor.getLong(0));
-            product.setName(cursor.getString(1));
-            product.setCost(cursor.getDouble(2));
-            product.setPopularity(cursor.getLong(3));
-            cursor.close();
-            return product;
-        } else {
-            cursor.close();
-            return null;
-        }*/
     }
 
     /**
@@ -235,6 +200,7 @@ public class ProductDAO extends DatabaseDAO {
     public List<Product> getAll() {
         List<Product> products = new ArrayList<>();
         String[] columns = {COLUMN_ID, COLUMN_NAME, COLUMN_COST, COLUMN_POPULARITY};
+        database.beginTransaction();
         ShoppingListCursorWrapper cursor = queryProducts(columns, null, null, null, null,
                 null, null);
         try {
@@ -242,24 +208,14 @@ public class ProductDAO extends DatabaseDAO {
             while (!cursor.isAfterLast()) {
                 products.add(cursor.getProduct());
                 cursor.moveToNext();
+//                database.yieldIfContendedSafely();
             }
+            database.setTransactionSuccessful();
         } finally {
             cursor.close();
+            database.endTransaction();
         }
         return products;
-        /*List<Product> products = new ArrayList<>();
-        String[] columns = {COLUMN_ID, COLUMN_NAME, COLUMN_COST, COLUMN_POPULARITY};
-        Cursor cursor = database.query(TABLE_PRODUCTS, columns, null, null, null, null, null);
-        while (cursor.moveToNext()) {
-            Product product = new Product();
-            product.setId(cursor.getLong(0));
-            product.setName(cursor.getString(1));
-            product.setCost(cursor.getDouble(2));
-            product.setPopularity(cursor.getLong(3));
-            products.add(product);
-        }
-        cursor.close();
-        return products;*/
     }
 
     /**
@@ -269,16 +225,18 @@ public class ProductDAO extends DatabaseDAO {
      * @param shoppingListId is the shopping list id, which contains needed products.
      * @return all products in shopping list, which you need, or null.
      */
+    // FIXME: 14.06.2017 Fix method getAllFromCurrentShoppingList
     public List<Product> getAllFromCurrentShoppingList(long shoppingListId) {
         List<Product> products = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + TABLE_PRODUCTS + " tp, "
                 + TABLE_SHOPPING_LISTS + " tl, "
                 + TABLE_EXISTING_PRODUCTS + " tep "
-                + "WHERE tl." + COLUMN_ID + " = '" + shoppingListId + "'"
-                + " AND " + "tp." + COLUMN_ID
-                + " = " + "tep." + COLUMN_PRODUCT_ID
-                + " AND " + "tl." + COLUMN_ID
-                + " = " + "tep." + COLUMN_LIST_ID;
+                + "WHERE "
+                + "tl." + COLUMN_ID + " = '" + shoppingListId + "'"
+                + " AND "
+                + "tp." + COLUMN_ID + " = " + "tep." + COLUMN_PRODUCT_ID
+                + " AND "
+                + "tl." + COLUMN_ID + " = " + "tep." + COLUMN_LIST_ID;
         Cursor cursor = database.rawQuery(selectQuery, null);
         if (cursor.moveToFirst()) {
             do {
@@ -304,6 +262,7 @@ public class ProductDAO extends DatabaseDAO {
      * @param existedProducts are products that exist in the shopping list.
      * @return five top products or not five).
      */
+    // FIXME: 14.06.2017 Fix method getTopFiveProducts
     public List<Product> getTopFiveProducts(List<Product> existedProducts) {
         List<Product> products = new ArrayList<>();
         String[] selectionArgs = new String[existedProducts.size()];
@@ -315,6 +274,7 @@ public class ProductDAO extends DatabaseDAO {
                 + " NOT IN (" + TextUtils.join(", ", selectionArgs) + ")";
         String orderBy = COLUMN_POPULARITY + " DESC";
         String limit = String.valueOf(5);
+        database.beginTransaction();
         ShoppingListCursorWrapper cursor = queryProducts(columns, selection, null, null,
                 null, orderBy, limit);
         try {
@@ -322,38 +282,16 @@ public class ProductDAO extends DatabaseDAO {
             while (!cursor.isAfterLast()) {
                 products.add(cursor.getProduct());
                 cursor.moveToNext();
+//                database.yieldIfContendedSafely();
             }
+            database.setTransactionSuccessful();
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
             cursor.close();
+            database.endTransaction();
         }
         return products;
-
-        /*List<Product> products = new ArrayList<>();
-        String[] existedProductsIdsArray = new String[existedProducts.size()];
-        for (int i = 0; i < existedProductsIdsArray.length; i++) {
-            existedProductsIdsArray[i] = String.valueOf(existedProducts.get(i).getId());
-        }
-        String existedProductsIds = TextUtils.join(", ", existedProductsIdsArray);
-        String selectQuery = "SELECT * FROM " + TABLE_PRODUCTS
-                + " WHERE " + COLUMN_ID + "  NOT IN (" + existedProductsIds + ")"
-                + " ORDER BY " + COLUMN_POPULARITY + " DESC"
-                + " LIMIT 5";
-        Cursor cursor = database.rawQuery(selectQuery, new String[0]);
-        if (cursor.moveToFirst()) {
-            do {
-                Product product = new Product();
-                product.setId(cursor.getLong(0));
-                product.setName(cursor.getString(1));
-                product.setCost(cursor.getDouble(2));
-                product.setPopularity(cursor.getLong(3));
-                products.add(product);
-            } while (cursor.moveToNext());
-            cursor.close();
-            return products;
-        } else {
-            cursor.close();
-            return null;
-        }*/
     }
 
     /**
@@ -367,22 +305,30 @@ public class ProductDAO extends DatabaseDAO {
      * @see #isExistRelationship(long, long)
      */
     public long addInCurrentShoppingList(Product product, long shoppingListId) {
-        long productId;
-        Product existedProduct = getOneByName(product.getName());
-        if (existedProduct == null) {
-            Log.i(ProductDAO.class.getSimpleName(), "Product doesn't exist from the database.");
-            ContentValues contentValues = getContentValuesProducts(product);
-            productId = database.insert(TABLE_PRODUCTS, null, contentValues);
-            assignProductToShoppingList(shoppingListId, productId);
-        } else {
-            Log.i(ProductDAO.class.getSimpleName(), "Product is already exist from the database.");
-            product.setId(existedProduct.getId());
-            product.setPopularity(existedProduct.getPopularity() + 1);
-            productId = product.getId();
-            update(product);
-            if (!isExistRelationship(shoppingListId, productId)) {
+        long productId = 0;
+        database.beginTransaction();
+        try {
+            Product existedProduct = getOneByName(product.getName());
+            if (existedProduct == null) {
+                Log.i(ProductDAO.class.getSimpleName(), "Product doesn't exist from the database.");
+                ContentValues contentValues = getContentValuesProducts(product);
+                productId = database.insert(TABLE_PRODUCTS, null, contentValues);
                 assignProductToShoppingList(shoppingListId, productId);
+            } else {
+                Log.i(ProductDAO.class.getSimpleName(), "Product is exist from the database.");
+                product.setId(existedProduct.getId());
+                product.setPopularity(existedProduct.getPopularity() + 1);
+                productId = product.getId();
+                update(product);
+                if (!isExistRelationship(shoppingListId, productId)) {
+                    assignProductToShoppingList(shoppingListId, productId);
+                }
             }
+            database.setTransactionSuccessful();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            database.endTransaction();
         }
         return productId;
     }
@@ -398,24 +344,41 @@ public class ProductDAO extends DatabaseDAO {
      * @see #isExistRelationship(long, long)
      */
     public boolean addInCurrentShoppingListAndCheck(Product product, long shoppingListId) {
-        Product existedProduct = getOneByName(product.getName());
-        if (existedProduct == null) {
-            Log.i(ProductDAO.class.getSimpleName(), "Product doesn't exist from the database.");
-            ContentValues contentValues = getContentValuesProducts(product);
-            long newListId = database.insert(TABLE_PRODUCTS, null, contentValues);
-            assignProductToShoppingList(shoppingListId, newListId);
-            return false;
-        } else {
-            Log.i(ProductDAO.class.getSimpleName(), "Product is already exist from the database.");
-            product.setId(existedProduct.getId());
-            product.setPopularity(existedProduct.getPopularity() + 1);
-            update(product);
-            if (!isExistRelationship(shoppingListId, product.getId())) {
-                assignProductToShoppingList(shoppingListId, product.getId());
-                return false;
+        boolean existence = false;
+        database.beginTransaction();
+        try {
+            Product existedProduct = getOneByName(product.getName());
+            if (existedProduct == null) {
+                Log.i(ProductDAO.class.getSimpleName(), "Product doesn't exist from the database.");
+                ContentValues contentValues = getContentValuesProducts(product);
+                long newListId = database.insert(TABLE_PRODUCTS, null, contentValues);
+                assignProductToShoppingList(shoppingListId, newListId);
+                existence = false;
+                Log.i(ProductDAO.class.getSimpleName(),
+                        "Product doesn't exist from the shopping list.");
+            } else {
+                Log.i(ProductDAO.class.getSimpleName(), "Product is exist from the database.");
+                product.setId(existedProduct.getId());
+                product.setPopularity(existedProduct.getPopularity() + 1);
+                update(product);
+                if (!isExistRelationship(shoppingListId, product.getId())) {
+                    assignProductToShoppingList(shoppingListId, product.getId());
+                    existence = false;
+                    Log.i(ProductDAO.class.getSimpleName(),
+                            "Product doesn't exist from the shopping list");
+                } else {
+                    existence = true;
+                    Log.i(ProductDAO.class.getSimpleName(),
+                            "Product is exist from the shopping list.");
+                }
             }
-            return true;
+            database.setTransactionSuccessful();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            database.endTransaction();
         }
+        return existence;
     }
 
     /**
@@ -436,8 +399,17 @@ public class ProductDAO extends DatabaseDAO {
      * @param productId is the product id, which you want to delete from the database.
      */
     public void deleteFromDatabase(long productId) {
-        deleteOneFromAnywhere(productId);
-        database.delete(TABLE_PRODUCTS, WHERE_ID_EQUALS, new String[]{String.valueOf(productId)});
+        database.beginTransaction();
+        try {
+            deleteOneFromAnywhere(productId);
+            database.delete(TABLE_PRODUCTS, WHERE_ID_EQUALS,
+                    new String[]{String.valueOf(productId)});
+            database.setTransactionSuccessful();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            database.endTransaction();
+        }
     }
 
     /**
@@ -487,19 +459,6 @@ public class ProductDAO extends DatabaseDAO {
         } finally {
             cursor.close();
         }
-        /*String selectQuery = "SELECT * FROM " + TABLE_EXISTING_PRODUCTS
-                + " WHERE "
-                + COLUMN_LIST_ID + " = " + shoppingListId
-                + " AND "
-                + COLUMN_PRODUCT_ID + " = " + productId;
-        Cursor cursor = database.rawQuery(selectQuery, null);
-        if (cursor.moveToFirst()) {
-            cursor.close();
-            return true;
-        } else {
-            cursor.close();
-            return false;
-        }*/
     }
 
     /**

@@ -3,6 +3,7 @@ package com.lidchanin.crudindiploma.data.dao;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 
 import com.lidchanin.crudindiploma.data.ShoppingListCursorWrapper;
 import com.lidchanin.crudindiploma.data.models.ShoppingList;
@@ -25,8 +26,8 @@ import static com.lidchanin.crudindiploma.data.DatabaseHelper.TABLE_SHOPPING_LIS
  */
 public class ShoppingListDAO extends DatabaseDAO {
 
-    private static final String WHERE_ID_EQUALS = COLUMN_ID + " =?";
-    private static final String WHERE_LIST_ID_EQUALS = COLUMN_LIST_ID + " =?";
+    private static final String ID_EQUALS = COLUMN_ID + " =?";
+    private static final String LIST_ID_EQUALS = COLUMN_LIST_ID + " =?";
 
     public ShoppingListDAO(Context context) {
         super(context);
@@ -99,7 +100,7 @@ public class ShoppingListDAO extends DatabaseDAO {
      */
     public long update(ShoppingList shoppingList) {
         ContentValues contentValues = getContentValues(shoppingList);
-        return database.update(TABLE_SHOPPING_LISTS, contentValues, WHERE_ID_EQUALS,
+        return database.update(TABLE_SHOPPING_LISTS, contentValues, ID_EQUALS,
                 new String[]{String.valueOf(shoppingList.getId())});
     }
 
@@ -109,9 +110,17 @@ public class ShoppingListDAO extends DatabaseDAO {
      * @param shoppingList is the shopping list, which you want to deleteFromDatabase.
      */
     public void delete(ShoppingList shoppingList) {
-        deleteRelationships(shoppingList.getId());
-        database.delete(TABLE_SHOPPING_LISTS, WHERE_ID_EQUALS,
-                new String[]{String.valueOf(shoppingList.getId())});
+        database.beginTransaction();
+        try {
+            deleteRelationships(shoppingList.getId());
+            database.delete(TABLE_SHOPPING_LISTS, ID_EQUALS,
+                    new String[]{String.valueOf(shoppingList.getId())});
+            database.setTransactionSuccessful();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            database.endTransaction();
+        }
     }
 
     /**
@@ -122,7 +131,7 @@ public class ShoppingListDAO extends DatabaseDAO {
      */
     public ShoppingList getOne(long shoppingListId) {
         String[] columns = {COLUMN_ID, COLUMN_NAME};
-        String selection = WHERE_ID_EQUALS;
+        String selection = ID_EQUALS;
         String[] selectionArgs = {String.valueOf(shoppingListId)};
         String limit = String.valueOf(1);
         ShoppingListCursorWrapper cursor = queryShoppingLists(columns, selection, selectionArgs,
@@ -136,22 +145,6 @@ public class ShoppingListDAO extends DatabaseDAO {
         } finally {
             cursor.close();
         }
-        /*String[] columns = {COLUMN_ID, COLUMN_NAME};
-        String selection = WHERE_ID_EQUALS;
-        String[] selectionArgs = {String.valueOf(shoppingListId)};
-        String limit = String.valueOf(1);
-        Cursor cursor = database.query(TABLE_SHOPPING_LISTS, columns,
-                selection, selectionArgs, null, null, null, limit);
-        if (cursor.moveToFirst()) {
-            ShoppingList shoppingList = new ShoppingList();
-            shoppingList.setId(cursor.getLong(0));
-            shoppingList.setName(cursor.getString(1));
-            cursor.close();
-            return shoppingList;
-        } else {
-            cursor.close();
-            return null;
-        }*/
     }
 
     /**
@@ -162,6 +155,7 @@ public class ShoppingListDAO extends DatabaseDAO {
     public List<ShoppingList> getAll() {
         List<ShoppingList> shoppingLists = new ArrayList<>();
         String[] columns = {COLUMN_ID, COLUMN_NAME, COLUMN_DATE_OF_CREATION};
+        database.beginTransaction();
         ShoppingListCursorWrapper cursor = queryShoppingLists(columns, null, null, null, null,
                 null, null);
         try {
@@ -169,25 +163,16 @@ public class ShoppingListDAO extends DatabaseDAO {
             while (!cursor.isAfterLast()) {
                 shoppingLists.add(cursor.getShoppingListWithDate());
                 cursor.moveToNext();
+//                database.yieldIfContendedSafely();
             }
-        } finally {
+            database.setTransactionSuccessful();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
             cursor.close();
+            database.endTransaction();
         }
         return shoppingLists;
-        /*List<ShoppingList> shoppingLists = new ArrayList<>();
-        String[] columns = {COLUMN_ID, COLUMN_NAME, COLUMN_DATE_OF_CREATION};
-        Cursor cursor = database.query(TABLE_SHOPPING_LISTS, columns, null, null, null, null, null);
-        if (cursor.moveToFirst()) {
-            do {
-                ShoppingList shoppingList = new ShoppingList();
-                shoppingList.setId(cursor.getLong(0));
-                shoppingList.setName(cursor.getString(1));
-                shoppingList.setDateOfCreation(cursor.getString(2));
-                shoppingLists.add(shoppingList);
-            } while (cursor.moveToNext());
-            cursor.close();
-        }
-        return shoppingLists;*/
     }
 
     /**
@@ -197,7 +182,7 @@ public class ShoppingListDAO extends DatabaseDAO {
      * @param shoppingListId is the current shopping list id.
      */
     private void deleteRelationships(long shoppingListId) {
-        database.delete(TABLE_EXISTING_PRODUCTS, WHERE_LIST_ID_EQUALS,
+        database.delete(TABLE_EXISTING_PRODUCTS, LIST_ID_EQUALS,
                 new String[]{String.valueOf(shoppingListId)});
     }
 }
