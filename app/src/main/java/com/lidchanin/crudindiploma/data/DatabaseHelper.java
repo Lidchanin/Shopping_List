@@ -13,8 +13,8 @@ import java.util.List;
 
 /**
  * Class <code>DatabaseHelper</code> extends {@link SQLiteOpenHelper}, which manages database
- * creation and version management. This class creates an “Personal shopping list” with two
- * tables “shopping_lists” and “products”.
+ * creation and version management. This class creates an “Personal shopping list” with three
+ * tables “shopping_lists”, “products” and “existing_products”.
  *
  * @author Lidchanin
  * @see SQLiteOpenHelper
@@ -105,6 +105,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    @Override
+    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        onUpgrade(db, oldVersion, newVersion);
+    }
+
     /**
      * Method <code>loadDefaultProducts</code> loads products into the database.
      *
@@ -114,13 +119,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         List<Product> defaultProducts = defaultProducts();
         for (int i = 0; i < defaultProducts.size(); i++) {
             ContentValues contentValues = new ContentValues();
-            contentValues.put(DatabaseHelper.COLUMN_NAME,
-                    defaultProducts.get(i).getName());
-            contentValues.put(DatabaseHelper.COLUMN_COST,
-                    defaultProducts.get(i).getCost());
-            contentValues.put(DatabaseHelper.COLUMN_POPULARITY,
-                    defaultProducts.get(i).getPopularity());
-            db.insert(DatabaseHelper.TABLE_PRODUCTS, null, contentValues);
+            contentValues.put(COLUMN_NAME, defaultProducts.get(i).getName());
+            contentValues.put(COLUMN_COST, defaultProducts.get(i).getCost());
+            contentValues.put(COLUMN_POPULARITY, defaultProducts.get(i).getPopularity());
+            db.insert(TABLE_PRODUCTS, null, contentValues);
         }
     }
 

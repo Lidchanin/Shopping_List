@@ -11,7 +11,7 @@ import com.lidchanin.crudindiploma.data.DatabaseHelper;
  *
  * @author Lidchanin
  */
-class DatabaseDAO {
+abstract class DatabaseDAO {
 
     protected SQLiteDatabase database;
     private DatabaseHelper databaseHelper;

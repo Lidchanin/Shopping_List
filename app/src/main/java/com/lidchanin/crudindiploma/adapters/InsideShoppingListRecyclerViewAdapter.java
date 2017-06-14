@@ -44,7 +44,6 @@ public class InsideShoppingListRecyclerViewAdapter extends RecyclerView
     private ExistingProductDAO existingProductDAO;
     private Context context;
     private long shoppingListId;
-    // TODO: 09.06.2017 callback
     private OnDataChangeListener mOnDataChangeListener;
 
     public InsideShoppingListRecyclerViewAdapter(
@@ -98,7 +97,6 @@ public class InsideShoppingListRecyclerViewAdapter extends RecyclerView
                         .valueOf(holder.editTextQuantity.getText().toString()));
                 existingProducts.set(holder.getAdapterPosition(), existingProduct);
                 existingProductDAO.update(existingProduct);
-                // TODO: 09.06.2017 callback
                 if (mOnDataChangeListener != null) {
                     mOnDataChangeListener.onDataChanged(existingProducts);
                 }
@@ -129,7 +127,6 @@ public class InsideShoppingListRecyclerViewAdapter extends RecyclerView
                 productDAO.delete(shoppingListId, products.get(adapterPosition).getId());
                 products.remove(adapterPosition);
                 existingProducts.remove(adapterPosition);
-                // TODO: 09.06.2017 callback
                 if (mOnDataChangeListener != null) {
                     mOnDataChangeListener.onDataChanged(existingProducts);
                 }
@@ -191,7 +188,6 @@ public class InsideShoppingListRecyclerViewAdapter extends RecyclerView
                     products.set(adapterPosition, updatedProduct);
                     ExistingProduct updatedExistingProduct = existingProducts.get(adapterPosition);
                     existingProducts.set(adapterPosition, updatedExistingProduct);
-                    // TODO: 09.06.2017 callback
                     if (mOnDataChangeListener != null) {
                         mOnDataChangeListener.onDataChanged(existingProducts);
                     }
@@ -218,7 +214,6 @@ public class InsideShoppingListRecyclerViewAdapter extends RecyclerView
         mOnDataChangeListener = onDataChangeListener;
     }
 
-    // TODO: 09.06.2017 callback
     public interface OnDataChangeListener {
         void onDataChanged(List<ExistingProduct> existingProducts);
     }
