@@ -52,6 +52,7 @@
                 android:background="?attr/selectableItemBackground"
                 android:contentDescription="@string/sort_by_date"
                 android:src="@drawable/ic_arrow_drop_up_black_24dp" />
+
         </FrameLayout>
 
         <android.support.v7.widget.RecyclerView
@@ -61,7 +62,7 @@
             android:layout_above="@+id/main_screen_button_add_shopping_list"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/toolbar"></android.support.v7.widget.RecyclerView>
+            android:layout_below="@+id/toolbar" />
 
         <Button
             android:id="@+id/main_screen_button_add_shopping_list"

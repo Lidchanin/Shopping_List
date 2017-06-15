@@ -4,103 +4,118 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@mipmap/im_shop"
-        android:scaleType="centerCrop"
         android:adjustViewBounds="true"
-        android:contentDescription="@string/main_screen_background" />
+        android:contentDescription="@string/main_screen_background"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/im_shop" />
+
     <RelativeLayout
+        android:id="@+id/google_background"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="120dp"
-        android:background="@drawable/under_google_shape"
-        android:layout_width="wrap_content"
-        android:id="@+id/google_background"
-        android:layout_height="wrap_content">
+        android:background="@drawable/under_google_shape">
+
         <ImageView
-            android:padding="5dp"
-            android:layout_toEndOf="@+id/mail_name"
             android:id="@+id/mail_photo"
-            android:src="@mipmap/ic_launcher"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/mail_name"
+            android:padding="5dp"
+            android:src="@mipmap/ic_launcher" />
+
         <TextView
             android:id="@+id/mail_name"
-            android:text="Name"
-            android:padding="10dp"
-            android:layout_marginTop="3dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:padding="10dp"
+            android:text="Name" />
+
     </RelativeLayout>
+
     <ImageView
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
         android:layout_width="150dp"
         android:layout_height="180dp"
-        android:scaleType="centerCrop"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
         android:adjustViewBounds="true"
         android:background="@mipmap/logo_im"
-        android:contentDescription="@string/main_screen_logo" />
+        android:contentDescription="@string/main_screen_logo"
+        android:scaleType="centerCrop" />
+
     <LinearLayout
-        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="40dp"
         android:gravity="center_horizontal"
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:orientation="horizontal">
+
         <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content">
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
             <Button
-                android:textColor="@color/cardview_light_background"
+                android:id="@+id/rus_tessdata"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
                 android:background="@drawable/rect_buttons_main"
                 android:text="@string/rus_tessdata"
-                android:layout_width="150dp"
-                android:layout_marginRight="5dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/rus_tessdata" />
+                android:textColor="@color/cardview_light_background" />
+
             <ProgressBar
-                android:layout_width="150dp"
-                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                 android:id="@+id/rus_tessdata_progress"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content" />
+
         </LinearLayout>
+
         <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content">
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
             <Button
+                android:id="@+id/eng_tessdata"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:background="@drawable/rect_buttons_main"
-                android:textColor="@color/cardview_light_background"
                 android:text="@string/eng_tessdata"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/eng_tessdata"/>
+                android:textColor="@color/cardview_light_background" />
+
             <ProgressBar
-                android:layout_width="150dp"
-                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                 android:id="@+id/eng_tessdata_progress"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content" />
+
         </LinearLayout>
 
     </LinearLayout>
+
     <Button
-        android:background="@drawable/round_buttons_main"
-        android:layout_gravity="center"
+        android:id="@+id/to_camera"
         android:layout_width="120dp"
         android:layout_height="120dp"
+        android:layout_gravity="center"
+        android:background="@drawable/round_buttons_main"
         android:text="@string/go_to_shop"
-        android:textColor="@color/cardview_light_background"
-        android:id="@+id/to_camera"/>
-
+        android:textColor="@color/cardview_light_background" />
 
     <com.google.android.gms.common.SignInButton
-        android:layout_gravity="center"
-        android:layout_marginTop="120dp"
         android:id="@+id/sing_in_button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="120dp" />
 </FrameLayout>
