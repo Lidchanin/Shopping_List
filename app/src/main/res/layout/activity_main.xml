@@ -13,8 +13,8 @@
         android:adjustViewBounds="true"
         android:contentDescription="@string/main_screen_background" />
     <RelativeLayout
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="50dp"
         android:background="@drawable/under_google_shape"
         android:layout_width="wrap_content"
         android:id="@+id/google_background"
@@ -36,17 +36,16 @@
     </RelativeLayout>
     <ImageView
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        android:layout_width="150dp"
-        android:layout_height="180dp"
+        app:layout_marginTopPercent="3%"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:scaleType="centerCrop"
         android:adjustViewBounds="true"
         android:background="@mipmap/logo_im"
-        android:contentDescription="@string/main_screen_logo"/>
+        android:contentDescription="@string/main_screen_logo" />
     <Button
         android:background="@drawable/round_buttons_main"
-        app:layout_marginTopPercent="50%"
-        android:layout_gravity="center_horizontal"
+        android:layout_gravity="center"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:text="@string/go_to_shop"
@@ -89,8 +88,8 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content" />
     <com.google.android.gms.common.SignInButton
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="50dp"
         android:id="@+id/sing_in_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>

@@ -14,7 +14,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="match_parent"
         android:layout_marginBottom="1dp"
         android:layout_marginTop="1dp"
         android:background="@drawable/inside_recycler"
@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />
             <TextView
-                android:layout_marginLeft="55dp"
+                android:layout_marginLeft="50dp"
                 android:layout_marginTop="10dp"
                 android:text="Product"
                 android:id="@+id/inside_shopping_list_text_view_product_name_in_card_view"
@@ -44,7 +44,7 @@
                 android:gravity="center"
                 android:layout_gravity="right"
                 android:layout_marginRight="80dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 android:textSize="16sp" />
 
             <TextView
@@ -56,11 +56,11 @@
                 android:text="Sum"
                 android:layout_gravity="right"
                 android:layout_marginRight="80dp"
-                android:layout_marginTop="38dp"
+                android:layout_marginTop="33dp"
                 android:textSize="16sp" />
 
             <TextView
-                android:layout_marginTop="38dp"
+                android:layout_marginTop="33dp"
                 android:layout_marginLeft="55dp"
                 android:text="Weight"
                 android:id="@+id/inside_shopping_list_edit_text_quantity_of_product_in_card_view"

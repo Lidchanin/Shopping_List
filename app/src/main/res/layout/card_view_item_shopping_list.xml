@@ -10,11 +10,11 @@
         android:layout_margin="5dp"
         app:cardCornerRadius="15dp"
         android:layout_width="match_parent"
-        android:layout_height="70dp">
+        android:layout_height="75dp">
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="match_parent"
             android:layout_marginBottom="1dp"
             android:layout_marginTop="1dp"
             android:background="@drawable/inside_recycler"
@@ -50,7 +50,8 @@
                 android:id="@+id/main_screen_text_view_date_of_creation_in_card_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end|bottom"
+                android:layout_gravity="right"
+                android:layout_marginTop="50dp"
                 android:layout_marginBottom="8dp"
                 android:layout_marginLeft="70dp"
                 android:layout_marginRight="70dp"
