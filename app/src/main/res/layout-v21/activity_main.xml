@@ -12,8 +12,8 @@
         android:adjustViewBounds="true"
         android:contentDescription="@string/main_screen_background" />
     <RelativeLayout
-        android:layout_gravity="center"
-        android:layout_marginTop="120dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
         android:background="@drawable/under_google_shape"
         android:layout_width="wrap_content"
         android:id="@+id/google_background"
@@ -35,7 +35,7 @@
     </RelativeLayout>
     <ImageView
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="50dp"
         android:layout_width="150dp"
         android:layout_height="180dp"
         android:scaleType="centerCrop"
@@ -83,8 +83,8 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content" />
     <com.google.android.gms.common.SignInButton
-        android:layout_gravity="center"
-        android:layout_marginTop="120dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
         android:id="@+id/sing_in_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>

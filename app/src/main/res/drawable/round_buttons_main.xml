@@ -4,8 +4,8 @@
         <shape android:shape="oval"
             xmlns:android="http://schemas.android.com/apk/res/android">
             <gradient
-                android:startColor="@color/blue"
-                android:endColor="@color/blueLittleDarker"
+                android:startColor="@color/cardview_dark_background"
+                android:endColor="@color/cardview_dark_background"
                 android:angle="45" />
         </shape>
     </item>
@@ -13,8 +13,8 @@
         <shape android:shape="oval"
             xmlns:android="http://schemas.android.com/apk/res/android">
             <gradient
-                android:startColor="@color/blue"
-                android:endColor="@color/blueLittleDarker"
+                android:startColor="@color/cardview_dark_background"
+                android:endColor="@color/cardview_dark_background"
                 android:angle="45" />
             <stroke android:color="#ffffff" android:width="2dp"/>
         </shape>

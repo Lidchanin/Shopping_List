@@ -29,39 +29,39 @@
             android:layout_height="wrap_content" />
         <EditText
             android:inputType="numberDecimal"
-            android:layout_toRightOf="@+id/cost"
             android:id="@+id/weight"
             android:textSize="20sp"
             android:hint="@string/weight"
             android:layout_marginTop="5dp"
-            android:layout_marginLeft="110dp"
+            android:layout_gravity="right"
+            android:layout_marginRight="80dp"
             android:textColorHint="@color/cardview_light_background"
             android:textColor="@color/cardview_light_background"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <EditText
             android:inputType="numberDecimal"
-            android:layout_gravity="right"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="140dp"
             android:layout_toRightOf="@+id/weight"
             android:id="@+id/quantity"
             android:textSize="20sp"
-            android:hint="@string/quantity"
+            android:hint="@string/cost"
+            android:layout_marginTop="55dp"
+            android:layout_marginLeft="20dp"
             android:textColorHint="@color/cardview_light_background"
             android:textColor="@color/cardview_light_background"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"  />
         <TextView
-            android:layout_marginTop="15dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="60dp"
             android:layout_toRightOf="@+id/quantity"
             android:textColor="@color/cardview_light_background"
             android:textColorHint="@color/cardview_light_background"
+            android:layout_gravity="right"
+            android:layout_marginRight="80dp"
             android:hint="Sum"
             android:id="@+id/sum"
             android:textSize="20sp"
-            android:layout_marginRight="65dp"
-            android:layout_gravity="right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <ImageButton
