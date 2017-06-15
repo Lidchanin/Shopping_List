@@ -1,11 +1,14 @@
 package com.lidchanin.crudindiploma.activities;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -78,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         buttonGoToCam = (Button) findViewById(R.id.to_camera);
         signInButton = (SignInButton) findViewById(R.id.sing_in_button);
         googleBackground = (RelativeLayout) findViewById(R.id.google_background);
+
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -151,7 +155,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                         Log.d("click", "onClick: ");
                     }
                 });
-
+        if(Build.VERSION.SDK_INT>=21){
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CAMERA_PERMISSION);
+                return;
+            }
+        }
 
     }
     @Override
