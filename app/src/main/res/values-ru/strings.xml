@@ -10,18 +10,19 @@
     <string name="enter_new_name">Введите новое имя</string>
     <string name="yes">Да</string>
     <string name="no">Нет</string>
-    <string name="delete_shopping_list">Удалить список покупок?</string>
+    <string name="delete_shopping_list">Удалить \"%1$s\"?</string>
     <string name="delete_product">Удалить продукт?</string>
     <string name="you_are_sure_you_want_to_delete_this_product">Вы уверены, что хотите удалить этот продукт?</string>
     <string name="are_you_forgot">Вы не забыли?</string>
     <string name="add_selected_products">Добавить выбранные продукты</string>
     <string name="no_thanks">Нет, спасибо</string>
     <string name="estimated_amount">Приблизительная стоимость = %1$s</string>
+    <string name="are_you_sure_you_want_to_delete_this_shopping_list">Вы уверены, что хотите удалить этот список покупок?</string>
     <string name="you_are_sure_you_want_to_delete_this_shopping_list">Вы уверены, что хотите удалить этот список покупок?</string>
-    <string name="name">название</string>
-    <string name="cost">стоимость</string>
+    <string name="name">Название</string>
+    <string name="cost">Цена</string>
     <string name="total">итого</string>
-    <string name="quantity">количество\n(штук или кг)</string>
+    <string name="quantity_and_weight">количество(штук или кг)</string>
     <string name="accept">принять</string>
     <string name="delete">удалить</string>
     <string name="close">закрыть</string>
@@ -115,4 +116,29 @@
     <string name="ok_btn">OK</string>
     <string name="scan">скан</string>
     <string name="type">вручную</string>
+    <string name="profit">Выгода</string>
+    <string name="settings">Настройки</string>
+    <string name="add_new_product">Добавить новый продукт</string>
+    <string name="ask_delete_product">Удалить \"%1$s\"?</string>
+    <string name="ask_delete_product_from_database">Вы действительно хотите удалить этот продукт отовсюду?</string>
+    <string name="ask_update_product">Обновить \"%1$s\"?</string>
+    <string name="ask_update_product_from_database">"Вы действительно хотите обновить продукт? Он будет обновлён во всех существующих списках."</string>
+    <string name="ask_update_shopping_list">Обновить \"%1$s\"?</string>
+    <string name="ask_update_shopping_list_from_database">Вы действительно хотите обновить этот список покупок?</string>
+    <string name="date_of_creation">дата создания</string>
+    <string name="edit_product">Изменение продукта</string>
+    <string name="edit_shopping_list">Изменение списка покупок</string>
+    <string name="enter_name_and_cost">Введите название и стоимость</string>
+    <string name="navigation_drawer_close"></string>
+    <string name="please_enter_all_data">Пожалуйста, введите все данные!</string>
+    <string name="please_enter_name">Пожалуйста, введите название!</string>
+    <string name="popularity">популярность</string>
+    <string name="sort_by_alphabet">сортировка по алфавиту</string>
+    <string name="sort_by_date">сортировка по дате</string>
+    <string name="ask_close_app">Закрыть приложение \"%1$s\"?</string>
+    <string name="weight">Вес</string>
+    <string name="quantity">Кол-во</string>
+    <string name="add_best">Добавить лучший</string>
+    <string name="clear">Очистить</string>
+
 </resources>

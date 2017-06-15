@@ -18,11 +18,13 @@ import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.Image;
 import android.media.ImageReader;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -41,6 +43,7 @@ import android.widget.Toast;
 import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.ocr.ImageFilters;
 import com.lidchanin.crudindiploma.ocr.Recognize;
+import com.lidchanin.crudindiploma.utils.ThemeManager;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -52,6 +55,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class CameraActivity extends AppCompatActivity {
     private static final String TAG = "AndroidCameraApi";
     private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
@@ -132,6 +136,7 @@ public class CameraActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
+        new ThemeManager(this);
         super.onCreate(savedInstanceState);
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
@@ -150,6 +155,7 @@ public class CameraActivity extends AppCompatActivity {
             @Override
             public void onClick(final View v) {
                 id +=1;
+                if(id<3){
                 final Bitmap bitmap = textureView.getBitmap();
                 new Recognize(progressBar,getApplicationContext(),shoppingListId).execute(bitmap);
                 createCameraPreview();
@@ -164,6 +170,9 @@ public class CameraActivity extends AppCompatActivity {
                     NotificationManager mNotificationManager =
                             (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                     mNotificationManager.notify(id,notificationCompat.build());
+                }}
+                else{
+                    Toast.makeText(getApplicationContext(),"Подождите завершения обработки",Toast.LENGTH_LONG).show();
                 }
             }
         });

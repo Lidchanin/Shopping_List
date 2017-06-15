@@ -42,6 +42,51 @@
         android:adjustViewBounds="true"
         android:background="@mipmap/logo_im"
         android:contentDescription="@string/main_screen_logo" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_marginBottom="40dp"
+        android:gravity="center_horizontal"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content">
+            <Button
+                android:textColor="@color/cardview_light_background"
+                android:background="@drawable/rect_buttons_main"
+                android:text="@string/rus_tessdata"
+                android:layout_width="150dp"
+                android:layout_marginRight="5dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/rus_tessdata" />
+            <ProgressBar
+                android:layout_width="150dp"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:id="@+id/rus_tessdata_progress"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content">
+            <Button
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/rect_buttons_main"
+                android:textColor="@color/cardview_light_background"
+                android:text="@string/eng_tessdata"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/eng_tessdata"/>
+            <ProgressBar
+                android:layout_width="150dp"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:id="@+id/eng_tessdata_progress"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+    </LinearLayout>
     <Button
         android:background="@drawable/round_buttons_main"
         android:layout_gravity="center"
@@ -50,38 +95,8 @@
         android:text="@string/go_to_shop"
         android:textColor="@color/cardview_light_background"
         android:id="@+id/to_camera"/>
-    <Button
-        android:layout_gravity="bottom|center_horizontal"
-        android:textColor="@color/cardview_light_background"
-        android:background="@drawable/rect_buttons_main"
-        android:text="@string/rus_tessdata"
-        android:layout_marginBottom="100dp"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/rus_tessdata" />
-    <ProgressBar
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="92dp"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:id="@+id/rus_tessdata_progress"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content" />
-    <Button
-        android:layout_gravity="bottom|center_horizontal"
-        android:background="@drawable/rect_buttons_main"
-        android:textColor="@color/cardview_light_background"
-        android:layout_marginBottom="40dp"
-        android:text="@string/eng_tessdata"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/eng_tessdata"/>
-    <ProgressBar
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="32dp"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:id="@+id/eng_tessdata_progress"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content" />
+
+
     <com.google.android.gms.common.SignInButton
         android:layout_gravity="center"
         android:layout_marginTop="120dp"

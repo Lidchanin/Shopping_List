@@ -13,15 +13,15 @@ import java.util.List;
 
 /**
  * Class <code>DatabaseHelper</code> extends {@link SQLiteOpenHelper}, which manages database
- * creation and version management. This class creates an “Personal shopping list” with two
- * tables “shopping_lists” and “products”.
+ * creation and version management. This class creates an “Personal shopping list” with three
+ * tables “shopping_lists”, “products” and “existing_products”.
  *
  * @author Lidchanin
  * @see SQLiteOpenHelper
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 10;
+    private static final int DATABASE_VERSION = 11;
     private static final String DATABASE_NAME = "personal_shopping_lists";
 
     public static final String TABLE_SHOPPING_LISTS = "shopping_lists";
@@ -35,7 +35,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_LIST_ID = "list_id";
     public static final String COLUMN_PRODUCT_ID = "product_id";
     public static final String COLUMN_QUANTITY_OR_WEIGHT = "quantity_or_weight";
-    public static final String COLUMN_TOTAL_COST = "total_cost";
     public static final String COLUMN_DATE_OF_CREATION = "date_of_creation";
 
     private static final String CREATE_TABLE_SHOPPING_LISTS
@@ -59,8 +58,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + COLUMN_ID + " INTEGER PRIMARY KEY NOT NULL, "
             + COLUMN_LIST_ID + " INTEGER REFERENCES " + TABLE_SHOPPING_LISTS + " (" + COLUMN_ID + "), "
             + COLUMN_PRODUCT_ID + " INTEGER REFERENCES " + TABLE_PRODUCTS + " (" + COLUMN_ID + "), "
-            + COLUMN_QUANTITY_OR_WEIGHT + " REAL DEFAULT 1, "
-            + COLUMN_TOTAL_COST + " REAL"
+            + COLUMN_QUANTITY_OR_WEIGHT + " REAL DEFAULT 1"
             + ");";
 
     private static DatabaseHelper instance;
@@ -107,6 +105,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    @Override
+    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        onUpgrade(db, oldVersion, newVersion);
+    }
+
     /**
      * Method <code>loadDefaultProducts</code> loads products into the database.
      *
@@ -116,13 +119,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         List<Product> defaultProducts = defaultProducts();
         for (int i = 0; i < defaultProducts.size(); i++) {
             ContentValues contentValues = new ContentValues();
-            contentValues.put(DatabaseHelper.COLUMN_NAME,
-                    defaultProducts.get(i).getName());
-            contentValues.put(DatabaseHelper.COLUMN_COST,
-                    defaultProducts.get(i).getCost());
-            contentValues.put(DatabaseHelper.COLUMN_POPULARITY,
-                    defaultProducts.get(i).getPopularity());
-            db.insert(DatabaseHelper.TABLE_PRODUCTS, null, contentValues);
+            contentValues.put(COLUMN_NAME, defaultProducts.get(i).getName());
+            contentValues.put(COLUMN_COST, defaultProducts.get(i).getCost());
+            contentValues.put(COLUMN_POPULARITY, defaultProducts.get(i).getPopularity());
+            db.insert(TABLE_PRODUCTS, null, contentValues);
         }
     }
 

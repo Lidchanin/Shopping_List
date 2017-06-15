@@ -34,24 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </RelativeLayout>
-    <ImageView
-        android:layout_gravity="center_horizontal"
-        app:layout_marginTopPercent="3%"
-        app:layout_widthPercent="40%"
-        app:layout_heightPercent="37%"
-        android:scaleType="centerCrop"
-        android:adjustViewBounds="true"
-        android:background="@mipmap/logo_im"
-        android:contentDescription="@string/main_screen_logo" />
-    <Button
-        android:background="@drawable/round_buttons_main"
-        app:layout_marginTopPercent="50%"
-        android:layout_gravity="center_horizontal"
-        app:layout_widthPercent="30%"
-        app:layout_heightPercent="22%"
-        android:text="@string/go_to_shop"
-        android:textColor="@color/cardview_light_background"
-        android:id="@+id/to_camera"/>
+
     <Button
         android:layout_gravity="bottom|center_horizontal"
         android:textColor="@color/cardview_light_background"
@@ -94,4 +77,24 @@
         android:id="@+id/sing_in_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/to_camera"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_gravity="center"
+        android:background="@drawable/round_buttons_main"
+        android:text="@string/go_to_shop"
+        android:textColor="@color/cardview_light_background" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="118dp"
+        android:layout_height="142dp"
+        android:layout_gravity="center_horizontal"
+        android:adjustViewBounds="true"
+        android:background="@mipmap/logo_im"
+        android:contentDescription="@string/main_screen_logo"
+        android:scaleType="centerCrop"
+        app:layout_marginTopPercent="3%" />
 </android.support.percent.PercentFrameLayout>

@@ -3,34 +3,45 @@ package com.lidchanin.crudindiploma.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.widget.Toast;
-
-import com.lidchanin.crudindiploma.Constants;
-
-/**
- * Created by Alexander Destroyed on 21.05.2017.
- */
+import android.util.Log;
 
 public class SharedPrefsManager {
+
     private Context context;
-    private String lang;
-    private SharedPreferences sharedPreferences ;
+    private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor sharedPreferencesEditor;
-    public SharedPrefsManager(Context context, String lang){
-        this.context=context;
-        this.lang = lang;
-        sharedPreferences= PreferenceManager.getDefaultSharedPreferences(context);
-        sharedPreferencesEditor= sharedPreferences.edit();
-        langHelper();
+
+    public SharedPrefsManager(Context context) {
+        this.context = context;
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        sharedPreferencesEditor = sharedPreferences.edit();
     }
-    private void langHelper() {
-                    if(sharedPreferences.contains(Constants.SharedPreferences.PREF_KEY_LANG_RECOGNIZE))
-    {
-        if (sharedPreferences.getString(Constants.SharedPreferences.PREF_KEY_LANG_RECOGNIZE, "").equals(lang)) {
-            Toast.makeText(context, "It's also exists!", Toast.LENGTH_SHORT).show();
+
+    public void editBoolean(String key, boolean value) {
+        sharedPreferencesEditor.putBoolean(key, value).commit();
+    }
+
+    public boolean readBoolean(String key) {
+        if (sharedPreferences.contains(key)) {
+            return sharedPreferences.getBoolean(key, true);
         } else {
-            sharedPreferencesEditor.putString(Constants.SharedPreferences.PREF_KEY_LANG_RECOGNIZE, lang).apply();
+            editBoolean(key, false);
+            return false;
         }
     }
-}
+
+
+
+    public void editString(String key,String value){
+        sharedPreferencesEditor.putString(key,value).apply();
+    }
+
+    String readString(String key) {
+        if (sharedPreferences.contains(key)){
+           return sharedPreferences.getString(key, null);
+        }else{
+            return "blue";
+        }
+    }
+
 }

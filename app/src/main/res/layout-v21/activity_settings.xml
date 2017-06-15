@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:openDrawer="start">
+    <android.support.percent.PercentRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:background="@drawable/toolbar_background"
+            android:layout_height="54dp">
+            <ImageButton
+                android:id="@+id/hamburger"
+                android:background="?attr/selectableItemBackground"
+                android:src="@drawable/ic_menu_24dp"
+                android:layout_width="54dp"
+                android:layout_height="54dp" />
+            <TextView
+                android:text="@string/settings"
+                android:textColor="@color/cardview_light_background"
+                android:id="@+id/inside_shopping_list_text_view_shopping_list_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:textSize="20sp"/>
+        </FrameLayout>
+        <TextView
+            android:textSize="18sp"
+            android:id="@+id/textview_colors_info"
+            android:text="Choose your colors and gradients"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="11dp"
+            android:layout_below="@+id/toolbar"
+            android:layout_centerHorizontal="true" />
+    <FrameLayout
+        android:layout_below="@+id/textview_colors_info"
+        android:id="@+id/blue_gradient"
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@drawable/gradient_blue" />
+    <FrameLayout
+        android:layout_below="@+id/blue_gradient"
+        android:id="@+id/blue_purple_gradient"
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@drawable/gradient_blue_purple" />
+
+
+
+    </android.support.percent.PercentRelativeLayout>
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:menu="@menu/activity_main_drawer"/>
+    </android.support.v4.widget.DrawerLayout>
