@@ -18,25 +18,25 @@ import java.util.List;
 
 public class ChoiceAdapter extends RecyclerView.Adapter<ChoiceAdapter.ChoiceViewHolder> {
 
-    //// TODO: 29.05.2017 make on activitycloseListener 
+    private final String TAG = this.getClass().getSimpleName();
+    //// TODO: 29.05.2017 make on activitycloseListener
     private List<String> CostList;
     private List<String> NameList;
     private String outputName;
     private String outputCost;
     private long shoppingListId;
-    final String TAG = this.getClass().getSimpleName();
-    public ChoiceAdapter (final List<String> nameList,final List<String> costList,long shoppingListId) {
+
+    public ChoiceAdapter(final List<String> nameList, final List<String> costList, long shoppingListId) {
         this.NameList = new ArrayList<>(nameList);
         this.CostList = new ArrayList<>(costList);
-        this.shoppingListId= shoppingListId;
+        this.shoppingListId = shoppingListId;
     }
 
 
     @Override
     public ChoiceViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.design_inside_choice,parent,false);
-        ChoiceViewHolder choiceViewHolder= new ChoiceViewHolder(view);
-        return choiceViewHolder;
+        final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.design_inside_choice, parent, false);
+        return new ChoiceViewHolder(view);
     }
 
     @Override
@@ -45,25 +45,24 @@ public class ChoiceAdapter extends RecyclerView.Adapter<ChoiceAdapter.ChoiceView
     }
 
     @Override
-    public void onBindViewHolder(final ChoiceViewHolder holder, final int position) {
-        holder.costOrNameChoiceTextBox.setText(NameList.get(position));
+    public void onBindViewHolder(final ChoiceViewHolder holder, int position) {
+        holder.costOrNameChoiceTextBox.setText(NameList.get(holder.getAdapterPosition()));
         holder.designedFrameChoice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, String.valueOf(position));
-                if(NameList==CostList){
-                    outputCost = CostList.get(position);
-                    Toast.makeText(v.getContext(),outputName+"And"+outputCost,Toast.LENGTH_SHORT).show();
-                    Intent intent= new Intent(v.getContext().getApplicationContext(), NameAndCostEditActivity.class);
-                    intent.putExtra("OutPutName",outputName);
-                    intent.putExtra("OutPutCost",outputCost);
-                    Log.d(TAG, "id"+String.valueOf(shoppingListId));
-                    intent.putExtra("shoppingListId",shoppingListId);
+                Log.d(TAG, String.valueOf(holder.getAdapterPosition()));
+                if (NameList == CostList) {
+                    outputCost = CostList.get(holder.getAdapterPosition());
+                    Toast.makeText(v.getContext(), outputName + "And" + outputCost, Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(v.getContext().getApplicationContext(), NameAndCostEditActivity.class);
+                    intent.putExtra("OutPutName", outputName);
+                    intent.putExtra("OutPutCost", outputCost);
+                    Log.d(TAG, "id" + String.valueOf(shoppingListId));
+                    intent.putExtra("shoppingListId", shoppingListId);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     v.getContext().getApplicationContext().startActivity(intent);
-                }
-                else {
-                    outputName=NameList.get(position);
+                } else {
+                    outputName = NameList.get(holder.getAdapterPosition());
                     NameList.clear();
                     NameList = CostList;
                     ChoiceAdapter.this.notifyDataSetChanged();

@@ -379,6 +379,7 @@ public class InsideShoppingListActivity extends AppCompatActivity
         editTextQuantity.setInputType(InputType.TYPE_CLASS_NUMBER
                 | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         editTextQuantity.setHint(getString(R.string.enter_quantity));
+        editTextQuantity.setText(String.valueOf(1));
 
         layout.addView(autoCompleteTextViewName);
         layout.addView(editTextCost);
@@ -401,7 +402,6 @@ public class InsideShoppingListActivity extends AppCompatActivity
 
                     ExistingProduct newExistingProduct = new ExistingProduct(Double
                             .parseDouble(editTextQuantity.getText().toString()));
-//                    ExistingProduct newExistingProduct =
 
                     boolean existence = productDAO
                             .addInCurrentShoppingListAndCheck(newProduct, shoppingListId);
@@ -430,8 +430,9 @@ public class InsideShoppingListActivity extends AppCompatActivity
      * The method <code>notifyListsChanges</code> updates Product and ExistingProduct in lists
      * on screen.
      *
-     * @param existence  is the existence Product in lists.
-     * @param newProduct is the new Product.
+     * @param existence          is the existence Product in lists.
+     * @param newProduct         is the new Product.
+     * @param newExistingProduct is the new ExistingProduct.
      */
     private void notifyListsChanges(boolean existence, Product newProduct,
                                     ExistingProduct newExistingProduct) {
@@ -501,9 +502,9 @@ public class InsideShoppingListActivity extends AppCompatActivity
         } else if (id == R.id.nav_existing_products) {
             startActivity(new Intent(this, ManagingExistingProductsActivity.class));
         } else if (id == R.id.nav_profit) {
-            startActivity(new Intent(this,ProfitActivity.class));
+            startActivity(new Intent(this, ProfitActivity.class));
         } else if (id == R.id.nav_settings) {
-            startActivity(new Intent(this,SettingsActivity.class));
+            startActivity(new Intent(this, SettingsActivity.class));
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
