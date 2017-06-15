@@ -119,7 +119,7 @@ public class SettingsActivity extends AppCompatActivity implements NavigationVie
         int id = item.getItemId();
 
         if (id == R.id.nav_existing_products) {
-
+            startActivity(new Intent(this,ManagingExistingProductsActivity.class));
         }else if (id == R.id.nav_lists) {
             startActivity(new Intent(this,MainScreenActivity.class));
         }else if (id == R.id.nav_profit) {

@@ -20,6 +20,7 @@ public class NameAndCostEditActivity extends AppCompatActivity{
     Button doneButton;
     EditText editTextName;
     EditText editTextCost;
+    EditText editTextWeight;
 
     private ProductDAO productDAO;
 
@@ -29,6 +30,7 @@ public class NameAndCostEditActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_name_and_cost);
         doneButton=(Button) findViewById(R.id.edit_done);
+        editTextWeight = (EditText) findViewById(R.id.edit_weight);
         editTextCost = (EditText) findViewById(R.id.edit_cost);
         editTextName = (EditText) findViewById(R.id.edit_name);
         productDAO = new ProductDAO(this);
@@ -44,6 +46,7 @@ public class NameAndCostEditActivity extends AppCompatActivity{
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //// TODO: 15.06.2017 Add weight and product to list and DB
                 productDAO.open();
                 product.setName(editTextName.getText().toString());
                 product.setCost(Double.parseDouble(editTextCost.getText().toString()));

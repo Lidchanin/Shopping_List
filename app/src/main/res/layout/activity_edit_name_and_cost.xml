@@ -17,6 +17,13 @@
         android:id="@+id/edit_cost"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+    <EditText
+        android:textColor="@color/cardview_light_background"
+        android:layout_margin="10dp"
+        android:padding="10dp"
+        android:id="@+id/edit_weight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
     <Button
         android:padding="10dp"
         android:layout_gravity="center"

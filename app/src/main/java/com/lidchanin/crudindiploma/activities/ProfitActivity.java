@@ -125,7 +125,7 @@ public class ProfitActivity extends AppCompatActivity implements NavigationView.
         if (id == R.id.nav_lists) {
             startActivity(new Intent(this,MainScreenActivity.class));
         } else if (id == R.id.nav_existing_products) {
-
+            startActivity(new Intent(this,ManagingExistingProductsActivity.class));
         } else if (id == R.id.nav_settings) {
             startActivity(new Intent(this,SettingsActivity.class));
         }

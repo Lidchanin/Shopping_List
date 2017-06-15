@@ -18,7 +18,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:background="@color/cardview_dark_background">
+            android:background="@drawable/toolbar_background">
 
             <ImageButton
                 android:id="@+id/hamburger"
@@ -40,62 +40,13 @@
 
         </FrameLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="@color/cardview_dark_background"
-            android:layout_below="@+id/toolbar"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:id="@+id/linearLayout2">
 
-            <TextView
-                android:id="@+id/temp_edit"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1.5"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="5"
-                android:text="@string/name"
-                android:textAlignment="center"
-                android:textSize="12sp"
-                android:textColor="#FFF"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:text="@string/cost"
-                android:textAlignment="center"
-                android:textSize="12sp"
-                android:textColor="#FFF"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:text="@string/popularity"
-                android:textAlignment="center"
-                android:textSize="12sp"
-                android:textColor="#FFF"/>
-
-            <TextView
-                android:id="@+id/temp_delete"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1.5"/>
-
-        </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/managing_existing_products_recycler_view_all_products"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/linearLayout2"
+            android:layout_below="@+id/toolbar"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
