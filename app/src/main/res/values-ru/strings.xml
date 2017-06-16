@@ -137,7 +137,6 @@
     <string name="sort_by_date">сортировка по дате</string>
     <string name="ask_close_app">Закрыть приложение \"%1$s\"?</string>
     <string name="weight">Вес</string>
-    <string name="quantity">Кол-во</string>
     <string name="add_best">Добавить лучший</string>
     <string name="clear">Очистить</string>
     <string name="enter_quantity">Введите количество</string>
