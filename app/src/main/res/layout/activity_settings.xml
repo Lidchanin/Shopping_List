@@ -35,7 +35,7 @@
         <TextView
             android:textSize="18sp"
             android:id="@+id/textview_colors_info"
-            android:text="Choose your colors and gradients"
+            android:text="@string/choose_your_colors_and_gradients"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_marginTop="11dp"

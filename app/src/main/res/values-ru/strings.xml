@@ -140,5 +140,9 @@
     <string name="quantity">Кол-во</string>
     <string name="add_best">Добавить лучший</string>
     <string name="clear">Очистить</string>
+    <string name="enter_quantity">Введите количество</string>
+    <string name="quantity">Количество</string>
+    <string name="choose_your_colors_and_gradients">Выберите подходящую цветовую гамму</string>
+    <string name="sum">Сумма</string>
 
 </resources>

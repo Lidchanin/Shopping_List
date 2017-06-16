@@ -149,4 +149,6 @@
     <string name="quantity">Quantity</string>
     <string name="add_best">Add best</string>
     <string name="clear">Clear</string>
+    <string name="choose_your_colors_and_gradients">Choose your colors and gradients</string>
+    <string name="sum">Sum</string>
 </resources>
