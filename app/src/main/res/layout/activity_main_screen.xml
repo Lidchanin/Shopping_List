@@ -42,7 +42,7 @@
                 android:layout_marginRight="54dp"
                 android:background="?attr/selectableItemBackground"
                 android:contentDescription="@string/sort_by_alphabet"
-                android:src="@drawable/ic_arrow_drop_down_black_24dp" />
+                android:src="@drawable/ic_sort_alphabet" />
 
             <ImageButton
                 android:id="@+id/main_screen_image_button_sort_by_date"
@@ -51,7 +51,7 @@
                 android:layout_gravity="center_vertical|end"
                 android:background="?attr/selectableItemBackground"
                 android:contentDescription="@string/sort_by_date"
-                android:src="@drawable/ic_arrow_drop_up_black_24dp" />
+                android:src="@drawable/ic_sort_by_date" />
 
         </FrameLayout>
 

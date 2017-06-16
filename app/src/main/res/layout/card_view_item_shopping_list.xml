@@ -9,7 +9,9 @@
         android:id="@+id/main_screen_card_view_shopping_list"
         android:layout_width="match_parent"
         android:layout_height="75dp"
-        android:layout_margin="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
         app:cardCornerRadius="15dp">
 
         <FrameLayout
