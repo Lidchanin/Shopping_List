@@ -363,6 +363,7 @@ public class InsideShoppingListActivity extends AppCompatActivity
         final EditText editTextCost = new EditText(this);
         editTextCost.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         editTextCost.setHint(getString(R.string.enter_cost));
+        editTextCost.setText("0");
 
         final AutoCompleteTextView autoCompleteTextViewName = new AutoCompleteTextView(this);
         autoCompleteTextViewName.setInputType(InputType.TYPE_CLASS_TEXT);
