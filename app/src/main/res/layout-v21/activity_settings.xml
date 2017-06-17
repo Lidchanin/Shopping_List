@@ -55,6 +55,36 @@
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:background="@drawable/gradient_blue_purple" />
+        <TextView
+            android:gravity="center"
+            android:id="@+id/label_change_lang"
+            android:text="Choose recognize language: "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/blue_purple_gradient"
+            android:layout_centerHorizontal="true" />
+    <LinearLayout
+        android:layout_below="@id/label_change_lang"
+        android:gravity="center_horizontal"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent">
+        <Button
+            android:textColor="@color/cardview_light_background"
+            android:layout_margin="5dp"
+            android:id="@+id/button_eng_tess"
+            android:background="@drawable/rect_buttons_main"
+            android:text="@string/eng_tessdata"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <Button
+            android:textColor="@color/cardview_light_background"
+            android:layout_margin="5dp"
+            android:id="@+id/button_rus_tess"
+            android:background="@drawable/rect_buttons_main"
+            android:text="@string/rus_tessdata"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
 
 

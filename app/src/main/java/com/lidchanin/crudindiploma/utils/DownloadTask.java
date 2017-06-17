@@ -1,15 +1,19 @@
 package com.lidchanin.crudindiploma.utils;
 
+import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.PowerManager;
+import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.lidchanin.crudindiploma.Constants;
+import com.lidchanin.crudindiploma.R;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -22,13 +26,18 @@ import java.net.URL;
 public class DownloadTask extends AsyncTask<String,Integer,String> {
 
     private Context context;
-    private ProgressBar progressBar;
     private String fileName;
     private PowerManager.WakeLock wakeLock;
-    public DownloadTask (Context context,ProgressBar progressBar, String fileName){
+    private NotificationCompat.Builder notificationCompat;
+    private NotificationCompat.InboxStyle inboxStyle;
+    private NotificationManager mNotificationManager;
+
+    public DownloadTask (Context context, String fileName){
         this.context = context;
         this.fileName= fileName;
-        this.progressBar = progressBar;
+        notificationCompat = new NotificationCompat.Builder(context);
+        inboxStyle = new NotificationCompat.InboxStyle();
+        mNotificationManager=(NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
     @Override
@@ -89,6 +98,7 @@ public class DownloadTask extends AsyncTask<String,Integer,String> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
+        createDownloadStartNotification();
         PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
                 getClass().getName());
@@ -98,20 +108,29 @@ public class DownloadTask extends AsyncTask<String,Integer,String> {
     @Override
     protected void onProgressUpdate(Integer... progress) {
         super.onProgressUpdate(progress);
-        progressBar.setVisibility(View.VISIBLE);
-        progressBar.setIndeterminate(false);
-        progressBar.setMax(100);
-        progressBar.setProgress(progress[0]);
+        if(progress[0]==100){
+            mNotificationManager.cancel(1);
+        }else {
+            notificationCompat.setProgress(100,progress[0],false);
+            mNotificationManager.notify(1,notificationCompat.build());
+        }
     }
 
     @Override
     protected void onPostExecute(String result) {
         wakeLock.release();
         if (result != null)
-            Toast.makeText(context,"Download error: "+result, Toast.LENGTH_LONG).show();
+            Toast.makeText(context,context.getString(R.string.download_error)+result, Toast.LENGTH_LONG).show();
         else
-            Toast.makeText(context,"File downloaded", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context,context.getString(R.string.file_downloaded), Toast.LENGTH_SHORT).show();
     }
 
-
+    private void createDownloadStartNotification() {
+            notificationCompat.setSmallIcon(R.mipmap.ic_launcher_1);
+            notificationCompat.setContentTitle(context.getString(R.string.lang_downloading));
+            notificationCompat.setContentText(context.getString(R.string.download_starts));
+            notificationCompat.setProgress(100,0,false);
+            notificationCompat.setStyle(inboxStyle);
+            mNotificationManager.notify(1, notificationCompat.build());
+    }
 }

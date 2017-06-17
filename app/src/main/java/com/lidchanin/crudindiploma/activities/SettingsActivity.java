@@ -3,6 +3,7 @@ package com.lidchanin.crudindiploma.activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -24,11 +26,14 @@ import com.google.firebase.auth.FirebaseUser;
 import com.lidchanin.crudindiploma.Constants;
 import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.data.dao.ShoppingListDAO;
+import com.lidchanin.crudindiploma.utils.DownloadTask;
 import com.lidchanin.crudindiploma.utils.SharedPrefsManager;
 import com.lidchanin.crudindiploma.utils.ThemeManager;
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
+
+import java.io.File;
 
 public class SettingsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -46,6 +51,9 @@ public class SettingsActivity extends AppCompatActivity implements NavigationVie
     private Transformation transformation;
     private FrameLayout blueGradient;
     private FrameLayout purpleGradient;
+    private Button buttonTessRus;
+    private Button buttonTessEng;
+    private SharedPrefsManager sharedPrefsManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,8 +65,33 @@ public class SettingsActivity extends AppCompatActivity implements NavigationVie
                 getSupportActionBar().hide();
             }
             initNavigationDrawer();
+        sharedPrefsManager = new SharedPrefsManager(getApplicationContext());
         buttonHamburger = (ImageButton) findViewById(R.id.hamburger);
         blueGradient = (FrameLayout) findViewById(R.id.blue_gradient);
+        buttonTessEng = (Button) findViewById(R.id.button_eng_tess);
+        buttonTessRus = (Button) findViewById(R.id.button_rus_tess);
+        final File rusTessaract = new File(String.valueOf(Environment.getExternalStorageDirectory()) + Constants.Tessaract.SLASH + Constants.Tessaract.TESSDATA + Constants.Tessaract.SLASH + Constants.Tessaract.RUSTRAIN);
+        final File engTessaract = new File(String.valueOf(Environment.getExternalStorageDirectory()) + Constants.Tessaract.SLASH + Constants.Tessaract.TESSDATA + Constants.Tessaract.SLASH + Constants.Tessaract.ENGTRAIN);
+        buttonTessRus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(sharedPrefsManager.readString(Constants.SharedPreferences.PREF_KEY_LANG_RECOGNIZE).equals(Constants.Tessaract.ENG_TESS_SHARED)){
+                    if(!rusTessaract.exists()){
+                        new DownloadTask(SettingsActivity.this, Constants.Tessaract.RUSTRAIN).execute("https://firebasestorage.googleapis.com/v0/b/testdb-5f32a.appspot.com/o/tessaract%2Feng.traineddata?alt=media&token=58c2aa2d-417f-4d22-87eb-80627577feb8");
+                    }
+                }
+            }
+        });
+        buttonTessEng.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(sharedPrefsManager.readString(Constants.SharedPreferences.PREF_KEY_LANG_RECOGNIZE).equals(Constants.Tessaract.RUS_TESS_SHARED)){
+                    if(!engTessaract.exists()){
+                        new DownloadTask(SettingsActivity.this, Constants.Tessaract.ENGTRAIN).execute("https://firebasestorage.googleapis.com/v0/b/testdb-5f32a.appspot.com/o/tessaract%2Feng.traineddata?alt=media&token=58c2aa2d-417f-4d22-87eb-80627577feb8");
+                    }
+                    }
+            }
+        });
         blueGradient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

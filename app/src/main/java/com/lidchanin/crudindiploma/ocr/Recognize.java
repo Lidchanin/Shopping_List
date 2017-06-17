@@ -14,6 +14,7 @@ import com.googlecode.tesseract.android.TessBaseAPI;
 import com.lidchanin.crudindiploma.Constants;
 import com.lidchanin.crudindiploma.activities.ChoiceActivity;
 import com.lidchanin.crudindiploma.utils.ScanLogs;
+import com.lidchanin.crudindiploma.utils.SharedPrefsManager;
 
 import java.util.ArrayList;
 public class Recognize extends AsyncTask<Bitmap,TessBaseAPI.ProgressValues,Void> implements TessBaseAPI.ProgressNotifier {
@@ -22,12 +23,12 @@ public class Recognize extends AsyncTask<Bitmap,TessBaseAPI.ProgressValues,Void>
     private ProgressBar progressBar;
     private Context context;
     private long shoppingListId;
-    SharedPreferences sharedPreferences;
-    public Recognize(ProgressBar progressBar, final Context context,long shoppingListId){
+    private String lang;
+    public Recognize(ProgressBar progressBar, final Context context,long shoppingListId,String lang){
         this.context=context;
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         this.progressBar= progressBar;
         this.shoppingListId = shoppingListId;
+        this.lang=lang;
     }
 
     @Override
@@ -40,8 +41,7 @@ public class Recognize extends AsyncTask<Bitmap,TessBaseAPI.ProgressValues,Void>
             }
         });
         //// FIXME: 28.05.2017 fix sharedpref
-        mTessBaseAPI.init(String.valueOf(Environment.getExternalStorageDirectory()), /*sharedPreferences.getString(Constants.SharedPreferences.PREF_KEY_LANG_RECOGNIZE,""*/
-        "rus");
+        mTessBaseAPI.init(String.valueOf(Environment.getExternalStorageDirectory()),lang);
         mTessBaseAPI.setImage(new ImageFilters().changeBitmapContrastBrightness(context, bitmap[0],1.8f,0));
         output = mTessBaseAPI.getUTF8Text();
         Log.d(TAG,output);

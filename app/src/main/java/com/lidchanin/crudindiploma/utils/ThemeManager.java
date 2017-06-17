@@ -11,7 +11,7 @@ public class ThemeManager {
         final String prefOutput =new SharedPrefsManager(context).readString(Constants.SharedPreferences.PREF_KEY_THEME);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 
-            if (prefOutput.equals("blue")) {
+            if (prefOutput.equals("blue")||prefOutput.equals("")) {
                 context.setTheme(R.style.BlueGradientTheme);
             }
             if (prefOutput.equals("purple")) {

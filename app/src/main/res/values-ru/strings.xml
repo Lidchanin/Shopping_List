@@ -143,5 +143,11 @@
     <string name="quantity">Количество</string>
     <string name="choose_your_colors_and_gradients">Выберите подходящую цветовую гамму</string>
     <string name="sum">Сумма</string>
+    <string name="recognize_speech">Пожалуйста, выберите язык для распознавания</string>
+    <string name="download_error">Ошибка скачивания: </string>
+    <string name="file_downloaded">Скачивание завершено </string>
+    <string name="lang_downloading">Скачивание языка распознавания.</string>
+    <string name="download_starts">Скачивание началось.</string>
+    <string name="auth_filed">Ошибка аутентификации.</string>
 
 </resources>
