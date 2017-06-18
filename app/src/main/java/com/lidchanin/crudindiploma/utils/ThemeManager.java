@@ -17,6 +17,15 @@ public class ThemeManager {
             if (prefOutput.equals("purple")) {
                 context.setTheme(R.style.PurpleGradientTheme);
             }
+            if (prefOutput.equals("turquoise")) {
+                context.setTheme(R.style.TurquoiseGradientTheme);
+            }
+            if (prefOutput.equals("virgin")) {
+                context.setTheme(R.style.VirginGradientTheme);
+            }
+            if (prefOutput.equals("loveAndLiberty")) {
+                context.setTheme(R.style.LoveAndLibertyGradientTheme);
+            }
         }
     }
 }

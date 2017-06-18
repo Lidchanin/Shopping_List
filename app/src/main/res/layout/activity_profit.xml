@@ -24,7 +24,6 @@
                 android:layout_height="54dp" />
             <TextView
                 android:text="@string/profit"
-                android:textColor="@color/cardview_light_background"
                 android:id="@+id/inside_shopping_list_text_view_shopping_list_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -58,7 +57,6 @@
                 android:padding="5dp"
                 android:visibility="gone"
                 android:background="@drawable/rect_buttons_main"
-                android:textColor="@color/cardview_light_background"
                 android:layout_width="wrap_content"
                 android:id="@+id/button_add_best"
                 android:layout_height="wrap_content"
@@ -68,7 +66,6 @@
                 android:layout_margin="5dp"
                 android:padding="5dp"
                 android:background="@drawable/rect_buttons_main"
-                android:textColor="@color/cardview_light_background"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/clear"/>

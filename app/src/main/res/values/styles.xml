@@ -29,6 +29,8 @@
         <item name="android:windowCloseOnTouchOutside">true</item>
     </style>
     <style name="BlueGradientTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:textColor">@color/cardview_light_background</item>
+        <item name="android:textColorHint">@color/cardview_light_background</item>
         <item name="startGradient">@color/blue</item>
         <item name="endGradient">@color/blueLittleDarker</item>
         <item name="colorPrimary">?attr/endGradient</item>
@@ -36,8 +38,37 @@
         <item name="colorAccent">?attr/endGradient</item>
     </style>
     <style name="PurpleGradientTheme" parent="Theme.AppCompat.Light">
+        <item name="android:textColor">@color/cardview_light_background</item>
+        <item name="android:textColorHint">@color/cardview_light_background</item>
         <item name="startGradient">@color/blue</item>
         <item name="endGradient">@color/purple</item>
+        <item name="colorPrimary">?attr/endGradient</item>
+        <item name="colorPrimaryDark">?attr/endGradient</item>
+        <item name="colorAccent">?attr/endGradient</item>
+    </style>
+    <style name="TurquoiseGradientTheme" parent="Theme.AppCompat.Light">
+        <item name="android:textColor">@color/cardview_light_background</item>
+        <item name="android:textColorHint">@color/cardview_light_background</item>
+        <item name="startGradient">@color/cyanDark</item>
+        <item name="endGradient">@color/cyanSoft</item>
+        <item name="colorPrimary">?attr/endGradient</item>
+        <item name="colorPrimaryDark">?attr/endGradient</item>
+        <item name="colorAccent">?attr/endGradient</item>
+    </style>
+    <style name="VirginGradientTheme" parent="Theme.AppCompat.Light">
+        <item name="android:textColor">@color/cardview_dark_background</item>
+        <item name="android:textColorHint">@color/cardview_dark_background</item>
+        <item name="startGradient">@color/greenBrightSoft</item>
+        <item name="endGradient">@color/pinkBrightSoft</item>
+        <item name="colorPrimary">?attr/endGradient</item>
+        <item name="colorPrimaryDark">?attr/endGradient</item>
+        <item name="colorAccent">?attr/endGradient</item>
+    </style>
+    <style name="LoveAndLibertyGradientTheme" parent="Theme.AppCompat.Light">
+        <item name="android:textColor">@color/cardview_light_background</item>
+        <item name="android:textColorHint">@color/cardview_light_background</item>
+        <item name="startGradient">@color/blueDark</item>
+        <item name="endGradient">@color/redDark</item>
         <item name="colorPrimary">?attr/endGradient</item>
         <item name="colorPrimaryDark">?attr/endGradient</item>
         <item name="colorAccent">?attr/endGradient</item>

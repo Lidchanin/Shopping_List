@@ -30,7 +30,6 @@
             android:layout_gravity="center"
             android:text="test"
             android:textAlignment="center"
-            android:textColor="@color/cardview_light_background"
             android:textSize="20sp" />
     </FrameLayout>
 

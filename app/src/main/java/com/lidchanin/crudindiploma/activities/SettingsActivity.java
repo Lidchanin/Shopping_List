@@ -11,7 +11,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -50,6 +49,9 @@ public class SettingsActivity extends AppCompatActivity implements NavigationVie
     private ImageView headerImageView;
     private Transformation transformation;
     private FrameLayout blueGradient;
+    private FrameLayout turquoiseGradient;
+    private FrameLayout virginGradient;
+    private FrameLayout loveAndLibertyGradient;
     private FrameLayout purpleGradient;
     private Button buttonTessRus;
     private Button buttonTessEng;
@@ -68,6 +70,10 @@ public class SettingsActivity extends AppCompatActivity implements NavigationVie
         sharedPrefsManager = new SharedPrefsManager(getApplicationContext());
         buttonHamburger = (ImageButton) findViewById(R.id.hamburger);
         blueGradient = (FrameLayout) findViewById(R.id.blue_gradient);
+        purpleGradient = (FrameLayout) findViewById(R.id.blue_purple_gradient);
+        virginGradient = (FrameLayout) findViewById(R.id.virgin_gradient);
+        turquoiseGradient = (FrameLayout) findViewById(R.id.turquoise_gradient);
+        loveAndLibertyGradient = (FrameLayout) findViewById(R.id.love_and_liberty_gradient);
         buttonTessEng = (Button) findViewById(R.id.button_eng_tess);
         buttonTessRus = (Button) findViewById(R.id.button_rus_tess);
         final File rusTessaract = new File(String.valueOf(Environment.getExternalStorageDirectory()) + Constants.Tessaract.SLASH + Constants.Tessaract.TESSDATA + Constants.Tessaract.SLASH + Constants.Tessaract.RUSTRAIN);
@@ -99,11 +105,31 @@ public class SettingsActivity extends AppCompatActivity implements NavigationVie
                 recreate();
             }
         });
-        purpleGradient = (FrameLayout) findViewById(R.id.blue_purple_gradient);
         purpleGradient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new SharedPrefsManager(getApplicationContext()).editString(Constants.SharedPreferences.PREF_KEY_THEME,"purple");
+                recreate();
+            }
+        });
+        loveAndLibertyGradient.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new SharedPrefsManager(getApplicationContext()).editString(Constants.SharedPreferences.PREF_KEY_THEME,"loveAndLiberty");
+                recreate();
+            }
+        });
+        turquoiseGradient.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new SharedPrefsManager(getApplicationContext()).editString(Constants.SharedPreferences.PREF_KEY_THEME,"turquoise");
+                recreate();
+            }
+        });
+        virginGradient.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new SharedPrefsManager(getApplicationContext()).editString(Constants.SharedPreferences.PREF_KEY_THEME,"virgin");
                 recreate();
             }
         });

@@ -35,7 +35,6 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:text="@string/all_existing_products"
-                android:textColor="@color/cardview_light_background"
                 android:textSize="18sp" />
 
         </FrameLayout>

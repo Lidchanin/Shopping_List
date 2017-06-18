@@ -36,7 +36,6 @@
                 android:layout_marginBottom="5dp"
                 android:gravity="center"
                 android:text="Cost"
-                android:textColor="@color/cardview_light_background"
                 android:textSize="16sp" />
 
             <TextView
@@ -48,7 +47,6 @@
                 android:layout_marginRight="80dp"
                 android:gravity="center"
                 android:text="Sum"
-                android:textColor="@color/cardview_light_background"
                 android:textSize="16sp" />
 
             <ImageButton
@@ -70,7 +68,6 @@
                 android:layout_marginTop="5dp"
                 android:gravity="center"
                 android:text="Product"
-                android:textColor="@color/cardview_light_background"
                 android:textSize="20sp" />
 
             <TextView
@@ -82,8 +79,6 @@
                 android:layout_marginLeft="50dp"
                 android:hint="@string/quantity_and_weight"
                 android:text="Weight"
-                android:textColor="@color/cardview_light_background"
-                android:textColorHint="@color/cardview_light_background"
                 android:textSize="16sp" />
 
         </FrameLayout>

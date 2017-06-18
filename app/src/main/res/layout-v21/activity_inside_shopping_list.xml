@@ -26,7 +26,6 @@
             android:layout_height="wrap_content">
         <Button
             android:layout_margin="5dp"
-            android:textColor="@color/cardview_light_background"
             android:background="@drawable/rect_buttons_main"
             android:text="@string/scan"
             android:id="@+id/scan"
@@ -36,7 +35,6 @@
             android:layout_margin="5dp"
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
-            android:textColor="@color/cardview_light_background"
             android:background="@drawable/rect_buttons_main"
             android:id="@+id/enter_by_type"
             android:text="@string/type"
