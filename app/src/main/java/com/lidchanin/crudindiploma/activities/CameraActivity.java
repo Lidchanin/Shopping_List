@@ -159,10 +159,11 @@ public class CameraActivity extends AppCompatActivity {
                 id +=1;
                 if(id<3){
                 final Bitmap bitmap = textureView.getBitmap();
-                new Recognize(progressBar,getApplicationContext(),shoppingListId, new SharedPrefsManager(getApplicationContext()).readString(Constants.SharedPreferences.PREF_KEY_LANG_RECOGNIZE));
                 createCameraPreview();
                 //imageView.setImageBitmap(new ImageFilters().changeBitmapContrastBrightness(bitmap,1.8f,0));
-                NotificationCompat.Builder notificationCompat=new NotificationCompat.Builder(CameraActivity.this);
+                    Log.d(TAG,  new SharedPrefsManager(getApplicationContext()).readString(Constants.SharedPreferences.PREF_KEY_LANG_RECOGNIZE));
+                    new Recognize(getApplicationContext(),shoppingListId, new SharedPrefsManager(getApplicationContext()).readString(Constants.SharedPreferences.PREF_KEY_LANG_RECOGNIZE)).execute(bitmap);
+                    NotificationCompat.Builder notificationCompat=new NotificationCompat.Builder(CameraActivity.this);
                 NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
                 synchronized(notificationCompat) {
                     notificationCompat.setSmallIcon(R.mipmap.ic_launcher);

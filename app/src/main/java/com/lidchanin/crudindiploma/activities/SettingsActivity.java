@@ -83,7 +83,7 @@ public class SettingsActivity extends AppCompatActivity implements NavigationVie
             public void onClick(View v) {
                 if(sharedPrefsManager.readString(Constants.SharedPreferences.PREF_KEY_LANG_RECOGNIZE).equals(Constants.Tessaract.ENG_TESS_SHARED)){
                     if(!rusTessaract.exists()){
-                        new DownloadTask(SettingsActivity.this, Constants.Tessaract.RUSTRAIN).execute("https://firebasestorage.googleapis.com/v0/b/testdb-5f32a.appspot.com/o/tessaract%2Feng.traineddata?alt=media&token=58c2aa2d-417f-4d22-87eb-80627577feb8");
+                        new DownloadTask(SettingsActivity.this, Constants.Tessaract.RUSTRAIN).execute("https://firebasestorage.googleapis.com/v0/b/testdb-5f32a.appspot.com/o/tessaract%2Frus.traineddata?alt=media&token=9cf09afa-e1bd-4f2c-b0dd-3bc457d2f5f0");
                     }
                 }
             }

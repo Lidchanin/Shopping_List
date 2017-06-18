@@ -15,6 +15,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ContextThemeWrapper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -223,12 +224,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     }
 
     private void createAndShowAlertDialogRecognizeLang() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.MyDialogTheme);
         builder.setTitle(getString(R.string.recognize_speech));
         builder.setPositiveButton(R.string.rus_tessdata, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                new DownloadTask(MainActivity.this, Constants.Tessaract.RUSTRAIN).execute("https://firebasestorage.googleapis.com/v0/b/testdb-5f32a.appspot.com/o/tessaract%2Feng.traineddata?alt=media&token=58c2aa2d-417f-4d22-87eb-80627577feb8");
+                new DownloadTask(MainActivity.this, Constants.Tessaract.RUSTRAIN).execute("https://firebasestorage.googleapis.com/v0/b/testdb-5f32a.appspot.com/o/tessaract%2Frus.traineddata?alt=media&token=9cf09afa-e1bd-4f2c-b0dd-3bc457d2f5f0");
                 new SharedPrefsManager(getApplicationContext()).editString(Constants.SharedPreferences.PREF_KEY_LANG_RECOGNIZE,Constants.Tessaract.RUS_TESS_SHARED);
             }
         });
