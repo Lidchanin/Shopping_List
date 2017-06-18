@@ -288,7 +288,7 @@ public class InsideShoppingListActivity extends AppCompatActivity
      */
     private void createAndShowAlertDialogTopFive() {
         AlertDialog dialog;
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.MyDialogTheme);
         builder.setTitle(R.string.are_you_forgot);
         final List<Product> topFiveProducts = productDAO.getTopFiveProducts(products);
         final String[] productsNames = new String[5];
@@ -354,7 +354,7 @@ public class InsideShoppingListActivity extends AppCompatActivity
      * which need to manual adding product.
      */
     private void createAndShowAlertDialogForManualType() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.MyDialogTheme);
         builder.setTitle(R.string.add_new_product);
 
         LinearLayout layout = new LinearLayout(this);

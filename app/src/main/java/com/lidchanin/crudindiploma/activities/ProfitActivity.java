@@ -72,7 +72,6 @@ public class ProfitActivity extends AppCompatActivity implements NavigationView.
             public void onSumChanged(int key, double sum) {
                 sumMap.put(key, sum);
                 Toast.makeText(getApplicationContext(), "Товар номер " + String.valueOf((new MathUtils().min(sumMap)) + 1) + " является более выгодным!", Toast.LENGTH_SHORT).show();
-                Log.d("better key is:", String.valueOf(new MathUtils().min(sumMap)));
             }
         });
         initNavigationDrawer();

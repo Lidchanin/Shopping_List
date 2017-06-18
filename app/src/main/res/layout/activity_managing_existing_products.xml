@@ -37,7 +37,6 @@
                 android:text="@string/all_existing_products"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:textColor="@color/cardview_light_background"
                 android:textSize="18sp" />
 
         </FrameLayout>

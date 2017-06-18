@@ -40,9 +40,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lidchanin.crudindiploma.Constants;
 import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.ocr.ImageFilters;
 import com.lidchanin.crudindiploma.ocr.Recognize;
+import com.lidchanin.crudindiploma.utils.SharedPrefsManager;
 import com.lidchanin.crudindiploma.utils.ThemeManager;
 
 import java.io.File;
@@ -157,10 +159,11 @@ public class CameraActivity extends AppCompatActivity {
                 id +=1;
                 if(id<3){
                 final Bitmap bitmap = textureView.getBitmap();
-                new Recognize(progressBar,getApplicationContext(),shoppingListId).execute(bitmap);
                 createCameraPreview();
                 //imageView.setImageBitmap(new ImageFilters().changeBitmapContrastBrightness(bitmap,1.8f,0));
-                NotificationCompat.Builder notificationCompat=new NotificationCompat.Builder(CameraActivity.this);
+                    Log.d(TAG,  new SharedPrefsManager(getApplicationContext()).readString(Constants.SharedPreferences.PREF_KEY_LANG_RECOGNIZE));
+                    new Recognize(getApplicationContext(),shoppingListId, new SharedPrefsManager(getApplicationContext()).readString(Constants.SharedPreferences.PREF_KEY_LANG_RECOGNIZE)).execute(bitmap);
+                    NotificationCompat.Builder notificationCompat=new NotificationCompat.Builder(CameraActivity.this);
                 NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
                 synchronized(notificationCompat) {
                     notificationCompat.setSmallIcon(R.mipmap.ic_launcher);

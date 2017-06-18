@@ -30,7 +30,6 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:text="@string/lists"
-                android:textColor="@color/cardview_light_background"
                 android:textSize="18sp" />
 
             <ImageButton
@@ -72,8 +71,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:background="@drawable/toolbar_background"
-            android:text="@string/add_a_new_shopping_list"
-            android:textColor="@color/cardview_light_background" />
+            android:text="@string/add_a_new_shopping_list" />
 
     </RelativeLayout>
 

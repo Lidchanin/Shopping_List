@@ -284,7 +284,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
      * need to add new shopping list.
      */
     private void createAndShowAlertDialogForAdd() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.MyDialogTheme);
         builder.setTitle(R.string.add_a_new_shopping_list);
 
         LinearLayout layout = new LinearLayout(this);
@@ -331,7 +331,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
      * need to close application.
      */
     private void createAndShowAlertDialogForExit() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.MyDialogTheme);
         builder.setTitle(getString(R.string.ask_close_app, getString(R.string.app_name)));
         builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             @Override

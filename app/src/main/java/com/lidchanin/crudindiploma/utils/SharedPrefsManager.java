@@ -30,18 +30,18 @@ public class SharedPrefsManager {
         }
     }
 
-
-
     public void editString(String key,String value){
         sharedPreferencesEditor.putString(key,value).apply();
     }
 
-    String readString(String key) {
+    public String readString(String key) {
         if (sharedPreferences.contains(key)){
            return sharedPreferences.getString(key, null);
         }else{
-            return "blue";
+            return "";
         }
     }
+
+
 
 }

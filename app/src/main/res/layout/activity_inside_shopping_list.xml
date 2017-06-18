@@ -30,9 +30,10 @@
                 android:id="@+id/scan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
                 android:background="@drawable/rect_buttons_main"
                 android:text="@string/scan"
-                android:textColor="@color/cardview_light_background"
                 android:visibility="gone" />
 
             <Button

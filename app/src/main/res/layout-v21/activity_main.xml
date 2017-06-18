@@ -17,14 +17,14 @@
         android:id="@+id/google_background"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="120dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="50dp"
         android:background="@drawable/under_google_shape">
 
         <ImageView
             android:id="@+id/mail_photo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_toEndOf="@+id/mail_name"
             android:padding="5dp"
             android:src="@mipmap/ic_launcher" />
@@ -33,7 +33,7 @@
             android:id="@+id/mail_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
+            android:layout_marginTop="5dp"
             android:padding="10dp"
             android:text="Name" />
 
@@ -49,73 +49,19 @@
         android:contentDescription="@string/main_screen_logo"
         android:scaleType="centerCrop" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="40dp"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            android:layout_width="160dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/rus_tessdata"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/rect_buttons_main"
-                android:text="@string/rus_tessdata"
-                android:textColor="@color/cardview_light_background" />
-
-            <ProgressBar
-                android:id="@+id/rus_tessdata_progress"
-                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="160dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/eng_tessdata"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:background="@drawable/rect_buttons_main"
-                android:text="@string/eng_tessdata"
-                android:textColor="@color/cardview_light_background" />
-
-            <ProgressBar
-                android:id="@+id/eng_tessdata_progress"
-                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
     <Button
         android:id="@+id/to_camera"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_gravity="center"
+        android:layout_marginTop="50dp"
         android:background="@drawable/round_buttons_main"
-        android:text="@string/go_to_shop"
-        android:textColor="@color/cardview_light_background" />
+        android:text="@string/go_to_shop" />
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/sing_in_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="120dp" />
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="50dp" />
 </FrameLayout>

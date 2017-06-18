@@ -63,7 +63,7 @@ public class ProfitAdapter extends RecyclerView.Adapter<ProfitAdapter.ProfitView
                     double weight = Double.parseDouble(holder.editTextWeight.getText().toString());
                     double quantity = Double.parseDouble(holder.editTextQuantity.getText().toString());
                     double cost = Double.parseDouble(holder.editTextCost.getText().toString());
-                    holder.textViewSum.setText(new DecimalFormat("#####.##").format((cost/weight)*quantity));
+                    holder.textViewSum.setText(new DecimalFormat("#####.##").format(cost/weight));
                     onSumChangeListener.onSumChanged(holder.getAdapterPosition(),(cost/weight)*quantity);
                 }
             }

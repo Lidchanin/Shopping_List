@@ -91,7 +91,7 @@ public class ManagingExistingProductsRecyclerViewAdapter extends RecyclerView
      * @param adapterPosition is the position, where record about shopping list are located.
      */
     private void createAndShowAlertDialogForDelete(final int adapterPosition) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context,R.style.MyDialogTheme);
         builder.setTitle(context.getString(R.string.ask_delete_product,
                 products.get(adapterPosition).getName()));
         builder.setMessage(R.string.ask_delete_product_from_database);
@@ -122,7 +122,7 @@ public class ManagingExistingProductsRecyclerViewAdapter extends RecyclerView
      * @param adapterPosition is the position, where record about product are located.
      */
     private void createAndShowAlertDialogForUpdate(final int adapterPosition) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context,R.style.MyDialogTheme);
         builder.setTitle(context.getString(R.string.ask_update_product,
                 products.get(adapterPosition).getName()));
         builder.setMessage(context.getString(R.string.ask_update_product_from_database));

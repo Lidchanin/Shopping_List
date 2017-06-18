@@ -103,7 +103,7 @@ public class MainScreenRecyclerViewAdapter
      * @param adapterPosition is the position, where record about shopping list are located.
      */
     private void createAndShowAlertDialogForDelete(final int adapterPosition) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context,R.style.MyDialogTheme);
         builder.setTitle(context.getString(R.string.delete_shopping_list,
                 shoppingLists.get(adapterPosition).getName()));
         builder.setMessage(context
@@ -135,7 +135,7 @@ public class MainScreenRecyclerViewAdapter
      * @param adapterPosition is the position, where record about shopping list are located.
      */
     private void createAndShowAlertDialogForUpdate(final int adapterPosition) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context,R.style.MyDialogTheme);
         builder.setTitle(context.getString(R.string.ask_update_shopping_list,
                 shoppingLists.get(adapterPosition).getName()));
         builder.setMessage(context.getString(R.string.ask_update_shopping_list_from_database));

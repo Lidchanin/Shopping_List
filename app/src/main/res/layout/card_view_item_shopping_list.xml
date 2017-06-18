@@ -47,7 +47,6 @@
                 android:text="@string/name"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:textColor="@color/cardview_light_background"
                 android:textSize="25sp" />
 
             <TextView
@@ -59,7 +58,6 @@
                 android:layout_marginLeft="70dp"
                 android:layout_marginRight="70dp"
                 android:text="@string/date_of_creation"
-                android:textColor="@color/cardview_light_background"
                 android:textSize="16sp" />
 
             <ImageButton
