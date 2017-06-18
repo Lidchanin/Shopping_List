@@ -35,6 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:padding="10dp"
+            android:textColor="@color/cardview_dark_background"
             android:text="Name" />
 
     </RelativeLayout>
