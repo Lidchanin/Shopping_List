@@ -45,6 +45,8 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:text="@string/name"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:textColor="@color/cardview_light_background"
                 android:textSize="25sp" />
 
