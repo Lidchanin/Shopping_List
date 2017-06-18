@@ -1,54 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.percent.PercentFrameLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.percent.PercentFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/activity_main">
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@mipmap/im_shop"
-        android:scaleType="centerCrop"
         android:adjustViewBounds="true"
-        android:contentDescription="@string/main_screen_background" />
+        android:contentDescription="@string/main_screen_background"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/im_shop" />
+
     <RelativeLayout
+        android:id="@+id/google_background"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="50dp"
-        android:background="@drawable/under_google_shape"
-        android:layout_width="wrap_content"
-        android:id="@+id/google_background"
-        android:layout_height="wrap_content">
+        android:background="@drawable/under_google_shape">
+
         <ImageView
-            android:padding="10dp"
+            android:id="@+id/mail_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
             android:layout_toRightOf="@+id/mail_name"
-            android:id="@+id/mail_photo"
-            android:src="@mipmap/ic_launcher"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:padding="10dp"
+            android:src="@mipmap/ic_launcher" />
+
         <TextView
-            android:layout_marginTop="15dp"
             android:id="@+id/mail_name"
-            android:text="Name"
-            android:textColor="@color/cardview_dark_background"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:textColor="@color/cardview_dark_background" />
+
     </RelativeLayout>
+
     <com.google.android.gms.common.SignInButton
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="50dp"
         android:id="@+id/sing_in_button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <Button
-        android:id="@+id/to_camera"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_gravity="center"
-        android:background="@drawable/round_buttons_main"
-        android:text="@string/go_to_shop"/>
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="50dp" />
 
     <ImageView
         android:id="@+id/imageView3"
@@ -60,4 +56,14 @@
         android:contentDescription="@string/main_screen_logo"
         android:scaleType="centerCrop"
         app:layout_marginTopPercent="3%" />
+
+    <Button
+        android:id="@+id/to_camera"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_gravity="center"
+        android:background="@drawable/round_buttons_main"
+        android:text="@string/go_to_shop"
+        android:textColor="#FFF"/>
+
 </android.support.percent.PercentFrameLayout>

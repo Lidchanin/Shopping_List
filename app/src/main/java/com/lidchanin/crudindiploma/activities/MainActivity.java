@@ -1,8 +1,6 @@
 package com.lidchanin.crudindiploma.activities;
 
 import android.Manifest;
-import android.app.NotificationManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -12,15 +10,12 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.view.ContextThemeWrapper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,7 +47,9 @@ import java.io.File;
 
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
+
     private static final int RC_SIGN_IN = 9001;
+    private static final int REQUEST_CAMERA_PERMISSION = 200;
     private Button buttonGoToCam;
     private GoogleApiClient googleApiClient;
     private SignInButton signInButton;
@@ -64,7 +61,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private RelativeLayout googleBackground;
     private FirebaseUser currentUser;
     private Transformation transformation;
-    private static final int REQUEST_CAMERA_PERMISSION = 200;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -103,11 +99,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         buttonGoToCam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (engTessaract.exists() || rusTessaract.exists()) {
-                    startActivity(new Intent(MainActivity.this, MainScreenActivity.class));
+                if (Build.VERSION.SDK_INT >= 21) {
+                    if (engTessaract.exists() || rusTessaract.exists()) {
+                        startActivity(new Intent(MainActivity.this, MainScreenActivity.class));
+                    } else {
+                        createAndShowAlertDialogRecognizeLang();
+                    }
                 } else {
-                    createAndShowAlertDialogRecognizeLang();
-                    //// TODO: 17.06.2017 Dialog window
+                    startActivity(new Intent(MainActivity.this, MainScreenActivity.class));
                 }
             }
         });
@@ -177,7 +176,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 userName.setVisibility(View.GONE);
                 userPhoto.setVisibility(View.GONE);
                 signInButton.setVisibility(View.VISIBLE);
-                Toast.makeText(MainActivity.this, getString(R.string.auth_filed), Toast.LENGTH_SHORT).show();            }
+                Toast.makeText(MainActivity.this, getString(R.string.auth_filed), Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -224,20 +224,20 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     }
 
     private void createAndShowAlertDialogRecognizeLang() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.MyDialogTheme);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyDialogTheme);
         builder.setTitle(getString(R.string.recognize_speech));
         builder.setPositiveButton(R.string.rus_tessdata, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 new DownloadTask(MainActivity.this, Constants.Tessaract.RUSTRAIN).execute("https://firebasestorage.googleapis.com/v0/b/testdb-5f32a.appspot.com/o/tessaract%2Frus.traineddata?alt=media&token=9cf09afa-e1bd-4f2c-b0dd-3bc457d2f5f0");
-                new SharedPrefsManager(getApplicationContext()).editString(Constants.SharedPreferences.PREF_KEY_LANG_RECOGNIZE,Constants.Tessaract.RUS_TESS_SHARED);
+                new SharedPrefsManager(getApplicationContext()).editString(Constants.SharedPreferences.PREF_KEY_LANG_RECOGNIZE, Constants.Tessaract.RUS_TESS_SHARED);
             }
         });
         builder.setNegativeButton(R.string.eng_tessdata, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 new DownloadTask(MainActivity.this, Constants.Tessaract.ENGTRAIN).execute("https://firebasestorage.googleapis.com/v0/b/testdb-5f32a.appspot.com/o/tessaract%2Feng.traineddata?alt=media&token=58c2aa2d-417f-4d22-87eb-80627577feb8");
-                new SharedPrefsManager(getApplicationContext()).editString(Constants.SharedPreferences.PREF_KEY_LANG_RECOGNIZE,Constants.Tessaract.ENG_TESS_SHARED);
+                new SharedPrefsManager(getApplicationContext()).editString(Constants.SharedPreferences.PREF_KEY_LANG_RECOGNIZE, Constants.Tessaract.ENG_TESS_SHARED);
             }
         });
         AlertDialog dialog = builder.create();
