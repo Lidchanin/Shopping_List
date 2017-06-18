@@ -35,7 +35,7 @@
                 android:layout_marginRight="80dp"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:text="Cost"
+                android:text="@string/cost"
                 android:textColor="@color/cardview_light_background"
                 android:textSize="16sp" />
 
@@ -47,7 +47,7 @@
                 android:layout_marginBottom="5dp"
                 android:layout_marginRight="80dp"
                 android:gravity="center"
-                android:text="Sum"
+                android:text="@string/sum"
                 android:textColor="@color/cardview_light_background"
                 android:textSize="16sp" />
 
@@ -69,7 +69,9 @@
                 android:layout_marginLeft="50dp"
                 android:layout_marginTop="5dp"
                 android:gravity="center"
-                android:text="Product"
+                android:text="@string/name"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:textColor="@color/cardview_light_background"
                 android:textSize="20sp" />
 
@@ -81,7 +83,7 @@
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="50dp"
                 android:hint="@string/quantity_and_weight"
-                android:text="Weight"
+                android:text="@string/quantity"
                 android:textColor="@color/cardview_light_background"
                 android:textColorHint="@color/cardview_light_background"
                 android:textSize="16sp" />
