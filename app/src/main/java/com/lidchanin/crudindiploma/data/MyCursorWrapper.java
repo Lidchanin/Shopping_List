@@ -36,29 +36,11 @@ public class MyCursorWrapper extends CursorWrapper {
     }
 
     /**
-     * The method <code>getShoppingListWithoutDate</code> needs for filling {@link ShoppingList}
-     * without date of creation.
+     * The method <code>getShoppingList</code> needs for filling {@link ShoppingList}.
      *
      * @return filled shopping list.
      */
-    public ShoppingList getShoppingListWithoutDate() {
-        long id = getLong(getColumnIndex(COLUMN_ID));
-        String name = getString(getColumnIndex(COLUMN_NAME));
-
-        ShoppingList shoppingList = new ShoppingList();
-        shoppingList.setId(id);
-        shoppingList.setName(name);
-
-        return shoppingList;
-    }
-
-    /**
-     * The method <code>getShoppingListWithoutDate</code> needs for filling {@link ShoppingList}
-     * without date of creation.
-     *
-     * @return filled shopping list.
-     */
-    public ShoppingList getShoppingListWithDate() {
+    public ShoppingList getShoppingList() {
         long id = getLong(getColumnIndex(COLUMN_ID));
         String name = getString(getColumnIndex(COLUMN_NAME));
         String dateOfCreation = getString(getColumnIndex(COLUMN_DATE_OF_CREATION));

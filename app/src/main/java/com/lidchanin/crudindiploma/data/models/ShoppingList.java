@@ -1,7 +1,5 @@
 package com.lidchanin.crudindiploma.data.models;
 
-import java.util.Calendar;
-
 /**
  * The class {@link ShoppingList} is an entity. Shopping list contains id, name.
  *
@@ -9,12 +7,9 @@ import java.util.Calendar;
  */
 public class ShoppingList {
 
-    // FIXME: 20.06.2017 check date
-    Calendar calendar = Calendar.getInstance();
-    int seconds = calendar.get(Calendar.SECOND);
     private long id;
     private String name;
-    private String dateOfCreation = String.valueOf(seconds);
+    private String dateOfCreation;
 
     /**
      * Constructor for create an empty shopping list.

@@ -38,10 +38,13 @@ import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Class <code>MainScreenActivity</code> is a activity and extends {@link AppCompatActivity}.
@@ -284,7 +287,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
      * need to add new shopping list.
      */
     private void createAndShowAlertDialogForAdd() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.MyDialogTheme);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyDialogTheme);
         builder.setTitle(R.string.add_a_new_shopping_list);
 
         LinearLayout layout = new LinearLayout(this);
@@ -301,8 +304,13 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
             public void onClick(DialogInterface dialog, int which) {
                 if (editTextName.getText() != null
                         && editTextName.getText().toString().length() != 0) {
-                    long shoppingListId = shoppingListDAO.add(
-                            new ShoppingList(editTextName.getText().toString()));
+                    ShoppingList temp = new ShoppingList();
+                    temp.setName(editTextName.getText().toString());
+                    SimpleDateFormat sdf = new SimpleDateFormat(
+                            getString(R.string.database_date_format), Locale.getDefault());
+                    String currentDateAndTime = sdf.format(new Date());
+                    temp.setDateOfCreation(currentDateAndTime);
+                    long shoppingListId = shoppingListDAO.add(temp);
                     Intent intent = new Intent(MainScreenActivity.this,
                             InsideShoppingListActivity.class);
                     intent.putExtra("shoppingListId", shoppingListId);
@@ -331,7 +339,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
      * need to close application.
      */
     private void createAndShowAlertDialogForExit() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.MyDialogTheme);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyDialogTheme);
         builder.setTitle(getString(R.string.ask_close_app, getString(R.string.app_name)));
         builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             @Override
