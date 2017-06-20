@@ -3,6 +3,7 @@ package com.lidchanin.crudindiploma.data.dao;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 
 import com.lidchanin.crudindiploma.data.MyCursorWrapper;
 import com.lidchanin.crudindiploma.data.models.ExistingProduct;
@@ -15,7 +16,6 @@ import java.util.List;
 import static com.lidchanin.crudindiploma.data.DatabaseHelper.COLUMN_ID;
 import static com.lidchanin.crudindiploma.data.DatabaseHelper.COLUMN_IS_PURCHASED;
 import static com.lidchanin.crudindiploma.data.DatabaseHelper.COLUMN_LIST_ID;
-import static com.lidchanin.crudindiploma.data.DatabaseHelper.COLUMN_NAME;
 import static com.lidchanin.crudindiploma.data.DatabaseHelper.COLUMN_PRODUCT_ID;
 import static com.lidchanin.crudindiploma.data.DatabaseHelper.COLUMN_QUANTITY_OR_WEIGHT;
 import static com.lidchanin.crudindiploma.data.DatabaseHelper.TABLE_EXISTING_PRODUCTS;
@@ -233,5 +233,71 @@ public class ExistingProductDAO extends DatabaseDAO {
         } finally {
             cursor.close();
         }
+    }
+
+    /**
+     * The method <code>getNumberOfPurchasedProducts</code> needs to get number of purchased
+     * products in shopping list.
+     *
+     * @param shoppingListId is the shopping list id.
+     * @return number of purchased products in current shopping list.
+     */
+    public short getNumberOfPurchasedProducts(long shoppingListId) {
+        short number = 0;
+        String[] columns = {COLUMN_LIST_ID, COLUMN_IS_PURCHASED};
+        String selection = LIST_ID_EQUALS;
+        String[] selectionArgs = {String.valueOf(shoppingListId)};
+        String orderBy = COLUMN_IS_PURCHASED + " DESC";
+        MyCursorWrapper cursor = queryExistingProducts(columns, selection, selectionArgs, null,
+                null, orderBy, null);
+        database.beginTransaction();
+        try {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()
+                    && cursor.getInt(cursor.getColumnIndex(COLUMN_IS_PURCHASED)) == 1) {
+                number++;
+                cursor.moveToNext();
+            }
+//            database.yieldIfContendedSafely();
+            database.setTransactionSuccessful();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            cursor.close();
+            database.endTransaction();
+        }
+        return number;
+    }
+
+    /**
+     * The method <code>getNumberOfAllProducts</code> needs to get number of all
+     * products in shopping list.
+     *
+     * @param shoppingListId is the shopping list id.
+     * @return number of all products in current shopping list.
+     */
+    public short getNumberOfAllProducts(long shoppingListId) {
+        short number = 0;
+        String[] columns = {COLUMN_LIST_ID};
+        String selection = LIST_ID_EQUALS;
+        String[] selectionArgs = {String.valueOf(shoppingListId)};
+        MyCursorWrapper cursor = queryExistingProducts(columns, selection, selectionArgs, null,
+                null, null, null);
+        database.beginTransaction();
+        try {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                number++;
+                cursor.moveToNext();
+            }
+//            database.yieldIfContendedSafely();
+            database.setTransactionSuccessful();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            cursor.close();
+            database.endTransaction();
+        }
+        return number;
     }
 }

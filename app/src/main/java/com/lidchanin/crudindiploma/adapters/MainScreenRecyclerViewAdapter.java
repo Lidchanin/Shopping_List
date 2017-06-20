@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.activities.InsideShoppingListActivity;
+import com.lidchanin.crudindiploma.data.dao.ExistingProductDAO;
 import com.lidchanin.crudindiploma.data.dao.ShoppingListDAO;
 import com.lidchanin.crudindiploma.data.models.ShoppingList;
 
@@ -39,12 +40,16 @@ public class MainScreenRecyclerViewAdapter
 
     private Context context;
     private List<ShoppingList> shoppingLists;
+
     private ShoppingListDAO shoppingListDAO;
+    private ExistingProductDAO existingProductDAO;
 
     public MainScreenRecyclerViewAdapter(List<ShoppingList> shoppingLists,
-                                         ShoppingListDAO shoppingListDAO, Context context) {
+                                         ShoppingListDAO shoppingListDAO,
+                                         ExistingProductDAO existingProductDAO, Context context) {
         this.shoppingLists = shoppingLists;
         this.shoppingListDAO = shoppingListDAO;
+        this.existingProductDAO = existingProductDAO;
         this.context = context;
     }
 
@@ -60,6 +65,11 @@ public class MainScreenRecyclerViewAdapter
         holder.textViewShoppingListName.setText(shoppingLists.get(position).getName());
         holder.textViewDateOfCreation.setText(dateConverter(shoppingLists.get(position)
                 .getDateOfCreation()));
+        String numberOfProducts = existingProductDAO.getNumberOfPurchasedProducts(shoppingLists
+                .get(holder.getAdapterPosition()).getId())
+                + "/" + existingProductDAO.getNumberOfAllProducts(shoppingLists
+                .get(holder.getAdapterPosition()).getId());
+        holder.textViewNumberOfProducts.setText(numberOfProducts);
         holder.cardViewShoppingList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,13 +107,13 @@ public class MainScreenRecyclerViewAdapter
     }
 
     /**
-     * Method <code>createAndShowAlertDialogForDelete</code> create and shows a dialog, which need
-     * to confirm deleting shopping list.
+     * The method <code>createAndShowAlertDialogForDelete</code> create and shows a dialog, which
+     * need to confirm deleting shopping list.
      *
      * @param adapterPosition is the position, where record about shopping list are located.
      */
     private void createAndShowAlertDialogForDelete(final int adapterPosition) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(context,R.style.MyDialogTheme);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.MyDialogTheme);
         builder.setTitle(context.getString(R.string.delete_shopping_list,
                 shoppingLists.get(adapterPosition).getName()));
         builder.setMessage(context
@@ -135,7 +145,7 @@ public class MainScreenRecyclerViewAdapter
      * @param adapterPosition is the position, where record about shopping list are located.
      */
     private void createAndShowAlertDialogForUpdate(final int adapterPosition) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(context,R.style.MyDialogTheme);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.MyDialogTheme);
         builder.setTitle(context.getString(R.string.ask_update_shopping_list,
                 shoppingLists.get(adapterPosition).getName()));
         builder.setMessage(context.getString(R.string.ask_update_shopping_list_from_database));
@@ -176,7 +186,7 @@ public class MainScreenRecyclerViewAdapter
     }
 
     /**
-     * Method <code>dateConverter</code> converts date to needed format.
+     * The method <code>dateConverter</code> converts date to needed format.
      *
      * @param previousDate is the date before converting.
      * @return date after converting.
@@ -196,7 +206,7 @@ public class MainScreenRecyclerViewAdapter
     }
 
     /**
-     * Class <code>MainScreenViewHolder</code> is the View Holder for
+     * The class <code>MainScreenViewHolder</code> is the View Holder for
      * {@link MainScreenRecyclerViewAdapter}.
      *
      * @see android.support.v7.widget.RecyclerView.ViewHolder
@@ -206,6 +216,7 @@ public class MainScreenRecyclerViewAdapter
         private CardView cardViewShoppingList;
         private TextView textViewShoppingListName;
         private TextView textViewDateOfCreation;
+        private TextView textViewNumberOfProducts;
         private ImageButton imageButtonDelete;
         private ImageButton imageButtonEdit;
 
@@ -217,6 +228,8 @@ public class MainScreenRecyclerViewAdapter
                     .findViewById(R.id.main_screen_text_view_name_shopping_list_in_card_view);
             textViewDateOfCreation = (TextView)
                     itemView.findViewById(R.id.main_screen_text_view_date_of_creation_in_card_view);
+            textViewNumberOfProducts = (TextView)
+                    itemView.findViewById(R.id.main_screen_text_view_products_in_card_view);
             imageButtonDelete = (ImageButton)
                     itemView.findViewById(R.id.main_screen_image_button_delete_in_card_view);
             imageButtonEdit = (ImageButton) itemView.findViewById(R.id.edit_list_name);
