@@ -7,7 +7,7 @@ import android.database.SQLException;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.lidchanin.crudindiploma.data.ShoppingListCursorWrapper;
+import com.lidchanin.crudindiploma.data.MyCursorWrapper;
 import com.lidchanin.crudindiploma.data.models.ExistingProduct;
 import com.lidchanin.crudindiploma.data.models.Product;
 
@@ -16,6 +16,7 @@ import java.util.List;
 
 import static com.lidchanin.crudindiploma.data.DatabaseHelper.COLUMN_COST;
 import static com.lidchanin.crudindiploma.data.DatabaseHelper.COLUMN_ID;
+import static com.lidchanin.crudindiploma.data.DatabaseHelper.COLUMN_IS_PURCHASED;
 import static com.lidchanin.crudindiploma.data.DatabaseHelper.COLUMN_LIST_ID;
 import static com.lidchanin.crudindiploma.data.DatabaseHelper.COLUMN_NAME;
 import static com.lidchanin.crudindiploma.data.DatabaseHelper.COLUMN_POPULARITY;
@@ -59,11 +60,9 @@ public class ProductDAO extends DatabaseDAO {
 
     /**
      * The method <code>getContentValuesExistingProducts</code> fills the ContentValues with the
-     * {@link ExistingProductDAO}.
-     * <p>
-     * //     * @param shoppingListId is the shopping list id.
-     * //     * @param productId      is the product id.
+     * {@link ExistingProduct}.
      *
+     * @param existingProduct is the existing product.
      * @return filled ContentValues.
      */
     private static ContentValues getContentValuesExistingProducts(ExistingProduct existingProduct) {
@@ -71,6 +70,7 @@ public class ProductDAO extends DatabaseDAO {
         contentValues.put(COLUMN_LIST_ID, existingProduct.getShoppingListId());
         contentValues.put(COLUMN_PRODUCT_ID, existingProduct.getProductId());
         contentValues.put(COLUMN_QUANTITY_OR_WEIGHT, existingProduct.getQuantityOrWeight());
+        contentValues.put(COLUMN_IS_PURCHASED, existingProduct.isPurchased() ? 1 : 0);
         return contentValues;
     }
 
@@ -100,13 +100,13 @@ public class ProductDAO extends DatabaseDAO {
      *                      clause. Passing null denotes no LIMIT clause.
      * @return wrapped cursor.
      */
-    private ShoppingListCursorWrapper queryProducts(String[] columns, String selection,
-                                                    String[] selectionArgs, String groupBy,
-                                                    String having, String orderBy,
-                                                    String limit) {
+    private MyCursorWrapper queryProducts(String[] columns, String selection,
+                                          String[] selectionArgs, String groupBy,
+                                          String having, String orderBy,
+                                          String limit) {
         Cursor cursor = database.query(TABLE_PRODUCTS, columns, selection, selectionArgs,
                 groupBy, having, orderBy, limit);
-        return new ShoppingListCursorWrapper(cursor);
+        return new MyCursorWrapper(cursor);
     }
 
     /**
@@ -135,13 +135,13 @@ public class ProductDAO extends DatabaseDAO {
      *                      clause. Passing null denotes no LIMIT clause.
      * @return wrapped cursor.
      */
-    private ShoppingListCursorWrapper queryExistingProducts(String[] columns, String selection,
-                                                            String[] selectionArgs, String groupBy,
-                                                            String having, String orderBy,
-                                                            String limit) {
+    private MyCursorWrapper queryExistingProducts(String[] columns, String selection,
+                                                  String[] selectionArgs, String groupBy,
+                                                  String having, String orderBy,
+                                                  String limit) {
         Cursor cursor = database.query(TABLE_EXISTING_PRODUCTS, columns, selection, selectionArgs,
                 groupBy, having, orderBy, limit);
-        return new ShoppingListCursorWrapper(cursor);
+        return new MyCursorWrapper(cursor);
     }
 
     /**
@@ -155,7 +155,7 @@ public class ProductDAO extends DatabaseDAO {
         String selection = WHERE_ID_EQUALS;
         String[] selectionArgs = {String.valueOf(productId)};
         String limit = String.valueOf(1);
-        ShoppingListCursorWrapper cursor = queryProducts(columns, selection, selectionArgs, null,
+        MyCursorWrapper cursor = queryProducts(columns, selection, selectionArgs, null,
                 null, null, limit);
         try {
             if (cursor.getCount() == 0) {
@@ -179,7 +179,7 @@ public class ProductDAO extends DatabaseDAO {
         String selection = WHERE_NAME_EQUALS;
         String[] selectionArgs = {productName};
         String limit = String.valueOf(1);
-        ShoppingListCursorWrapper cursor = queryProducts(columns, selection, selectionArgs, null,
+        MyCursorWrapper cursor = queryProducts(columns, selection, selectionArgs, null,
                 null, null, limit);
         try {
             if (cursor.getCount() == 0) {
@@ -201,7 +201,7 @@ public class ProductDAO extends DatabaseDAO {
         List<Product> products = new ArrayList<>();
         String[] columns = {COLUMN_ID, COLUMN_NAME, COLUMN_COST, COLUMN_POPULARITY};
         database.beginTransaction();
-        ShoppingListCursorWrapper cursor = queryProducts(columns, null, null, null, null,
+        MyCursorWrapper cursor = queryProducts(columns, null, null, null, null,
                 null, null);
         try {
             cursor.moveToFirst();
@@ -275,7 +275,7 @@ public class ProductDAO extends DatabaseDAO {
         String orderBy = COLUMN_POPULARITY + " DESC";
         String limit = String.valueOf(5);
         database.beginTransaction();
-        ShoppingListCursorWrapper cursor = queryProducts(columns, selection, null, null,
+        MyCursorWrapper cursor = queryProducts(columns, selection, null, null,
                 null, orderBy, limit);
         try {
             cursor.moveToFirst();
@@ -448,7 +448,7 @@ public class ProductDAO extends DatabaseDAO {
         String selection = WHERE_LIST_ID_EQUALS + " AND " + WHERE_PRODUCT_ID_EQUALS;
         String[] selectionArgs = {String.valueOf(shoppingListId), String.valueOf(productId)};
         String limit = String.valueOf(1);
-        ShoppingListCursorWrapper cursor = queryExistingProducts(columns, selection, selectionArgs,
+        MyCursorWrapper cursor = queryExistingProducts(columns, selection, selectionArgs,
                 null, null, null, limit);
         try {
             if (cursor.getCount() == 0) {

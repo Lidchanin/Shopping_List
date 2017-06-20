@@ -3,14 +3,16 @@ package com.lidchanin.crudindiploma.data.dao;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 
-import com.lidchanin.crudindiploma.data.ShoppingListCursorWrapper;
+import com.lidchanin.crudindiploma.data.MyCursorWrapper;
 import com.lidchanin.crudindiploma.data.models.ExistingProduct;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.lidchanin.crudindiploma.data.DatabaseHelper.COLUMN_ID;
+import static com.lidchanin.crudindiploma.data.DatabaseHelper.COLUMN_IS_PURCHASED;
 import static com.lidchanin.crudindiploma.data.DatabaseHelper.COLUMN_LIST_ID;
 import static com.lidchanin.crudindiploma.data.DatabaseHelper.COLUMN_PRODUCT_ID;
 import static com.lidchanin.crudindiploma.data.DatabaseHelper.COLUMN_QUANTITY_OR_WEIGHT;
@@ -44,6 +46,7 @@ public class ExistingProductDAO extends DatabaseDAO {
         contentValues.put(COLUMN_LIST_ID, existingProduct.getShoppingListId());
         contentValues.put(COLUMN_PRODUCT_ID, existingProduct.getProductId());
         contentValues.put(COLUMN_QUANTITY_OR_WEIGHT, existingProduct.getQuantityOrWeight());
+        contentValues.put(COLUMN_IS_PURCHASED, existingProduct.isPurchased() ? 1 : 0);
         return contentValues;
     }
 
@@ -73,13 +76,13 @@ public class ExistingProductDAO extends DatabaseDAO {
      *                      clause. Passing null denotes no LIMIT clause.
      * @return wrapped cursor.
      */
-    private ShoppingListCursorWrapper queryExistingProducts(String[] columns, String selection,
-                                                            String[] selectionArgs, String groupBy,
-                                                            String having, String orderBy,
-                                                            String limit) {
+    private MyCursorWrapper queryExistingProducts(String[] columns, String selection,
+                                                  String[] selectionArgs, String groupBy,
+                                                  String having, String orderBy,
+                                                  String limit) {
         Cursor cursor = database.query(TABLE_EXISTING_PRODUCTS, columns, selection, selectionArgs,
                 groupBy, having, orderBy, limit);
-        return new ShoppingListCursorWrapper(cursor);
+        return new MyCursorWrapper(cursor);
     }
 
     /**
@@ -91,11 +94,11 @@ public class ExistingProductDAO extends DatabaseDAO {
      */
     public ExistingProduct getOne(long shoppingListId, long productId) {
         String[] columns = {COLUMN_ID, COLUMN_LIST_ID, COLUMN_PRODUCT_ID,
-                COLUMN_QUANTITY_OR_WEIGHT};
+                COLUMN_QUANTITY_OR_WEIGHT, COLUMN_IS_PURCHASED};
         String selection = LIST_ID_EQUALS + " AND " + PRODUCT_ID_EQUALS;
         String[] selectionArgs = {String.valueOf(shoppingListId), String.valueOf(productId)};
         String limit = String.valueOf(1);
-        ShoppingListCursorWrapper cursor = queryExistingProducts(columns, selection, selectionArgs,
+        MyCursorWrapper cursor = queryExistingProducts(columns, selection, selectionArgs,
                 null, null, null, limit);
         try {
             if (cursor.getCount() == 0) {
@@ -118,11 +121,11 @@ public class ExistingProductDAO extends DatabaseDAO {
     public List<ExistingProduct> getAllFromCurrentShoppingList(long shoppingListId) {
         List<ExistingProduct> existingProducts = new ArrayList<>();
         String[] columns = {COLUMN_ID, COLUMN_LIST_ID, COLUMN_PRODUCT_ID,
-                COLUMN_QUANTITY_OR_WEIGHT};
+                COLUMN_QUANTITY_OR_WEIGHT, COLUMN_IS_PURCHASED};
         String selection = LIST_ID_EQUALS;
         String[] selectionArgs = {String.valueOf(shoppingListId)};
         database.beginTransaction();
-        ShoppingListCursorWrapper cursor = queryExistingProducts(columns, selection, selectionArgs,
+        MyCursorWrapper cursor = queryExistingProducts(columns, selection, selectionArgs,
                 null, null, null, null);
         try {
             cursor.moveToFirst();
