@@ -42,11 +42,11 @@
                 android:layout_marginLeft="70dp"
                 android:layout_marginRight="70dp"
                 android:layout_marginTop="4dp"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:text="@string/name"
-                android:ellipsize="end"
-                android:maxLines="1"
                 android:textSize="25sp" />
 
             <TextView
@@ -70,6 +70,15 @@
                 android:background="@drawable/icons_background"
                 android:contentDescription="@string/delete_shopping_list"
                 android:src="@drawable/ic_clear_black_24dp" />
+
+            <TextView
+                android:id="@+id/main_screen_text_view_products_in_card_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|top"
+                android:layout_marginLeft="70dp"
+                android:layout_marginRight="70dp"
+                android:text="@string/number_of_products" />
 
         </FrameLayout>
     </android.support.v7.widget.CardView>

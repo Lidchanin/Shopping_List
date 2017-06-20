@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
-import android.util.Log;
 
 import com.lidchanin.crudindiploma.data.MyCursorWrapper;
 import com.lidchanin.crudindiploma.data.models.ExistingProduct;
@@ -245,7 +244,6 @@ public class ExistingProductDAO extends DatabaseDAO {
      */
     public short getNumberOfPurchasedProducts(long shoppingListId) {
         short number = 0;
-
         String[] columns = {COLUMN_LIST_ID, COLUMN_IS_PURCHASED};
         String selection = LIST_ID_EQUALS;
         String[] selectionArgs = {String.valueOf(shoppingListId)};
@@ -257,6 +255,38 @@ public class ExistingProductDAO extends DatabaseDAO {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()
                     && cursor.getInt(cursor.getColumnIndex(COLUMN_IS_PURCHASED)) == 1) {
+                number++;
+                cursor.moveToNext();
+            }
+//            database.yieldIfContendedSafely();
+            database.setTransactionSuccessful();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            cursor.close();
+            database.endTransaction();
+        }
+        return number;
+    }
+
+    /**
+     * The method <code>getNumberOfAllProducts</code> needs to get number of all
+     * products in shopping list.
+     *
+     * @param shoppingListId is the shopping list id.
+     * @return number of all products in current shopping list.
+     */
+    public short getNumberOfAllProducts(long shoppingListId) {
+        short number = 0;
+        String[] columns = {COLUMN_LIST_ID};
+        String selection = LIST_ID_EQUALS;
+        String[] selectionArgs = {String.valueOf(shoppingListId)};
+        MyCursorWrapper cursor = queryExistingProducts(columns, selection, selectionArgs, null,
+                null, null, null);
+        database.beginTransaction();
+        try {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
                 number++;
                 cursor.moveToNext();
             }

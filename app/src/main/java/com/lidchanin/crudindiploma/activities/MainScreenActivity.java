@@ -30,6 +30,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.adapters.MainScreenRecyclerViewAdapter;
+import com.lidchanin.crudindiploma.data.dao.ExistingProductDAO;
 import com.lidchanin.crudindiploma.data.dao.ShoppingListDAO;
 import com.lidchanin.crudindiploma.data.models.ShoppingList;
 import com.lidchanin.crudindiploma.utils.SharedPrefsManager;
@@ -70,6 +71,8 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
     private SharedPrefsManager sharedPrefsManager;
 
     private ShoppingListDAO shoppingListDAO;
+    private ExistingProductDAO existingProductDAO;
+
     private DrawerLayout drawer;
     private Uri photoUrl;
     private String accountName;
@@ -95,6 +98,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         initializeRecyclerViews();
 
         shoppingListDAO = new ShoppingListDAO(this);
+        existingProductDAO = new ExistingProductDAO(this);
 
         initializeData();
         initializeRecyclerViews();
@@ -107,7 +111,6 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
     private void initNavigationDrawer() {
         mAuth = FirebaseAuth.getInstance();
         transformation = new RoundedTransformationBuilder().oval(true).build();
-        shoppingListDAO = new ShoppingListDAO(this);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
         headerImageView = (ImageView) headerLayout.findViewById(R.id.headerImageView);
@@ -238,7 +241,8 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
      */
     private void initializeAdapters() {
         mainScreenRecyclerViewAdapter
-                = new MainScreenRecyclerViewAdapter(shoppingLists, shoppingListDAO, this);
+                = new MainScreenRecyclerViewAdapter(shoppingLists, shoppingListDAO,
+                existingProductDAO, this);
         recyclerViewAllShoppingLists.setAdapter(mainScreenRecyclerViewAdapter);
     }
 

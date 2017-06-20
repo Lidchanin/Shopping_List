@@ -40,12 +40,16 @@ public class MainScreenRecyclerViewAdapter
 
     private Context context;
     private List<ShoppingList> shoppingLists;
+
     private ShoppingListDAO shoppingListDAO;
+    private ExistingProductDAO existingProductDAO;
 
     public MainScreenRecyclerViewAdapter(List<ShoppingList> shoppingLists,
-                                         ShoppingListDAO shoppingListDAO, Context context) {
+                                         ShoppingListDAO shoppingListDAO,
+                                         ExistingProductDAO existingProductDAO, Context context) {
         this.shoppingLists = shoppingLists;
         this.shoppingListDAO = shoppingListDAO;
+        this.existingProductDAO = existingProductDAO;
         this.context = context;
     }
 
@@ -61,6 +65,11 @@ public class MainScreenRecyclerViewAdapter
         holder.textViewShoppingListName.setText(shoppingLists.get(position).getName());
         holder.textViewDateOfCreation.setText(dateConverter(shoppingLists.get(position)
                 .getDateOfCreation()));
+        String numberOfProducts = existingProductDAO.getNumberOfPurchasedProducts(shoppingLists
+                .get(holder.getAdapterPosition()).getId())
+                + "/" + existingProductDAO.getNumberOfAllProducts(shoppingLists
+                .get(holder.getAdapterPosition()).getId());
+        holder.textViewNumberOfProducts.setText(numberOfProducts);
         holder.cardViewShoppingList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -207,6 +216,7 @@ public class MainScreenRecyclerViewAdapter
         private CardView cardViewShoppingList;
         private TextView textViewShoppingListName;
         private TextView textViewDateOfCreation;
+        private TextView textViewNumberOfProducts;
         private ImageButton imageButtonDelete;
         private ImageButton imageButtonEdit;
 
@@ -218,6 +228,8 @@ public class MainScreenRecyclerViewAdapter
                     .findViewById(R.id.main_screen_text_view_name_shopping_list_in_card_view);
             textViewDateOfCreation = (TextView)
                     itemView.findViewById(R.id.main_screen_text_view_date_of_creation_in_card_view);
+            textViewNumberOfProducts = (TextView)
+                    itemView.findViewById(R.id.main_screen_text_view_products_in_card_view);
             imageButtonDelete = (ImageButton)
                     itemView.findViewById(R.id.main_screen_image_button_delete_in_card_view);
             imageButtonEdit = (ImageButton) itemView.findViewById(R.id.edit_list_name);
