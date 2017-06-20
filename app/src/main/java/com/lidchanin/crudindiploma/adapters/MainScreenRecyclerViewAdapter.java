@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.activities.InsideShoppingListActivity;
+import com.lidchanin.crudindiploma.data.dao.ExistingProductDAO;
 import com.lidchanin.crudindiploma.data.dao.ShoppingListDAO;
 import com.lidchanin.crudindiploma.data.models.ShoppingList;
 
@@ -97,13 +98,13 @@ public class MainScreenRecyclerViewAdapter
     }
 
     /**
-     * Method <code>createAndShowAlertDialogForDelete</code> create and shows a dialog, which need
-     * to confirm deleting shopping list.
+     * The method <code>createAndShowAlertDialogForDelete</code> create and shows a dialog, which
+     * need to confirm deleting shopping list.
      *
      * @param adapterPosition is the position, where record about shopping list are located.
      */
     private void createAndShowAlertDialogForDelete(final int adapterPosition) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(context,R.style.MyDialogTheme);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.MyDialogTheme);
         builder.setTitle(context.getString(R.string.delete_shopping_list,
                 shoppingLists.get(adapterPosition).getName()));
         builder.setMessage(context
@@ -135,7 +136,7 @@ public class MainScreenRecyclerViewAdapter
      * @param adapterPosition is the position, where record about shopping list are located.
      */
     private void createAndShowAlertDialogForUpdate(final int adapterPosition) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(context,R.style.MyDialogTheme);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.MyDialogTheme);
         builder.setTitle(context.getString(R.string.ask_update_shopping_list,
                 shoppingLists.get(adapterPosition).getName()));
         builder.setMessage(context.getString(R.string.ask_update_shopping_list_from_database));
@@ -176,7 +177,7 @@ public class MainScreenRecyclerViewAdapter
     }
 
     /**
-     * Method <code>dateConverter</code> converts date to needed format.
+     * The method <code>dateConverter</code> converts date to needed format.
      *
      * @param previousDate is the date before converting.
      * @return date after converting.
@@ -196,7 +197,7 @@ public class MainScreenRecyclerViewAdapter
     }
 
     /**
-     * Class <code>MainScreenViewHolder</code> is the View Holder for
+     * The class <code>MainScreenViewHolder</code> is the View Holder for
      * {@link MainScreenRecyclerViewAdapter}.
      *
      * @see android.support.v7.widget.RecyclerView.ViewHolder
