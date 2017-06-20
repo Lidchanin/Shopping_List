@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.text.InputFilter;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +22,6 @@ import com.lidchanin.crudindiploma.data.dao.ExistingProductDAO;
 import com.lidchanin.crudindiploma.data.dao.ProductDAO;
 import com.lidchanin.crudindiploma.data.models.ExistingProduct;
 import com.lidchanin.crudindiploma.data.models.Product;
-import com.lidchanin.crudindiploma.utils.filters.DecimalDigitsInputFilter;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -128,7 +126,7 @@ public class InsideShoppingListRecyclerViewAdapter extends RecyclerView
         builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                existingProductDAO.delete(shoppingListId, products.get(adapterPosition).getId());
+                existingProductDAO.deleteOneFromCurrentShoppingList(shoppingListId, products.get(adapterPosition).getId());
                 products.remove(adapterPosition);
                 existingProducts.remove(adapterPosition);
                 if (mOnDataChangeListener != null) {

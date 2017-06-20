@@ -25,7 +25,7 @@ import static com.lidchanin.crudindiploma.data.DatabaseHelper.TABLE_SHOPPING_LIS
 
 /**
  * The class <code>ProductDAO</code> extends {@link DatabaseDAO} and implements database operations
- * such as add, update, delete, get {@link Product}.
+ * such as add, update, deleteOneFromCurrentShoppingList, get {@link Product}.
  *
  * @author Lidchanin
  */
@@ -341,14 +341,14 @@ public class ProductDAO extends DatabaseDAO {
     }
 
     /**
-     * The method <code>deleteFromDatabase</code> delete product from the database.
+     * The method <code>deleteFromDatabase</code> deleteOneFromCurrentShoppingList product from the database.
      *
-     * @param productId is the product id, which you want to delete from the database.
+     * @param productId is the product id, which you want to deleteOneFromCurrentShoppingList from the database.
      */
     public void deleteFromDatabase(long productId) {
         database.beginTransaction();
         try {
-            deleteOneFromAnywhere(productId);
+            existingProductDAO.deleteOneFromAnywhere(productId);
             database.delete(TABLE_PRODUCTS, ID_EQUALS, new String[]{String.valueOf(productId)});
             database.setTransactionSuccessful();
         } catch (SQLException e) {
@@ -358,13 +358,5 @@ public class ProductDAO extends DatabaseDAO {
         }
     }
 
-    /**
-     * The method <code>deleteOneFromAnywhere</code> deleting product from the all shopping lists.
-     *
-     * @param productId is the product id, which you want to delete.
-     */
-    private void deleteOneFromAnywhere(final long productId) {
-        database.delete(TABLE_EXISTING_PRODUCTS, PRODUCT_ID_EQUALS,
-                new String[]{String.valueOf(productId)});
-    }
+
 }

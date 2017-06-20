@@ -22,7 +22,7 @@ import static com.lidchanin.crudindiploma.data.DatabaseHelper.TABLE_EXISTING_PRO
 
 /**
  * The class <code>ExistingProductDAO</code> extends {@link DatabaseDAO} and implements database
- * operations such as add, update, delete, get {@link ExistingProduct}.
+ * operations such as add, update, deleteOneFromCurrentShoppingList, get {@link ExistingProduct}.
  *
  * @author Lidchanin
  */
@@ -31,7 +31,6 @@ public class ExistingProductDAO extends DatabaseDAO {
     private static final String ID_EQUALS = COLUMN_ID + " =?";
     private static final String LIST_ID_EQUALS = COLUMN_LIST_ID + " =?";
     private static final String PRODUCT_ID_EQUALS = COLUMN_PRODUCT_ID + " =?";
-    private static final String NAME_EQUALS = COLUMN_NAME + " =?";
 
     private Context context;
 
@@ -174,13 +173,14 @@ public class ExistingProductDAO extends DatabaseDAO {
     }
 
     /**
-     * The method <code>delete</code> delete product only in shopping list, not from the
-     * database.
+     * The method <code>deleteOneFromCurrentShoppingList</code> delete {@link Product} only
+     * in {@link ShoppingList}, not from the database.
      *
      * @param shoppingListId is the current shopping list id, which contains needed product.
-     * @param productId      is the product id, which you want to delete form shopping list.
+     * @param productId      is the product id, which you want to delete from shopping list.
      */
-    public void delete(final long shoppingListId, final long productId) {
+    public void deleteOneFromCurrentShoppingList(final long shoppingListId,
+                                                 final long productId) {
         database.delete(TABLE_EXISTING_PRODUCTS,
                 LIST_ID_EQUALS + " AND " + PRODUCT_ID_EQUALS,
                 new String[]{String.valueOf(shoppingListId), String.valueOf(productId)});
@@ -192,9 +192,20 @@ public class ExistingProductDAO extends DatabaseDAO {
      *
      * @param shoppingListId is the current shopping list id.
      */
-    public void deleteAllFromCurrentShoppingList(long shoppingListId) {
+    void deleteAllFromCurrentShoppingList(long shoppingListId) {
         database.delete(TABLE_EXISTING_PRODUCTS, LIST_ID_EQUALS,
                 new String[]{String.valueOf(shoppingListId)});
+    }
+
+    /**
+     * The method <code>deleteOneFromAnywhere</code> deleting {@link Product} from the all
+     * {@link ShoppingList}s.
+     *
+     * @param productId is the product id, which you want to delete.
+     */
+    void deleteOneFromAnywhere(final long productId) {
+        database.delete(TABLE_EXISTING_PRODUCTS, PRODUCT_ID_EQUALS,
+                new String[]{String.valueOf(productId)});
     }
 
     /**
@@ -205,8 +216,8 @@ public class ExistingProductDAO extends DatabaseDAO {
      * @param productId      is the product id.
      * @return true if relationship is exist, false - doesn't exist.
      */
-    public boolean isExistProductInCurrentShoppingList(final long shoppingListId,
-                                                       final long productId) {
+    boolean isExistProductInCurrentShoppingList(final long shoppingListId,
+                                                final long productId) {
         String[] columns = {COLUMN_ID, COLUMN_LIST_ID, COLUMN_PRODUCT_ID};
         String selection = LIST_ID_EQUALS + " AND " + PRODUCT_ID_EQUALS;
         String[] selectionArgs = {String.valueOf(shoppingListId), String.valueOf(productId)};

@@ -18,7 +18,7 @@ import static com.lidchanin.crudindiploma.data.DatabaseHelper.TABLE_SHOPPING_LIS
 
 /**
  * The class <code>ShoppingListDAO</code> extends {@link DatabaseDAO} and implements database
- * operations such as add, update, delete, get {@link ShoppingList}.
+ * operations such as add, update, deleteOneFromCurrentShoppingList, get {@link ShoppingList}.
  *
  * @author Lidchanin
  */
@@ -107,9 +107,9 @@ public class ShoppingListDAO extends DatabaseDAO {
     }
 
     /**
-     * The method <code>delete</code> delete shopping list in the database.
+     * The method <code>deleteOneFromCurrentShoppingList</code> deleteOneFromCurrentShoppingList shopping list in the database.
      *
-     * @param shoppingList is the shopping list, which you want to delete from database.
+     * @param shoppingList is the shopping list, which you want to deleteOneFromCurrentShoppingList from database.
      */
     public void delete(ShoppingList shoppingList) {
         database.beginTransaction();
