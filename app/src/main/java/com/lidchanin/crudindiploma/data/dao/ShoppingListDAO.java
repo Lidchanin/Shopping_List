@@ -5,7 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 
-import com.lidchanin.crudindiploma.data.ShoppingListCursorWrapper;
+import com.lidchanin.crudindiploma.data.MyCursorWrapper;
 import com.lidchanin.crudindiploma.data.models.ShoppingList;
 
 import java.util.ArrayList;
@@ -43,6 +43,7 @@ public class ShoppingListDAO extends DatabaseDAO {
     private static ContentValues getContentValues(ShoppingList shoppingList) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_NAME, shoppingList.getName());
+        contentValues.put(COLUMN_DATE_OF_CREATION, shoppingList.getDateOfCreation());
         return contentValues;
     }
 
@@ -72,13 +73,13 @@ public class ShoppingListDAO extends DatabaseDAO {
      *                      clause. Passing null denotes no LIMIT clause.
      * @return wrapped cursor.
      */
-    private ShoppingListCursorWrapper queryShoppingLists(String[] columns, String selection,
-                                                         String[] selectionArgs, String groupBy,
-                                                         String having, String orderBy,
-                                                         String limit) {
+    private MyCursorWrapper queryShoppingLists(String[] columns, String selection,
+                                               String[] selectionArgs, String groupBy,
+                                               String having, String orderBy,
+                                               String limit) {
         Cursor cursor = database.query(TABLE_SHOPPING_LISTS, columns, selection, selectionArgs,
                 groupBy, having, orderBy, limit);
-        return new ShoppingListCursorWrapper(cursor);
+        return new MyCursorWrapper(cursor);
     }
 
     /**
@@ -130,18 +131,18 @@ public class ShoppingListDAO extends DatabaseDAO {
      * @return needed shopping list or null.
      */
     public ShoppingList getOne(long shoppingListId) {
-        String[] columns = {COLUMN_ID, COLUMN_NAME};
+        String[] columns = {COLUMN_ID, COLUMN_NAME, COLUMN_DATE_OF_CREATION};
         String selection = ID_EQUALS;
         String[] selectionArgs = {String.valueOf(shoppingListId)};
         String limit = String.valueOf(1);
-        ShoppingListCursorWrapper cursor = queryShoppingLists(columns, selection, selectionArgs,
+        MyCursorWrapper cursor = queryShoppingLists(columns, selection, selectionArgs,
                 null, null, null, limit);
         try {
             if (cursor.getCount() == 0) {
                 return null;
             }
             cursor.moveToFirst();
-            return cursor.getShoppingListWithoutDate();
+            return cursor.getShoppingList();
         } finally {
             cursor.close();
         }
@@ -156,19 +157,19 @@ public class ShoppingListDAO extends DatabaseDAO {
         List<ShoppingList> shoppingLists = new ArrayList<>();
         String[] columns = {COLUMN_ID, COLUMN_NAME, COLUMN_DATE_OF_CREATION};
         database.beginTransaction();
-        ShoppingListCursorWrapper cursor = queryShoppingLists(columns, null, null, null, null,
+        MyCursorWrapper cursor = queryShoppingLists(columns, null, null, null, null,
                 null, null);
         try {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
-                shoppingLists.add(cursor.getShoppingListWithDate());
+                shoppingLists.add(cursor.getShoppingList());
                 cursor.moveToNext();
 //                database.yieldIfContendedSafely();
             }
             database.setTransactionSuccessful();
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             cursor.close();
             database.endTransaction();
         }

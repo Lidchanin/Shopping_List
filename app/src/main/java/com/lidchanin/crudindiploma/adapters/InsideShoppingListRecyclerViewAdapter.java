@@ -10,6 +10,7 @@ import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -39,8 +40,10 @@ public class InsideShoppingListRecyclerViewAdapter extends RecyclerView
 
     private List<Product> products;
     private List<ExistingProduct> existingProducts;
+
     private ProductDAO productDAO;
     private ExistingProductDAO existingProductDAO;
+
     private Context context;
     private long shoppingListId;
     private OnDataChangeListener mOnDataChangeListener;
@@ -69,6 +72,16 @@ public class InsideShoppingListRecyclerViewAdapter extends RecyclerView
         final Product product = products.get(holder.getAdapterPosition());
         final ExistingProduct existingProduct = existingProducts.get(holder.getAdapterPosition());
 
+        holder.checkBoxIsPurchased.setChecked(existingProduct.isPurchased());
+        holder.checkBoxIsPurchased.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                existingProduct.setPurchased(holder.checkBoxIsPurchased.isChecked());
+                existingProductDAO.update(existingProduct);
+                existingProducts.set(holder.getAdapterPosition(), existingProduct);
+                notifyItemChanged(holder.getAdapterPosition());
+            }
+        });
         holder.textViewProductName.setText(product.getName());
         holder.textViewProductCost.setText(new DecimalFormat("#0.00").format(product.getCost()));
         double totalCost = product.getCost() * existingProduct.getQuantityOrWeight();
@@ -233,6 +246,7 @@ public class InsideShoppingListRecyclerViewAdapter extends RecyclerView
     static class InsideShoppingListViewHolder extends RecyclerView.ViewHolder {
 
         private CardView cardViewProduct;
+        private CheckBox checkBoxIsPurchased;
         private TextView textViewProductName;
         private TextView textViewProductCost;
         private TextView textViewTotalCost;
@@ -243,6 +257,8 @@ public class InsideShoppingListRecyclerViewAdapter extends RecyclerView
             super(itemView);
             cardViewProduct = (CardView)
                     itemView.findViewById(R.id.inside_shopping_list_card_view);
+            checkBoxIsPurchased = (CheckBox) itemView.
+                    findViewById(R.id.inside_shopping_list_check_box_in_card_view);
             textViewProductName = (TextView) itemView.
                     findViewById(R.id.inside_shopping_list_text_view_product_name_in_card_view);
             textViewProductCost = (TextView) itemView.
@@ -251,8 +267,6 @@ public class InsideShoppingListRecyclerViewAdapter extends RecyclerView
                     .findViewById(R.id.inside_shopping_list_text_view_total_cost_in_card_view);
             textViewQuantity = (TextView) itemView.findViewById(
                     R.id.inside_shopping_list_edit_text_quantity_of_product_in_card_view);
-            // FIXME: 09.06.2017 filter's work is not correct
-            textViewQuantity.setFilters(new InputFilter[]{new DecimalDigitsInputFilter(2, 2)});
             imageButtonDelete = (ImageButton) itemView
                     .findViewById(R.id.inside_shopping_list_image_button_delete_in_card_view);
         }

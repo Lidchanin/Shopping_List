@@ -11,7 +11,8 @@ public class ExistingProduct {
     private long id;
     private long shoppingListId;
     private long productId;
-    private double quantityOrWeight;
+    private double quantityOrWeight = 1;
+    private boolean isPurchased = false;
 
     public ExistingProduct() {}
 
@@ -57,5 +58,13 @@ public class ExistingProduct {
 
     public void setQuantityOrWeight(double quantityOrWeight) {
         this.quantityOrWeight = quantityOrWeight;
+    }
+
+    public boolean isPurchased() {
+        return isPurchased;
+    }
+
+    public void setPurchased(boolean isPurchased) {
+        this.isPurchased = isPurchased;
     }
 }

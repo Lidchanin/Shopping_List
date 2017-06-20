@@ -36,6 +36,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_PRODUCT_ID = "product_id";
     public static final String COLUMN_QUANTITY_OR_WEIGHT = "quantity_or_weight";
     public static final String COLUMN_DATE_OF_CREATION = "date_of_creation";
+    public static final String COLUMN_IS_PURCHASED = "is_purchased";
 
     private static final String CREATE_TABLE_SHOPPING_LISTS
             = "CREATE TABLE " + TABLE_SHOPPING_LISTS
@@ -58,7 +59,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + COLUMN_ID + " INTEGER PRIMARY KEY NOT NULL, "
             + COLUMN_LIST_ID + " INTEGER REFERENCES " + TABLE_SHOPPING_LISTS + " (" + COLUMN_ID + "), "
             + COLUMN_PRODUCT_ID + " INTEGER REFERENCES " + TABLE_PRODUCTS + " (" + COLUMN_ID + "), "
-            + COLUMN_QUANTITY_OR_WEIGHT + " REAL DEFAULT 1"
+            + COLUMN_QUANTITY_OR_WEIGHT + " REAL DEFAULT 1, "
+            + COLUMN_IS_PURCHASED + " INTEGER DEFAULT 0"
             + ");";
 
     private static DatabaseHelper instance;
