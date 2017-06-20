@@ -13,9 +13,7 @@ import java.util.List;
 
 import static com.lidchanin.crudindiploma.data.DatabaseHelper.COLUMN_DATE_OF_CREATION;
 import static com.lidchanin.crudindiploma.data.DatabaseHelper.COLUMN_ID;
-import static com.lidchanin.crudindiploma.data.DatabaseHelper.COLUMN_LIST_ID;
 import static com.lidchanin.crudindiploma.data.DatabaseHelper.COLUMN_NAME;
-import static com.lidchanin.crudindiploma.data.DatabaseHelper.TABLE_EXISTING_PRODUCTS;
 import static com.lidchanin.crudindiploma.data.DatabaseHelper.TABLE_SHOPPING_LISTS;
 
 /**
@@ -27,10 +25,13 @@ import static com.lidchanin.crudindiploma.data.DatabaseHelper.TABLE_SHOPPING_LIS
 public class ShoppingListDAO extends DatabaseDAO {
 
     private static final String ID_EQUALS = COLUMN_ID + " =?";
-    private static final String LIST_ID_EQUALS = COLUMN_LIST_ID + " =?";
+
+    private Context context;
+    private ExistingProductDAO existingProductDAO = new ExistingProductDAO(context);
 
     public ShoppingListDAO(Context context) {
         super(context);
+        this.context = context;
     }
 
     /**
@@ -106,14 +107,14 @@ public class ShoppingListDAO extends DatabaseDAO {
     }
 
     /**
-     * The method <code>deleteFromDatabase</code> deleteFromDatabase shopping list in the database.
+     * The method <code>delete</code> delete shopping list in the database.
      *
-     * @param shoppingList is the shopping list, which you want to deleteFromDatabase.
+     * @param shoppingList is the shopping list, which you want to delete from database.
      */
     public void delete(ShoppingList shoppingList) {
         database.beginTransaction();
         try {
-            deleteRelationships(shoppingList.getId());
+            existingProductDAO.deleteAllFromCurrentShoppingList(shoppingList.getId());
             database.delete(TABLE_SHOPPING_LISTS, ID_EQUALS,
                     new String[]{String.valueOf(shoppingList.getId())});
             database.setTransactionSuccessful();
@@ -174,16 +175,5 @@ public class ShoppingListDAO extends DatabaseDAO {
             database.endTransaction();
         }
         return shoppingLists;
-    }
-
-    /**
-     * The method <code>deleteRelationships</code> need to deleteFromDatabase relationships, i.e.
-     * delete in database all products from the current shopping list.
-     *
-     * @param shoppingListId is the current shopping list id.
-     */
-    private void deleteRelationships(long shoppingListId) {
-        database.delete(TABLE_EXISTING_PRODUCTS, LIST_ID_EQUALS,
-                new String[]{String.valueOf(shoppingListId)});
     }
 }
