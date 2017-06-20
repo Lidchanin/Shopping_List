@@ -128,7 +128,7 @@ public class InsideShoppingListRecyclerViewAdapter extends RecyclerView
         builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                productDAO.delete(shoppingListId, products.get(adapterPosition).getId());
+                existingProductDAO.delete(shoppingListId, products.get(adapterPosition).getId());
                 products.remove(adapterPosition);
                 existingProducts.remove(adapterPosition);
                 if (mOnDataChangeListener != null) {

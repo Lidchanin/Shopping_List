@@ -3,10 +3,11 @@ package com.lidchanin.crudindiploma.data.dao;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.util.Log;
 
 import com.lidchanin.crudindiploma.data.MyCursorWrapper;
 import com.lidchanin.crudindiploma.data.models.ExistingProduct;
+import com.lidchanin.crudindiploma.data.models.Product;
+import com.lidchanin.crudindiploma.data.models.ShoppingList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
 import static com.lidchanin.crudindiploma.data.DatabaseHelper.COLUMN_ID;
 import static com.lidchanin.crudindiploma.data.DatabaseHelper.COLUMN_IS_PURCHASED;
 import static com.lidchanin.crudindiploma.data.DatabaseHelper.COLUMN_LIST_ID;
+import static com.lidchanin.crudindiploma.data.DatabaseHelper.COLUMN_NAME;
 import static com.lidchanin.crudindiploma.data.DatabaseHelper.COLUMN_PRODUCT_ID;
 import static com.lidchanin.crudindiploma.data.DatabaseHelper.COLUMN_QUANTITY_OR_WEIGHT;
 import static com.lidchanin.crudindiploma.data.DatabaseHelper.TABLE_EXISTING_PRODUCTS;
@@ -29,9 +31,13 @@ public class ExistingProductDAO extends DatabaseDAO {
     private static final String ID_EQUALS = COLUMN_ID + " =?";
     private static final String LIST_ID_EQUALS = COLUMN_LIST_ID + " =?";
     private static final String PRODUCT_ID_EQUALS = COLUMN_PRODUCT_ID + " =?";
+    private static final String NAME_EQUALS = COLUMN_NAME + " =?";
+
+    private Context context;
 
     public ExistingProductDAO(Context context) {
         super(context);
+        this.context = context;
     }
 
     /**
@@ -143,6 +149,19 @@ public class ExistingProductDAO extends DatabaseDAO {
     }
 
     /**
+     * The method <code>add</code> adds {@link ExistingProduct}, i.e. assign {@link Product} to
+     * {@link ShoppingList}.
+     *
+     * @param shoppingListId is the shopping list id.
+     * @param productId      is the product id, which you want to assign to shopping list.
+     */
+    public void add(final long shoppingListId, final long productId) {
+        ExistingProduct existingProduct = new ExistingProduct(shoppingListId, productId, 1);
+        ContentValues contentValues = getContentValues(existingProduct);
+        database.insert(TABLE_EXISTING_PRODUCTS, null, contentValues);
+    }
+
+    /**
      * The method <code>update</code> update existing product in the database.
      *
      * @param existingProduct is the existing product, which you need to update.
@@ -152,5 +171,56 @@ public class ExistingProductDAO extends DatabaseDAO {
         ContentValues contentValues = getContentValues(existingProduct);
         return database.update(TABLE_EXISTING_PRODUCTS, contentValues, ID_EQUALS,
                 new String[]{String.valueOf(existingProduct.getId())});
+    }
+
+    /**
+     * The method <code>delete</code> delete product only in shopping list, not from the
+     * database.
+     *
+     * @param shoppingListId is the current shopping list id, which contains needed product.
+     * @param productId      is the product id, which you want to delete form shopping list.
+     */
+    public void delete(final long shoppingListId, final long productId) {
+        database.delete(TABLE_EXISTING_PRODUCTS,
+                LIST_ID_EQUALS + " AND " + PRODUCT_ID_EQUALS,
+                new String[]{String.valueOf(shoppingListId), String.valueOf(productId)});
+    }
+
+    /**
+     * The method <code>deleteAllFromCurrentShoppingList</code> needs to delete in database all
+     * existing products from the current shopping list.
+     *
+     * @param shoppingListId is the current shopping list id.
+     */
+    public void deleteAllFromCurrentShoppingList(long shoppingListId) {
+        database.delete(TABLE_EXISTING_PRODUCTS, LIST_ID_EQUALS,
+                new String[]{String.valueOf(shoppingListId)});
+    }
+
+    /**
+     * The method <code>isExistProductInCurrentShoppingList</code> checks the relationship exists
+     * or not.
+     *
+     * @param shoppingListId is the shopping list id.
+     * @param productId      is the product id.
+     * @return true if relationship is exist, false - doesn't exist.
+     */
+    public boolean isExistProductInCurrentShoppingList(final long shoppingListId,
+                                                       final long productId) {
+        String[] columns = {COLUMN_ID, COLUMN_LIST_ID, COLUMN_PRODUCT_ID};
+        String selection = LIST_ID_EQUALS + " AND " + PRODUCT_ID_EQUALS;
+        String[] selectionArgs = {String.valueOf(shoppingListId), String.valueOf(productId)};
+        String limit = String.valueOf(1);
+        MyCursorWrapper cursor = queryExistingProducts(columns, selection, selectionArgs,
+                null, null, null, limit);
+        try {
+            if (cursor.getCount() == 0) {
+                return false;
+            }
+            cursor.moveToFirst();
+            return true;
+        } finally {
+            cursor.close();
+        }
     }
 }

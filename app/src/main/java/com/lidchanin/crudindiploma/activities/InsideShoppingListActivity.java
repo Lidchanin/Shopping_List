@@ -286,6 +286,7 @@ public class InsideShoppingListActivity extends AppCompatActivity
      * Method <code>createAndShowAlertDialogTopFive</code> creates and displays an alert dialog.
      * Dialog reminding the user that he forgot to buy.
      */
+    // FIXME: 20.06.2017 alert dialog top five
     private void createAndShowAlertDialogTopFive() {
         AlertDialog dialog;
         final AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.MyDialogTheme);
