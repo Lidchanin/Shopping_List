@@ -3,6 +3,7 @@ package com.lidchanin.crudindiploma.adapters;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +45,9 @@ public class MainScreenRecyclerViewAdapter
 
     private ShoppingListDAO shoppingListDAO;
     private ExistingProductDAO existingProductDAO;
+
+    private short progressToProgressBar;
+    private short maxToProgressBar;
 
     public MainScreenRecyclerViewAdapter(List<ShoppingList> shoppingLists,
                                          ShoppingListDAO shoppingListDAO,
@@ -99,6 +104,17 @@ public class MainScreenRecyclerViewAdapter
                 createAndShowAlertDialogForDelete(holder.getAdapterPosition());
             }
         });
+
+        // FIXME: 20.06.2017 theme for progress bar
+        Drawable drawable = context.getResources().getDrawable(R.drawable.main_screen_progress_bar/*,
+            theme*/);
+        holder.progressBar.setProgressDrawable(drawable);
+        progressToProgressBar = existingProductDAO.getNumberOfPurchasedProducts(
+                shoppingLists.get(holder.getAdapterPosition()).getId());
+        maxToProgressBar = existingProductDAO.getNumberOfAllProducts(
+                shoppingLists.get(holder.getAdapterPosition()).getId());
+        holder.progressBar.setProgress(progressToProgressBar);
+        holder.progressBar.setMax(maxToProgressBar);
     }
 
     @Override
@@ -219,6 +235,7 @@ public class MainScreenRecyclerViewAdapter
         private TextView textViewNumberOfProducts;
         private ImageButton imageButtonDelete;
         private ImageButton imageButtonEdit;
+        private ProgressBar progressBar;
 
         MainScreenViewHolder(View itemView) {
             super(itemView);
@@ -233,6 +250,8 @@ public class MainScreenRecyclerViewAdapter
             imageButtonDelete = (ImageButton)
                     itemView.findViewById(R.id.main_screen_image_button_delete_in_card_view);
             imageButtonEdit = (ImageButton) itemView.findViewById(R.id.edit_list_name);
+            progressBar = (ProgressBar)
+                    itemView.findViewById(R.id.main_screen_progress_bar_in_card_view);
         }
     }
 }
