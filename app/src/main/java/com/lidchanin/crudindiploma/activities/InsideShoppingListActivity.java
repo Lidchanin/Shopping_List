@@ -3,6 +3,7 @@ package com.lidchanin.crudindiploma.activities;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -365,14 +366,20 @@ public class InsideShoppingListActivity extends AppCompatActivity
         final EditText editTextCost = new EditText(this);
         editTextCost.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         editTextCost.setHint(getString(R.string.enter_cost));
+        editTextCost.setHintTextColor(Color.BLACK);
 
         final AutoCompleteTextView autoCompleteTextViewName = new AutoCompleteTextView(this);
         autoCompleteTextViewName.setInputType(InputType.TYPE_CLASS_TEXT);
         autoCompleteTextViewName.setHint(getString(R.string.enter_name));
+        autoCompleteTextViewName.setHintTextColor(Color.BLACK);
+        autoCompleteTextViewName.setTextColor(Color.BLACK);
+
         List<Product> allProducts = productDAO.getAll();
         AutoCompleteProductNamesAndCostsAdapter autoCompleteAdapter
                 = new AutoCompleteProductNamesAndCostsAdapter(this, allProducts);
         autoCompleteTextViewName.setAdapter(autoCompleteAdapter);
+        autoCompleteTextViewName.setTextColor(Color.BLACK);
+        autoCompleteTextViewName.onTextContextMenuItem(getResources().getColor(R.color.cardview_dark_background));
         autoCompleteTextViewName.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -381,10 +388,12 @@ public class InsideShoppingListActivity extends AppCompatActivity
             }
         });
 
+
         final EditText editTextQuantity = new EditText(this);
         editTextQuantity.setInputType(InputType.TYPE_CLASS_NUMBER
                 | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         editTextQuantity.setHint(getString(R.string.enter_quantity));
+        editTextQuantity.setHintTextColor(Color.BLACK);
 
         layout.addView(autoCompleteTextViewName);
         layout.addView(editTextCost);
