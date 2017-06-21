@@ -7,11 +7,14 @@
     <color name="purple">#9000ff</color>
     <color name="yellow">#ffd900</color>
     <color name="orange">#ff9900</color>
-    <color name="greenBrightSoft">#C9FFBF</color>
+    <color name="greenBrightSoft">#70e1f5</color>
     <color name="pinkBrightSoft">#FFAFBD</color>
     <color name="purpleSoft">#7b4397</color>
+    <color name="redSoft">#dc2430</color>
     <color name="cyanDark">#136a8a</color>
+    <color name="cyanDarkest">#105670</color>
     <color name="cyanSoft">#267871</color>
+    <color name="cyanSoftDark">#216660</color>
     <color name="redDark">#6f0000</color>
     <color name="redDarkButtons">#b40000</color>
     <color name="blueDark">#200122</color>

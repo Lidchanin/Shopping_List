@@ -2,6 +2,7 @@ package com.lidchanin.crudindiploma.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -364,7 +365,6 @@ public class InsideShoppingListActivity extends AppCompatActivity
         final EditText editTextCost = new EditText(this);
         editTextCost.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         editTextCost.setHint(getString(R.string.enter_cost));
-        editTextCost.setText("0");
 
         final AutoCompleteTextView autoCompleteTextViewName = new AutoCompleteTextView(this);
         autoCompleteTextViewName.setInputType(InputType.TYPE_CLASS_TEXT);
@@ -385,7 +385,6 @@ public class InsideShoppingListActivity extends AppCompatActivity
         editTextQuantity.setInputType(InputType.TYPE_CLASS_NUMBER
                 | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         editTextQuantity.setHint(getString(R.string.enter_quantity));
-        editTextQuantity.setText(String.valueOf(1));
 
         layout.addView(autoCompleteTextViewName);
         layout.addView(editTextCost);
@@ -396,25 +395,34 @@ public class InsideShoppingListActivity extends AppCompatActivity
         builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                autoCompleteTextViewName.setTextColor(getResources().getColor(R.color.cardview_dark_background));
                 if (autoCompleteTextViewName.getText() != null
-                        && autoCompleteTextViewName.getText().toString().length() != 0
-                        && editTextCost.getText() != null
-                        && editTextCost.getText().toString().length() != 0
-                        && editTextQuantity.getText() != null
-                        && editTextQuantity.getText().toString().length() != 0) {
+                        && autoCompleteTextViewName.getText().toString().length() != 0) {
                     Product newProduct = new Product();
                     newProduct.setName(autoCompleteTextViewName.getText().toString());
-                    newProduct.setCost(Double.valueOf(editTextCost.getText().toString()));
-
-                    ExistingProduct newExistingProduct = new ExistingProduct(Double
-                            .parseDouble(editTextQuantity.getText().toString()));
-
-                    boolean existence = productDAO
-                            .addInCurrentShoppingListAndCheck(newProduct, shoppingListId);
-
-                    notifyListsChanges(existence, newProduct, newExistingProduct);
-                    setTextForTextViewCostsSum(textViewEstimatedAmount);
-                    dialog.dismiss();
+                    if(editTextCost.getText() != null
+                            && editTextCost.getText().toString().length() != 0
+                            && editTextQuantity.getText() != null
+                            && editTextQuantity.getText().toString().length() != 0){
+                        newProduct.setCost(Double.valueOf(editTextCost.getText().toString()));
+                        ExistingProduct newExistingProduct = new ExistingProduct(Double
+                                .parseDouble(editTextQuantity.getText().toString()));
+                        boolean existence = productDAO
+                                .addInCurrentShoppingListAndCheck(newProduct, shoppingListId);
+                        notifyListsChanges(existence, newProduct, newExistingProduct);
+                        setTextForTextViewCostsSum(textViewEstimatedAmount);
+                        dialog.dismiss();
+                    }
+                    else{
+                        newProduct.setCost(Double.valueOf("0.0"));
+                        ExistingProduct newExistingProduct = new ExistingProduct(Double
+                                .parseDouble("1"));
+                        boolean existence = productDAO
+                                .addInCurrentShoppingListAndCheck(newProduct, shoppingListId);
+                        notifyListsChanges(existence, newProduct, newExistingProduct);
+                        setTextForTextViewCostsSum(textViewEstimatedAmount);
+                        dialog.dismiss();
+                    }
                 } else {
                     Toast.makeText(getApplicationContext(), R.string.please_enter_all_data,
                             Toast.LENGTH_SHORT).show();

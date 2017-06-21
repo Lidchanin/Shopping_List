@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
         android:contentDescription="@string/main_screen_background"
         android:scaleType="centerCrop"
-        android:src="@mipmap/im_shop" />
+        android:background="@drawable/background_main_scree_material"/>
 
     <RelativeLayout
         android:id="@+id/google_background"
@@ -23,8 +23,8 @@
 
         <ImageView
             android:id="@+id/mail_photo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_marginTop="3dp"
             android:layout_toRightOf="@+id/mail_name"
             android:padding="10dp"
@@ -34,7 +34,7 @@
             android:id="@+id/mail_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="5dp"
             android:textColor="@color/cardview_dark_background" />
 
     </RelativeLayout>
