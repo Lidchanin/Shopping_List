@@ -49,6 +49,7 @@ public class ProfitActivity extends AppCompatActivity implements NavigationView.
     private Transformation transformation;
     private ImageButton buttonAdd;
     private Button buttonClean;
+    private Button buttonAddBest;
     private RecyclerView profitRecyclerView;
     private ProfitAdapter profitAdapter;
     private Map<Integer, Double> sumMap;
@@ -93,6 +94,7 @@ public class ProfitActivity extends AppCompatActivity implements NavigationView.
                 drawer.openDrawer(Gravity.START);
             }
         });
+        buttonAddBest = (Button) findViewById(R.id.button_add_best);
         buttonClean.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -60,22 +60,22 @@ public class DownloadTask extends AsyncTask<String,Integer,String> {
             inputStream = connection.getInputStream();
             final File folder = new File ( Environment.getExternalStorageDirectory()+Constants.Tessaract.SLASH + Constants.Tessaract.TESSDATA);
             if (!folder.exists()) {
-                folder.mkdirs();
+                  folder.mkdirs();
             }
             final File outFile = new File(Environment.getExternalStorageDirectory()+Constants.Tessaract.SLASH+Constants.Tessaract.TESSDATA,fileName);
             outFile.createNewFile();
             outputStream = new FileOutputStream(outFile);
             byte data[] = new byte[4096];
             long total = 0;
-            int count;
+            int count, latestPercentDone;
+            int percentDone = -1;
             while ((count = inputStream.read(data)) != -1) {
-                if (isCancelled()) {
-                    inputStream.close();
-                    return null;
-                }
                 total += count;
-                if (fileLength > 0)
-                    publishProgress((int) (total * 100 / fileLength));
+                latestPercentDone = (int) Math.round(total / fileLength * 100.0);
+                if (percentDone != latestPercentDone) {
+                    percentDone = latestPercentDone;
+                    publishProgress(percentDone);
+                }
                 outputStream.write(data, 0, count);
             }
         } catch (Exception e) {
@@ -97,8 +97,8 @@ public class DownloadTask extends AsyncTask<String,Integer,String> {
 
     @Override
     protected void onPreExecute() {
-        super.onPreExecute();
         createDownloadStartNotification();
+        super.onPreExecute();
         PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
                 getClass().getName());
@@ -108,11 +108,8 @@ public class DownloadTask extends AsyncTask<String,Integer,String> {
     @Override
     protected void onProgressUpdate(Integer... progress) {
         super.onProgressUpdate(progress);
-        if(progress[0]==100){
+        if(progress[0]==100) {
             mNotificationManager.cancel(1);
-        }else {
-            notificationCompat.setProgress(100,progress[0],false);
-            mNotificationManager.notify(1,notificationCompat.build());
         }
     }
 
@@ -129,7 +126,6 @@ public class DownloadTask extends AsyncTask<String,Integer,String> {
             notificationCompat.setSmallIcon(R.mipmap.ic_launcher_1);
             notificationCompat.setContentTitle(context.getString(R.string.lang_downloading));
             notificationCompat.setContentText(context.getString(R.string.download_starts));
-            notificationCompat.setProgress(100,0,false);
             notificationCompat.setStyle(inboxStyle);
             mNotificationManager.notify(1, notificationCompat.build());
     }

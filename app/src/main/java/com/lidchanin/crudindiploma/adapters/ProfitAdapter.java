@@ -31,6 +31,7 @@ public class ProfitAdapter extends RecyclerView.Adapter<ProfitAdapter.ProfitView
         onSumChangeListener = vOnSumChangeListener;
     }
 
+
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
@@ -105,11 +106,11 @@ public class ProfitAdapter extends RecyclerView.Adapter<ProfitAdapter.ProfitView
             textViewSum = (TextView) view.findViewById(R.id.sum);
             buttonDelete = (ImageButton) view.findViewById(R.id.profit_delete);
         }
-        public void changeColor(){
-            frameLayout.setBackgroundColor(Color.GREEN);
-        }
 
 
+    }
+    public interface getOneProductById{
+        void getOneProduct(String cost,String weight);
     }
     public interface OnSumChangeListener {
         void onSumChanged(int key,double sum);

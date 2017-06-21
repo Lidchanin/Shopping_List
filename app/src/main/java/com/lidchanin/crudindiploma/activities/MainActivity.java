@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.TransitionDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -60,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private TextView userName;
     private RelativeLayout googleBackground;
     private FirebaseUser currentUser;
+    private FrameLayout frameLayout;
     private Transformation transformation;
 
     @Override
@@ -76,7 +79,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         buttonGoToCam = (Button) findViewById(R.id.to_camera);
         signInButton = (SignInButton) findViewById(R.id.sing_in_button);
         googleBackground = (RelativeLayout) findViewById(R.id.google_background);
-
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

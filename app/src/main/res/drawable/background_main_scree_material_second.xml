@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+            <shape
+                android:shape="rectangle" >
+                <gradient
+                    android:startColor="@color/purpleSoft"
+                    android:endColor="@color/redSoft"
+                    android:angle="270" />
+            </shape>
+    </item>
+    <item>
+    <rotate
+        android:fromDegrees="45"
+        android:toDegrees="45"
+        android:pivotX="2%"
+        android:pivotY="120%" >
+        <shape
+            android:shape="rectangle" >
+            <gradient
+                android:startColor="@color/blue"
+                android:endColor="@color/redSoft"
+                android:angle="45" />
+        </shape>
+    </rotate>
+</item>
+    <item>
+        <rotate
+            android:fromDegrees="45"
+            android:toDegrees="45"
+            android:pivotX="0%"
+            android:pivotY="122%" >
+            <shape
+                android:shape="rectangle" >
+                <gradient
+                    android:startColor="@color/greenBrightSoft"
+                    android:endColor="@color/pinkBrightSoft"
+                    android:angle="45" />
+            </shape>
+        </rotate>
+    </item>
+    <item>
+        <rotate
+            android:fromDegrees="45"
+            android:toDegrees="45"
+            android:pivotX="100%"
+            android:pivotY="-40%" >
+            <shape
+                android:shape="rectangle" >
+                <gradient
+                    android:startColor="@color/cyanDarkest"
+                    android:endColor="@color/cyanSoftDark"
+                    android:angle="45" />
+            </shape>
+        </rotate>
+    </item>
+    <item>
+        <rotate
+            android:fromDegrees="45"
+            android:toDegrees="45"
+            android:pivotX="100%"
+            android:pivotY="-42%" >
+            <shape
+                android:shape="rectangle" >
+                <gradient
+                    android:startColor="@color/cyanDark"
+                    android:endColor="@color/cyanSoft"
+                    android:angle="45" />
+            </shape>
+        </rotate>
+    </item>
+</layer-list>

@@ -47,6 +47,7 @@
 
         <TextView
             android:id="@+id/inside_shopping_list_text_view_products_costs_sum"
+            android:textColor="@color/cardview_dark_background"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_gravity="bottom"
