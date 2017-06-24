@@ -1,6 +1,7 @@
 package com.lidchanin.crudindiploma.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -60,6 +61,8 @@ public class AutoCompleteProductNamesAndCostsAdapter extends ArrayAdapter<Produc
         TextView tvCost = (TextView) convertView.findViewById(R.id.auto_complete_cost);
         tvName.setText(product.getName());
         tvCost.setText(String.valueOf(product.getCost()));
+        tvCost.setTextColor(Color.BLACK);
+        tvName.setTextColor(Color.BLACK);
         return convertView;
     }
 
