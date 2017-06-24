@@ -157,5 +157,5 @@
     <string name="lang_downloading">Recognize language downloading.</string>
     <string name="download_starts">Download starts.</string>
     <string name="auth_filed">Auth filed.</string>
-
+    <string name="number_of_products">number_of_products</string>
 </resources>

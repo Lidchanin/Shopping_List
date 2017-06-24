@@ -59,7 +59,7 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:text="@string/name"
-                android:textSize="25sp" />
+                android:textSize="25dp" />
 
             <TextView
                 android:id="@+id/main_screen_text_view_date_of_creation_in_card_view"
@@ -70,7 +70,7 @@
                 android:layout_marginLeft="70dp"
                 android:layout_marginRight="70dp"
                 android:text="@string/date_of_creation"
-                android:textSize="16sp" />
+                android:textSize="16dp" />
 
             <ImageButton
                 android:id="@+id/main_screen_image_button_delete_in_card_view"

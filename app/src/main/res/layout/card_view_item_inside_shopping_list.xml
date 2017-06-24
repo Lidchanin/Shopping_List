@@ -37,7 +37,7 @@
                 android:layout_marginRight="80dp"
                 android:gravity="center"
                 android:text="@string/cost"
-                android:textSize="16sp" />
+                android:textSize="16dp" />
 
             <TextView
                 android:id="@+id/inside_shopping_list_text_view_total_cost_in_card_view"
@@ -48,7 +48,7 @@
                 android:layout_marginRight="80dp"
                 android:gravity="center"
                 android:text="@string/sum"
-                android:textSize="16sp" />
+                android:textSize="16dp" />
 
             <ImageButton
                 android:id="@+id/inside_shopping_list_image_button_delete_in_card_view"
@@ -71,7 +71,7 @@
                 android:text="@string/name"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:textSize="20sp" />
+                android:textSize="20dp" />
 
             <TextView
                 android:id="@+id/inside_shopping_list_edit_text_quantity_of_product_in_card_view"
@@ -82,7 +82,7 @@
                 android:layout_marginLeft="50dp"
                 android:hint="@string/quantity_and_weight"
                 android:text="@string/quantity"
-                android:textSize="16sp" />
+                android:textSize="16dp" />
 
         </FrameLayout>
 
