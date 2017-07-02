@@ -62,7 +62,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private TextView userName;
     private RelativeLayout googleBackground;
     private FirebaseUser currentUser;
-    private FrameLayout frameLayout;
     private Transformation transformation;
 
     @Override

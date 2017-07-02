@@ -53,8 +53,13 @@
                 android:src="@drawable/ic_sort_by_date" />
 
         </FrameLayout>
-
-        <android.support.v7.widget.RecyclerView
+        <fragment
+            android:id="@+id/fragment_shoppinglist"
+            android:name="com.lidchanin.crudindiploma.fragments.ShoppingListFragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:layout="@layout/fragment_shoppinglist" />
+        <!--<android.support.v7.widget.RecyclerView
             android:id="@+id/main_screen_recycler_view_all_shopping_lists"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -71,11 +76,12 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:background="@drawable/toolbar_background"
-            android:text="@string/add_a_new_shopping_list" />
+            android:text="@string/add_a_new_shopping_list" />-->
 
     </RelativeLayout>
 
     <android.support.design.widget.NavigationView
+        android:visibility="gone"
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"

@@ -7,7 +7,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:openDrawer="start">
-    <android.support.percent.PercentRelativeLayout
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.percent.PercentRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -107,9 +110,10 @@
     </LinearLayout>
 
 
-
     </android.support.percent.PercentRelativeLayout>
+    </ScrollView>
     <android.support.design.widget.NavigationView
+        android:visibility="gone"
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"

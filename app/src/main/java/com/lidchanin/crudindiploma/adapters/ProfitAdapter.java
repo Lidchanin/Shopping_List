@@ -60,12 +60,11 @@ public class ProfitAdapter extends RecyclerView.Adapter<ProfitAdapter.ProfitView
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(holder.editTextWeight.getText().toString().trim().length()>=1&&holder.editTextCost.getText().toString().trim().length()>=1&&holder.editTextQuantity.getText().toString().trim().length()>=1){
+                if(holder.editTextWeight.getText().toString().trim().length()>=1&&holder.editTextCost.getText().toString().trim().length()>=1){
                     double weight = Double.parseDouble(holder.editTextWeight.getText().toString());
-                    double quantity = Double.parseDouble(holder.editTextQuantity.getText().toString());
                     double cost = Double.parseDouble(holder.editTextCost.getText().toString());
                     holder.textViewSum.setText(new DecimalFormat("#####.##").format(cost/weight));
-                    onSumChangeListener.onSumChanged(holder.getAdapterPosition(),(cost/weight)*quantity);
+                    onSumChangeListener.onSumChanged(holder.getAdapterPosition(),(cost/weight));
                 }
             }
 
@@ -73,7 +72,6 @@ public class ProfitAdapter extends RecyclerView.Adapter<ProfitAdapter.ProfitView
 
         holder.editTextCost.addTextChangedListener(setSum);
         holder.editTextWeight.addTextChangedListener(setSum);
-        holder.editTextQuantity.addTextChangedListener(setSum);
         holder.buttonDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,16 +91,12 @@ public class ProfitAdapter extends RecyclerView.Adapter<ProfitAdapter.ProfitView
     static class ProfitViewHolder extends RecyclerView.ViewHolder {
         EditText editTextCost;
         EditText editTextWeight;
-        EditText editTextQuantity;
         TextView textViewSum;
         ImageButton buttonDelete;
-        FrameLayout frameLayout;
         ProfitViewHolder(final View view) {
             super(view);
-            frameLayout = (FrameLayout) view.findViewById(R.id.framelayout_profit);
             editTextCost = (EditText) view.findViewById(R.id.cost);
             editTextWeight = (EditText) view.findViewById(R.id.weight);
-            editTextQuantity = (EditText) view.findViewById(R.id.quantity);
             textViewSum = (TextView) view.findViewById(R.id.sum);
             buttonDelete = (ImageButton) view.findViewById(R.id.profit_delete);
         }
