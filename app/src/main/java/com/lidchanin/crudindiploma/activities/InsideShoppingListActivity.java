@@ -2,12 +2,12 @@ package com.lidchanin.crudindiploma.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -291,7 +291,7 @@ public class InsideShoppingListActivity extends AppCompatActivity
     // FIXME: 20.06.2017 alert dialog top five
     private void createAndShowAlertDialogTopFive() {
         AlertDialog dialog;
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.MyDialogTheme);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyDialogTheme);
         builder.setTitle(R.string.are_you_forgot);
         final List<Product> topFiveProducts = productDAO.getTopFiveProducts(products);
         final String[] productsNames = new String[5];
@@ -357,7 +357,7 @@ public class InsideShoppingListActivity extends AppCompatActivity
      * which need to manual adding product.
      */
     private void createAndShowAlertDialogForManualType() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.MyDialogTheme);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyDialogTheme);
         builder.setTitle(R.string.add_new_product);
 
         LinearLayout layout = new LinearLayout(this);
@@ -367,12 +367,18 @@ public class InsideShoppingListActivity extends AppCompatActivity
         editTextCost.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         editTextCost.setHint(getString(R.string.enter_cost));
         editTextCost.setHintTextColor(Color.BLACK);
+        editTextCost.setText(String.valueOf(0));
+        editTextCost.setSelectAllOnFocus(true);
+
+        final TextInputLayout textInputLayoutCost = new TextInputLayout(this);
+        textInputLayoutCost.addView(editTextCost);
 
         final AutoCompleteTextView autoCompleteTextViewName = new AutoCompleteTextView(this);
         autoCompleteTextViewName.setInputType(InputType.TYPE_CLASS_TEXT);
         autoCompleteTextViewName.setHint(getString(R.string.enter_name));
         autoCompleteTextViewName.setHintTextColor(Color.BLACK);
         autoCompleteTextViewName.setTextColor(Color.BLACK);
+        autoCompleteTextViewName.setSelectAllOnFocus(true);
 
         List<Product> allProducts = productDAO.getAll();
         AutoCompleteProductNamesAndCostsAdapter autoCompleteAdapter
@@ -388,16 +394,23 @@ public class InsideShoppingListActivity extends AppCompatActivity
             }
         });
 
+        final TextInputLayout textInputLayoutName = new TextInputLayout(this);
+        textInputLayoutName.addView(autoCompleteTextViewName);
 
         final EditText editTextQuantity = new EditText(this);
         editTextQuantity.setInputType(InputType.TYPE_CLASS_NUMBER
                 | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         editTextQuantity.setHint(getString(R.string.enter_quantity));
         editTextQuantity.setHintTextColor(Color.BLACK);
+        editTextQuantity.setText(String.valueOf(1));
+        editTextQuantity.setSelectAllOnFocus(true);
 
-        layout.addView(autoCompleteTextViewName);
-        layout.addView(editTextCost);
-        layout.addView(editTextQuantity);
+        final TextInputLayout textInputLayoutQuantity = new TextInputLayout(this);
+        textInputLayoutQuantity.addView(editTextQuantity);
+
+        layout.addView(textInputLayoutName);
+        layout.addView(textInputLayoutCost);
+        layout.addView(textInputLayoutQuantity);
 
         builder.setView(layout);
 
@@ -409,10 +422,10 @@ public class InsideShoppingListActivity extends AppCompatActivity
                         && autoCompleteTextViewName.getText().toString().length() != 0) {
                     Product newProduct = new Product();
                     newProduct.setName(autoCompleteTextViewName.getText().toString());
-                    if(editTextCost.getText() != null
+                    if (editTextCost.getText() != null
                             && editTextCost.getText().toString().length() != 0
                             && editTextQuantity.getText() != null
-                            && editTextQuantity.getText().toString().length() != 0){
+                            && editTextQuantity.getText().toString().length() != 0) {
                         newProduct.setCost(Double.valueOf(editTextCost.getText().toString()));
                         ExistingProduct newExistingProduct = new ExistingProduct(Double
                                 .parseDouble(editTextQuantity.getText().toString()));
@@ -421,8 +434,7 @@ public class InsideShoppingListActivity extends AppCompatActivity
                         notifyListsChanges(existence, newProduct, newExistingProduct);
                         setTextForTextViewCostsSum(textViewEstimatedAmount);
                         dialog.dismiss();
-                    }
-                    else{
+                    } else {
                         newProduct.setCost(Double.valueOf("0.0"));
                         ExistingProduct newExistingProduct = new ExistingProduct(Double
                                 .parseDouble("1"));

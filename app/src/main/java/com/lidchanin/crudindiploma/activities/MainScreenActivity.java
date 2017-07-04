@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -297,11 +298,13 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         LinearLayout layout = new LinearLayout(this);
         layout.setOrientation(LinearLayout.VERTICAL);
 
+        final TextInputLayout textInputLayout = new TextInputLayout(this);
         final EditText editTextName = new EditText(this);
         editTextName.setInputType(InputType.TYPE_CLASS_TEXT);
         editTextName.setHint(getString(R.string.enter_name));
+        textInputLayout.addView(editTextName);
 
-        builder.setView(editTextName);
+        builder.setView(textInputLayout);
 
         builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             @Override

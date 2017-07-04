@@ -2,6 +2,7 @@ package com.lidchanin.crudindiploma.adapters;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -134,13 +135,21 @@ public class ManagingExistingProductsRecyclerViewAdapter extends RecyclerView
         editTextName.setInputType(InputType.TYPE_CLASS_TEXT);
         editTextName.setHint(context.getString(R.string.enter_name));
         editTextName.setText(products.get(adapterPosition).getName());
-        layout.addView(editTextName);
+
+        final TextInputLayout textInputLayoutName = new TextInputLayout(context);
+        textInputLayoutName.addView(editTextName);
 
         final EditText editTextCost = new EditText(context);
         editTextCost.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         editTextCost.setHint(context.getString(R.string.enter_cost));
         editTextCost.setText(String.valueOf(products.get(adapterPosition).getCost()));
-        layout.addView(editTextCost);
+        editTextCost.setSelectAllOnFocus(true);
+
+        final TextInputLayout textInputLayoutCost = new TextInputLayout(context);
+        textInputLayoutCost.addView(editTextCost);
+
+        layout.addView(textInputLayoutName);
+        layout.addView(textInputLayoutCost);
 
         builder.setView(layout);
 

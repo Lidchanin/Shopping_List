@@ -2,6 +2,7 @@ package com.lidchanin.crudindiploma.adapters;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -167,10 +168,17 @@ public class InsideShoppingListRecyclerViewAdapter extends RecyclerView
         editTextName.setHint(context.getString(R.string.enter_name));
         editTextName.setText(products.get(adapterPosition).getName());
 
+        final TextInputLayout textInputLayoutName = new TextInputLayout(context);
+        textInputLayoutName.addView(editTextName);
+
         final EditText editTextCost = new EditText(context);
         editTextCost.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         editTextCost.setHint(context.getString(R.string.enter_cost));
         editTextCost.setText(String.valueOf(products.get(adapterPosition).getCost()));
+        editTextCost.setSelectAllOnFocus(true);
+
+        final TextInputLayout textInputLayoutCost = new TextInputLayout(context);
+        textInputLayoutCost.addView(editTextCost);
 
         final EditText editTextQuantity = new EditText(context);
         editTextQuantity.setInputType(InputType.TYPE_CLASS_NUMBER
@@ -178,10 +186,14 @@ public class InsideShoppingListRecyclerViewAdapter extends RecyclerView
         editTextQuantity.setHint(R.string.enter_quantity);
         editTextQuantity.setText(String.valueOf(existingProducts.get(adapterPosition)
                 .getQuantityOrWeight()));
+        editTextQuantity.setSelectAllOnFocus(true);
 
-        layout.addView(editTextName);
-        layout.addView(editTextCost);
-        layout.addView(editTextQuantity);
+        final TextInputLayout textInputLayoutQuantity = new TextInputLayout(context);
+        textInputLayoutQuantity.addView(editTextQuantity);
+
+        layout.addView(textInputLayoutName);
+        layout.addView(textInputLayoutCost);
+        layout.addView(textInputLayoutQuantity);
 
         builder.setView(layout);
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -171,7 +172,10 @@ public class MainScreenRecyclerViewAdapter
         editTextName.setHint(context.getString(R.string.enter_name));
         editTextName.setText(shoppingLists.get(adapterPosition).getName());
 
-        builder.setView(editTextName);
+        final TextInputLayout textInputLayoutName = new TextInputLayout(context);
+        textInputLayoutName.addView(editTextName);
+
+        builder.setView(textInputLayoutName);
 
         builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             @Override

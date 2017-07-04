@@ -1,11 +1,8 @@
 package com.lidchanin.crudindiploma.adapters;
 
-import android.graphics.Color;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +12,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.lidchanin.crudindiploma.R;
-import com.lidchanin.crudindiploma.data.models.ExistingProduct;
 
 import java.text.DecimalFormat;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class ProfitAdapter extends RecyclerView.Adapter<ProfitAdapter.ProfitViewHolder> {
     private int counter=2;
@@ -97,6 +90,7 @@ public class ProfitAdapter extends RecyclerView.Adapter<ProfitAdapter.ProfitView
         TextView textViewSum;
         ImageButton buttonDelete;
         FrameLayout frameLayout;
+
         ProfitViewHolder(final View view) {
             super(view);
             frameLayout = (FrameLayout) view.findViewById(R.id.framelayout_profit);
