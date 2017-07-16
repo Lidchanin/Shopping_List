@@ -13,9 +13,14 @@ public interface Constants {
         String ENGTRAIN = "eng.traineddata";
         String RUSTRAIN = "rus.traineddata";
     }
+
     interface SharedPreferences{
         String PREF_KEY_LANG_RECOGNIZE = "recognize_lang";
         String PREF_KEY_SCAN_TIMES = "scan_times";
         String PREF_KEY_THEME="theme";
+    }
+
+    interface Bundles{
+        String SHOPPING_LIST_ID = "shoppingListId";
     }
 }
