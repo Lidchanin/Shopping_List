@@ -100,14 +100,17 @@ public class ShoppingListFragmentManager extends NavigationDrawerActivity {
                 ProfitFramgent profitFramgent = new ProfitFramgent();
                 fragmentTransaction.add(R.id.container,profitFramgent);
                 fragmentTransaction.commit();
+                break;
             case Constants.Bundles.SETTINGS_FRAGMENT_ID:
                 SettingsFragment settingsFragment = new SettingsFragment();
                 fragmentTransaction.add(R.id.container,settingsFragment);
                 fragmentTransaction.commit();
+                break;
             case Constants.Bundles.MANAGING_EXISTING_PRODUCTS_FRAGMENT_ID:
                 ManagingExistingProductsFragment managingExistingProductsFragment = new ManagingExistingProductsFragment();
                 fragmentTransaction.add(R.id.container,managingExistingProductsFragment);
                 fragmentTransaction.commit();
+                break;
          }
     }
 }

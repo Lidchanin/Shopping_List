@@ -32,8 +32,8 @@ public class ManagingExistingProductsFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_managing_existing_products,container,false);
         initializeData();
-        initializeAdapter();
         initializeRecyclerView(view);
+        initializeAdapter();
         return view;
     }
 
