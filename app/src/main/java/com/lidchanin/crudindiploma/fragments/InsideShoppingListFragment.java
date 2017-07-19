@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.util.Log;
@@ -38,10 +39,6 @@ import java.util.List;
 
 import static com.makeramen.roundedimageview.RoundedImageView.TAG;
 
-/**
- * Created by Alexander Destroyed on 10.07.2017.
- */
-
 public class InsideShoppingListFragment extends Fragment {
 
     private RecyclerView recyclerViewAllProducts;
@@ -58,29 +55,30 @@ public class InsideShoppingListFragment extends Fragment {
     private View view;
     private long shoppingListId;
 
-    public static InsideShoppingListFragment getInstance(){
+    public static InsideShoppingListFragment getInstance() {
         return new InsideShoppingListFragment();
     }
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        shoppingListId =getArguments().getLong(Constants.Bundles.SHOPPING_LIST_ID);
+        shoppingListId = getArguments().getLong(Constants.Bundles.SHOPPING_LIST_ID);
         shoppingListDAO = new ShoppingListDAO(getActivity());
         productDAO = new ProductDAO(getActivity());
         existingProductDAO = new ExistingProductDAO(getActivity());
         initializeData(shoppingListId);
-        shoppingListDAO.open();
     }
-
-
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_inside_shopping_list,container,false);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_inside_shopping_list, container, false);
         initializeViewsAndButtons(shoppingListId);
+        textViewEstimatedAmount = (TextView) view
+                .findViewById(R.id.inside_shopping_list_text_view_products_costs_sum);
+        initializeRecyclerViews();
+        initializeAdapters();
         return view;
     }
 
@@ -106,6 +104,34 @@ public class InsideShoppingListFragment extends Fragment {
         });
 
         initializeTextViewWithShoppingListName();
+    }
+
+    /**
+     * The method <code>initializeRecyclerView</code> initializes {@link RecyclerView}.
+     */
+    private void initializeRecyclerViews() {
+        recyclerViewAllProducts = (RecyclerView)
+                view.findViewById(R.id.inside_shopping_list_recycler_view_all_products);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerViewAllProducts.setLayoutManager(layoutManager);
+    }
+
+    /**
+     * Method <code>initializeAdapters</code> initializes recyclerViewAdapter for {@link RecyclerView}.
+     */
+    private void initializeAdapters() {
+        recyclerViewAdapter = new InsideShoppingListRecyclerViewAdapter(
+                products, existingProducts,
+                productDAO, existingProductDAO,
+                getContext(), shoppingListId);
+        recyclerViewAdapter.setOnDataChangeListener(new InsideShoppingListRecyclerViewAdapter
+                .OnDataChangeListener() {
+            @Override
+            public void onDataChanged(List<ExistingProduct> existingProducts) {
+                setTextForTextViewCostsSum(textViewEstimatedAmount);
+            }
+        });
+        recyclerViewAllProducts.setAdapter(recyclerViewAdapter);
     }
 
     private void initializeData(long shoppingListId) {
@@ -143,7 +169,7 @@ public class InsideShoppingListFragment extends Fragment {
 
     private void createAndShowAlertDialogForManualType() {
         productDAO.open();
-        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(),R.style.MyDialogTheme);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.MyDialogTheme);
         builder.setTitle(R.string.add_new_product);
 
         LinearLayout layout = new LinearLayout(getActivity());
@@ -196,10 +222,10 @@ public class InsideShoppingListFragment extends Fragment {
                         && autoCompleteTextViewName.getText().toString().length() != 0) {
                     Product newProduct = new Product();
                     newProduct.setName(autoCompleteTextViewName.getText().toString());
-                    if(editTextCost.getText() != null
+                    if (editTextCost.getText() != null
                             && editTextCost.getText().toString().length() != 0
                             && editTextQuantity.getText() != null
-                            && editTextQuantity.getText().toString().length() != 0){
+                            && editTextQuantity.getText().toString().length() != 0) {
                         newProduct.setCost(Double.valueOf(editTextCost.getText().toString()));
                         ExistingProduct newExistingProduct = new ExistingProduct(Double
                                 .parseDouble(editTextQuantity.getText().toString()));
@@ -208,8 +234,7 @@ public class InsideShoppingListFragment extends Fragment {
                         notifyListsChanges(existence, newProduct, newExistingProduct);
                         setTextForTextViewCostsSum(textViewEstimatedAmount);
                         dialog.dismiss();
-                    }
-                    else{
+                    } else {
                         newProduct.setCost(Double.valueOf("0.0"));
                         ExistingProduct newExistingProduct = new ExistingProduct(Double
                                 .parseDouble("1"));
@@ -250,7 +275,7 @@ public class InsideShoppingListFragment extends Fragment {
 
         if (!existence) {
             products.add(products.size(), newProduct);
-            Log.d(TAG, "notifyListsChanges: "+products.size() + newProduct.getName());
+            Log.d(TAG, "notifyListsChanges: " + products.size() + newProduct.getName());
             existingProducts.add(tempExistingProduct);
             recyclerViewAdapter.notifyItemInserted(products.size());
         } else {

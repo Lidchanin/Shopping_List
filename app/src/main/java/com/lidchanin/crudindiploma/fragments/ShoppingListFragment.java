@@ -1,12 +1,11 @@
 package com.lidchanin.crudindiploma.fragments;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
@@ -35,19 +34,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-
-/**
- * Created by Alexander Destroyed on 02.07.2017.
- */
-
 public class ShoppingListFragment extends android.support.v4.app.Fragment {
 
+    public static final String KEY_DEFAULT_SORT_BY = "defaultSortBy";
+    public static final String KEY_DEFAULT_ORDER_BY = "defaultOrderBy";
     private ExistingProductDAO existingProductDAO;
     private ShoppingListDAO shoppingListDAO;
     private List<ShoppingList> shoppingLists;
-    public static final String KEY_DEFAULT_SORT_BY = "defaultSortBy";
-    public static final String KEY_DEFAULT_ORDER_BY = "defaultOrderBy";
-
     private RecyclerView recyclerViewAllShoppingLists;
     private MainScreenRecyclerViewAdapter mainScreenRecyclerViewAdapter;
     private boolean defaultSortBy; // false - by date, true - alphabetically
@@ -57,8 +50,8 @@ public class ShoppingListFragment extends android.support.v4.app.Fragment {
     private ImageButton buttonAlphabetSort;
     private Button buttonAdd;
 
-    public static ShoppingListFragment getInstance(){
-       return new ShoppingListFragment();
+    public static ShoppingListFragment getInstance() {
+        return new ShoppingListFragment();
     }
 
     @Override
@@ -71,12 +64,17 @@ public class ShoppingListFragment extends android.support.v4.app.Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             Bundle savedInstanceState) {
         View fragmentView = inflater.inflate(R.layout.fragment_shoppinglist, container, false);
-        recyclerViewAllShoppingLists = (RecyclerView) fragmentView.findViewById(R.id.main_screen_recycler_view_all_shopping_lists);
-        buttonDataSort = (ImageButton) fragmentView.findViewById(R.id.main_screen_image_button_sort_by_date);
-        buttonAlphabetSort = (ImageButton) getActivity().findViewById(R.id.main_screen_image_button_sort_by_alphabet);
-        buttonAdd = (Button) fragmentView.findViewById(R.id.main_screen_button_add_shopping_list);
+        recyclerViewAllShoppingLists = (RecyclerView)
+                fragmentView.findViewById(R.id.main_screen_recycler_view_all_shopping_lists);
+        buttonDataSort = (ImageButton)
+                fragmentView.findViewById(R.id.main_screen_image_button_sort_by_date);
+        buttonAlphabetSort = (ImageButton)
+                getActivity().findViewById(R.id.main_screen_image_button_sort_by_alphabet);
+        buttonAdd = (Button)
+                fragmentView.findViewById(R.id.main_screen_button_add_shopping_list);
         initializeButtonAdd();
         initializeRecyclerViews();
         initializeAdapters();
@@ -189,23 +187,29 @@ public class ShoppingListFragment extends android.support.v4.app.Fragment {
             }
         });
     }
+
     /**
      * The method <code>createAndShowAlertDialogForAdd</code> create and shows a dialog, which
      * need to add new shopping list.
      */
 
     private void createAndShowAlertDialogForAdd() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.MyDialogTheme);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(),
+                R.style.MyDialogTheme);
         builder.setTitle(R.string.add_a_new_shopping_list);
 
         LinearLayout layout = new LinearLayout(getActivity());
         layout.setOrientation(LinearLayout.VERTICAL);
 
+        final TextInputLayout textInputLayout = new TextInputLayout(getContext());
+
         final EditText editTextName = new EditText(getActivity());
         editTextName.setInputType(InputType.TYPE_CLASS_TEXT);
         editTextName.setHint(getString(R.string.enter_name));
 
-        builder.setView(editTextName);
+        textInputLayout.addView(editTextName);
+
+        builder.setView(textInputLayout);
 
         builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             @Override
@@ -219,13 +223,13 @@ public class ShoppingListFragment extends android.support.v4.app.Fragment {
                     String currentDateAndTime = sdf.format(new Date());
                     temp.setDateOfCreation(currentDateAndTime);
                     long shoppingListId = shoppingListDAO.add(temp);
-                    FragmentTransaction fragmentTransaction =  getActivity().getSupportFragmentManager().beginTransaction();
-                    InsideShoppingListFragment fragment=new InsideShoppingListFragment();
+                    FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    InsideShoppingListFragment fragment = new InsideShoppingListFragment();
                     Bundle bundle = new Bundle();
                     bundle.putLong(Constants.Bundles.SHOPPING_LIST_ID, shoppingListId);
                     fragment.setArguments(bundle);
-                    //// TODO: 14.07.2017 add to add to another container!!! , and replace to replace :D your frend Cap ;x
-                    fragmentTransaction.replace(R.id.container,fragment);
+                    //// TODO: 14.07.2017 add to add to another container!!! , and replace to replace :D your friend Cap ;x
+                    fragmentTransaction.replace(R.id.container, fragment);
                     fragmentTransaction.commit();
                     dialog.dismiss();
                 } else {
