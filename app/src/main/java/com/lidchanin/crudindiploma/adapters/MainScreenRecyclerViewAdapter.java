@@ -2,10 +2,12 @@ package com.lidchanin.crudindiploma.adapters;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.design.widget.TextInputLayout;
+import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
@@ -18,11 +20,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lidchanin.crudindiploma.Constants;
 import com.lidchanin.crudindiploma.R;
-import com.lidchanin.crudindiploma.activities.InsideShoppingListActivity;
 import com.lidchanin.crudindiploma.data.dao.ExistingProductDAO;
 import com.lidchanin.crudindiploma.data.dao.ShoppingListDAO;
 import com.lidchanin.crudindiploma.data.models.ShoppingList;
+import com.lidchanin.crudindiploma.fragments.InsideShoppingListFragment;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -32,7 +35,7 @@ import java.util.Locale;
 
 /**
  * Class <code>MainScreenRecyclerViewAdapter</code> is an adapter for {@link RecyclerView} from
- * {@link com.lidchanin.crudindiploma.activities.MainScreenActivity}. This class extends
+ * {@link com.lidchanin.crudindiploma.fragments.ShoppingListFragment}. This class extends
  * {@link android.support.v7.widget.RecyclerView.Adapter}.
  *
  * @author Lidchanin
@@ -79,11 +82,14 @@ public class MainScreenRecyclerViewAdapter
         holder.cardViewShoppingList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, InsideShoppingListActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("shoppingListId",
-                        shoppingLists.get(holder.getAdapterPosition()).getId());
-                context.startActivity(intent);
+                // TODO: 16.07.2017 try to remake this 
+                FragmentTransaction fragmentTransaction = ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction();
+                InsideShoppingListFragment fragment=new InsideShoppingListFragment();
+                Bundle bundle = new Bundle();
+                bundle.putLong(Constants.Bundles.SHOPPING_LIST_ID, shoppingLists.get(holder.getAdapterPosition()).getId());
+                fragment.setArguments(bundle);
+                fragmentTransaction.replace(R.id.container,fragment);
+                fragmentTransaction.commit();
             }
         });
         holder.cardViewShoppingList.setOnLongClickListener(new View.OnLongClickListener() {
@@ -107,8 +113,7 @@ public class MainScreenRecyclerViewAdapter
         });
 
         // FIXME: 20.06.2017 theme for progress bar
-        Drawable drawable = context.getResources().getDrawable(R.drawable.main_screen_progress_bar/*,
-            theme*/);
+        Drawable drawable = context.getResources().getDrawable(R.drawable.main_screen_progress_bar);
         holder.progressBar.setProgressDrawable(drawable);
         progressToProgressBar = existingProductDAO.getNumberOfPurchasedProducts(
                 shoppingLists.get(holder.getAdapterPosition()).getId());

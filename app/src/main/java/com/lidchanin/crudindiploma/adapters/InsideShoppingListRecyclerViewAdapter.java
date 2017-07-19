@@ -18,7 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lidchanin.crudindiploma.R;
-import com.lidchanin.crudindiploma.activities.InsideShoppingListActivity;
 import com.lidchanin.crudindiploma.data.dao.ExistingProductDAO;
 import com.lidchanin.crudindiploma.data.dao.ProductDAO;
 import com.lidchanin.crudindiploma.data.models.ExistingProduct;
@@ -29,7 +28,7 @@ import java.util.List;
 
 /**
  * Class <code>InsideShoppingListRecyclerViewAdapter</code> is an adapter for {@link RecyclerView}
- * from {@link InsideShoppingListActivity}.
+ * from {@link com.lidchanin.crudindiploma.fragments.InsideShoppingListFragment}.
  *
  * @author Lidchanin
  * @see android.support.v7.widget.RecyclerView.Adapter
@@ -70,7 +69,6 @@ public class InsideShoppingListRecyclerViewAdapter extends RecyclerView
     public void onBindViewHolder(final InsideShoppingListViewHolder holder, final int position) {
         final Product product = products.get(holder.getAdapterPosition());
         final ExistingProduct existingProduct = existingProducts.get(holder.getAdapterPosition());
-
         holder.checkBoxIsPurchased.setChecked(existingProduct.isPurchased());
         holder.checkBoxIsPurchased.setOnClickListener(new View.OnClickListener() {
             @Override

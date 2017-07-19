@@ -70,10 +70,10 @@ public class NameAndCostEditActivity extends AppCompatActivity {
 
                 notifyListsChanges(product, existingProduct);
 
-                Intent intent = new Intent(NameAndCostEditActivity.this,
+               /* Intent intent = new Intent(NameAndCostEditActivity.this,
                         InsideShoppingListActivity.class);
                 intent.putExtra("shoppingListId", shoppingListId);
-                startActivity(intent);
+                startActivity(intent);*/
             }
         });
     }
