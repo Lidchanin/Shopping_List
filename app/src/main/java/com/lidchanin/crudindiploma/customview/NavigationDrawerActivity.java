@@ -7,7 +7,6 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -23,9 +22,11 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.lidchanin.crudindiploma.Constants;
 import com.lidchanin.crudindiploma.R;
-import com.lidchanin.crudindiploma.activities.ManagingExistingProductsActivity;
 import com.lidchanin.crudindiploma.activities.ShoppingListFragmentManager;
+import com.lidchanin.crudindiploma.data.models.ShoppingList;
+import com.lidchanin.crudindiploma.fragments.ShoppingListFragment;
 import com.lidchanin.crudindiploma.utils.ThemeManager;
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
@@ -120,18 +121,23 @@ public class NavigationDrawerActivity extends AppCompatActivity implements Navig
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
+        Intent intent = new Intent(this, ShoppingListFragmentManager.class);
         switch (id){
             case R.id.nav_lists:
-                startActivity(new Intent(this, ShoppingListFragmentManager.class));
+                intent.putExtra(Constants.Bundles.FRAGMENT_ID, Constants.Bundles.SHOPPING_LIST_FRAGMENT_ID);
+                startActivity(intent);
                 break;
             case R.id.nav_existing_products:
-                startActivity(new Intent(this, ManagingExistingProductsActivity.class));
+                intent.putExtra(Constants.Bundles.FRAGMENT_ID, Constants.Bundles.MANAGING_EXISTING_PRODUCTS_FRAGMENT_ID);
+                startActivity(intent);
                 break;
             case R.id.nav_profit:
-                startActivity(new Intent(this, ShoppingListFragmentManager.class));
+                intent.putExtra(Constants.Bundles.FRAGMENT_ID,Constants.Bundles.PROFIT_FRAGMENT_ID);
+                startActivity(intent);
                 break;
             case R.id.nav_settings:
-                startActivity(new Intent(this, ShoppingListFragmentManager.class));
+                intent.putExtra(Constants.Bundles.FRAGMENT_ID,Constants.Bundles.SETTINGS_FRAGMENT_ID);
+                startActivity(intent);
                 break;
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

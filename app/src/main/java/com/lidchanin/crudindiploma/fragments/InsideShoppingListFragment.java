@@ -3,16 +3,13 @@ package com.lidchanin.crudindiploma.fragments;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,14 +17,10 @@ import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.lidchanin.crudindiploma.Constants;
 import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.activities.CameraActivity;
@@ -38,7 +31,6 @@ import com.lidchanin.crudindiploma.data.dao.ProductDAO;
 import com.lidchanin.crudindiploma.data.dao.ShoppingListDAO;
 import com.lidchanin.crudindiploma.data.models.ExistingProduct;
 import com.lidchanin.crudindiploma.data.models.Product;
-import com.squareup.picasso.Transformation;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -87,7 +79,7 @@ public class InsideShoppingListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.activity_inside_shopping_list,container,false);
+        view = inflater.inflate(R.layout.fragment_inside_shopping_list,container,false);
         initializeViewsAndButtons(shoppingListId);
         return view;
     }

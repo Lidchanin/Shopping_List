@@ -17,6 +17,9 @@ import com.lidchanin.crudindiploma.Constants;
 import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.customview.NavigationDrawerActivity;
 import com.lidchanin.crudindiploma.fragments.InsideShoppingListFragment;
+import com.lidchanin.crudindiploma.fragments.ManagingExistingProductsFragment;
+import com.lidchanin.crudindiploma.fragments.ProfitFramgent;
+import com.lidchanin.crudindiploma.fragments.SettingsFragment;
 import com.lidchanin.crudindiploma.fragments.ShoppingListFragment;
 import com.lidchanin.crudindiploma.utils.ThemeManager;
 
@@ -31,19 +34,11 @@ public class ShoppingListFragmentManager extends NavigationDrawerActivity {
         new ThemeManager(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment_manager);
-        FragmentTransaction fragmentTransaction =getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.container,ShoppingListFragment.getInstance());
-        fragmentTransaction.commit();
+        long tempListId = 0;
         if(getIntent().hasExtra(Constants.Bundles.SHOPPING_LIST_ID)) {
-            long tempListId = getIntent().getLongExtra(Constants.Bundles.SHOPPING_LIST_ID, -1);
-            FragmentTransaction secondFragmentTransaction =getSupportFragmentManager().beginTransaction();
-            Bundle bundle = new Bundle();
-            bundle.putLong(Constants.Bundles.SHOPPING_LIST_ID,tempListId);
-            InsideShoppingListFragment insideShoppingListActivity  = new InsideShoppingListFragment();
-            insideShoppingListActivity.setArguments(bundle);
-            secondFragmentTransaction.add(R.id.container,insideShoppingListActivity);
-            secondFragmentTransaction.commit();
+            tempListId = getIntent().getLongExtra(Constants.Bundles.SHOPPING_LIST_ID, -1);
         }
+        initFragment(tempListId);
     }
 
     private void createAndShowAlertDialogForExit() {
@@ -82,5 +77,37 @@ public class ShoppingListFragmentManager extends NavigationDrawerActivity {
         return super.onKeyDown(keyCode, event);*/
 
         return true;
+    }
+
+    public void initFragment(long shoppingListId){
+        String fragmentExtra = this.getIntent().getStringExtra(Constants.Bundles.FRAGMENT_ID);
+        FragmentTransaction fragmentTransaction =getSupportFragmentManager().beginTransaction();
+        Bundle bundle = new Bundle();
+        switch (fragmentExtra){
+            case Constants.Bundles.SHOPPING_LIST_FRAGMENT_ID :
+                ShoppingListFragment shoppingListFragment= new ShoppingListFragment();
+                fragmentTransaction.add(R.id.container,shoppingListFragment);
+                fragmentTransaction.commit();
+                break;
+            case Constants.Bundles.INSIDE_SHOPPING_LIST_FRAGMENT_ID :
+                InsideShoppingListFragment insideShoppingListFragment = new InsideShoppingListFragment();
+                bundle.putLong(Constants.Bundles.SHOPPING_LIST_ID,shoppingListId);
+                insideShoppingListFragment.setArguments(bundle);
+                fragmentTransaction.add(R.id.container,insideShoppingListFragment);
+                fragmentTransaction.commit();
+                break;
+            case Constants.Bundles.PROFIT_FRAGMENT_ID :
+                ProfitFramgent profitFramgent = new ProfitFramgent();
+                fragmentTransaction.add(R.id.container,profitFramgent);
+                fragmentTransaction.commit();
+            case Constants.Bundles.SETTINGS_FRAGMENT_ID:
+                SettingsFragment settingsFragment = new SettingsFragment();
+                fragmentTransaction.add(R.id.container,settingsFragment);
+                fragmentTransaction.commit();
+            case Constants.Bundles.MANAGING_EXISTING_PRODUCTS_FRAGMENT_ID:
+                ManagingExistingProductsFragment managingExistingProductsFragment = new ManagingExistingProductsFragment();
+                fragmentTransaction.add(R.id.container,managingExistingProductsFragment);
+                fragmentTransaction.commit();
+         }
     }
 }

@@ -34,7 +34,7 @@ import java.util.Locale;
 
 /**
  * Class <code>MainScreenRecyclerViewAdapter</code> is an adapter for {@link RecyclerView} from
- * {@link com.lidchanin.crudindiploma.activities.MainScreenActivity}. This class extends
+ * {@link com.lidchanin.crudindiploma.fragments.ShoppingListFragment}. This class extends
  * {@link android.support.v7.widget.RecyclerView.Adapter}.
  *
  * @author Lidchanin
@@ -81,12 +81,12 @@ public class MainScreenRecyclerViewAdapter
         holder.cardViewShoppingList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // TODO: 16.07.2017 try to remake this 
                 FragmentTransaction fragmentTransaction = ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction();
                 InsideShoppingListFragment fragment=new InsideShoppingListFragment();
                 Bundle bundle = new Bundle();
                 bundle.putLong(Constants.Bundles.SHOPPING_LIST_ID, shoppingLists.get(holder.getAdapterPosition()).getId());
                 fragment.setArguments(bundle);
-                //// TODO: 14.07.2017 add to add to another container!!! , and replace to replace :D your frend Cap ;x
                 fragmentTransaction.replace(R.id.container,fragment);
                 fragmentTransaction.commit();
             }

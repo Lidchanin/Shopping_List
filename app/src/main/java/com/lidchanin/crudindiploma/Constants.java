@@ -21,6 +21,12 @@ public interface Constants {
     }
 
     interface Bundles{
+        String SHOPPING_LIST_FRAGMENT_ID = "shoppingListFragmentId";
+        String MANAGING_EXISTING_PRODUCTS_FRAGMENT_ID = "managingExistingProductsId";
+        String PROFIT_FRAGMENT_ID= "profitFramgentId";
+        String SETTINGS_FRAGMENT_ID= "settingsFragmentId";
+        String INSIDE_SHOPPING_LIST_FRAGMENT_ID = "insideShoppingListFragmentId";
+        String FRAGMENT_ID = "fragmentId";
         String SHOPPING_LIST_ID = "shoppingListId";
     }
 }

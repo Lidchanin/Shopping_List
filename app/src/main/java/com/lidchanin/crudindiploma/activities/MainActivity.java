@@ -102,12 +102,16 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             public void onClick(View v) {
                 if (Build.VERSION.SDK_INT >= 21) {
                     if (engTessaract.exists() || rusTessaract.exists()) {
-                        startActivity(new Intent(MainActivity.this, ShoppingListFragmentManager.class));
+                        Intent intent = new Intent(MainActivity.this,ShoppingListFragmentManager.class);
+                        intent.putExtra(Constants.Bundles.FRAGMENT_ID,Constants.Bundles.SHOPPING_LIST_FRAGMENT_ID);
+                        startActivity(intent);
                     } else {
                         createAndShowAlertDialogRecognizeLang();
                     }
                 } else {
-                    startActivity(new Intent(MainActivity.this, MainScreenActivity.class));
+                    Intent intent = new Intent(MainActivity.this, ShoppingListFragmentManager.class);
+                    intent.putExtra(Constants.Bundles.FRAGMENT_ID,Constants.Bundles.SHOPPING_LIST_FRAGMENT_ID);
+                    startActivity(intent);
                 }
             }
         });
