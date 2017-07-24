@@ -16,10 +16,6 @@ import com.lidchanin.crudindiploma.adapters.ProfitAdapter;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by Alexander Destroyed on 16.07.2017.
- */
-
 public class ProfitFramgent extends Fragment {
 
     // TODO: 16.07.2017 new transaction in main
@@ -29,11 +25,10 @@ public class ProfitFramgent extends Fragment {
     private ProfitAdapter profitAdapter;
     private Map<Integer, Double> sumMap;
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_profit,container,false);
+        View view = inflater.inflate(R.layout.fragment_profit, container, false);
         clearButton = (Button) view.findViewById(R.id.button_clean);
         addButton = (Button) view.findViewById(R.id.button_add_best);
 

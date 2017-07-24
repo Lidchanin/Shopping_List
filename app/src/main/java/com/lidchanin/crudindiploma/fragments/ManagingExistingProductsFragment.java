@@ -17,11 +17,7 @@ import com.lidchanin.crudindiploma.data.models.Product;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Alexander Destroyed on 16.07.2017.
- */
-
-public class ManagingExistingProductsFragment extends Fragment{
+public class ManagingExistingProductsFragment extends Fragment {
 
     private RecyclerView recyclerViewAllProducts;
     private ProductDAO productDAO;
@@ -30,7 +26,7 @@ public class ManagingExistingProductsFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_managing_existing_products,container,false);
+        View view = inflater.inflate(R.layout.fragment_managing_existing_products, container, false);
         initializeData();
         initializeRecyclerView(view);
         initializeAdapter();

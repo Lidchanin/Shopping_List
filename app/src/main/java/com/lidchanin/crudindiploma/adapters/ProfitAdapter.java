@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -16,9 +15,9 @@ import com.lidchanin.crudindiploma.R;
 import java.text.DecimalFormat;
 
 public class ProfitAdapter extends RecyclerView.Adapter<ProfitAdapter.ProfitViewHolder> {
-    private int counter=2;
-    private static OnSumChangeListener onSumChangeListener;
 
+    private static OnSumChangeListener onSumChangeListener;
+    private int counter = 2;
 
     public void setOnSumChangeListener(OnSumChangeListener vOnSumChangeListener) {
         onSumChangeListener = vOnSumChangeListener;
@@ -34,7 +33,7 @@ public class ProfitAdapter extends RecyclerView.Adapter<ProfitAdapter.ProfitView
     @Override
     public ProfitViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.inside_profit_recyclerview, parent, false);
+                .inflate(R.layout.card_view_item_inside_profit, parent, false);
         return new ProfitViewHolder(view);
     }
 
@@ -53,11 +52,11 @@ public class ProfitAdapter extends RecyclerView.Adapter<ProfitAdapter.ProfitView
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(holder.editTextWeight.getText().toString().trim().length()>=1&&holder.editTextCost.getText().toString().trim().length()>=1){
+                if (holder.editTextWeight.getText().toString().trim().length() >= 1 && holder.editTextCost.getText().toString().trim().length() >= 1) {
                     double weight = Double.parseDouble(holder.editTextWeight.getText().toString());
                     double cost = Double.parseDouble(holder.editTextCost.getText().toString());
-                    holder.textViewSum.setText(new DecimalFormat("#####.##").format(cost/weight));
-                    onSumChangeListener.onSumChanged(holder.getAdapterPosition(),(cost/weight));
+                    holder.textViewSum.setText(new DecimalFormat("#####.##").format(cost / weight));
+                    onSumChangeListener.onSumChanged(holder.getAdapterPosition(), (cost / weight));
                 }
             }
 
@@ -74,11 +73,22 @@ public class ProfitAdapter extends RecyclerView.Adapter<ProfitAdapter.ProfitView
         });
     }
 
-
-
     @Override
     public int getItemCount() {
         return counter;
+    }
+
+    public void addNewItem() {
+        counter++;
+        notifyDataSetChanged();
+    }
+
+    public interface getOneProductById {
+        void getOneProduct(String cost, String weight);
+    }
+
+    public interface OnSumChangeListener {
+        void onSumChanged(int key, double sum);
     }
 
     static class ProfitViewHolder extends RecyclerView.ViewHolder {
@@ -86,7 +96,6 @@ public class ProfitAdapter extends RecyclerView.Adapter<ProfitAdapter.ProfitView
         EditText editTextWeight;
         TextView textViewSum;
         ImageButton buttonDelete;
-        FrameLayout frameLayout;
 
         ProfitViewHolder(final View view) {
             super(view);
@@ -95,19 +104,6 @@ public class ProfitAdapter extends RecyclerView.Adapter<ProfitAdapter.ProfitView
             textViewSum = (TextView) view.findViewById(R.id.sum);
             buttonDelete = (ImageButton) view.findViewById(R.id.profit_delete);
         }
-
-
-    }
-    public interface getOneProductById{
-        void getOneProduct(String cost,String weight);
-    }
-    public interface OnSumChangeListener {
-        void onSumChanged(int key,double sum);
-    }
-
-    public void addNewItem(){
-        counter++;
-        notifyDataSetChanged();
     }
 
 
