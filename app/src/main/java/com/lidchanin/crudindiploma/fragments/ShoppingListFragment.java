@@ -2,8 +2,8 @@ package com.lidchanin.crudindiploma.fragments;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.design.widget.TextInputLayout;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -201,12 +201,11 @@ public class ShoppingListFragment extends android.support.v4.app.Fragment {
         LinearLayout layout = new LinearLayout(getActivity());
         layout.setOrientation(LinearLayout.VERTICAL);
 
-        final TextInputLayout textInputLayout = new TextInputLayout(getContext());
         final EditText editTextName = new EditText(getActivity());
         editTextName.setInputType(InputType.TYPE_CLASS_TEXT);
         editTextName.setHint(getString(R.string.enter_name));
-        textInputLayout.addView(editTextName);
 
+        final TextInputLayout textInputLayout = new TextInputLayout(getContext());
         textInputLayout.addView(editTextName);
 
         builder.setView(textInputLayout);

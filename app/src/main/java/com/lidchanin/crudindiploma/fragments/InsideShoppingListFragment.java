@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -179,6 +180,7 @@ public class InsideShoppingListFragment extends Fragment {
         editTextCost.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         editTextCost.setHint(getString(R.string.enter_cost));
         editTextCost.setHintTextColor(Color.BLACK);
+        editTextCost.setText("0");
 
         final AutoCompleteTextView autoCompleteTextViewName = new AutoCompleteTextView(getActivity());
         autoCompleteTextViewName.setInputType(InputType.TYPE_CLASS_TEXT);
@@ -206,10 +208,19 @@ public class InsideShoppingListFragment extends Fragment {
                 | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         editTextQuantity.setHint(getString(R.string.enter_quantity));
         editTextQuantity.setHintTextColor(Color.BLACK);
+        editTextQuantity.setText("1");
 
-        layout.addView(autoCompleteTextViewName);
-        layout.addView(editTextCost);
-        layout.addView(editTextQuantity);
+        final TextInputLayout textInputLayoutCost = new TextInputLayout(getContext());
+        final TextInputLayout textInputLayoutAuto = new TextInputLayout(getContext());
+        final TextInputLayout textInputLayoutQuantity = new TextInputLayout(getContext());
+
+        textInputLayoutCost.addView(editTextCost);
+        textInputLayoutAuto.addView(autoCompleteTextViewName);
+        textInputLayoutQuantity.addView(editTextQuantity);
+
+        layout.addView(textInputLayoutAuto);
+        layout.addView(textInputLayoutCost);
+        layout.addView(textInputLayoutQuantity);
 
         builder.setView(layout);
 
