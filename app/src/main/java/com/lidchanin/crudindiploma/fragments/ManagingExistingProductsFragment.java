@@ -25,16 +25,27 @@ public class ManagingExistingProductsFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_managing_existing_products, container, false);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_managing_existing_products, container,
+                false);
+
+        productDAO = new ProductDAO(getActivity());
+        productDAO.open();
+
         initializeData();
         initializeRecyclerView(view);
         initializeAdapter();
         return view;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        productDAO.close();
+    }
+
     private void initializeData() {
-        productDAO = new ProductDAO(getActivity());
         products = productDAO.getAll();
         if (products == null) {
             products = new ArrayList<>();
