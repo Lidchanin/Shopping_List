@@ -301,7 +301,7 @@ public class ProductDAO extends DatabaseDAO {
                 Log.i(ProductDAO.class.getSimpleName(), "Product doesn't exist from the database.");
                 ContentValues contentValues = getContentValuesProducts(product);
                 long newListId = database.insert(TABLE_PRODUCTS, null, contentValues);
-                existingProductDAO.open();
+//                existingProductDAO.open();
                 existingProductDAO.add(shoppingListId, newListId);
                 existence = false;
                 Log.i(TAG, "Product doesn't exist from the shopping list.");

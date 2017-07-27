@@ -64,23 +64,35 @@ public class InsideShoppingListFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         shoppingListId = getArguments().getLong(Constants.Bundles.SHOPPING_LIST_ID);
-        shoppingListDAO = new ShoppingListDAO(getActivity());
-        productDAO = new ProductDAO(getActivity());
-        existingProductDAO = new ExistingProductDAO(getActivity());
-        initializeData(shoppingListId);
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        shoppingListDAO = new ShoppingListDAO(getActivity());
+        productDAO = new ProductDAO(getActivity());
+        existingProductDAO = new ExistingProductDAO(getActivity());
+        shoppingListDAO.open();
+        productDAO.open();
+        existingProductDAO.open();
         view = inflater.inflate(R.layout.fragment_inside_shopping_list, container, false);
         initializeViewsAndButtons(shoppingListId);
         textViewEstimatedAmount = (TextView) view
                 .findViewById(R.id.inside_shopping_list_text_view_products_costs_sum);
+        initializeTextViewWithShoppingListName();
+        initializeData(shoppingListId);
         initializeRecyclerViews();
         initializeAdapters();
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        shoppingListDAO.close();
+        existingProductDAO.close();
+        productDAO.close();
     }
 
     private void initializeViewsAndButtons(final long shoppingListId) {
@@ -103,8 +115,6 @@ public class InsideShoppingListFragment extends Fragment {
                 startActivity(intent);
             }
         });
-
-        initializeTextViewWithShoppingListName();
     }
 
     /**
@@ -118,7 +128,8 @@ public class InsideShoppingListFragment extends Fragment {
     }
 
     /**
-     * Method <code>initializeAdapters</code> initializes recyclerViewAdapter for {@link RecyclerView}.
+     * Method <code>initializeAdapters</code> initializes recyclerViewAdapter for
+     * {@link RecyclerView}.
      */
     private void initializeAdapters() {
         recyclerViewAdapter = new InsideShoppingListRecyclerViewAdapter(
@@ -136,9 +147,6 @@ public class InsideShoppingListFragment extends Fragment {
     }
 
     private void initializeData(long shoppingListId) {
-        shoppingListDAO.open();
-        productDAO.open();
-        existingProductDAO.open();
         products = productDAO.getAllFromCurrentShoppingList(shoppingListId);
         if (products == null) {
             products = new ArrayList<>();
@@ -152,7 +160,6 @@ public class InsideShoppingListFragment extends Fragment {
     }
 
     private void initializeTextViewWithShoppingListName() {
-        shoppingListDAO.open();
         String shoppingListName = shoppingListDAO.getOne(shoppingListId).getName();
         getActivity().setTitle(shoppingListName);
     }
@@ -169,7 +176,6 @@ public class InsideShoppingListFragment extends Fragment {
     }
 
     private void createAndShowAlertDialogForManualType() {
-        productDAO.open();
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.MyDialogTheme);
         builder.setTitle(R.string.add_new_product);
 
@@ -202,7 +208,6 @@ public class InsideShoppingListFragment extends Fragment {
             }
         });
 
-
         final EditText editTextQuantity = new EditText(getActivity());
         editTextQuantity.setInputType(InputType.TYPE_CLASS_NUMBER
                 | InputType.TYPE_NUMBER_FLAG_DECIMAL);
@@ -227,7 +232,6 @@ public class InsideShoppingListFragment extends Fragment {
         builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                productDAO.open();
                 autoCompleteTextViewName.setTextColor(getResources().getColor(R.color.cardview_dark_background));
                 if (autoCompleteTextViewName.getText() != null
                         && autoCompleteTextViewName.getText().toString().length() != 0) {
@@ -249,8 +253,6 @@ public class InsideShoppingListFragment extends Fragment {
                         newProduct.setCost(Double.valueOf("0.0"));
                         ExistingProduct newExistingProduct = new ExistingProduct(Double
                                 .parseDouble("1"));
-                        productDAO.open();
-
                         boolean existence = productDAO
                                 .addInCurrentShoppingListAndCheck(newProduct, shoppingListId);
                         notifyListsChanges(existence, newProduct, newExistingProduct);
@@ -276,14 +278,11 @@ public class InsideShoppingListFragment extends Fragment {
 
     private void notifyListsChanges(boolean existence, Product newProduct,
                                     ExistingProduct newExistingProduct) {
-        existingProductDAO.open();
-        productDAO.open();
         long tempProductId = productDAO.getOneByName(newProduct.getName()).getId();
         ExistingProduct tempExistingProduct = existingProductDAO
                 .getOne(shoppingListId, tempProductId);
         tempExistingProduct.setQuantityOrWeight(newExistingProduct.getQuantityOrWeight());
         existingProductDAO.update(tempExistingProduct);
-
         if (!existence) {
             products.add(products.size(), newProduct);
             Log.d(TAG, "notifyListsChanges: " + products.size() + newProduct.getName());
