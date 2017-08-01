@@ -30,7 +30,7 @@ public class ManagingExistingProductsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_managing_existing_products, container,
                 false);
 
-        productDAO = new ProductDAO(getActivity());
+        productDAO = new ProductDAO(getContext());
         productDAO.open();
 
         initializeData();
