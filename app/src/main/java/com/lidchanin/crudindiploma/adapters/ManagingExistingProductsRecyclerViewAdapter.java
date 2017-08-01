@@ -24,8 +24,7 @@ import java.util.List;
 
 /**
  * Class <code>{@link ManagingExistingProductsRecyclerViewAdapter}</code> is an adapter
- * for {@link RecyclerView}
- * from {@link com.lidchanin.crudindiploma.activities.ManagingExistingProductsActivity}.
+ * for {@link RecyclerView}.
  *
  * @author Lidchanin
  * @see android.support.v7.widget.RecyclerView.Adapter
