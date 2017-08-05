@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.adapters.ManagingExistingProductsRecyclerViewAdapter;
+import com.lidchanin.crudindiploma.customview.NavigationDrawerActivity;
 import com.lidchanin.crudindiploma.data.dao.ProductDAO;
 import com.lidchanin.crudindiploma.data.models.Product;
 
@@ -30,6 +31,7 @@ public class ManagingExistingProductsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_managing_existing_products, container,
                 false);
 
+        ((NavigationDrawerActivity)getActivity()).setButtonsToDefault();
         productDAO = new ProductDAO(getContext());
         productDAO.open();
 
