@@ -12,6 +12,7 @@ import android.widget.Button;
 
 import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.adapters.ProfitAdapter;
+import com.lidchanin.crudindiploma.customview.NavigationDrawerActivity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,6 +34,7 @@ public class ProfitFramgent extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        ((NavigationDrawerActivity)getActivity()).setButtonsToDefault();
         View view = inflater.inflate(R.layout.fragment_profit,container,false);
         clearButton = (Button) view.findViewById(R.id.button_clean);
         addButton = (Button) view.findViewById(R.id.button_add_best);
@@ -43,6 +45,7 @@ public class ProfitFramgent extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         profitRecyclerView.setLayoutManager(layoutManager);
         profitRecyclerView.setAdapter(profitAdapter);
+        ((NavigationDrawerActivity) getActivity()).addNewItem(profitAdapter);
         profitAdapter.setOnSumChangeListener(new ProfitAdapter.OnSumChangeListener() {
             @Override
             public void onSumChanged(int key, double sum) {

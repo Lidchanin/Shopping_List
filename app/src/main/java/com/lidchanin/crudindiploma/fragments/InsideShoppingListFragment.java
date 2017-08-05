@@ -27,6 +27,7 @@ import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.activities.CameraActivity;
 import com.lidchanin.crudindiploma.adapters.AutoCompleteProductNamesAndCostsAdapter;
 import com.lidchanin.crudindiploma.adapters.InsideShoppingListRecyclerViewAdapter;
+import com.lidchanin.crudindiploma.customview.NavigationDrawerActivity;
 import com.lidchanin.crudindiploma.data.dao.ExistingProductDAO;
 import com.lidchanin.crudindiploma.data.dao.ProductDAO;
 import com.lidchanin.crudindiploma.data.dao.ShoppingListDAO;
@@ -64,6 +65,7 @@ public class InsideShoppingListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         shoppingListId = getArguments().getLong(Constants.Bundles.SHOPPING_LIST_ID);
         shoppingListDAO = new ShoppingListDAO(getActivity());
+        ((NavigationDrawerActivity)getActivity()).setButtonsToDefault();
         productDAO = new ProductDAO(getActivity());
         existingProductDAO = new ExistingProductDAO(getActivity());
         initializeData(shoppingListId);

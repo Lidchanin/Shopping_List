@@ -33,7 +33,15 @@
                 android:gravity="center"
                 android:text="@string/lists"
                 android:textSize="18sp" />
-
+            <ImageButton
+                android:id="@+id/add_button"
+                android:layout_width="54dp"
+                android:visibility="gone"
+                android:layout_height="54dp"
+                android:layout_gravity="center_vertical|end"
+                android:background="?attr/selectableItemBackground"
+                android:contentDescription="@string/sort_by_alphabet"
+                android:src="@drawable/ic_add_white_24dp" />
             <ImageButton
                 android:visibility="gone"
                 android:id="@+id/main_screen_image_button_sort_by_alphabet"
@@ -72,6 +80,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
+        tools:visibility="gone"
         app:menu="@menu/activity_main_drawer" />
 
 </android.support.v4.widget.DrawerLayout>

@@ -34,6 +34,9 @@ public class ShoppingListFragmentManager extends NavigationDrawerActivity {
         new ThemeManager(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment_manager);
+        if(getSupportActionBar()!=null){
+            getSupportActionBar().hide();
+        }
         long tempListId = 0;
         if(getIntent().hasExtra(Constants.Bundles.SHOPPING_LIST_ID)) {
             tempListId = getIntent().getLongExtra(Constants.Bundles.SHOPPING_LIST_ID, -1);

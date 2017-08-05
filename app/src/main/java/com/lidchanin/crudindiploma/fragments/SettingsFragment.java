@@ -12,6 +12,7 @@ import android.widget.FrameLayout;
 
 import com.lidchanin.crudindiploma.Constants;
 import com.lidchanin.crudindiploma.R;
+import com.lidchanin.crudindiploma.customview.NavigationDrawerActivity;
 import com.lidchanin.crudindiploma.utils.DownloadTask;
 import com.lidchanin.crudindiploma.utils.SharedPrefsManager;
 
@@ -37,6 +38,7 @@ public class SettingsFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings,container,false);
+        ((NavigationDrawerActivity)getActivity()).setButtonsToDefault();
         sharedPrefsManager = new SharedPrefsManager(getActivity());
         blueGradient = (FrameLayout) view.findViewById(R.id.blue_gradient);
         purpleGradient = (FrameLayout) view.findViewById(R.id.blue_purple_gradient);
