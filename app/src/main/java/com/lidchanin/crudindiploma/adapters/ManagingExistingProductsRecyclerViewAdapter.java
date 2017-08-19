@@ -187,13 +187,13 @@ public class ManagingExistingProductsRecyclerViewAdapter extends RecyclerView
         ManagingExistingProductsViewHolder(View itemView) {
             super(itemView);
             textViewProductName = (TextView) itemView.findViewById(
-                    R.id.managing_existing_products_text_view_product_name_in_card_view
+                    R.id.product_name
             );
             textViewProductCost = (TextView) itemView.findViewById(
-                    R.id.managing_existing_products_text_view_product_cost_in_card_view
+                    R.id.product_cost
             );
             imageButtonDelete = (ImageButton) itemView.findViewById(
-                    R.id.managing_existing_products_image_button_delete_in_card_view
+                    R.id.product_delete
             );
         }
     }

@@ -7,30 +7,33 @@
     android:orientation="vertical">
 
 
-            <TextView
-                android:id="@+id/managing_existing_products_text_view_product_name_in_card_view"
+            <com.lidchanin.crudindiploma.customview.DesignedTextView
+
+                android:textStyle="italic"
+                android:id="@+id/product_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_centerVertical="true"
                 android:maxLines="1"
-                android:textColor="@color/blueLittleDarker"
+                android:textColor="?attr/startGradient"
                 android:textSize="20sp" />
 
-            <TextView
-                android:id="@+id/managing_existing_products_text_view_product_cost_in_card_view"
+            <com.lidchanin.crudindiploma.customview.DesignedTextView
+                android:textStyle="bold"
+                android:id="@+id/product_cost"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toLeftOf="@+id/managing_existing_products_image_button_delete_in_card_view"
+                android:layout_toLeftOf="@+id/product_delete"
                 android:layout_centerVertical="true"
                 android:gravity="center"
                 android:text="@string/sum"
-                android:textColor="@color/blueLittleDarker"
+                android:textColor="?attr/startGradient"
                 android:layout_marginRight="15dp"
                 android:textSize="20sp" />
 
             <ImageButton
-                android:id="@+id/managing_existing_products_image_button_delete_in_card_view"
+                android:id="@+id/product_delete"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_gravity="end|center_vertical"
@@ -45,7 +48,7 @@
             <View
                 android:alpha="0.5"
                 android:layout_alignParentBottom="true"
-                android:background="#a0a0a0"
+                android:background="?attr/startGradient"
                 android:layout_height="1dp"
                 android:layout_width="match_parent"/>
 
