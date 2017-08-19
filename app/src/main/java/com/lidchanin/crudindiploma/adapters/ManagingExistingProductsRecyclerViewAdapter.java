@@ -57,24 +57,10 @@ public class ManagingExistingProductsRecyclerViewAdapter extends RecyclerView
         final Product product = products.get(holder.getAdapterPosition());
         holder.textViewProductName.setText(product.getName());
         holder.textViewProductCost.setText(String.valueOf(product.getCost()));
-        holder.textViewProductPopularity.setText(String.valueOf(product.getPopularity()));
         holder.imageButtonDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 createAndShowAlertDialogForDelete(holder.getAdapterPosition());
-            }
-        });
-        holder.imageButtonEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                createAndShowAlertDialogForUpdate(holder.getAdapterPosition());
-            }
-        });
-        holder.cardViewProduct.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                createAndShowAlertDialogForUpdate(holder.getAdapterPosition());
-                return true;
             }
         });
     }
@@ -200,22 +186,14 @@ public class ManagingExistingProductsRecyclerViewAdapter extends RecyclerView
 
         ManagingExistingProductsViewHolder(View itemView) {
             super(itemView);
-            cardViewProduct = (CardView) itemView
-                    .findViewById(R.id.managing_existing_products_card_view);
             textViewProductName = (TextView) itemView.findViewById(
                     R.id.managing_existing_products_text_view_product_name_in_card_view
             );
             textViewProductCost = (TextView) itemView.findViewById(
                     R.id.managing_existing_products_text_view_product_cost_in_card_view
             );
-            textViewProductPopularity = (TextView) itemView.findViewById(
-                    R.id.managing_existing_products_text_view_product_popularity_in_card_view
-            );
             imageButtonDelete = (ImageButton) itemView.findViewById(
                     R.id.managing_existing_products_image_button_delete_in_card_view
-            );
-            imageButtonEdit = (ImageButton) itemView.findViewById(
-                    R.id.managing_existing_products_image_button_edit_in_card_view
             );
         }
     }

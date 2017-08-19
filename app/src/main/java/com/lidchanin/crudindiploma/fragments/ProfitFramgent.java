@@ -5,11 +5,13 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.lidchanin.crudindiploma.Constants;
 import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.adapters.ProfitAdapter;
 import com.lidchanin.crudindiploma.customview.NavigationDrawerActivity;
@@ -33,7 +35,6 @@ public class ProfitFramgent extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profit,container,false);
         clearButton = (Button) view.findViewById(R.id.button_clean);
         addButton = (Button) view.findViewById(R.id.button_add_best);
-
         sumMap = new HashMap<>();
         profitAdapter = new ProfitAdapter();
         profitRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_profit);
@@ -47,6 +48,8 @@ public class ProfitFramgent extends Fragment {
                 sumMap.put(key, sum);
             }
         });
+        view.setFocusableInTouchMode(true);
+        view.requestFocus();
         return view;
     }
 }

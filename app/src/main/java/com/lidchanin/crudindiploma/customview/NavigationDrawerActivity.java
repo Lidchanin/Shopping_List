@@ -7,6 +7,7 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -28,6 +29,10 @@ import com.lidchanin.crudindiploma.activities.ShoppingListFragmentManager;
 import com.lidchanin.crudindiploma.adapters.MainScreenRecyclerViewAdapter;
 import com.lidchanin.crudindiploma.adapters.ProfitAdapter;
 import com.lidchanin.crudindiploma.data.models.ShoppingList;
+import com.lidchanin.crudindiploma.fragments.InsideShoppingListFragment;
+import com.lidchanin.crudindiploma.fragments.ManagingExistingProductsFragment;
+import com.lidchanin.crudindiploma.fragments.ProfitFramgent;
+import com.lidchanin.crudindiploma.fragments.SettingsFragment;
 import com.lidchanin.crudindiploma.fragments.ShoppingListFragment;
 import com.lidchanin.crudindiploma.utils.SharedPrefsManager;
 import com.lidchanin.crudindiploma.utils.ThemeManager;
@@ -145,23 +150,18 @@ public class NavigationDrawerActivity extends AppCompatActivity implements Navig
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        Intent intent = new Intent(this, ShoppingListFragmentManager.class);
         switch (id){
             case R.id.nav_lists:
-                intent.putExtra(Constants.Bundles.FRAGMENT_ID, Constants.Bundles.SHOPPING_LIST_FRAGMENT_ID);
-                startActivity(intent);
+                initFragment(-1,Constants.Bundles.SHOPPING_LIST_FRAGMENT_ID);
                 break;
             case R.id.nav_existing_products:
-                intent.putExtra(Constants.Bundles.FRAGMENT_ID, Constants.Bundles.MANAGING_EXISTING_PRODUCTS_FRAGMENT_ID);
-                startActivity(intent);
+                initFragment(-1,Constants.Bundles.MANAGING_EXISTING_PRODUCTS_FRAGMENT_ID);
                 break;
             case R.id.nav_profit:
-                intent.putExtra(Constants.Bundles.FRAGMENT_ID,Constants.Bundles.PROFIT_FRAGMENT_ID);
-                startActivity(intent);
+                initFragment(-1,Constants.Bundles.PROFIT_FRAGMENT_ID);
                 break;
             case R.id.nav_settings:
-                intent.putExtra(Constants.Bundles.FRAGMENT_ID,Constants.Bundles.SETTINGS_FRAGMENT_ID);
-                startActivity(intent);
+                initFragment(-1,Constants.Bundles.SETTINGS_FRAGMENT_ID);
                 break;
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -233,5 +233,40 @@ public class NavigationDrawerActivity extends AppCompatActivity implements Navig
     
     public void setTitle(String title){
         pageTitle.setText(title);
+    }
+
+
+    public void initFragment(long shoppingListId,String fragmentExtra) {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        Bundle bundle = new Bundle();
+        switch (fragmentExtra) {
+            case Constants.Bundles.SHOPPING_LIST_FRAGMENT_ID:
+                ShoppingListFragment shoppingListFragment = new ShoppingListFragment();
+                fragmentTransaction.replace(R.id.container, shoppingListFragment);
+                fragmentTransaction.commit();
+                break;
+            case Constants.Bundles.INSIDE_SHOPPING_LIST_FRAGMENT_ID:
+                InsideShoppingListFragment insideShoppingListFragment = new InsideShoppingListFragment();
+                bundle.putLong(Constants.Bundles.SHOPPING_LIST_ID, shoppingListId);
+                insideShoppingListFragment.setArguments(bundle);
+                fragmentTransaction.replace(R.id.container, insideShoppingListFragment);
+                fragmentTransaction.commit();
+                break;
+            case Constants.Bundles.PROFIT_FRAGMENT_ID:
+                ProfitFramgent profitFramgent = new ProfitFramgent();
+                fragmentTransaction.replace(R.id.container, profitFramgent);
+                fragmentTransaction.commit();
+                break;
+            case Constants.Bundles.SETTINGS_FRAGMENT_ID:
+                SettingsFragment settingsFragment = new SettingsFragment();
+                fragmentTransaction.replace(R.id.container, settingsFragment);
+                fragmentTransaction.commit();
+                break;
+            case Constants.Bundles.MANAGING_EXISTING_PRODUCTS_FRAGMENT_ID:
+                ManagingExistingProductsFragment managingExistingProductsFragment = new ManagingExistingProductsFragment();
+                fragmentTransaction.replace(R.id.container, managingExistingProductsFragment);
+                fragmentTransaction.commit();
+                break;
+        }
     }
 }

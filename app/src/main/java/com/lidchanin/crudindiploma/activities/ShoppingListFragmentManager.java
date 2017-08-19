@@ -4,21 +4,26 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
 
 import com.lidchanin.crudindiploma.Constants;
 import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.customview.NavigationDrawerActivity;
-import com.lidchanin.crudindiploma.fragments.InsideShoppingListFragment;
-import com.lidchanin.crudindiploma.fragments.ManagingExistingProductsFragment;
-import com.lidchanin.crudindiploma.fragments.ProfitFramgent;
-import com.lidchanin.crudindiploma.fragments.SettingsFragment;
-import com.lidchanin.crudindiploma.fragments.ShoppingListFragment;
 import com.lidchanin.crudindiploma.utils.ThemeManager;
 
 public class ShoppingListFragmentManager extends NavigationDrawerActivity {
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if( keyCode == KeyEvent.KEYCODE_BACK )
+        {
+            this.initFragment(-1,Constants.Bundles.SHOPPING_LIST_FRAGMENT_ID);
+            return true;
+        }
+        return false;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,11 +33,12 @@ public class ShoppingListFragmentManager extends NavigationDrawerActivity {
         if(getSupportActionBar()!=null){
             getSupportActionBar().hide();
         }
+
         long tempListId = 0;
         if (getIntent().hasExtra(Constants.Bundles.SHOPPING_LIST_ID)) {
             tempListId = getIntent().getLongExtra(Constants.Bundles.SHOPPING_LIST_ID, -1);
         }
-        initFragment(tempListId);
+        initFragment(tempListId,Constants.Bundles.SHOPPING_LIST_FRAGMENT_ID);
     }
 
     private void createAndShowAlertDialogForExit() {
@@ -57,54 +63,5 @@ public class ShoppingListFragmentManager extends NavigationDrawerActivity {
         dialog.show();
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        /*if (keyCode == KeyEvent.KEYCODE_BACK) {
-            new InsideShoppingListActivity().createAndShowAlertDialogTopFive();
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);*/
-        //// TODO: 06.07.2017 fix by fragments
-        /*if (keyCode == KeyEvent.KEYCODE_BACK) {
-            createAndShowAlertDialogForExit();
-        }
-        return super.onKeyDown(keyCode, event);*/
 
-        return true;
-    }
-
-    public void initFragment(long shoppingListId) {
-        String fragmentExtra = this.getIntent().getStringExtra(Constants.Bundles.FRAGMENT_ID);
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        Bundle bundle = new Bundle();
-        switch (fragmentExtra) {
-            case Constants.Bundles.SHOPPING_LIST_FRAGMENT_ID:
-                ShoppingListFragment shoppingListFragment = new ShoppingListFragment();
-                fragmentTransaction.add(R.id.container, shoppingListFragment);
-                fragmentTransaction.commit();
-                break;
-            case Constants.Bundles.INSIDE_SHOPPING_LIST_FRAGMENT_ID:
-                InsideShoppingListFragment insideShoppingListFragment = new InsideShoppingListFragment();
-                bundle.putLong(Constants.Bundles.SHOPPING_LIST_ID, shoppingListId);
-                insideShoppingListFragment.setArguments(bundle);
-                fragmentTransaction.add(R.id.container, insideShoppingListFragment);
-                fragmentTransaction.commit();
-                break;
-            case Constants.Bundles.PROFIT_FRAGMENT_ID:
-                ProfitFramgent profitFramgent = new ProfitFramgent();
-                fragmentTransaction.add(R.id.container, profitFramgent);
-                fragmentTransaction.commit();
-                break;
-            case Constants.Bundles.SETTINGS_FRAGMENT_ID:
-                SettingsFragment settingsFragment = new SettingsFragment();
-                fragmentTransaction.add(R.id.container, settingsFragment);
-                fragmentTransaction.commit();
-                break;
-            case Constants.Bundles.MANAGING_EXISTING_PRODUCTS_FRAGMENT_ID:
-                ManagingExistingProductsFragment managingExistingProductsFragment = new ManagingExistingProductsFragment();
-                fragmentTransaction.add(R.id.container, managingExistingProductsFragment);
-                fragmentTransaction.commit();
-                break;
-        }
-    }
 }

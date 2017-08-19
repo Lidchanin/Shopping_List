@@ -75,7 +75,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         transformation = new RoundedTransformationBuilder().oval(true).build();
         userPhoto = (ImageView) findViewById(R.id.mail_photo);
         userName = (TextView) findViewById(R.id.mail_name);
-        buttonGoToCam = (Button) findViewById(R.id.to_camera);
         signInButton = (SignInButton) findViewById(R.id.sing_in_button);
         googleBackground = (RelativeLayout) findViewById(R.id.google_background);
         signInButton.setOnClickListener(new View.OnClickListener() {
@@ -96,21 +95,19 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         final File rusTessaract = new File(String.valueOf(Environment.getExternalStorageDirectory()) + Constants.Tessaract.SLASH + Constants.Tessaract.TESSDATA + Constants.Tessaract.SLASH + Constants.Tessaract.RUSTRAIN);
         final File engTessaract = new File(String.valueOf(Environment.getExternalStorageDirectory()) + Constants.Tessaract.SLASH + Constants.Tessaract.TESSDATA + Constants.Tessaract.SLASH + Constants.Tessaract.ENGTRAIN);
 
-
+        buttonGoToCam = (Button) findViewById(R.id.to_camera);
         buttonGoToCam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (Build.VERSION.SDK_INT >= 21) {
                     if (engTessaract.exists() || rusTessaract.exists()) {
                         Intent intent = new Intent(MainActivity.this,ShoppingListFragmentManager.class);
-                        intent.putExtra(Constants.Bundles.FRAGMENT_ID,Constants.Bundles.SHOPPING_LIST_FRAGMENT_ID);
                         startActivity(intent);
                     } else {
                         createAndShowAlertDialogRecognizeLang();
                     }
                 } else {
                     Intent intent = new Intent(MainActivity.this, ShoppingListFragmentManager.class);
-                    intent.putExtra(Constants.Bundles.FRAGMENT_ID,Constants.Bundles.SHOPPING_LIST_FRAGMENT_ID);
                     startActivity(intent);
                 }
             }
