@@ -25,7 +25,6 @@ public class ProfitFramgent extends Fragment {
     private Button clearButton;
     private Button addButton;
     private RecyclerView profitRecyclerView;
-    private ProfitAdapter profitAdapter;
     private Map<Integer, Double> sumMap;
 
     @Nullable
@@ -34,22 +33,35 @@ public class ProfitFramgent extends Fragment {
         ((NavigationDrawerActivity)getActivity()).setButtonsToDefault();
         View view = inflater.inflate(R.layout.fragment_profit,container,false);
         clearButton = (Button) view.findViewById(R.id.button_clean);
+
         addButton = (Button) view.findViewById(R.id.button_add_best);
         sumMap = new HashMap<>();
-        profitAdapter = new ProfitAdapter();
         profitRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_profit);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         profitRecyclerView.setLayoutManager(layoutManager);
-        profitRecyclerView.setAdapter(profitAdapter);
-        ((NavigationDrawerActivity) getActivity()).addNewItem(profitAdapter);
-        profitAdapter.setOnSumChangeListener(new ProfitAdapter.OnSumChangeListener() {
+        profitRecyclerView.setAdapter(initNewAdapter());
+
+        clearButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onSumChanged(int key, double sum) {
-                sumMap.put(key, sum);
+            public void onClick(View v) {
+                profitRecyclerView.setAdapter(initNewAdapter());
             }
         });
         view.setFocusableInTouchMode(true);
         view.requestFocus();
         return view;
+    }
+
+
+    private ProfitAdapter initNewAdapter(){
+        ProfitAdapter adapter = new ProfitAdapter();
+        adapter.setOnSumChangeListener(new ProfitAdapter.OnSumChangeListener() {
+            @Override
+            public void onSumChanged(int key, double sum) {
+                sumMap.put(key, sum);
+            }
+        });
+        ((NavigationDrawerActivity) getActivity()).addNewItem(adapter);
+        return adapter;
     }
 }
