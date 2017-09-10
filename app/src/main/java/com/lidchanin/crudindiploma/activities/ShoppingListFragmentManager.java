@@ -17,9 +17,8 @@ public class ShoppingListFragmentManager extends NavigationDrawerActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if( keyCode == KeyEvent.KEYCODE_BACK )
-        {
-            this.initFragment(-1,Constants.Bundles.SHOPPING_LIST_FRAGMENT_ID);
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            this.initFragment(-1, Constants.Bundles.SHOPPING_LIST_FRAGMENT_ID);
             return true;
         }
         return false;
@@ -30,7 +29,7 @@ public class ShoppingListFragmentManager extends NavigationDrawerActivity {
         new ThemeManager(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment_manager);
-        if(getSupportActionBar()!=null){
+        if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
 
@@ -38,7 +37,7 @@ public class ShoppingListFragmentManager extends NavigationDrawerActivity {
         if (getIntent().hasExtra(Constants.Bundles.SHOPPING_LIST_ID)) {
             tempListId = getIntent().getLongExtra(Constants.Bundles.SHOPPING_LIST_ID, -1);
         }
-        initFragment(tempListId,Constants.Bundles.SHOPPING_LIST_FRAGMENT_ID);
+        initFragment(tempListId, Constants.Bundles.SHOPPING_LIST_FRAGMENT_ID);
     }
 
     private void createAndShowAlertDialogForExit() {

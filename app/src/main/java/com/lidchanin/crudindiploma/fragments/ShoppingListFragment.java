@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -25,12 +24,9 @@ import com.lidchanin.crudindiploma.customview.NavigationDrawerActivity;
 import com.lidchanin.crudindiploma.data.dao.ExistingProductDAO;
 import com.lidchanin.crudindiploma.data.dao.ShoppingListDAO;
 import com.lidchanin.crudindiploma.data.models.ShoppingList;
-import com.lidchanin.crudindiploma.utils.SharedPrefsManager;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -51,7 +47,7 @@ public class ShoppingListFragment extends android.support.v4.app.Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((NavigationDrawerActivity)getActivity()).setButtonsToDefault();
+        ((NavigationDrawerActivity) getActivity()).setButtonsToDefault();
         shoppingListDAO = new ShoppingListDAO(getActivity());
         existingProductDAO = new ExistingProductDAO(getActivity());
         initializeData();
@@ -69,14 +65,13 @@ public class ShoppingListFragment extends android.support.v4.app.Fragment {
         initializeButtonAdd();
         initializeRecyclerViews();
         initializeAdapters();
-        ((NavigationDrawerActivity) getActivity()).setShoppingListSorts(shoppingLists,mainScreenRecyclerViewAdapter);
+        ((NavigationDrawerActivity) getActivity()).setShoppingListSorts(shoppingLists, mainScreenRecyclerViewAdapter);
         return fragmentView;
     }
 
     /**
      * Method <code>initializeRecyclerView</code> initializes {@link RecyclerView}.
      */
-
     public void initializeRecyclerViews() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerViewAllShoppingLists.setLayoutManager(layoutManager);
@@ -85,7 +80,6 @@ public class ShoppingListFragment extends android.support.v4.app.Fragment {
     /**
      * Method <code>initializeAdapters</code> initializes adapter for {@link RecyclerView}.
      */
-
     private void initializeAdapters() {
         mainScreenRecyclerViewAdapter
                 = new MainScreenRecyclerViewAdapter(shoppingLists, shoppingListDAO,
@@ -96,7 +90,6 @@ public class ShoppingListFragment extends android.support.v4.app.Fragment {
     /**
      * Method <code>initializeButtonAdd</code> initializes {@link Button} for adding shopping list.
      */
-
     private void initializeButtonAdd() {
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,7 +104,6 @@ public class ShoppingListFragment extends android.support.v4.app.Fragment {
      * The method <code>createAndShowAlertDialogForAdd</code> create and shows a dialog, which
      * need to add new shopping list.
      */
-
     private void createAndShowAlertDialogForAdd() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(),
                 R.style.MyDialogTheme);
@@ -166,8 +158,6 @@ public class ShoppingListFragment extends android.support.v4.app.Fragment {
         });
         AlertDialog dialog = builder.create();
         dialog.show();
-
-
     }
 
     @Override

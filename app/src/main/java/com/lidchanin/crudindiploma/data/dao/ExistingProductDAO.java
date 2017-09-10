@@ -121,7 +121,7 @@ public class ExistingProductDAO extends DatabaseDAO {
      * shopping list from the database.
      *
      * @param shoppingListId is the shopping list id, which contains needed products.
-     * @return all existing products in shopping list, which you need, or null.
+     * @return all existing products in shopping list, which you need, or empty list.
      */
     public List<ExistingProduct> getAllFromCurrentShoppingList(long shoppingListId) {
         List<ExistingProduct> existingProducts = new ArrayList<>();

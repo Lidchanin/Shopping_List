@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.TransitionDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,7 +15,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -101,14 +99,16 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             public void onClick(View v) {
                 if (Build.VERSION.SDK_INT >= 21) {
                     if (engTessaract.exists() || rusTessaract.exists()) {
-                        Intent intent = new Intent(MainActivity.this,ShoppingListFragmentManager.class);
-                        startActivity(intent);
+//                        Intent intent = new Intent(MainActivity.this, ShoppingListFragmentManager.class);
+//                        startActivity(intent);
+                        startActivity(new Intent(MainActivity.this, MainScreenActivity.class));
                     } else {
                         createAndShowAlertDialogRecognizeLang();
                     }
                 } else {
-                    Intent intent = new Intent(MainActivity.this, ShoppingListFragmentManager.class);
-                    startActivity(intent);
+//                    Intent intent = new Intent(MainActivity.this, ShoppingListFragmentManager.class);
+//                    startActivity(intent);
+                    startActivity(new Intent(MainActivity.this, MainScreenActivity.class));
                 }
             }
         });
@@ -172,7 +172,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 googleBackground.setVisibility(View.VISIBLE);
                 userName.setVisibility(View.VISIBLE);
                 userPhoto.setVisibility(View.VISIBLE);
-
             } else {
                 googleBackground.setVisibility(View.GONE);
                 userName.setVisibility(View.GONE);
@@ -203,7 +202,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -215,7 +213,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                             Toast.makeText(MainActivity.this, getString(R.string.auth_filed),
                                     Toast.LENGTH_SHORT).show();
                         }
-
                     }
                 });
     }
