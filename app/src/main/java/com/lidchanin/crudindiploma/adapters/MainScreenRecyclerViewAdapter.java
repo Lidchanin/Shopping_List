@@ -3,14 +3,15 @@ package com.lidchanin.crudindiploma.adapters;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
-import android.support.design.widget.TextInputLayout;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,11 +85,11 @@ public class MainScreenRecyclerViewAdapter
             public void onClick(View v) {
                 // TODO: 16.07.2017 try to remake this 
                 FragmentTransaction fragmentTransaction = ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction();
-                InsideShoppingListFragment fragment=new InsideShoppingListFragment();
+                InsideShoppingListFragment fragment = new InsideShoppingListFragment();
                 Bundle bundle = new Bundle();
                 bundle.putLong(Constants.Bundles.SHOPPING_LIST_ID, shoppingLists.get(holder.getAdapterPosition()).getId());
                 fragment.setArguments(bundle);
-                fragmentTransaction.replace(R.id.container,fragment);
+                fragmentTransaction.replace(R.id.container, fragment);
                 fragmentTransaction.commit();
             }
         });

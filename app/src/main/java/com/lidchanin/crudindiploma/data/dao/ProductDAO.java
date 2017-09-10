@@ -175,7 +175,7 @@ public class ProductDAO extends DatabaseDAO {
      * shopping list from the database.
      *
      * @param shoppingListId is the shopping list id, which contains needed products.
-     * @return all products in shopping list, which you need, or null.
+     * @return all products in shopping list, which you need, or empty list.
      */
     // FIXME: 14.06.2017 Fix method getAllFromCurrentShoppingList
     public List<Product> getAllFromCurrentShoppingList(long shoppingListId) {
@@ -203,7 +203,7 @@ public class ProductDAO extends DatabaseDAO {
             return products;
         } else {
             cursor.close();
-            return null;
+            return products;
         }
     }
 
