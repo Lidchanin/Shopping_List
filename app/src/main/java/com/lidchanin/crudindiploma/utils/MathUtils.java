@@ -1,6 +1,8 @@
 package com.lidchanin.crudindiploma.utils;
 
-import java.util.Map;
+import com.lidchanin.crudindiploma.models.ProfitItems;
+
+import java.util.List;
 
 public class MathUtils {
 
@@ -13,16 +15,14 @@ public class MathUtils {
         }
         return ret;
     }
-    public static int min(Map<Integer,Double> map) {
+    public static int min(List<ProfitItems> list) {
         Double ret = null;
         int minKey=0;
-        for(int i=0;i<=map.size();i++){
-
-            if (ret == null || (map.get(i) != null && map.get(i) < ret)) {
-                ret = map.get(i);
-                minKey=i;
+        for(int i=0;i<list.size();i++){
+                if (ret == null || (list.get(i) != null && list.get(i).getSum() < ret)) {
+                    ret = list.get(i).getSum();
+                    minKey = i;
             }
-
         }
         return minKey;
     }

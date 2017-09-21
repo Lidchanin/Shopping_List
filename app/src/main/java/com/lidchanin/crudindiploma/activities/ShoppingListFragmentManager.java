@@ -63,5 +63,4 @@ public class ShoppingListFragmentManager extends NavigationDrawerActivity {
         dialog.show();
     }
 
-
 }

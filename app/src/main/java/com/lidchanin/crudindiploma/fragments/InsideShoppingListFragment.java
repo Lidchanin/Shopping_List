@@ -12,7 +12,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,8 +32,8 @@ import com.lidchanin.crudindiploma.customview.NavigationDrawerActivity;
 import com.lidchanin.crudindiploma.data.dao.ExistingProductDAO;
 import com.lidchanin.crudindiploma.data.dao.ProductDAO;
 import com.lidchanin.crudindiploma.data.dao.ShoppingListDAO;
-import com.lidchanin.crudindiploma.data.models.ExistingProduct;
-import com.lidchanin.crudindiploma.data.models.Product;
+import com.lidchanin.crudindiploma.models.ExistingProduct;
+import com.lidchanin.crudindiploma.models.Product;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -98,16 +97,12 @@ public class InsideShoppingListFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         shoppingListDAO.close();
-        existingProductDAO.close();
-        productDAO.close();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         shoppingListDAO.close();
-        existingProductDAO.close();
-        productDAO.close();
     }
 
     private void initializeViewsAndButtons(final long shoppingListId) {
@@ -315,6 +310,7 @@ public class InsideShoppingListFragment extends Fragment {
             }
         }
     }
+
 
     private void setTextForTextViewCostsSum(TextView textViewCostsSum) {
         textViewCostsSum.setText(getString(R.string.estimated_amount,

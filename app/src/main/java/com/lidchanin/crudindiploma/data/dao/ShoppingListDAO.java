@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 
 import com.lidchanin.crudindiploma.data.MyCursorWrapper;
-import com.lidchanin.crudindiploma.data.models.ShoppingList;
+import com.lidchanin.crudindiploma.models.ShoppingList;
 
 import java.util.ArrayList;
 import java.util.List;

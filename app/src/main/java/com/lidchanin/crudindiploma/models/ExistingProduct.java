@@ -1,4 +1,4 @@
-package com.lidchanin.crudindiploma.data.models;
+package com.lidchanin.crudindiploma.models;
 
 /**
  * The lass <code>ExistingProduct</code> is an entity. Existing product contains references on

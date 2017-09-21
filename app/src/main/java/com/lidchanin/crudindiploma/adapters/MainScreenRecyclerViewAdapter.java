@@ -24,7 +24,7 @@ import com.lidchanin.crudindiploma.Constants;
 import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.data.dao.ExistingProductDAO;
 import com.lidchanin.crudindiploma.data.dao.ShoppingListDAO;
-import com.lidchanin.crudindiploma.data.models.ShoppingList;
+import com.lidchanin.crudindiploma.models.ShoppingList;
 import com.lidchanin.crudindiploma.fragments.InsideShoppingListFragment;
 
 import java.text.ParseException;
@@ -82,7 +82,7 @@ public class MainScreenRecyclerViewAdapter
         holder.cardViewShoppingList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: 16.07.2017 try to remake this 
+                // TODO: 16.07.2017 try to remake this
                 FragmentTransaction fragmentTransaction = ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction();
                 InsideShoppingListFragment fragment=new InsideShoppingListFragment();
                 Bundle bundle = new Bundle();

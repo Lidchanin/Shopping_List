@@ -1,4 +1,4 @@
-package com.lidchanin.crudindiploma.data.models;
+package com.lidchanin.crudindiploma.models;
 
 /**
  * The class {@link ShoppingList} is an entity. Shopping list contains id, name.

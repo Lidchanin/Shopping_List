@@ -8,7 +8,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.lidchanin.crudindiploma.data.MyCursorWrapper;
-import com.lidchanin.crudindiploma.data.models.Product;
+import com.lidchanin.crudindiploma.models.Product;
 
 import java.util.ArrayList;
 import java.util.List;

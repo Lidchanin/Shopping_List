@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -24,13 +23,10 @@ import com.lidchanin.crudindiploma.adapters.MainScreenRecyclerViewAdapter;
 import com.lidchanin.crudindiploma.customview.NavigationDrawerActivity;
 import com.lidchanin.crudindiploma.data.dao.ExistingProductDAO;
 import com.lidchanin.crudindiploma.data.dao.ShoppingListDAO;
-import com.lidchanin.crudindiploma.data.models.ShoppingList;
-import com.lidchanin.crudindiploma.utils.SharedPrefsManager;
+import com.lidchanin.crudindiploma.models.ShoppingList;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -54,6 +50,7 @@ public class ShoppingListFragment extends android.support.v4.app.Fragment {
         ((NavigationDrawerActivity)getActivity()).setButtonsToDefault();
         shoppingListDAO = new ShoppingListDAO(getActivity());
         existingProductDAO = new ExistingProductDAO(getActivity());
+
         initializeData();
     }
 
@@ -69,6 +66,8 @@ public class ShoppingListFragment extends android.support.v4.app.Fragment {
         initializeButtonAdd();
         initializeRecyclerViews();
         initializeAdapters();
+        shoppingListDAO.open();
+        existingProductDAO.open();
         ((NavigationDrawerActivity) getActivity()).setShoppingListSorts(shoppingLists,mainScreenRecyclerViewAdapter);
         return fragmentView;
     }

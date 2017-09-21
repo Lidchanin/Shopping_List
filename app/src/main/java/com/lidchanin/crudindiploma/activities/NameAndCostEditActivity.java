@@ -1,6 +1,5 @@
 package com.lidchanin.crudindiploma.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -12,8 +11,8 @@ import android.widget.EditText;
 import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.data.dao.ExistingProductDAO;
 import com.lidchanin.crudindiploma.data.dao.ProductDAO;
-import com.lidchanin.crudindiploma.data.models.ExistingProduct;
-import com.lidchanin.crudindiploma.data.models.Product;
+import com.lidchanin.crudindiploma.models.ExistingProduct;
+import com.lidchanin.crudindiploma.models.Product;
 import com.lidchanin.crudindiploma.utils.ThemeManager;
 import com.lidchanin.crudindiploma.utils.filters.DecimalDigitsInputFilter;
 

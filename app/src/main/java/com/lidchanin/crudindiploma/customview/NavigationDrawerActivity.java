@@ -1,6 +1,5 @@
 package com.lidchanin.crudindiploma.customview;
 
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
@@ -25,10 +24,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.lidchanin.crudindiploma.Constants;
 import com.lidchanin.crudindiploma.R;
-import com.lidchanin.crudindiploma.activities.ShoppingListFragmentManager;
 import com.lidchanin.crudindiploma.adapters.MainScreenRecyclerViewAdapter;
 import com.lidchanin.crudindiploma.adapters.ProfitAdapter;
-import com.lidchanin.crudindiploma.data.models.ShoppingList;
+import com.lidchanin.crudindiploma.models.ShoppingList;
 import com.lidchanin.crudindiploma.fragments.InsideShoppingListFragment;
 import com.lidchanin.crudindiploma.fragments.ManagingExistingProductsFragment;
 import com.lidchanin.crudindiploma.fragments.ProfitFramgent;
@@ -269,4 +267,5 @@ public class NavigationDrawerActivity extends AppCompatActivity implements Navig
                 break;
         }
     }
+
 }

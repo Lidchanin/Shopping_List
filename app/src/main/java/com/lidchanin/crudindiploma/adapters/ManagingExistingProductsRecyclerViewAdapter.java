@@ -18,7 +18,7 @@ import android.widget.Toast;
 
 import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.data.dao.ProductDAO;
-import com.lidchanin.crudindiploma.data.models.Product;
+import com.lidchanin.crudindiploma.models.Product;
 
 import java.util.List;
 

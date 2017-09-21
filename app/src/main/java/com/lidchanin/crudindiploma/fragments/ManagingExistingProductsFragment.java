@@ -13,7 +13,7 @@ import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.adapters.ManagingExistingProductsRecyclerViewAdapter;
 import com.lidchanin.crudindiploma.customview.NavigationDrawerActivity;
 import com.lidchanin.crudindiploma.data.dao.ProductDAO;
-import com.lidchanin.crudindiploma.data.models.Product;
+import com.lidchanin.crudindiploma.models.Product;
 
 import java.util.ArrayList;
 import java.util.List;

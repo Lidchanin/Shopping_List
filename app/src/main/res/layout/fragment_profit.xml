@@ -9,7 +9,6 @@
         android:layout_width="match_parent"
         android:layout_below="@+id/toolbar"
         app:layout_heightPercent="90%" />
-
     <LinearLayout
         android:id="@+id/buttonHolder"
         android:layout_width="match_parent"
@@ -25,8 +24,7 @@
             android:layout_margin="5dp"
             android:background="@drawable/rect_buttons_main"
             android:padding="5dp"
-            android:text="@string/add_best"
-            android:visibility="gone" />
+            android:text="@string/add_best" />
 
         <Button
             android:id="@+id/button_clean"

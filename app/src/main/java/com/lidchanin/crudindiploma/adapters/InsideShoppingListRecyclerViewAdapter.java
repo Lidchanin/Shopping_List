@@ -20,8 +20,8 @@ import android.widget.Toast;
 import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.data.dao.ExistingProductDAO;
 import com.lidchanin.crudindiploma.data.dao.ProductDAO;
-import com.lidchanin.crudindiploma.data.models.ExistingProduct;
-import com.lidchanin.crudindiploma.data.models.Product;
+import com.lidchanin.crudindiploma.models.ExistingProduct;
+import com.lidchanin.crudindiploma.models.Product;
 
 import java.text.DecimalFormat;
 import java.util.List;

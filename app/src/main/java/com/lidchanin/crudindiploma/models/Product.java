@@ -1,4 +1,4 @@
-package com.lidchanin.crudindiploma.data.models;
+package com.lidchanin.crudindiploma.models;
 
 /**
  * The class <code>Product</code> is an entity. Product contains id, name, cost and

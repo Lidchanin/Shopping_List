@@ -2,11 +2,10 @@ package com.lidchanin.crudindiploma.data;
 
 import android.database.Cursor;
 import android.database.CursorWrapper;
-import android.util.Log;
 
-import com.lidchanin.crudindiploma.data.models.ExistingProduct;
-import com.lidchanin.crudindiploma.data.models.Product;
-import com.lidchanin.crudindiploma.data.models.ShoppingList;
+import com.lidchanin.crudindiploma.models.ExistingProduct;
+import com.lidchanin.crudindiploma.models.Product;
+import com.lidchanin.crudindiploma.models.ShoppingList;
 
 import static com.lidchanin.crudindiploma.data.DatabaseHelper.COLUMN_COST;
 import static com.lidchanin.crudindiploma.data.DatabaseHelper.COLUMN_DATE_OF_CREATION;
