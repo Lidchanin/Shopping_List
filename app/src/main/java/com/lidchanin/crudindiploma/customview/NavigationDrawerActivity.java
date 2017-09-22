@@ -179,6 +179,10 @@ public class NavigationDrawerActivity extends AppCompatActivity implements Navig
         });
     }
 
+    public ImageButton addNewItem(){
+        return addItem;
+    }
+
     public void setShoppingListSorts(final List <ShoppingList> shoppingLists, final MainScreenRecyclerViewAdapter mainScreenRecyclerViewAdapter){
         sharedPrefsManager = new SharedPrefsManager(this);
         alphabetSort.setVisibility(View.VISIBLE);
@@ -234,6 +238,8 @@ public class NavigationDrawerActivity extends AppCompatActivity implements Navig
     public void setTitle(String title){
         pageTitle.setText(title);
     }
+
+
 
 
     public void initFragment(long shoppingListId,String fragmentExtra) {

@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.adapters.MainRVAdapter;
+import com.lidchanin.crudindiploma.customview.NavigationDrawerActivity;
 import com.lidchanin.crudindiploma.data.dao.ExistingProductDAO;
 import com.lidchanin.crudindiploma.data.dao.ProductDAO;
 import com.lidchanin.crudindiploma.data.dao.ShoppingListDAO;
@@ -27,7 +28,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class MainScreenActivity extends AppCompatActivity {
+public class MainScreenActivity extends NavigationDrawerActivity {
 
     private ShoppingListDAO shoppingListDAO;
     private ProductDAO productDAO;
@@ -43,7 +44,6 @@ public class MainScreenActivity extends AppCompatActivity {
             getSupportActionBar().hide();
         }
         setContentView(R.layout.activity_main_screen);
-
         shoppingListDAO = new ShoppingListDAO(this);
         shoppingLists = shoppingListDAO.getAll();
         productDAO = new ProductDAO(this);

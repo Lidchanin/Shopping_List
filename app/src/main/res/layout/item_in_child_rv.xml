@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -7,23 +8,25 @@
     <android.support.v7.widget.CardView
         android:id="@+id/cv_in_child_rv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <FrameLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="60dp"
             android:layout_marginBottom="1dp"
             android:layout_marginTop="1dp"
-            android:background="@drawable/inside_recycler"
             android:orientation="horizontal">
 
             <CheckBox
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
                 android:id="@+id/cb_existence_in_child_rv"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="15dp" />
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/tv_cost_in_child_rv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -35,17 +38,18 @@
                 android:textSize="16sp" />
 
             <TextView
+                android:textColor="@color/blueDark"
+                android:layout_toLeftOf="@+id/button_delete_in_child_rv"
                 android:id="@+id/tv_total_cost_in_child_rv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right|bottom"
-                android:layout_marginBottom="5dp"
-                android:layout_marginRight="80dp"
-                android:gravity="center"
+                android:layout_centerVertical="true"
                 android:text="@string/sum"
-                android:textSize="16sp" />
+                android:textSize="20sp" />
 
             <ImageButton
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
                 android:id="@+id/button_delete_in_child_rv"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
@@ -54,32 +58,43 @@
                 android:layout_marginRight="8dp"
                 android:background="@drawable/icons_background"
                 android:contentDescription="@string/delete_shopping_list"
-                android:src="@drawable/ic_clear_black_24dp" />
+                android:src="@drawable/ic_clear_24dp" />
 
             <TextView
+                android:textColor="@color/blueDark"
+                android:layout_toRightOf="@+id/cb_existence_in_child_rv"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="5dp"
                 android:id="@+id/tv_name_in_child_rv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
-                android:layout_marginTop="5dp"
                 android:ellipsize="end"
-                android:gravity="center"
                 android:maxLines="1"
                 android:text="@string/name"
                 android:textSize="20sp" />
 
             <TextView
+                android:textColor="@color/blueDark"
+                android:layout_toRightOf="@+id/cb_existence_in_child_rv"
+                android:layout_alignParentBottom="true"
                 android:id="@+id/tv_quantity_in_child_rv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="50dp"
+                android:layout_marginBottom="10dp"
                 android:hint="@string/quantity_and_weight"
                 android:text="@string/quantity"
                 android:textSize="16sp" />
 
-        </FrameLayout>
+            <View
+                android:layout_alignParentBottom="true"
+                android:background="@color/blueDark"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+
+        </RelativeLayout>
+
+
 
     </android.support.v7.widget.CardView>
 

@@ -21,7 +21,7 @@
     <color name="colorPrimary">@color/blueLittleDarker</color>
     <color name="colorPrimaryDark">@color/blueLittleDarker</color>
     <color name="colorAccent">@color/blueLittleDarker</color>
-    <color name="fragmentChoiceColor">#cecece</color>
+    <color name="fragmentChoiceColor">#fafafa</color>
     <color name="white">#ffffff</color>
     <color name="colorPopupBackground">#4a4e46</color>
     <color name="colorPopupBar">#272825</color>

@@ -407,6 +407,11 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
         }
     }
 
+    public void notifyAdding(ShoppingList temp){
+        shoppingLists.add(temp);
+        this.notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return shoppingLists.size();

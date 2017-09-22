@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/drawer_layout"
+    android:background="@color/fragmentChoiceColor"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/main_screen_recycler_view_all_shopping_lists"
+            android:id="@+id/main_screen_rv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_above="@+id/main_screen_add_button"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"/>
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true" />
 
         <Button
+            android:visibility="gone"
             android:id="@+id/main_screen_button_add_shopping_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

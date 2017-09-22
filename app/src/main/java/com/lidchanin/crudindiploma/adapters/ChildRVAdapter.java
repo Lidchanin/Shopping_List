@@ -2,6 +2,7 @@ package com.lidchanin.crudindiploma.adapters;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
@@ -260,6 +261,7 @@ public class ChildRVAdapter extends RecyclerView.Adapter<ChildRVAdapter.ChildVie
      */
     static class ChildViewHolder extends ViewHolder {
 
+        private View view;
         private CardView cvChild;
         private TextView tvName;
         private TextView tvCost;
