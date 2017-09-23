@@ -6,7 +6,7 @@
 
     <android.support.v7.widget.CardView
         android:id="@+id/cv_in_main_rv"
-        android:layout_margin="15dp"
+        android:layout_margin="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -67,7 +67,7 @@
             android:visibility="gone" />
         <TextView
             android:gravity="center"
-            android:textColor="@color/blueDark"
+            android:textColor="?attr/endGradient"
             android:layout_below="@id/main_screen_child_rv"
             android:id="@+id/tv_estimated_sum"
             android:layout_width="match_parent"
