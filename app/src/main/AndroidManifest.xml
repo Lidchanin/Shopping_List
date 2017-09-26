@@ -16,6 +16,13 @@
         android:roundIcon="@mipmap/ic_launcher_1"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activities.TestActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activities.MainActivity"
             android:screenOrientation="portrait">
@@ -33,8 +40,7 @@
             android:name=".activities.CameraActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".activities.ChoiceActivity" />
-        <activity
-            android:name=".activities.MainScreenActivity" />
+        <activity android:name=".activities.MainScreenActivity" />
     </application>
 
 </manifest>
