@@ -60,7 +60,7 @@ public class ShoppingListFragment extends android.support.v4.app.Fragment {
         mainRV = (RecyclerView) view.findViewById(R.id.main_screen_rv);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mainRV.setLayoutManager(layoutManager);
-        mainRVAdapter = new MainRVAdapter(getActivity(), shoppingLists, shoppingListDao,
+        mainRVAdapter = new MainRVAdapter(getContext(), shoppingLists, shoppingListDao,
                 productDao, existingProductDao);
         mainRV.setAdapter(mainRVAdapter);
 

@@ -1,31 +1,27 @@
 package com.lidchanin.crudindiploma.adapters;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.graphics.Color;
-import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
-import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.lidchanin.crudindiploma.R;
-import com.lidchanin.crudindiploma.data.dao.ExistingProductDAO;
-import com.lidchanin.crudindiploma.data.dao.ProductDAO;
-import com.lidchanin.crudindiploma.data.models.ExistingProduct;
-import com.lidchanin.crudindiploma.data.models.Product;
+import com.lidchanin.crudindiploma.database.ExistingProduct;
+import com.lidchanin.crudindiploma.database.ExistingProductDao;
+import com.lidchanin.crudindiploma.database.Product;
+import com.lidchanin.crudindiploma.database.ProductDao;
+import com.lidchanin.crudindiploma.database.ShoppingList;
+import com.lidchanin.crudindiploma.database.ShoppingListDao;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,26 +37,34 @@ public class ChildRVAdapter extends RecyclerView.Adapter<ChildRVAdapter.ChildVie
     private static final String TAG = "ChildRVAdapter";
 
     private Context context;
-    private ProductDAO productDAO;
-    private ExistingProductDAO existingProductDAO;
-    private List<Product> products;
+
+    private ShoppingListDao shoppingListDao;
+    private ProductDao productDao;
+    private ExistingProductDao existingProductDao;
+
+    private ShoppingList shoppingList;
+    private List<ShoppingList> shoppingLists;
+    private List<Product> products = new ArrayList<>();
     private List<ExistingProduct> existingProducts;
+
+    //    private ProductDAO productDAO;
+//    private ExistingProductDAO existingProductDAO;
+//    private List<Product> products;
+//    private List<ExistingProduct> existingProducts;
     private long shoppingListId;
 
     private ChildRVAdapter.OnDataChangeListener mOnDataChangeListener;
 
     public ChildRVAdapter(final Context context,
-                          final ProductDAO productDAO,
-                          final ExistingProductDAO existingProductDAO,
-                          final long shoppingListId,
-                          List<Product> products,
-                          List<ExistingProduct> existingProducts) {
+                          final ShoppingListDao shoppingListDao,
+                          final ProductDao productDao,
+                          final ExistingProductDao existingProductDao,
+                          ShoppingList shoppingList) {
         this.context = context;
-        this.productDAO = productDAO;
-        this.existingProductDAO = existingProductDAO;
-        this.products = products;
-        this.existingProducts = existingProducts;
-        this.shoppingListId = shoppingListId;
+        this.shoppingListDao = shoppingListDao;
+        this.productDao = productDao;
+        this.existingProductDao = existingProductDao;
+        this.shoppingList = shoppingList;
     }
 
     @Override
@@ -73,55 +77,77 @@ public class ChildRVAdapter extends RecyclerView.Adapter<ChildRVAdapter.ChildVie
     @Override
     public void onBindViewHolder(final ChildViewHolder holder, int position) {
         final int adapterPosition = holder.getAdapterPosition();
-        final Product product = products.get(adapterPosition);
-        final ExistingProduct existingProduct = existingProducts.get(adapterPosition);
 
-        holder.cbExistence.setChecked(existingProduct.isPurchased());
-        holder.cbExistence.setOnClickListener(new View.OnClickListener() {
+        final ExistingProduct existingProduct = shoppingList.getExistingProducts().get(adapterPosition);
+//        final com.lidchanin.crudindiploma.database.Product product = existingProduct.getProduct();
+
+//        final Product product = products.get(adapterPosition);
+//        final ExistingProduct existingProduct = existingProducts.get(adapterPosition);
+
+//        holder.cbExistence.setChecked(existingProduct.isPurchased());
+        existingProducts = shoppingList.getExistingProducts();
+        /*for (com.lidchanin.crudindiploma.database.ExistingProduct exProduct : existingProducts) {
+            products.add(exProduct.getProduct());
+        }*/
+        for (int i = 0; i < existingProducts.size(); i++) {
+            Log.d(TAG, "onBindViewHolder: " + i);
+            Product product = new Product();
+            product.setId(existingProducts.get(i).getProduct().getId());
+            product.setName(existingProducts.get(i).getProduct().getName());
+            product.setCost(existingProducts.get(i).getProduct().getCost());
+            product.setPopularity(existingProducts.get(i).getProduct().getPopularity());
+            Log.d(TAG, "onBindViewHolder: " + product.getId() + " " + product.getName() + " " + product.getCost());
+            products.add(i, product);
+        }
+
+//        holder.cbExistence.setChecked(existingProducts.get(adapterPosition).getIsPurchased());
+        /*holder.cbExistence.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                existingProduct.setPurchased(holder.cbExistence.isChecked());
+                existingProduct.setIsPurchased(holder.cbExistence.isChecked());
                 existingProductDAO.update(existingProduct);
+                existingProductDao.update(existingProduct);
                 existingProducts.set(holder.getAdapterPosition(), existingProduct);
                 notifyItemChanged(holder.getAdapterPosition());
             }
-        });
+        });*/
 
-        holder.tvName.setText(product.getName());
-        holder.tvCost.setText(new DecimalFormat("#0.00").format(product.getCost()));
-        double totalCost = product.getCost() * existingProduct.getQuantityOrWeight();
+        holder.tvName.setText(products.get(adapterPosition).getName());
+        holder.tvCost.setText(new DecimalFormat("#0.00").format(products.get(adapterPosition).getCost()));
+        double totalCost = products.get(adapterPosition).getCost() * existingProduct.getQuantity();
         holder.tvTotalCost.setText(new DecimalFormat("#0.00")
                 .format(totalCost));
-        holder.tvQuantity.setText(String.valueOf(existingProduct.getQuantityOrWeight()));
+        holder.tvQuantity.setText(String.valueOf(existingProduct.getQuantity()));
 
         holder.buttonDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createAndShowAlertDialogForDelete(adapterPosition);
+//                createAndShowAlertDialogForDelete(adapterPosition);
             }
         });
 
         holder.cvChild.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createAndShowAlertDialogForUpdate(adapterPosition);
+//                createAndShowAlertDialogForUpdate(adapterPosition);
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return products.size();
+        Log.d(TAG, "getItemCount: " + shoppingList.getExistingProducts().size());
+        return shoppingList.getExistingProducts().size();
     }
 
     /**
      * The method <b>createAndShowAlertDialogForDelete</b> creates and shows a dialog, which need
      * to confirm deleting {@link Product}.
      *
-     * @param adapterPosition the {@link RecyclerView} item position, where record about
+     * param adapterPosition the {@link RecyclerView} item position, where record about
      *                        {@link Product} are located.
      */
-    private void createAndShowAlertDialogForDelete(final int adapterPosition) {
+    /*private void createAndShowAlertDialogForDelete(final int adapterPosition) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.MyDialogTheme);
         builder.setTitle(context.getString(R.string.ask_delete_product,
                 products.get(adapterPosition)));
@@ -149,16 +175,16 @@ public class ChildRVAdapter extends RecyclerView.Adapter<ChildRVAdapter.ChildVie
         });
         AlertDialog dialog = builder.create();
         dialog.show();
-    }
+    }*/
 
     /**
      * The method <b>createAndShowAlertDialogForUpdate</b> creates and shows a dialog, which
      * need to update {@link Product} and {@link ExistingProduct}.
-     *
-     * @param adapterPosition the {@link RecyclerView} item position, where record about
-     *                        {@link Product} and {@link ExistingProduct} are located.
+     * <p>
+     * param adapterPosition the {@link RecyclerView} item position, where record about
+     * {@link Product} and {@link ExistingProduct} are located.
      */
-    private void createAndShowAlertDialogForUpdate(final int adapterPosition) {
+    /*private void createAndShowAlertDialogForUpdate(final int adapterPosition) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(context.getString(R.string.ask_update_product,
                 products.get(adapterPosition).getName()));
@@ -241,8 +267,7 @@ public class ChildRVAdapter extends RecyclerView.Adapter<ChildRVAdapter.ChildVie
         });
         AlertDialog dialog = builder.create();
         dialog.show();
-    }
-
+    }*/
     public void setOnDataChangeListener(OnDataChangeListener mOnDataChangeListener) {
         this.mOnDataChangeListener = mOnDataChangeListener;
     }
