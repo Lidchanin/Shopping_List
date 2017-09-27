@@ -50,11 +50,11 @@ public class TestActivity extends AppCompatActivity {
                 shoppingListDao.deleteAll();
                 productDao.deleteAll();
                 existingProductDao.deleteAll();
-                shListAdd();
-                productAdd();
-                shListGetAll();
-                productGetAll();
-                getExistingProductsFromCurrentShoppingList();
+//                shListAdd();
+//                productAdd();
+//                shListGetAll();
+//                productGetAll();
+//                getExistingProductsFromCurrentShoppingList();
             }
         });
 

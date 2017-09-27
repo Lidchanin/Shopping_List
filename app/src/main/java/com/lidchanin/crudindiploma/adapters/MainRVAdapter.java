@@ -2,35 +2,29 @@ package com.lidchanin.crudindiploma.adapters;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lidchanin.crudindiploma.R;
-import com.lidchanin.crudindiploma.data.dao.ExistingProductDAO;
-import com.lidchanin.crudindiploma.data.dao.ProductDAO;
-import com.lidchanin.crudindiploma.data.dao.ShoppingListDAO;
-import com.lidchanin.crudindiploma.data.models.ExistingProduct;
-import com.lidchanin.crudindiploma.data.models.Product;
-import com.lidchanin.crudindiploma.data.models.ShoppingList;
+import com.lidchanin.crudindiploma.database.ExistingProduct;
+import com.lidchanin.crudindiploma.database.ExistingProductDao;
+import com.lidchanin.crudindiploma.database.Product;
+import com.lidchanin.crudindiploma.database.ProductDao;
+import com.lidchanin.crudindiploma.database.ShoppingList;
+import com.lidchanin.crudindiploma.database.ShoppingListDao;
 
-import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -48,34 +42,29 @@ import java.util.Locale;
 public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHolder> {
 
     private Context context;
-    private ShoppingListDAO shoppingListDAO;
-    private ProductDAO productDAO;
-    private ExistingProductDAO existingProductDAO;
+    private ShoppingListDao shoppingListDao;
+    private ProductDao productDao;
+    private ExistingProductDao existingProductDao;
 
     private List<ShoppingList> shoppingLists;
-    private List<Product> products;
-    private List<ExistingProduct> existingProducts;
 
     private ChildRVAdapter childRVAdapter;
 
     /**
      * Constructor.
      *
-     * @param context            context
-     * @param shoppingLists      List with all shopping lists
-     * @param shoppingListDAO    existing exemplar {@link ShoppingListDAO}
-     * @param productDAO         existing exemplar {@link ProductDAO}
-     * @param existingProductDAO existing exemplar {@link ExistingProductDAO}
+     * @param context       context
+     * @param shoppingLists List with all shopping lists
      */
     public MainRVAdapter(Context context, List<ShoppingList> shoppingLists,
-                         ShoppingListDAO shoppingListDAO,
-                         ProductDAO productDAO,
-                         ExistingProductDAO existingProductDAO) {
+                         ShoppingListDao shoppingListDao,
+                         ProductDao productDao,
+                         ExistingProductDao existingProductDao) {
         this.context = context;
         this.shoppingLists = shoppingLists;
-        this.shoppingListDAO = shoppingListDAO;
-        this.productDAO = productDAO;
-        this.existingProductDAO = existingProductDAO;
+        this.shoppingListDao = shoppingListDao;
+        this.productDao = productDao;
+        this.existingProductDao = existingProductDao;
     }
 
     @Override
@@ -90,7 +79,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
         final int adapterPosition = holder.getAdapterPosition();
         final long shoppingListId = shoppingLists.get(adapterPosition).getId();
 
-        holder.cvMain.setOnClickListener(new View.OnClickListener() {
+        /*holder.cvMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 LinearLayoutManager layoutManager = new LinearLayoutManager(context);
@@ -134,10 +123,11 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
                     }
                 });
             }
-        });
+        });*/
 
         holder.tvName.setText(shoppingLists.get(adapterPosition).getName());
-        holder.tvDate.setText(dateConverter(shoppingLists.get(adapterPosition).getDateOfCreation()));
+//        holder.tvDate.setText(dateConverter(shoppingLists.get(adapterPosition).getDate()));
+        holder.tvDate.setText(shoppingLists.get(adapterPosition).getDate());
 
         holder.buttonEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,7 +150,8 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
      *
      * @param shoppingListId current {@link ShoppingList} id
      */
-    private void createAndShowAlertDialogForManualType(final long shoppingListId) {
+    /*private void createAndShowAlertDialogForManualType(final long shoppingListId,
+                                                       ProductDao productDao) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(R.string.add_new_product);
 
@@ -265,7 +256,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
         });
         AlertDialog dialog = builder.create();
         dialog.show();
-    }
+    }*/
 
     /**
      * The method <b>createAndShowAlertDialogForDelete</b> creates and shows a dialog, which
@@ -283,7 +274,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
         builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                shoppingListDAO.delete(shoppingLists.get(adapterPosition));
+                shoppingListDao.delete(shoppingLists.get(adapterPosition));
                 shoppingLists.remove(adapterPosition);
                 notifyItemRemoved(adapterPosition);
                 notifyItemRangeChanged(adapterPosition, shoppingLists.size());
@@ -330,7 +321,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
                         && editTextName.getText().toString().length() != 0) {
                     ShoppingList shoppingList = shoppingLists.get(adapterPosition);
                     shoppingList.setName(editTextName.getText().toString());
-                    shoppingListDAO.update(shoppingList);
+                    shoppingListDao.update(shoppingList);
                     shoppingLists.set(adapterPosition, shoppingList);
                     notifyItemChanged(adapterPosition);
                     dialog.dismiss();
@@ -359,7 +350,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
      * @param newExistingProduct now created {@link ExistingProduct}
      * @param shoppingListId     {@link ShoppingList} id
      */
-    private void notifyListsChanges(boolean existence, Product newProduct,
+    /*private void notifyListsChanges(boolean existence, Product newProduct,
                                     ExistingProduct newExistingProduct,
                                     final long shoppingListId) {
         long tempProductId = productDAO.getOneByName(newProduct.getName()).getId();
@@ -382,17 +373,15 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
                 }
             }
         }
-    }
+    }*/
 
     /**
      * The method <b>calculationOfEstimatedAmount</b> calculates of estimated amounts all costs
      * {@link Product}s.
      *
-     * @param products         all {@link Product}s in current {@link ShoppingList}
-     * @param existingProducts all {@link ExistingProduct}s in current {@link ShoppingList}
      * @return estimated amount of all {@link Product}s in {@link ShoppingList}
      */
-    private double calculationOfEstimatedAmount(List<Product> products,
+    /*private double calculationOfEstimatedAmount(List<Product> products,
                                                 List<ExistingProduct> existingProducts) {
         double estimatedAmount = 0;
         if (existingProducts != null) {
@@ -405,9 +394,8 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
         } else {
             return 0;
         }
-    }
-
-    public void notifyAdding(ShoppingList temp){
+    }*/
+    public void notifyAdding(ShoppingList temp) {
         shoppingLists.add(temp);
         this.notifyDataSetChanged();
     }

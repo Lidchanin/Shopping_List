@@ -14,7 +14,6 @@ import com.lidchanin.crudindiploma.utils.ThemeManager;
 
 public class ShoppingListFragmentManager extends NavigationDrawerActivity {
 
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {

@@ -1,14 +1,15 @@
 package com.lidchanin.crudindiploma.activities;
 
 import android.content.DialogInterface;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,10 +19,12 @@ import android.widget.Toast;
 import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.adapters.MainRVAdapter;
 import com.lidchanin.crudindiploma.customview.NavigationDrawerActivity;
-import com.lidchanin.crudindiploma.data.dao.ExistingProductDAO;
-import com.lidchanin.crudindiploma.data.dao.ProductDAO;
-import com.lidchanin.crudindiploma.data.dao.ShoppingListDAO;
-import com.lidchanin.crudindiploma.data.models.ShoppingList;
+import com.lidchanin.crudindiploma.database.DaoMaster;
+import com.lidchanin.crudindiploma.database.DaoSession;
+import com.lidchanin.crudindiploma.database.ExistingProductDao;
+import com.lidchanin.crudindiploma.database.ProductDao;
+import com.lidchanin.crudindiploma.database.ShoppingList;
+import com.lidchanin.crudindiploma.database.ShoppingListDao;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -30,10 +33,14 @@ import java.util.Locale;
 
 public class MainScreenActivity extends NavigationDrawerActivity {
 
-    private ShoppingListDAO shoppingListDAO;
-    private ProductDAO productDAO;
-    private ExistingProductDAO existingProductDAO;
+//    private ShoppingListDAO shoppingListDAO;
+//    private ProductDAO productDAO;
+//    private ExistingProductDAO existingProductDAO;
+
+    private static final String TAG = "MainScreenActivity";
+
     private List<ShoppingList> shoppingLists;
+
     private RecyclerView mainRV;
     private Button buttonAdd;
 
@@ -44,22 +51,33 @@ public class MainScreenActivity extends NavigationDrawerActivity {
             getSupportActionBar().hide();
         }
         setContentView(R.layout.activity_main_screen);
-        shoppingListDAO = new ShoppingListDAO(this);
-        shoppingLists = shoppingListDAO.getAll();
-        productDAO = new ProductDAO(this);
-        existingProductDAO = new ExistingProductDAO(this);
+//        shoppingListDAO = new ShoppingListDAO(this);
+//        shoppingLists = shoppingListDAO.getAll();
+//        productDAO = new ProductDAO(this);
+//        existingProductDAO = new ExistingProductDAO(this);
+
+
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "database", null);
+        SQLiteDatabase database = helper.getWritableDatabase();
+        DaoMaster daoMaster = new DaoMaster(database);
+        DaoSession daoSession = daoMaster.newSession();
+        final ShoppingListDao shoppingListDao = daoSession.getShoppingListDao();
+        ProductDao productDao = daoSession.getProductDao();
+        ExistingProductDao existingProductDao = daoSession.getExistingProductDao();
+
+        shoppingLists = shoppingListDao.loadAll();
 
         mainRV = (RecyclerView) findViewById(R.id.main_screen_rv);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mainRV.setLayoutManager(layoutManager);
-        mainRV.setAdapter(new MainRVAdapter(this, shoppingLists, shoppingListDAO,
-                productDAO, existingProductDAO));
+        mainRV.setAdapter(new MainRVAdapter(this, shoppingLists, shoppingListDao,
+                productDao, existingProductDao));
 
         buttonAdd = (Button) findViewById(R.id.main_screen_add_button);
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createAndShowAlertDialogForAdd();
+                createAndShowAlertDialogForAdd(shoppingListDao);
             }
         });
     }
@@ -67,20 +85,20 @@ public class MainScreenActivity extends NavigationDrawerActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        shoppingListDAO.open();
+//        shoppingListDAO.open();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        shoppingListDAO.close();
+//        shoppingListDAO.close();
     }
 
     /**
      * The method <b>createAndShowAlertDialogForAdd</b> creates and shows a dialog, which
      * need to create new {@link ShoppingList}.
      */
-    private void createAndShowAlertDialogForAdd() {
+    private void createAndShowAlertDialogForAdd(final ShoppingListDao shoppingListDao) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.add_a_new_shopping_list);
 
@@ -101,14 +119,14 @@ public class MainScreenActivity extends NavigationDrawerActivity {
             public void onClick(DialogInterface dialog, int which) {
                 if (editTextName.getText() != null
                         && editTextName.getText().toString().length() != 0) {
-                    ShoppingList temp = new ShoppingList();
-                    temp.setName(editTextName.getText().toString());
+                    ShoppingList shoppingList = new ShoppingList();
+                    shoppingList.setName(editTextName.getText().toString());
                     SimpleDateFormat sdf = new SimpleDateFormat(
                             getString(R.string.database_date_format), Locale.getDefault());
                     String currentDateAndTime = sdf.format(new Date());
-                    temp.setDateOfCreation(currentDateAndTime);
-                    long shoppingListId = shoppingListDAO.add(temp);
-
+                    shoppingList.setDate(currentDateAndTime);
+                    long shoppingListId = shoppingListDao.insert(shoppingList);
+                    Log.d(TAG, "shopping list id = " + shoppingListId);
                     // TODO: 08.09.2017 fix recreate
                     recreate();
 
@@ -116,7 +134,7 @@ public class MainScreenActivity extends NavigationDrawerActivity {
                 } else {
                     Toast.makeText(getApplicationContext(), R.string.please_enter_name,
                             Toast.LENGTH_SHORT).show();
-                    createAndShowAlertDialogForAdd();
+                    createAndShowAlertDialogForAdd(shoppingListDao);
                 }
             }
         });
