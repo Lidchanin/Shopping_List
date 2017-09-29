@@ -1,6 +1,5 @@
 package com.lidchanin.crudindiploma.customview;
 
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
@@ -25,10 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.lidchanin.crudindiploma.Constants;
 import com.lidchanin.crudindiploma.R;
-import com.lidchanin.crudindiploma.activities.ShoppingListFragmentManager;
-import com.lidchanin.crudindiploma.adapters.MainScreenRecyclerViewAdapter;
 import com.lidchanin.crudindiploma.adapters.ProfitAdapter;
-import com.lidchanin.crudindiploma.data.models.ShoppingList;
 import com.lidchanin.crudindiploma.fragments.InsideShoppingListFragment;
 import com.lidchanin.crudindiploma.fragments.ManagingExistingProductsFragment;
 import com.lidchanin.crudindiploma.fragments.ProfitFramgent;
@@ -39,10 +35,6 @@ import com.lidchanin.crudindiploma.utils.ThemeManager;
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
-
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 
 /**
  * Created by Alexander Destroyed on 08.07.2017.
@@ -182,7 +174,7 @@ public class NavigationDrawerActivity extends AppCompatActivity implements Navig
     public ImageButton addNewItem(){
         return addItem;
     }
-
+/*
     public void setShoppingListSorts(final List <ShoppingList> shoppingLists, final MainScreenRecyclerViewAdapter mainScreenRecyclerViewAdapter){
         sharedPrefsManager = new SharedPrefsManager(this);
         alphabetSort.setVisibility(View.VISIBLE);
@@ -206,12 +198,12 @@ public class NavigationDrawerActivity extends AppCompatActivity implements Navig
             }
         });
     }
-    
-    public void setInsideShoppingListSorts(final List <ShoppingList> shoppingLists, final MainScreenRecyclerViewAdapter mainScreenRecyclerViewAdapter){
+    */
+    /*public void setInsideShoppingListSorts(final List <ShoppingList> shoppingLists, final MainScreenRecyclerViewAdapter mainScreenRecyclerViewAdapter){
         // TODO: 30.07.2017 plz , Fokin set sorts by cost and by name!
-    }
+    }*/
 
-    private void sortShoppingLists(List<ShoppingList> shoppingLists, final boolean lastSortedBy, final boolean lastOrderBy , MainScreenRecyclerViewAdapter mainScreenRecyclerViewAdapter) {
+    /*private void sortShoppingLists(List<ShoppingList> shoppingLists, final boolean lastSortedBy, final boolean lastOrderBy , MainScreenRecyclerViewAdapter mainScreenRecyclerViewAdapter) {
         Collections.sort(shoppingLists, new Comparator<ShoppingList>() {
             @Override
             public int compare(ShoppingList s1, ShoppingList s2) {
@@ -233,8 +225,8 @@ public class NavigationDrawerActivity extends AppCompatActivity implements Navig
         sharedPrefsManager.editBoolean(KEY_DEFAULT_SORT_BY, lastSortedBy);
         sharedPrefsManager.editBoolean(KEY_DEFAULT_ORDER_BY, lastOrderBy);
         mainScreenRecyclerViewAdapter.notifyDataSetChanged();
-    }
-    
+    }*/
+
     public void setTitle(String title){
         pageTitle.setText(title);
     }

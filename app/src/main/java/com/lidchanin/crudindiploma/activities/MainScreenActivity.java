@@ -70,8 +70,8 @@ public class MainScreenActivity extends NavigationDrawerActivity {
         mainRV = (RecyclerView) findViewById(R.id.main_screen_rv);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mainRV.setLayoutManager(layoutManager);
-        mainRV.setAdapter(new MainRVAdapter(this, shoppingLists, shoppingListDao,
-                productDao, existingProductDao));
+        mainRV.setAdapter(new MainRVAdapter(this, shoppingListDao,
+                productDao, existingProductDao, shoppingLists));
 
         buttonAdd = (Button) findViewById(R.id.main_screen_add_button);
         buttonAdd.setOnClickListener(new View.OnClickListener() {
