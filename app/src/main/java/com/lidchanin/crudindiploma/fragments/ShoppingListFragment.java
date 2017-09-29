@@ -8,7 +8,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,8 +37,9 @@ public class ShoppingListFragment extends android.support.v4.app.Fragment {
 
     private static final String TAG = "ShoppingListFragment";
 
-    private RecyclerView mainRV;
     private MainRVAdapter mainRVAdapter;
+
+    private List<ShoppingList> shoppingLists;
 
     @Nullable
     @Override
@@ -55,13 +55,13 @@ public class ShoppingListFragment extends android.support.v4.app.Fragment {
         final ProductDao productDao = daoSession.getProductDao();
         final ExistingProductDao existingProductDao = daoSession.getExistingProductDao();
 
-        List<ShoppingList> shoppingLists = shoppingListDao.loadAll();
+        shoppingLists = shoppingListDao.loadAll();
 
-        mainRV = (RecyclerView) view.findViewById(R.id.main_screen_rv);
+        RecyclerView mainRV = (RecyclerView) view.findViewById(R.id.main_screen_rv);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mainRV.setLayoutManager(layoutManager);
-        mainRVAdapter = new MainRVAdapter(getContext(), shoppingLists, shoppingListDao,
-                productDao, existingProductDao);
+        mainRVAdapter = new MainRVAdapter(getContext(), shoppingListDao,
+                productDao, existingProductDao, shoppingLists);
         mainRV.setAdapter(mainRVAdapter);
 
         addButton.setVisibility(View.VISIBLE);
@@ -76,10 +76,10 @@ public class ShoppingListFragment extends android.support.v4.app.Fragment {
 
     /**
      * The method <b>createAndShowAlertDialogForAdd</b> creates and shows a dialog, which
-     * need to create new {@link }.
+     * need to create new {@link ShoppingList}.
      */
     private void createAndShowAlertDialogForAdd(final ShoppingListDao shoppingListDao) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle(R.string.add_a_new_shopping_list);
 
         LinearLayout layout = new LinearLayout(getContext());
@@ -89,7 +89,7 @@ public class ShoppingListFragment extends android.support.v4.app.Fragment {
         editTextName.setInputType(InputType.TYPE_CLASS_TEXT);
         editTextName.setHint(getString(R.string.enter_name));
 
-        final TextInputLayout textInputLayout = new TextInputLayout(getActivity());
+        final TextInputLayout textInputLayout = new TextInputLayout(getContext());
         textInputLayout.addView(editTextName);
 
         builder.setView(textInputLayout);
@@ -105,10 +105,9 @@ public class ShoppingListFragment extends android.support.v4.app.Fragment {
                             getString(R.string.database_date_format), Locale.getDefault());
                     String currentDateAndTime = sdf.format(new Date());
                     shoppingList.setDate(currentDateAndTime);
-                    long shoppingListId = shoppingListDao.insert(shoppingList);
-                    Log.d(TAG, "shoppingListId = " + shoppingListId);
-                    mainRVAdapter.notifyAdding(shoppingList);
-
+                    shoppingListDao.insert(shoppingList);
+                    shoppingLists.add(shoppingList);
+                    mainRVAdapter.notifyDataSetChanged();
                     dialog.dismiss();
                 } else {
                     Toast.makeText(getContext(), R.string.please_enter_name,

@@ -31,11 +31,9 @@ import com.lidchanin.crudindiploma.database.ProductDao;
 import com.lidchanin.crudindiploma.database.ShoppingList;
 import com.lidchanin.crudindiploma.database.ShoppingListDao;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Class {@link MainRVAdapter} provide a binding from an app-specific data set to views that are
@@ -66,10 +64,11 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
      * @param context       context
      * @param shoppingLists List with all shopping lists
      */
-    public MainRVAdapter(Context context, List<ShoppingList> shoppingLists,
+    public MainRVAdapter(Context context,
                          ShoppingListDao shoppingListDao,
                          ProductDao productDao,
-                         ExistingProductDao existingProductDao) {
+                         ExistingProductDao existingProductDao,
+                         List<ShoppingList> shoppingLists) {
         this.context = context;
         this.shoppingLists = shoppingLists;
         this.shoppingListDao = shoppingListDao;
@@ -109,18 +108,34 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
         final int adapterPosition = holder.getAdapterPosition();
         final ShoppingList shoppingList = shoppingLists.get(adapterPosition);
 
+        products = new ArrayList<>();
+        existingProducts = shoppingList.getExistingProducts();
+        for (ExistingProduct ep : existingProducts) {
+            products.add(ep.getProduct());
+        }
+        Log.d(TAG, "onBindViewHolder: _______________________________________________________");
+        Log.d(TAG, "onBindViewHolder: ShList name = " + shoppingList.getName());
+        Log.d(TAG, "onBindViewHolder: products.size() = " + products.size()
+                + " && existingProducts.size() = " + existingProducts.size());
+        for (ExistingProduct ep : existingProducts) {
+            Log.d(TAG, "onBindViewHolder: pr.id = " + ep.getProduct().getId()
+                    + " name = " + ep.getProduct().getName());
+            Log.d(TAG, "onBindViewHolder: ex.pr.id = " + ep.getId()
+                    + " quantity = " + ep.getQuantity()
+                    + " shList = " + ep.getShoppingListId()
+                    + " pr.id = " + ep.getProductId());
+        }
+        Log.d(TAG, "onBindViewHolder: _______________________________________________________");
+
         holder.cvMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 LinearLayoutManager layoutManager = new LinearLayoutManager(context);
                 holder.rvChild.setLayoutManager(layoutManager);
-//                existingProducts = shoppingList.getExistingProducts();
-//                for (ExistingProduct e : existingProducts) {
-//                    products.add(e.getProduct());
-//                }
+
                 childRVAdapter = new ChildRVAdapter(context, shoppingListDao, productDao,
-                        existingProductDao, shoppingLists.get(adapterPosition));
-                /*childRVAdapter.setOnDataChangeListener(new ChildRVAdapter
+                        existingProductDao, shoppingList);
+                childRVAdapter.setOnDataChangeListener(new ChildRVAdapter
                         .OnDataChangeListener() {
                     @Override
                     public void onDataChanged(List<ExistingProduct> existingProducts) {
@@ -131,12 +146,12 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
                                                         .format(calculationOfEstimatedAmount(
                                                                 products, existingProducts))));
                     }
-                });*/
+                });
                 holder.rvChild.setAdapter(childRVAdapter);
 
-                /*holder.tvEstimatedSum.setText(context.getString(R.string.estimated_amount,
+                holder.tvEstimatedSum.setText(context.getString(R.string.estimated_amount,
                         new DecimalFormat("#.##").format(
-                                calculationOfEstimatedAmount(products, existingProducts))));*/
+                                calculationOfEstimatedAmount(products, existingProducts))));
 
                 if (holder.rvChild.getVisibility() == View.GONE) {
                     holder.rvChild.setVisibility(View.VISIBLE);
@@ -151,14 +166,13 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
                 holder.buttonChildAdd.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        createAndShowAlertDialogForManualType(shoppingList, adapterPosition);
+                        createAndShowAlertDialogForManualType(shoppingList);
                     }
                 });
             }
         });
 
         holder.tvName.setText(shoppingLists.get(adapterPosition).getName());
-//        holder.tvDate.setText(dateConverter(shoppingLists.get(adapterPosition).getDate()));
         holder.tvDate.setText(shoppingLists.get(adapterPosition).getDate());
 
         holder.buttonEdit.setOnClickListener(new View.OnClickListener() {
@@ -178,12 +192,8 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
 
     /**
      * Method <b>createAndShowAlertDialogForManualType</b> creates and shows {@link AlertDialog}
-     * for create new {@link Product} in {@link ShoppingList}.
-     *
-     * @param adapterPosition current {@link ShoppingList} id
      */
-    private void createAndShowAlertDialogForManualType(final ShoppingList shoppingList,
-                                                       final long adapterPosition) {
+    private void createAndShowAlertDialogForManualType(final ShoppingList shoppingList) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(R.string.add_new_product);
 
@@ -253,89 +263,80 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
                         tempExProduct.setQuantity(Double
                                 .parseDouble(editTextQuantity.getText().toString()));
                         tempExProduct.setShoppingListId(shoppingList.getId());
+                        tempExProduct.setIsPurchased(false);
 
                         boolean productExistence = isProductExists(allProducts,
                                 tempProduct.getName());
                         long productId;
-                        Product newProduct100500 = new Product();
+                        Product product;
                         if (productExistence) {
                             Log.d(TAG, "onClick: Product exists in db");
-                            Product product = productDao.queryBuilder()
+                            Product tempP = productDao.queryBuilder()
                                     .where(ProductDao.Properties.Name.eq(tempProduct.getName()))
                                     .unique();
-                            product.setCost(tempProduct.getCost());
-                            productDao.update(product);
-                            productId = product.getId();
-                            newProduct100500.setId(product.getId());
-                            newProduct100500.setName(product.getName());
-                            newProduct100500.setCost(product.getCost());
-                            newProduct100500.setPopularity(product.getPopularity());
-                            Log.d(TAG, "onClick: INFO id=" + product.getId() + " name=" + product.getName() + " cost=" + product.getCost());
+                            tempP.setCost(tempP.getCost());
+                            productDao.update(tempP);
+                            productId = tempP.getId();
+                            product = tempP;
                         } else {
                             Log.d(TAG, "onClick: Product not exists in db");
                             tempProduct.setPopularity((long) 0);
                             productId = productDao.insert(tempProduct);
-                            newProduct100500.setId(productId);
-                            newProduct100500.setName(tempProduct.getName());
-                            newProduct100500.setCost(tempProduct.getCost());
-                            newProduct100500.setPopularity(tempProduct.getPopularity());
-                            Log.d(TAG, "onClick: INFO id=" + productId + " name=" + tempProduct.getName() + " cost=" + tempProduct.getCost());
+                            tempProduct.setId(productId);
+                            product = tempProduct;
                         }
 
-
-                        tempExProduct.setProductId(newProduct100500.getId());
-                        tempExProduct.setProduct(newProduct100500);
-                        boolean exProductExistence = isExProductExists(shoppingList.getExistingProducts(),
-                                tempExProduct.getShoppingListId(), tempExProduct.getProductId());
+                        tempExProduct.setProductId(productId);
+                        tempExProduct.setProduct(product);
+                        boolean exProductExistence = isExProductExists(
+                                shoppingList.getExistingProducts(),
+                                tempExProduct.getShoppingListId(),
+                                tempExProduct.getProductId());
                         if (exProductExistence) {
-                            Log.d(TAG, "onClick: ExistingProduct already exists in ShoppingList");
                             ExistingProduct existingProduct = existingProductDao.queryBuilder()
-                                    .where(ExistingProductDao.Properties.ShoppingListId.eq(tempExProduct.getShoppingListId()),
-                                            ExistingProductDao.Properties.ProductId.eq(tempExProduct.getProductId())).unique();
+                                    .where(ExistingProductDao.Properties.ShoppingListId
+                                                    .eq(tempExProduct.getShoppingListId()),
+                                            ExistingProductDao.Properties.ProductId
+                                                    .eq(tempExProduct.getProductId())).unique();
                             existingProduct.setQuantity(tempExProduct.getQuantity());
                             existingProduct.setIsPurchased(tempExProduct.getIsPurchased());
                             existingProductDao.update(existingProduct);
-                            Log.d(TAG, "onClick: INFO: id=" + existingProduct.getId() + " quantity=" + existingProduct.getQuantity() + " pr.name=" + existingProduct.getProduct().getName()
-                                    + " pr.getId()=" + existingProduct.getProduct().getId() + " pr.id=" + existingProduct.getProductId()
-                                    + " \nshListID=" + existingProduct.getShoppingListId());
+                            for (ExistingProduct ep : existingProducts) {
+                                if (ep.getProduct().getName() != null && ep.getProduct().getName()
+                                        .contains(existingProduct.getProduct().getName())) {
+                                    int position = existingProducts.indexOf(ep);
+                                    existingProducts.set(position, existingProduct);
+                                    products.set(position, existingProduct.getProduct());
+                                    childRVAdapter.notifyItemChanged(position);
+                                    break;
+                                }
+                            }
                         } else {
-                            Log.d(TAG, "onClick: ExistingProduct not exists in ShoppingList");
-                            long tempId = existingProductDao.insert(tempExProduct);
-                            Log.d(TAG, "onClick: INFO: id=" + tempId + " quantity=" + tempExProduct.getQuantity() + " pr.name=" + tempExProduct.getProduct().getName()
-                                    + " pr.getId()=" + tempExProduct.getProduct().getId() + " pr.id=" + tempExProduct.getProductId()
-                                    + " \nshListID=" + tempExProduct.getShoppingListId());
+                            long newId = existingProductDao.insert(tempExProduct);
+                            tempExProduct.setId(newId);
+                            products.add(tempExProduct.getProduct());
+                            existingProducts.add(tempExProduct);
+                            childRVAdapter.notifyDataSetChanged();
                         }
-
-                        dialog.dismiss();/*
-
-
-                        existence = productDAO
-                                .addInCurrentShoppingListAndCheck(newProduct, shoppingListId);
-                        notifyListsChanges(existence, newProduct, newExistingProduct, shoppingListId);
-                        long tempProductId = productDAO.getOneByName(newProduct.getName()).getId();
-                        ExistingProduct tempExistingProduct = existingProductDAO
-                                .getOne(shoppingListId, tempProductId);
-                        tempExistingProduct.setQuantityOrWeight(newExistingProduct.getQuantityOrWeight());
-                        existingProductDAO.update(tempExistingProduct);
+                        Log.d(TAG, "onBindViewHolder: _______________________________________________________");
+                        Log.d(TAG, "onBindViewHolder: ShList name = " + shoppingList.getName());
+                        Log.d(TAG, "onBindViewHolder: products.size() = " + products.size()
+                                + " && existingProducts.size() = " + existingProducts.size());
+                        for (ExistingProduct ep : existingProducts) {
+                            Log.d(TAG, "onBindViewHolder: pr.id = " + ep.getProduct().getId()
+                                    + " name = " + ep.getProduct().getName());
+                            Log.d(TAG, "onBindViewHolder: ex.pr.id = " + ep.getId()
+                                    + " quantity = " + ep.getQuantity()
+                                    + " shList = " + ep.getShoppingListId()
+                                    + " pr.id = " + ep.getProductId());
+                        }
+                        Log.d(TAG, "onBindViewHolder: _______________________________________________________");
                         dialog.dismiss();
-                    } else {
-                        newProduct.setCost(Double.valueOf("0.0"));
-                        ExistingProduct newExistingProduct = new ExistingProduct(Double
-                                .parseDouble("1"));
-                        boolean existence = productDAO
-                                .addInCurrentShoppingListAndCheck(newProduct, shoppingListId);
-                        notifyListsChanges(existence, newProduct, newExistingProduct, shoppingListId);
-                        long tempProductId = productDAO.getOneByName(newProduct.getName()).getId();
-                        ExistingProduct tempExistingProduct = existingProductDAO
-                                .getOne(shoppingListId, tempProductId);
-                        tempExistingProduct.setQuantityOrWeight(newExistingProduct.getQuantityOrWeight());
-                        existingProductDAO.update(tempExistingProduct);
-                        dialog.dismiss();*/
                     }
                 } else {
                     Toast.makeText(context, R.string.please_enter_all_data,
                             Toast.LENGTH_SHORT).show();
-                    createAndShowAlertDialogForManualType(shoppingList, adapterPosition);
+                    createAndShowAlertDialogForManualType(shoppingList);
                 }
             }
         });
@@ -366,9 +367,23 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 shoppingListDao.delete(shoppingLists.get(adapterPosition));
+                existingProductDao.deleteInTx(shoppingLists.get(adapterPosition).getExistingProducts());
                 shoppingLists.remove(adapterPosition);
                 notifyItemRemoved(adapterPosition);
                 notifyItemRangeChanged(adapterPosition, shoppingLists.size());
+                Log.d(TAG, "onBindViewHolder: _______________________________________________________");
+                Log.d(TAG, "onBindViewHolder: ShList name = " + shoppingLists.get(adapterPosition).getName());
+                Log.d(TAG, "onBindViewHolder: products.size() = " + products.size()
+                        + " && existingProducts.size() = " + existingProducts.size());
+                for (ExistingProduct ep : existingProducts) {
+                    Log.d(TAG, "onBindViewHolder: pr.id = " + ep.getProduct().getId()
+                            + " name = " + ep.getProduct().getName());
+                    Log.d(TAG, "onBindViewHolder: ex.pr.id = " + ep.getId()
+                            + " quantity = " + ep.getQuantity()
+                            + " shList = " + ep.getShoppingListId()
+                            + " pr.id = " + ep.getProductId());
+                }
+                Log.d(TAG, "onBindViewHolder: _______________________________________________________");
                 dialog.dismiss();
             }
         });
@@ -433,89 +448,30 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
     }
 
     /**
-     * The method <b>notifyListsChanges</b> updates {@link RecyclerView} items without recreate
-     * {@link android.app.Activity} or {@link android.support.v4.app.Fragment}.
-     *
-     * @param existence          {@link Product} existence
-     * @param newProduct         now created {@link Product}
-     * @param newExistingProduct now created {@link ExistingProduct}
-     * @param shoppingListId     {@link ShoppingList} id
-     */
-    /*private void notifyListsChanges(boolean existence, Product newProduct,
-                                    ExistingProduct newExistingProduct,
-                                    final long shoppingListId) {
-        long tempProductId = productDAO.getOneByName(newProduct.getName()).getId();
-        ExistingProduct tempExistingProduct = existingProductDAO
-                .getOne(shoppingListId, tempProductId);
-        tempExistingProduct.setQuantityOrWeight(newExistingProduct.getQuantityOrWeight());
-        existingProductDAO.update(tempExistingProduct);
-        if (!existence) {
-            products.add(products.size(), newProduct);
-            existingProducts.add(tempExistingProduct);
-            childRVAdapter.notifyItemInserted(products.size());
-        } else {
-            for (Product p : products) {
-                if (p.getName() != null && p.getName().contains(newProduct.getName())) {
-                    int position = products.indexOf(p);
-                    products.set(position, newProduct);
-                    existingProducts.set(position, newExistingProduct);
-                    childRVAdapter.notifyItemChanged(position);
-                    break;
-                }
-            }
-        }
-    }*/
-
-    /**
      * The method <b>calculationOfEstimatedAmount</b> calculates of estimated amounts all costs
      * {@link Product}s.
      *
      * @return estimated amount of all {@link Product}s in {@link ShoppingList}
      */
-    /*private double calculationOfEstimatedAmount(List<Product> products,
+    private double calculationOfEstimatedAmount(List<Product> products,
                                                 List<ExistingProduct> existingProducts) {
         double estimatedAmount = 0;
         if (existingProducts != null) {
             for (int i = 0; i < existingProducts.size(); i++) {
                 double productCost = products.get(i).getCost();
-                double existingProductQuantity = existingProducts.get(i).getQuantityOrWeight();
+                double existingProductQuantity = existingProducts.get(i).getQuantity();
                 estimatedAmount += productCost * existingProductQuantity;
             }
             return estimatedAmount;
         } else {
             return 0;
         }
-    }*/
-    public void notifyAdding(ShoppingList temp) {
-        shoppingLists.add(temp);
-        this.notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
         return shoppingLists.size();
     }
-
-    /**
-     * The method <b>dateConverter</b> converts date to needed format.
-     *
-     * @param previousDate is the date before converting.
-     * @return date after converting.
-     */
-    private String dateConverter(String previousDate) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(context
-                .getString(R.string.database_date_format), Locale.getDefault());
-        Date finalDate = null;
-        try {
-            finalDate = simpleDateFormat.parse(previousDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        simpleDateFormat = new SimpleDateFormat(context.getString(R.string.needed_date_format),
-                Locale.getDefault());
-        return simpleDateFormat.format(finalDate);
-    }
-
 
     /**
      * Static class {@link MainViewHolder} describes an item view and metadata about its place
