@@ -121,7 +121,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
                 childRVAdapter.setOnDataChangeListener(new ChildRVAdapter
                         .OnDataChangeListener() {
                     @Override
-                    public void onDataChanged(List<ExistingProduct> existingProducts) {
+                    public void onDataChanged(List<ShoppingList> shoppingLists) {
                         holder.tvEstimatedSum
                                 .setText(context.getString(R.string.estimated_amount,
                                         new DecimalFormat("#.##").format(calculationOfEstimatedAmount(shoppingLists.get(adapterPosition).getExistingProducts()))));

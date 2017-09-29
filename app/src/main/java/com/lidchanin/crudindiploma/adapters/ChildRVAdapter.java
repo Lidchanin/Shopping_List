@@ -135,7 +135,7 @@ public class ChildRVAdapter extends RecyclerView.Adapter<ChildRVAdapter.ChildVie
                 existingProductDao.delete(shoppingLists.get(mainAdapterPosition).getExistingProducts().get(adapterPosition));
                 shoppingLists.get(mainAdapterPosition).getExistingProducts().remove(shoppingLists.get(mainAdapterPosition).getExistingProducts().get(adapterPosition));
                 if (mOnDataChangeListener != null) {
-                    mOnDataChangeListener.onDataChanged(shoppingLists.get(mainAdapterPosition).getExistingProducts());
+                    mOnDataChangeListener.onDataChanged(shoppingLists);
                 }
                 notifyItemRemoved(adapterPosition);
                 notifyItemRangeChanged(adapterPosition, shoppingLists.get(mainAdapterPosition).getExistingProducts().size());
@@ -213,21 +213,11 @@ public class ChildRVAdapter extends RecyclerView.Adapter<ChildRVAdapter.ChildVie
                     shoppingLists.get(mainAdapterPosition).getExistingProducts().get(adapterPosition).getProduct().setCost(Double.valueOf(editTextCost.getText().toString()));
                     productDao.update(shoppingLists.get(mainAdapterPosition).getExistingProducts().get(adapterPosition).getProduct());
 
-//                    product.setName(editTextName.getText().toString());
-//                    product.setCost(Double.valueOf(editTextCost.getText().toString()));
-//                    productDao.update(product);
-//                    products.set(adapterPosition, product);
-
                     shoppingLists.get(mainAdapterPosition).getExistingProducts().get(adapterPosition).setQuantity(Double.parseDouble(editTextQuantity.getText().toString()));
                     existingProductDao.update(shoppingLists.get(mainAdapterPosition).getExistingProducts().get(adapterPosition));
 
-//                    existingProduct.setQuantity(Double
-//                            .parseDouble(editTextQuantity.getText().toString()));
-//                    existingProductDao.update(existingProduct);
-//                    existingProducts.set(adapterPosition, existingProduct);
-
                     if (mOnDataChangeListener != null) {
-                        mOnDataChangeListener.onDataChanged(shoppingLists.get(mainAdapterPosition).getExistingProducts());
+                        mOnDataChangeListener.onDataChanged(shoppingLists);
                     }
                     notifyItemChanged(adapterPosition);
                     dialog.dismiss();
@@ -252,7 +242,7 @@ public class ChildRVAdapter extends RecyclerView.Adapter<ChildRVAdapter.ChildVie
     }
 
     public interface OnDataChangeListener {
-        void onDataChanged(List<ExistingProduct> existingProducts);
+        void onDataChanged(List<ShoppingList> shoppingLists);
     }
 
     /**
