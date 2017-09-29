@@ -124,13 +124,17 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
                     public void onDataChanged(List<ShoppingList> shoppingLists) {
                         holder.tvEstimatedSum
                                 .setText(context.getString(R.string.estimated_amount,
-                                        new DecimalFormat("#.##").format(calculationOfEstimatedAmount(shoppingLists.get(adapterPosition).getExistingProducts()))));
+                                        new DecimalFormat("#.##").format(
+                                                calculationOfEstimatedAmount(shoppingLists
+                                                        .get(adapterPosition)
+                                                        .getExistingProducts()))));
                     }
                 });
                 holder.rvChild.setAdapter(childRVAdapter);
 
                 holder.tvEstimatedSum.setText(context.getString(R.string.estimated_amount,
-                        new DecimalFormat("#.##").format(calculationOfEstimatedAmount(shoppingLists.get(adapterPosition).getExistingProducts()))));
+                        new DecimalFormat("#.##").format(calculationOfEstimatedAmount(
+                                shoppingLists.get(adapterPosition).getExistingProducts()))));
 
                 if (holder.rvChild.getVisibility() == View.GONE) {
                     holder.rvChild.setVisibility(View.VISIBLE);
@@ -145,7 +149,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
                 holder.buttonChildAdd.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        createAndShowAlertDialogForManualType(adapterPosition);
+                        createAndShowAlertDialogForManualType(adapterPosition, holder);
                     }
                 });
             }
@@ -172,7 +176,8 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
     /**
      * Method <b>createAndShowAlertDialogForManualType</b> creates and shows {@link AlertDialog}
      */
-    private void createAndShowAlertDialogForManualType(final int adapterPosition) {
+    private void createAndShowAlertDialogForManualType(final int adapterPosition,
+                                                       final MainViewHolder holder) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(R.string.add_new_product);
 
@@ -244,10 +249,12 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
                         ExistingProduct tempExistingProduct = new ExistingProduct();
                         tempExistingProduct.setQuantity(Double
                                 .parseDouble(editTextQuantity.getText().toString()));
-                        tempExistingProduct.setShoppingListId(shoppingLists.get(adapterPosition).getId());
+                        tempExistingProduct.setShoppingListId(shoppingLists.get(adapterPosition)
+                                .getId());
                         tempExistingProduct.setIsPurchased(false);
 
-                        boolean productExistence = isProductExists(allProductsInDB, tempProduct.getName());
+                        boolean productExistence = isProductExists(allProductsInDB,
+                                tempProduct.getName());
                         if (productExistence) {
                             Log.d(TAG, "Product " + tempProduct.getName() + " exists in the db");
                             tempProduct.setId(productDao.queryBuilder()
@@ -272,32 +279,44 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
                                 tempExistingProduct.getProductId());
                         if (exProductExistence) {
                             tempExistingProduct.setId(existingProductDao.queryBuilder()
-                                    .where(ExistingProductDao.Properties.ShoppingListId.eq(tempExistingProduct.getShoppingListId()),
-                                            ExistingProductDao.Properties.ProductId.eq(tempExistingProduct.getProductId()))
+                                    .where(ExistingProductDao.Properties.ShoppingListId
+                                                    .eq(tempExistingProduct.getShoppingListId()),
+                                            ExistingProductDao.Properties.ProductId
+                                                    .eq(tempExistingProduct.getProductId()))
                                     .unique().getId());
                             existingProductDao.update(tempExistingProduct);
 
-                            for (ExistingProduct ep : shoppingLists.get(adapterPosition).getExistingProducts()) {
+                            for (ExistingProduct ep :
+                                    shoppingLists.get(adapterPosition).getExistingProducts()) {
                                 if (ep.getProduct().getName() != null && ep.getProduct().getName()
                                         .contains(tempProduct.getName())) {
-                                    int position = shoppingLists.get(adapterPosition).getExistingProducts().indexOf(ep);
-                                    shoppingLists.get(adapterPosition).getExistingProducts().set(position, tempExistingProduct);
+                                    int position = shoppingLists.get(adapterPosition)
+                                            .getExistingProducts().indexOf(ep);
+                                    shoppingLists.get(adapterPosition).getExistingProducts()
+                                            .set(position, tempExistingProduct);
                                     childRVAdapter.notifyItemChanged(position);
                                     break;
                                 }
                             }
                         } else {
                             tempExistingProduct.setId(existingProductDao.insert(tempExistingProduct));
-                            shoppingLists.get(adapterPosition).getExistingProducts().add(tempExistingProduct);
-                            childRVAdapter.notifyItemInserted(shoppingLists.get(adapterPosition).getExistingProducts().size());
+                            shoppingLists.get(adapterPosition).getExistingProducts()
+                                    .add(tempExistingProduct);
+                            childRVAdapter.notifyItemInserted(shoppingLists.get(adapterPosition)
+                                    .getExistingProducts().size());
                         }
-
+                        holder.tvEstimatedSum
+                                .setText(context.getString(R.string.estimated_amount,
+                                        new DecimalFormat("#.##").format(
+                                                calculationOfEstimatedAmount(shoppingLists
+                                                        .get(adapterPosition)
+                                                        .getExistingProducts()))));
                         dialog.dismiss();
                     }
                 } else {
                     Toast.makeText(context, R.string.please_enter_all_data,
                             Toast.LENGTH_SHORT).show();
-                    createAndShowAlertDialogForManualType(adapterPosition);
+                    createAndShowAlertDialogForManualType(adapterPosition, holder);
                 }
             }
         });
