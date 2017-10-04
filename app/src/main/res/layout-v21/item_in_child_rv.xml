@@ -24,7 +24,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
-                android:buttonTint="@color/colorAccent"/>
+                android:buttonTint="?attr/endGradient"/>
 
             <TextView
                 android:visibility="gone"
@@ -39,7 +39,7 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:textColor="@color/colorAccent"
+                android:textColor="?attr/endGradient"
                 android:layout_toLeftOf="@+id/button_delete_in_child_rv"
                 android:id="@+id/tv_total_cost_in_child_rv"
                 android:layout_width="wrap_content"
@@ -59,10 +59,10 @@
                 android:layout_marginRight="8dp"
                 android:background="@drawable/icons_background"
                 android:contentDescription="@string/delete_shopping_list"
-                android:src="@drawable/ic_clear_blue_24dp" />
+                android:src="@drawable/ic_clear_theme_color_24dp" />
 
             <TextView
-                android:textColor="@color/colorAccent"
+                android:textColor="?attr/endGradient"
                 android:layout_toRightOf="@+id/cb_existence_in_child_rv"
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="5dp"
@@ -75,7 +75,7 @@
                 android:textSize="20sp" />
 
             <TextView
-                android:textColor="@color/colorAccent"
+                android:textColor="?attr/endGradient"
                 android:layout_toRightOf="@+id/cb_existence_in_child_rv"
                 android:layout_alignParentBottom="true"
                 android:id="@+id/tv_quantity_in_child_rv"
@@ -89,7 +89,7 @@
 
             <View
                 android:layout_alignParentBottom="true"
-                android:background="@color/colorAccent"
+                android:background="@drawable/inside_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"/>
 

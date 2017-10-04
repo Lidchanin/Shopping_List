@@ -11,7 +11,7 @@
         android:layout_height="wrap_content">
 
         <RelativeLayout
-            android:background="@color/colorAccent"
+            android:background="@drawable/inside_recycler"
             android:layout_width="match_parent"
             android:layout_height="54dp"
             android:orientation="horizontal">
@@ -67,7 +67,7 @@
             android:visibility="gone" />
         <TextView
             android:gravity="center"
-            android:textColor="@color/colorAccent"
+            android:textColor="?attr/endGradient"
             android:layout_below="@id/main_screen_child_rv"
             android:id="@+id/tv_estimated_sum"
             android:layout_width="match_parent"

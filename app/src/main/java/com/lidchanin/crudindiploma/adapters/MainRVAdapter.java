@@ -161,7 +161,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
      * @param shoppingListId current {@link ShoppingList} id
      */
     private void createAndShowAlertDialogForManualType(final long shoppingListId) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context,R.style.MyDialogTheme);
         builder.setTitle(R.string.add_new_product);
 
         LinearLayout layout = new LinearLayout(context);
@@ -170,7 +170,6 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
         final EditText editTextCost = new EditText(context);
         editTextCost.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         editTextCost.setHint(context.getString(R.string.enter_cost));
-        editTextCost.setHintTextColor(Color.BLACK);
         editTextCost.setText("0");
 
         final AutoCompleteTextView autoCompleteTextViewName = new AutoCompleteTextView(context);
@@ -275,7 +274,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
      *                        {@link ShoppingList} are located.
      */
     private void createAndShowAlertDialogForDelete(final int adapterPosition) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context,R.style.MyDialogTheme);
         builder.setTitle(context.getString(R.string.delete_shopping_list,
                 shoppingLists.get(adapterPosition).getName()));
         builder.setMessage(context
@@ -308,7 +307,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
      *                        {@link ShoppingList} are located.
      */
     private void createAndShowAlertDialogForUpdate(final int adapterPosition) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context,R.style.MyDialogTheme);
         builder.setTitle(context.getString(R.string.ask_update_shopping_list,
                 shoppingLists.get(adapterPosition).getName()));
         builder.setMessage(context.getString(R.string.ask_update_shopping_list_from_database));
