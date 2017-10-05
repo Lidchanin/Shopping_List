@@ -99,7 +99,7 @@ public class MainScreenActivity extends NavigationDrawerActivity {
      * need to create new {@link ShoppingList}.
      */
     private void createAndShowAlertDialogForAdd(final ShoppingListDao shoppingListDao) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.MyDialogTheme);
         builder.setTitle(R.string.add_a_new_shopping_list);
 
         LinearLayout layout = new LinearLayout(getApplicationContext());

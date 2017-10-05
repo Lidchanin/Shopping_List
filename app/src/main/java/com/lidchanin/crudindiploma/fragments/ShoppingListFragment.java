@@ -79,7 +79,7 @@ public class ShoppingListFragment extends android.support.v4.app.Fragment {
      * need to create new {@link ShoppingList}.
      */
     private void createAndShowAlertDialogForAdd(final ShoppingListDao shoppingListDao) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(),R.style.MyDialogTheme);
         builder.setTitle(R.string.add_a_new_shopping_list);
 
         LinearLayout layout = new LinearLayout(getContext());
