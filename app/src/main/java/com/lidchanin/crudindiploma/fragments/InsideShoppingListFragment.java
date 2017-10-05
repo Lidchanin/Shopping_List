@@ -44,7 +44,7 @@ import static com.makeramen.roundedimageview.RoundedImageView.TAG;
 
 public class InsideShoppingListFragment extends Fragment {
 
-    private RecyclerView recyclerViewAllProducts;
+    /*private RecyclerView recyclerViewAllProducts;
     private InsideShoppingListRecyclerViewAdapter recyclerViewAdapter;
     private TextView textViewEstimatedAmount;
 
@@ -132,9 +132,9 @@ public class InsideShoppingListFragment extends Fragment {
         });
     }
 
-    /**
+    *//**
      * The method <code>initializeRecyclerView</code> initializes {@link RecyclerView}.
-     */
+     *//*
     private void initializeRecyclerViews() {
         recyclerViewAllProducts = (RecyclerView)
                 view.findViewById(R.id.inside_shopping_list_recycler_view_all_products);
@@ -142,10 +142,10 @@ public class InsideShoppingListFragment extends Fragment {
         recyclerViewAllProducts.setLayoutManager(layoutManager);
     }
 
-    /**
+    *//**
      * Method <code>initializeAdapters</code> initializes recyclerViewAdapter for
      * {@link RecyclerView}.
-     */
+     *//*
     private void initializeAdapters() {
         recyclerViewAdapter = new InsideShoppingListRecyclerViewAdapter(
                 products, existingProducts,
@@ -320,6 +320,6 @@ public class InsideShoppingListFragment extends Fragment {
         textViewCostsSum.setText(getString(R.string.estimated_amount,
                 new DecimalFormat("#.##").format(
                         calculationOfEstimatedAmount(products, existingProducts))));
-    }
+    }*/
 
 }
