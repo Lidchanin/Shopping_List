@@ -10,10 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.lidchanin.crudindiploma.R;
-import com.lidchanin.crudindiploma.data.dao.ExistingProductDAO;
-import com.lidchanin.crudindiploma.data.dao.ProductDAO;
-import com.lidchanin.crudindiploma.data.models.ExistingProduct;
-import com.lidchanin.crudindiploma.data.models.Product;
 import com.lidchanin.crudindiploma.utils.ThemeManager;
 import com.lidchanin.crudindiploma.utils.filters.DecimalDigitsInputFilter;
 
@@ -26,8 +22,8 @@ public class NameAndCostEditActivity extends AppCompatActivity {
 
     private long shoppingListId;
 
-    private ProductDAO productDAO;
-    private ExistingProductDAO existingProductDAO;
+//    private ProductDAO productDAO;
+//    private ExistingProductDAO existingProductDAO;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,8 +36,8 @@ public class NameAndCostEditActivity extends AppCompatActivity {
         editTextCost = (EditText) findViewById(R.id.edit_cost);
         editTextName = (EditText) findViewById(R.id.edit_name);
 
-        productDAO = new ProductDAO(this);
-        existingProductDAO = new ExistingProductDAO(this);
+//        productDAO = new ProductDAO(this);
+//        existingProductDAO = new ExistingProductDAO(this);
 
         String nameToPut = getIntent().getExtras().getString("OutPutName");
         String costToPut = getIntent().getExtras().getString("OutPutCost");
@@ -55,7 +51,7 @@ public class NameAndCostEditActivity extends AppCompatActivity {
         editTextWeight.setText(String.valueOf(1));
 
 
-        doneButton.setOnClickListener(new View.OnClickListener() {
+        /*doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Product product = new Product();
@@ -70,24 +66,22 @@ public class NameAndCostEditActivity extends AppCompatActivity {
 
                 notifyListsChanges(product, existingProduct);
 
-               /* Intent intent = new Intent(NameAndCostEditActivity.this,
+               *//* Intent intent = new Intent(NameAndCostEditActivity.this,
                         InsideShoppingListActivity.class);
                 intent.putExtra("shoppingListId", shoppingListId);
-                startActivity(intent);*/
+                startActivity(intent);*//*
             }
-        });
+        });*/
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        productDAO.open();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        productDAO.close();
     }
 
     /**
@@ -96,13 +90,13 @@ public class NameAndCostEditActivity extends AppCompatActivity {
      * @param newProduct         is the new Product.
      * @param newExistingProduct is the  new ExistingProduct.
      */
-    private void notifyListsChanges(Product newProduct,
+    /*private void notifyListsChanges(Product newProduct,
                                     ExistingProduct newExistingProduct) {
         long tempProductId = productDAO.getOneByName(newProduct.getName()).getId();
         ExistingProduct tempExistingProduct = existingProductDAO
                 .getOne(shoppingListId, tempProductId);
         tempExistingProduct.setQuantityOrWeight(newExistingProduct.getQuantityOrWeight());
         existingProductDAO.update(tempExistingProduct);
-    }
+    }*/
 
 }

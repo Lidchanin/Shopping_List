@@ -158,4 +158,5 @@
     <string name="download_starts">Download starts.</string>
     <string name="auth_filed">Auth filed.</string>
     <string name="number_of_products">number_of_products</string>
+    <string name="product_with_name_exists">Product with current name already exists!</string>
 </resources>

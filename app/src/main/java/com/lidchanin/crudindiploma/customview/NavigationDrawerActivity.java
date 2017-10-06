@@ -25,9 +25,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.lidchanin.crudindiploma.Constants;
 import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.adapters.ProfitAdapter;
-import com.lidchanin.crudindiploma.fragments.InsideShoppingListFragment;
 import com.lidchanin.crudindiploma.fragments.ManagingExistingProductsFragment;
-import com.lidchanin.crudindiploma.fragments.ProfitFramgent;
+import com.lidchanin.crudindiploma.fragments.ProfitFragment;
 import com.lidchanin.crudindiploma.fragments.SettingsFragment;
 import com.lidchanin.crudindiploma.fragments.ShoppingListFragment;
 import com.lidchanin.crudindiploma.utils.SharedPrefsManager;
@@ -43,7 +42,9 @@ import com.squareup.picasso.Transformation;
 public class NavigationDrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
 
-    private static final String TAG =NavigationDrawerActivity.class.getCanonicalName() ;
+    public static final String KEY_DEFAULT_SORT_BY = "defaultSortBy";
+    public static final String KEY_DEFAULT_ORDER_BY = "defaultOrderBy";
+    private static final String TAG = NavigationDrawerActivity.class.getCanonicalName();
     private ImageButton buttonHamburger;
     private DrawerLayout drawer;
     private Uri photoUrl;
@@ -62,8 +63,6 @@ public class NavigationDrawerActivity extends AppCompatActivity implements Navig
     private boolean defaultOrderBy;
     private SharedPrefsManager sharedPrefsManager;
     private ImageButton addItem;
-    public static final String KEY_DEFAULT_SORT_BY = "defaultSortBy";
-    public static final String KEY_DEFAULT_ORDER_BY = "defaultOrderBy";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -121,7 +120,7 @@ public class NavigationDrawerActivity extends AppCompatActivity implements Navig
         toggle.syncState();
     }
 
-    public void setButtonsToDefault(){
+    public void setButtonsToDefault() {
         addItem.setVisibility(View.GONE);
         alphabetSort.setVisibility(View.GONE);
         dateSort.setVisibility(View.GONE);
@@ -142,18 +141,18 @@ public class NavigationDrawerActivity extends AppCompatActivity implements Navig
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        switch (id){
+        switch (id) {
             case R.id.nav_lists:
-                initFragment(-1,Constants.Bundles.SHOPPING_LIST_FRAGMENT_ID);
+                initFragment(-1, Constants.Bundles.SHOPPING_LIST_FRAGMENT_ID);
                 break;
             case R.id.nav_existing_products:
-                initFragment(-1,Constants.Bundles.MANAGING_EXISTING_PRODUCTS_FRAGMENT_ID);
+                initFragment(-1, Constants.Bundles.MANAGING_EXISTING_PRODUCTS_FRAGMENT_ID);
                 break;
             case R.id.nav_profit:
-                initFragment(-1,Constants.Bundles.PROFIT_FRAGMENT_ID);
+                initFragment(-1, Constants.Bundles.PROFIT_FRAGMENT_ID);
                 break;
             case R.id.nav_settings:
-                initFragment(-1,Constants.Bundles.SETTINGS_FRAGMENT_ID);
+                initFragment(-1, Constants.Bundles.SETTINGS_FRAGMENT_ID);
                 break;
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -161,7 +160,7 @@ public class NavigationDrawerActivity extends AppCompatActivity implements Navig
         return true;
     }
 
-    public void addNewItem(final ProfitAdapter profitAdapter){
+    public void addNewItem(final ProfitAdapter profitAdapter) {
         addItem.setVisibility(View.VISIBLE);
         addItem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -171,7 +170,7 @@ public class NavigationDrawerActivity extends AppCompatActivity implements Navig
         });
     }
 
-    public ImageButton addNewItem(){
+    public ImageButton addNewItem() {
         return addItem;
     }
 /*
@@ -227,14 +226,12 @@ public class NavigationDrawerActivity extends AppCompatActivity implements Navig
         mainScreenRecyclerViewAdapter.notifyDataSetChanged();
     }*/
 
-    public void setTitle(String title){
+    public void setTitle(String title) {
         pageTitle.setText(title);
     }
 
 
-
-
-    public void initFragment(long shoppingListId,String fragmentExtra) {
+    public void initFragment(long shoppingListId, String fragmentExtra) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         Bundle bundle = new Bundle();
         switch (fragmentExtra) {
@@ -243,16 +240,16 @@ public class NavigationDrawerActivity extends AppCompatActivity implements Navig
                 fragmentTransaction.replace(R.id.container, shoppingListFragment);
                 fragmentTransaction.commit();
                 break;
-            case Constants.Bundles.INSIDE_SHOPPING_LIST_FRAGMENT_ID:
+            /*case Constants.Bundles.INSIDE_SHOPPING_LIST_FRAGMENT_ID:
                 InsideShoppingListFragment insideShoppingListFragment = new InsideShoppingListFragment();
                 bundle.putLong(Constants.Bundles.SHOPPING_LIST_ID, shoppingListId);
                 insideShoppingListFragment.setArguments(bundle);
                 fragmentTransaction.replace(R.id.container, insideShoppingListFragment);
                 fragmentTransaction.commit();
-                break;
+                break;*/
             case Constants.Bundles.PROFIT_FRAGMENT_ID:
-                ProfitFramgent profitFramgent = new ProfitFramgent();
-                fragmentTransaction.replace(R.id.container, profitFramgent);
+                ProfitFragment profitFragment = new ProfitFragment();
+                fragmentTransaction.replace(R.id.container, profitFragment);
                 fragmentTransaction.commit();
                 break;
             case Constants.Bundles.SETTINGS_FRAGMENT_ID:

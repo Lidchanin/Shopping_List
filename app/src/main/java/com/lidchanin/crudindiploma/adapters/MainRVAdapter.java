@@ -59,8 +59,11 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
     /**
      * Constructor.
      *
-     * @param context       context
-     * @param shoppingLists List with all shopping lists
+     * @param context            {@link Context}.
+     * @param shoppingLists      {@link List} with all {@link ShoppingList}s.
+     * @param shoppingListDao    {@link ShoppingListDao} exemplar.
+     * @param productDao         {@link ProductDao} exemplar.
+     * @param existingProductDao {@link ExistingProductDao} exemplar.
      */
     public MainRVAdapter(Context context,
                          ShoppingListDao shoppingListDao,
@@ -77,6 +80,13 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
 
     }
 
+    /**
+     * The method <b>isProductExists</b> checks is {@link Product} exists in database or not.
+     *
+     * @param products all {@link Product}s in database.
+     * @param name     needed {@link Product} name.
+     * @return <i>true</i> - if {@link Product} exists <br> <i>false</i> - if not exists.
+     */
     private static boolean isProductExists(final List<Product> products,
                                            final String name) {
         for (Product product : products) {
@@ -87,6 +97,15 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
         return false;
     }
 
+    /**
+     * The method <b>isExProductExists</b> checks is {@link ExistingProduct} exists in database or
+     * not.
+     *
+     * @param existingProducts all {@link ExistingProduct}s in database.
+     * @param shoppingListId   needed {@link ShoppingList} id.
+     * @param productId        needed {@link Product} id.
+     * @return <i>true</i> - if {@link ExistingProduct} exists <br> <i>false</i> - if not exists.
+     */
     private static boolean isExProductExists(final List<ExistingProduct> existingProducts,
                                              final long shoppingListId,
                                              final long productId) {
@@ -109,6 +128,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
     @Override
     public void onBindViewHolder(final MainViewHolder holder, int position) {
         final int adapterPosition = holder.getAdapterPosition();
+        final ShoppingList shoppingList = shoppingLists.get(adapterPosition);
 
         holder.cvMain.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,8 +145,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
                         holder.tvEstimatedSum
                                 .setText(context.getString(R.string.estimated_amount,
                                         new DecimalFormat("#.##").format(
-                                                calculationOfEstimatedAmount(shoppingLists
-                                                        .get(adapterPosition)
+                                                calculationOfEstimatedAmount(shoppingList
                                                         .getExistingProducts()))));
                     }
                 });
@@ -134,7 +153,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
 
                 holder.tvEstimatedSum.setText(context.getString(R.string.estimated_amount,
                         new DecimalFormat("#.##").format(calculationOfEstimatedAmount(
-                                shoppingLists.get(adapterPosition).getExistingProducts()))));
+                                shoppingList.getExistingProducts()))));
 
                 if (holder.rvChild.getVisibility() == View.GONE) {
                     holder.rvChild.setVisibility(View.VISIBLE);
@@ -145,36 +164,41 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
                     holder.buttonChildAdd.setVisibility(View.GONE);
                     holder.tvEstimatedSum.setVisibility(View.GONE);
                 }
-
-                holder.buttonChildAdd.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        createAndShowAlertDialogForManualType(adapterPosition, holder);
-                    }
-                });
             }
         });
 
-        holder.tvName.setText(shoppingLists.get(adapterPosition).getName());
-        holder.tvDate.setText(shoppingLists.get(adapterPosition).getDate());
+        holder.tvName.setText(shoppingList.getName());
+        holder.tvDate.setText(shoppingList.getDate());
+
+        holder.buttonChildAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createAndShowAlertDialogForManualType(adapterPosition, holder);
+            }
+        });
 
         holder.buttonEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createAndShowAlertDialogForUpdate(adapterPosition);
+                createAndShowAlertDialogForUpdate(adapterPosition, shoppingList);
             }
         });
 
         holder.buttonDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createAndShowAlertDialogForDelete(adapterPosition);
+                createAndShowAlertDialogForDelete(adapterPosition, shoppingList);
             }
         });
     }
 
     /**
-     * Method <b>createAndShowAlertDialogForManualType</b> creates and shows {@link AlertDialog}
+     * Method <b>createAndShowAlertDialogForManualType</b> creates and displays {@link AlertDialog}
+     * for {@link ShoppingList} manual type.
+     *
+     * @param adapterPosition the {@link RecyclerView} item position, where record about
+     *                        {@link ShoppingList} will located.
+     * @param holder          current {@link MainViewHolder}.
      */
     private void createAndShowAlertDialogForManualType(final int adapterPosition,
                                                        final MainViewHolder holder) {
@@ -255,7 +279,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
                         boolean productExistence = isProductExists(allProductsInDB,
                                 tempProduct.getName());
                         if (productExistence) {
-                            Log.d(TAG, "Product " + tempProduct.getName() + " exists in the db");
+                            Log.i(TAG, "Product " + tempProduct.getName() + " exists in the db.");
                             tempProduct.setId(productDao.queryBuilder()
                                     .where(ProductDao.Properties.Name.eq(tempProduct.getName()))
                                     .unique().getId());
@@ -264,7 +288,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
                                     .unique().getPopularity());
                             productDao.update(tempProduct);
                         } else {
-                            Log.d(TAG, "Product " + tempProduct.getName() + " is not in the db");
+                            Log.i(TAG, "Product " + tempProduct.getName() + " is not in the db.");
                             tempProduct.setPopularity((long) 0);
                             tempProduct.setId(productDao.insert(tempProduct));
                         }
@@ -277,6 +301,9 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
                                 tempExistingProduct.getShoppingListId(),
                                 tempExistingProduct.getProductId());
                         if (exProductExistence) {
+                            Log.i(TAG, "ExProduct " + tempExistingProduct.getProduct().getName()
+                                    + " in " + tempExistingProduct.getShoppingListId()
+                                    + " exists.");
                             tempExistingProduct.setId(existingProductDao.queryBuilder()
                                     .where(ExistingProductDao.Properties.ShoppingListId
                                                     .eq(tempExistingProduct.getShoppingListId()),
@@ -298,6 +325,8 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
                                 }
                             }
                         } else {
+                            Log.i(TAG, "ExProduct " + tempExistingProduct.getProduct().getName()
+                                    + " not exists.");
                             tempExistingProduct.setId(existingProductDao.insert(tempExistingProduct));
                             shoppingLists.get(adapterPosition).getExistingProducts()
                                     .add(tempExistingProduct);
@@ -330,22 +359,23 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
     }
 
     /**
-     * The method <b>createAndShowAlertDialogForDelete</b> creates and shows a dialog, which
-     * need to confirm deleting {@link ShoppingList}.
+     * The method <b>createAndShowAlertDialogForDelete</b> creates and shows a {@link AlertDialog},
+     * for {@link ShoppingList} deleting.
      *
      * @param adapterPosition the {@link RecyclerView} item position, where record about
      *                        {@link ShoppingList} are located.
+     * @param shoppingList    required {@link ShoppingList} for deleting.
      */
-    private void createAndShowAlertDialogForDelete(final int adapterPosition) {
+    private void createAndShowAlertDialogForDelete(final int adapterPosition,
+                                                   final ShoppingList shoppingList) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.MyDialogTheme);
-        builder.setTitle(context.getString(R.string.delete_shopping_list,
-                shoppingLists.get(adapterPosition).getName()));
+        builder.setTitle(context.getString(R.string.delete_shopping_list, shoppingList.getName()));
         builder.setMessage(context.getString(R.string.are_you_sure_you_want_to_delete_this_shopping_list));
         builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                shoppingListDao.delete(shoppingLists.get(adapterPosition));
-                existingProductDao.deleteInTx(shoppingLists.get(adapterPosition).getExistingProducts());
+                shoppingListDao.delete(shoppingList);
+                existingProductDao.deleteInTx(shoppingList.getExistingProducts());
                 shoppingLists.remove(adapterPosition);
                 notifyItemRemoved(adapterPosition);
                 notifyItemRangeChanged(adapterPosition, shoppingLists.size());
@@ -363,13 +393,15 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
     }
 
     /**
-     * The method <b>createAndShowAlertDialogForUpdate</b> creates and shows a dialog for
-     * update {@link ShoppingList}.
+     * The method <b>createAndShowAlertDialogForUpdate</b> creates and shows a {@link AlertDialog}
+     * for {@link ShoppingList} updating.
      *
      * @param adapterPosition the {@link RecyclerView} item position, where record about
      *                        {@link ShoppingList} are located.
+     * @param shoppingList    required {@link ShoppingList} for updating.
      */
-    private void createAndShowAlertDialogForUpdate(final int adapterPosition) {
+    private void createAndShowAlertDialogForUpdate(final int adapterPosition,
+                                                   final ShoppingList shoppingList) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.MyDialogTheme);
         builder.setTitle(context.getString(R.string.ask_update_shopping_list,
                 shoppingLists.get(adapterPosition).getName()));
@@ -390,13 +422,14 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
             public void onClick(DialogInterface dialog, int which) {
                 if (editTextName.getText() != null
                         && editTextName.getText().toString().length() != 0) {
-                    shoppingLists.get(adapterPosition).setName(editTextName.getText().toString());
+                    shoppingList.setName(editTextName.getText().toString());
+                    shoppingLists.set(adapterPosition, shoppingList);
                     shoppingListDao.update(shoppingLists.get(adapterPosition));
                     notifyItemChanged(adapterPosition);
                     dialog.dismiss();
                 } else {
                     Toast.makeText(context, R.string.please_enter_name, Toast.LENGTH_SHORT).show();
-                    createAndShowAlertDialogForUpdate(adapterPosition);
+                    createAndShowAlertDialogForUpdate(adapterPosition, shoppingList);
                 }
             }
         });
@@ -412,9 +445,9 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
 
     /**
      * The method <b>calculationOfEstimatedAmount</b> calculates of estimated amounts all costs
-     * {@link Product}s.
+     * {@link ExistingProduct}s.
      *
-     * @return estimated amount of all {@link Product}s in {@link ShoppingList}
+     * @return estimated amount of all {@link ExistingProduct}s in {@link ShoppingList}.
      */
     private double calculationOfEstimatedAmount(List<ExistingProduct> existingProducts) {
         double estimatedAmount = 0;
@@ -434,7 +467,6 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
      * within the {@link RecyclerView}.
      * Class extends {@link ViewHolder}.
      *
-     * @author Lidchanin
      * @see android.support.v7.widget.RecyclerView.ViewHolder
      */
     static class MainViewHolder extends ViewHolder {

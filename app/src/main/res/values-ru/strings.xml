@@ -145,5 +145,7 @@
     <string name="lang_downloading">Скачивание языка распознавания.</string>
     <string name="download_starts">Скачивание началось.</string>
     <string name="auth_filed">Ошибка аутентификации.</string>
+    <string name="number_of_products">Количество продуктов</string>
+    <string name="product_with_name_exists">Продукт с таким названием уже существует!</string>
 
 </resources>
