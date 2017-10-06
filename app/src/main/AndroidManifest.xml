@@ -33,7 +33,6 @@
             android:name=".activities.CameraActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".activities.ChoiceActivity" />
-        <activity android:name=".activities.MainScreenActivity" />
     </application>
 
 </manifest>

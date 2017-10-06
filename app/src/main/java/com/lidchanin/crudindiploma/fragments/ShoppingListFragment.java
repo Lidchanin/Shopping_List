@@ -43,7 +43,8 @@ public class ShoppingListFragment extends android.support.v4.app.Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_shoppinglist, container, false);
         ImageButton addButton = ((NavigationDrawerActivity) getActivity()).addNewItem();
 
@@ -79,7 +80,7 @@ public class ShoppingListFragment extends android.support.v4.app.Fragment {
      * need to create new {@link ShoppingList}.
      */
     private void createAndShowAlertDialogForAdd(final ShoppingListDao shoppingListDao) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(),R.style.MyDialogTheme);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.MyDialogTheme);
         builder.setTitle(R.string.add_a_new_shopping_list);
 
         LinearLayout layout = new LinearLayout(getContext());

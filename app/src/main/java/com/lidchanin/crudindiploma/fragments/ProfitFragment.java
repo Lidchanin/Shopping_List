@@ -19,7 +19,7 @@ import com.lidchanin.crudindiploma.customview.NavigationDrawerActivity;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ProfitFramgent extends Fragment {
+public class ProfitFragment extends Fragment {
 
     // TODO: 16.07.2017 new transaction in main
     private Button clearButton;

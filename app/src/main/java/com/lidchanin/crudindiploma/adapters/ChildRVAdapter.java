@@ -68,6 +68,23 @@ public class ChildRVAdapter extends RecyclerView.Adapter<ChildRVAdapter.ChildVie
         this.mainAdapterPosition = mainAdapterPosition;
     }
 
+    /**
+     * The method <b>isProductExists</b> checks is {@link Product} exists in database or not.
+     *
+     * @param products all {@link Product}s in database.
+     * @param name     needed {@link Product} name.
+     * @return <i>true</i> - if {@link Product} exists <br> <i>false</i> - if not exists.
+     */
+    private static boolean isProductExists(final List<Product> products,
+                                           final String name) {
+        for (Product product : products) {
+            if (product != null && product.getName().equals(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public ChildViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
         View view = LayoutInflater.from(parent.getContext())
@@ -78,36 +95,40 @@ public class ChildRVAdapter extends RecyclerView.Adapter<ChildRVAdapter.ChildVie
     @Override
     public void onBindViewHolder(final ChildViewHolder holder, int position) {
         final int adapterPosition = holder.getAdapterPosition();
+        final ExistingProduct existingProduct = shoppingLists.get(mainAdapterPosition)
+                .getExistingProducts().get(adapterPosition);
 
-        holder.cbExistence.setChecked(shoppingLists.get(mainAdapterPosition).getExistingProducts().get(adapterPosition).getIsPurchased());
+        holder.cbExistence.setChecked(existingProduct.getIsPurchased());
 
         holder.cbExistence.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                shoppingLists.get(mainAdapterPosition).getExistingProducts().get(adapterPosition).setIsPurchased(holder.cbExistence.isChecked());
-                existingProductDao.update(shoppingLists.get(mainAdapterPosition).getExistingProducts().get(adapterPosition));
-                notifyItemChanged(holder.getAdapterPosition());
+                existingProduct.setIsPurchased(holder.cbExistence.isChecked());
+                shoppingLists.get(mainAdapterPosition).getExistingProducts()
+                        .set(adapterPosition, existingProduct);
+                existingProductDao.update(existingProduct);
+                notifyItemChanged(adapterPosition);
             }
         });
 
-        holder.tvName.setText(shoppingLists.get(mainAdapterPosition).getExistingProducts().get(adapterPosition).getProduct().getName());
-        holder.tvCost.setText(new DecimalFormat("#0.00").format(shoppingLists.get(mainAdapterPosition).getExistingProducts().get(adapterPosition).getProduct().getCost()));
-        double totalCost = shoppingLists.get(mainAdapterPosition).getExistingProducts().get(adapterPosition).getProduct().getCost() *
-                shoppingLists.get(mainAdapterPosition).getExistingProducts().get(adapterPosition).getQuantity();
+        holder.tvName.setText(existingProduct.getProduct().getName());
+        holder.tvCost.setText(new DecimalFormat("#0.00")
+                .format(existingProduct.getProduct().getCost()));
+        double totalCost = existingProduct.getProduct().getCost() * existingProduct.getQuantity();
         holder.tvTotalCost.setText(new DecimalFormat("#0.00").format(totalCost));
-        holder.tvQuantity.setText(String.valueOf(shoppingLists.get(mainAdapterPosition).getExistingProducts().get(adapterPosition).getQuantity()));
+        holder.tvQuantity.setText(String.valueOf(existingProduct.getQuantity()));
 
         holder.buttonDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createAndShowAlertDialogForDelete(adapterPosition);
+                createAndShowAlertDialogForDelete(adapterPosition, existingProduct);
             }
         });
 
         holder.cvChild.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createAndShowAlertDialogForUpdate(adapterPosition);
+                createAndShowAlertDialogForUpdate(adapterPosition, existingProduct);
             }
         });
     }
@@ -118,27 +139,31 @@ public class ChildRVAdapter extends RecyclerView.Adapter<ChildRVAdapter.ChildVie
     }
 
     /**
-     * The method <b>createAndShowAlertDialogForDelete</b> creates and shows a dialog, which need
-     * to confirm deleting {@link Product}.
+     * The method <b>createAndShowAlertDialogForDelete</b> creates and shows a {@link AlertDialog}
+     * {@link ExistingProduct} deleting.
      *
      * @param adapterPosition the {@link RecyclerView} item position, where record about
-     *                        {@link Product} are located.
+     *                        {@link ExistingProduct} are located.
+     * @param existingProduct required {@link ExistingProduct} for deleting.
      */
-    private void createAndShowAlertDialogForDelete(final int adapterPosition) {
+    private void createAndShowAlertDialogForDelete(final int adapterPosition,
+                                                   final ExistingProduct existingProduct) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.MyDialogTheme);
         builder.setTitle(context.getString(R.string.ask_delete_product,
-                shoppingLists.get(mainAdapterPosition).getExistingProducts().get(adapterPosition).getProduct().getName()));
+                existingProduct.getProduct().getName()));
         builder.setMessage(context.getString(R.string.you_are_sure_you_want_to_delete_this_product));
         builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                existingProductDao.delete(shoppingLists.get(mainAdapterPosition).getExistingProducts().get(adapterPosition));
-                shoppingLists.get(mainAdapterPosition).getExistingProducts().remove(shoppingLists.get(mainAdapterPosition).getExistingProducts().get(adapterPosition));
+                existingProductDao.delete(existingProduct);
+
+                shoppingLists.get(mainAdapterPosition).getExistingProducts().remove(existingProduct);
                 if (mOnDataChangeListener != null) {
                     mOnDataChangeListener.onDataChanged(shoppingLists);
                 }
                 notifyItemRemoved(adapterPosition);
-                notifyItemRangeChanged(adapterPosition, shoppingLists.get(mainAdapterPosition).getExistingProducts().size());
+                notifyItemRangeChanged(adapterPosition,
+                        shoppingLists.get(mainAdapterPosition).getExistingProducts().size());
                 dialog.dismiss();
             }
         });
@@ -153,14 +178,15 @@ public class ChildRVAdapter extends RecyclerView.Adapter<ChildRVAdapter.ChildVie
     }
 
     /**
-     * The method <b>createAndShowAlertDialogForUpdate</b> creates and shows a dialog, which
-     * need to update {@link Product} and {@link ExistingProduct}.
-     * <p>
-     * param adapterPosition the {@link RecyclerView} item position, where record about
-     * {@link Product} and {@link ExistingProduct} are located.
+     * The method <b>createAndShowAlertDialogForUpdate</b> creates and shows a {@link AlertDialog},
+     * which need to update {@link Product} and {@link ExistingProduct}.
+     *
+     * @param adapterPosition the {@link RecyclerView} item position, where record about
+     *                        {@link ExistingProduct} are located.
      */
-    private void createAndShowAlertDialogForUpdate(final int adapterPosition) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(context,R.style.MyDialogTheme);
+    private void createAndShowAlertDialogForUpdate(final int adapterPosition,
+                                                   final ExistingProduct existingProduct) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.MyDialogTheme);
         builder.setTitle(context.getString(R.string.ask_update_product, shoppingLists.get(mainAdapterPosition).getExistingProducts().get(adapterPosition).getProduct().getName()));
         builder.setMessage(context.getString(R.string.ask_update_product_from_database));
 
@@ -170,7 +196,8 @@ public class ChildRVAdapter extends RecyclerView.Adapter<ChildRVAdapter.ChildVie
         final EditText editTextName = new EditText(context);
         editTextName.setInputType(InputType.TYPE_CLASS_TEXT);
         editTextName.setHint(context.getString(R.string.enter_name));
-        editTextName.setText(shoppingLists.get(mainAdapterPosition).getExistingProducts().get(adapterPosition).getProduct().getName());
+        editTextName.setSelectAllOnFocus(true);
+        editTextName.setText(existingProduct.getProduct().getName());
 
         final TextInputLayout textInputLayoutName = new TextInputLayout(context);
         textInputLayoutName.addView(editTextName);
@@ -178,7 +205,7 @@ public class ChildRVAdapter extends RecyclerView.Adapter<ChildRVAdapter.ChildVie
         final EditText editTextCost = new EditText(context);
         editTextCost.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         editTextCost.setHint(context.getString(R.string.enter_cost));
-        editTextCost.setText(String.valueOf(shoppingLists.get(mainAdapterPosition).getExistingProducts().get(adapterPosition).getProduct().getCost()));
+        editTextCost.setText(String.valueOf(existingProduct.getProduct().getCost()));
         editTextCost.setSelectAllOnFocus(true);
 
         final TextInputLayout textInputLayoutCost = new TextInputLayout(context);
@@ -188,7 +215,7 @@ public class ChildRVAdapter extends RecyclerView.Adapter<ChildRVAdapter.ChildVie
         editTextQuantity.setInputType(InputType.TYPE_CLASS_NUMBER
                 | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         editTextQuantity.setHint(R.string.enter_quantity);
-        editTextQuantity.setText(String.valueOf(shoppingLists.get(mainAdapterPosition).getExistingProducts().get(adapterPosition).getQuantity()));
+        editTextQuantity.setText(String.valueOf(existingProduct.getQuantity()));
         editTextQuantity.setSelectAllOnFocus(true);
 
         final TextInputLayout textInputLayoutQuantity = new TextInputLayout(context);
@@ -209,21 +236,31 @@ public class ChildRVAdapter extends RecyclerView.Adapter<ChildRVAdapter.ChildVie
                         && editTextCost.getText().toString().length() != 0
                         && editTextQuantity.getText() != null
                         && editTextQuantity.getText().toString().length() != 0) {
-                    shoppingLists.get(mainAdapterPosition).getExistingProducts().get(adapterPosition).getProduct().setName(editTextName.getText().toString());
-                    shoppingLists.get(mainAdapterPosition).getExistingProducts().get(adapterPosition).getProduct().setCost(Double.valueOf(editTextCost.getText().toString()));
-                    productDao.update(shoppingLists.get(mainAdapterPosition).getExistingProducts().get(adapterPosition).getProduct());
+                    Product product = existingProduct.getProduct();
+                    if (isProductExists(productDao.loadAll(), editTextName.getText().toString())) {
+                        Toast.makeText(context, R.string.product_with_name_exists,
+                                Toast.LENGTH_SHORT).show();
+                        createAndShowAlertDialogForUpdate(adapterPosition, existingProduct);
+                    } else {
+                        product.setName(editTextName.getText().toString());
+                        product.setCost(Double.valueOf(editTextCost.getText().toString()));
+                        existingProduct.setProduct(product);
+                        existingProduct.setQuantity(Double.valueOf(editTextQuantity.getText()
+                                .toString()));
+                        shoppingLists.get(mainAdapterPosition).getExistingProducts()
+                                .set(adapterPosition, existingProduct);
+                        productDao.update(product);
+                        existingProductDao.update(existingProduct);
 
-                    shoppingLists.get(mainAdapterPosition).getExistingProducts().get(adapterPosition).setQuantity(Double.parseDouble(editTextQuantity.getText().toString()));
-                    existingProductDao.update(shoppingLists.get(mainAdapterPosition).getExistingProducts().get(adapterPosition));
-
-                    if (mOnDataChangeListener != null) {
-                        mOnDataChangeListener.onDataChanged(shoppingLists);
+                        if (mOnDataChangeListener != null) {
+                            mOnDataChangeListener.onDataChanged(shoppingLists);
+                        }
+                        notifyItemChanged(adapterPosition);
+                        dialog.dismiss();
                     }
-                    notifyItemChanged(adapterPosition);
-                    dialog.dismiss();
                 } else {
                     Toast.makeText(context, R.string.please_enter_all_data, Toast.LENGTH_SHORT).show();
-                    createAndShowAlertDialogForUpdate(adapterPosition);
+                    createAndShowAlertDialogForUpdate(adapterPosition, existingProduct);
                 }
             }
         });

@@ -41,6 +41,14 @@ public class ManagingProductsRVAdapter extends RecyclerView
 
     private List<Product> products;
 
+    /**
+     * Constructor.
+     *
+     * @param products           {@link List} which contains all {@link Product}s from the database.
+     * @param productDao         {@link ProductDao} exemplar.
+     * @param existingProductDao {@link ExistingProductDao} exemplar.
+     * @param context            {@link Context} exemplar.
+     */
     public ManagingProductsRVAdapter(List<Product> products,
                                      ProductDao productDao,
                                      ExistingProductDao existingProductDao,
@@ -54,7 +62,7 @@ public class ManagingProductsRVAdapter extends RecyclerView
     @Override
     public ManagingProductsRVViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.card_view_item_managing_existing_products, parent, false);
+                .inflate(R.layout.item_managing_products, parent, false);
         return new ManagingProductsRVViewHolder(view);
     }
 
