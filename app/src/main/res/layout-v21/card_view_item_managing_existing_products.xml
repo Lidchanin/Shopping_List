@@ -1,55 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="@color/white"
     android:layout_height="60dp"
+    android:background="@color/white"
     android:orientation="vertical">
 
+    <android.support.v7.widget.CardView
+        android:id="@+id/cv_in_managing_products"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
             <com.lidchanin.crudindiploma.customview.DesignedTextView
 
-                android:textStyle="italic"
                 android:id="@+id/product_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
                 android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
                 android:maxLines="1"
                 android:textColor="?attr/startGradient"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:textStyle="italic" />
 
             <com.lidchanin.crudindiploma.customview.DesignedTextView
-                android:textStyle="bold"
                 android:id="@+id/product_cost"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toLeftOf="@+id/product_delete"
                 android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:layout_toLeftOf="@+id/product_delete"
                 android:gravity="center"
                 android:text="@string/sum"
                 android:textColor="?attr/startGradient"
-                android:layout_marginRight="15dp"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <ImageButton
                 android:id="@+id/product_delete"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:layout_gravity="end|center_vertical"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
                 android:background="?attr/selectableItemBackground"
                 android:contentDescription="@string/delete_shopping_list"
                 android:src="@drawable/ic_clear_theme_color_24dp" />
 
             <View
-                android:alpha="0.5"
-                android:layout_alignParentBottom="true"
-                android:background="?attr/startGradient"
+                android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_width="match_parent"/>
+                android:layout_alignParentBottom="true"
+                android:alpha="0.5"
+                android:background="?attr/startGradient" />
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
 
 </RelativeLayout>

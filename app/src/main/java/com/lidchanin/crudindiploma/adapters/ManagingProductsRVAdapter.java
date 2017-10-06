@@ -17,50 +17,64 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lidchanin.crudindiploma.R;
-import com.lidchanin.crudindiploma.data.dao.ProductDAO;
-import com.lidchanin.crudindiploma.data.models.Product;
+import com.lidchanin.crudindiploma.database.ExistingProduct;
+import com.lidchanin.crudindiploma.database.ExistingProductDao;
+import com.lidchanin.crudindiploma.database.Product;
+import com.lidchanin.crudindiploma.database.ProductDao;
 
 import java.util.List;
 
 /**
- * Class <code>{@link ManagingExistingProductsRecyclerViewAdapter}</code> is an adapter
+ * Class <code>{@link ManagingProductsRVAdapter}</code> is an adapter
  * for {@link RecyclerView}.
  *
  * @author Lidchanin
  * @see android.support.v7.widget.RecyclerView.Adapter
  */
-public class ManagingExistingProductsRecyclerViewAdapter extends RecyclerView
-        .Adapter<ManagingExistingProductsRecyclerViewAdapter.ManagingExistingProductsViewHolder> {
-
-    private List<Product> products;
+public class ManagingProductsRVAdapter extends RecyclerView
+        .Adapter<ManagingProductsRVAdapter.ManagingProductsRVViewHolder> {
 
     private Context context;
 
-    private ProductDAO productDAO;
+    private ProductDao productDao;
+    private ExistingProductDao existingProductDao;
 
-    public ManagingExistingProductsRecyclerViewAdapter(List<Product> products,
-                                                       ProductDAO productDAO, Context context) {
+    private List<Product> products;
+
+    public ManagingProductsRVAdapter(List<Product> products,
+                                     ProductDao productDao,
+                                     ExistingProductDao existingProductDao,
+                                     Context context) {
         this.products = products;
-        this.productDAO = productDAO;
+        this.productDao = productDao;
+        this.existingProductDao = existingProductDao;
         this.context = context;
     }
 
     @Override
-    public ManagingExistingProductsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ManagingProductsRVViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.card_view_item_managing_existing_products, parent, false);
-        return new ManagingExistingProductsViewHolder(view);
+        return new ManagingProductsRVViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final ManagingExistingProductsViewHolder holder, int position) {
+    public void onBindViewHolder(final ManagingProductsRVViewHolder holder, int position) {
+        final int adapterPosition = holder.getAdapterPosition();
         final Product product = products.get(holder.getAdapterPosition());
+
         holder.textViewProductName.setText(product.getName());
         holder.textViewProductCost.setText(String.valueOf(product.getCost()));
         holder.imageButtonDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createAndShowAlertDialogForDelete(holder.getAdapterPosition());
+                createAndShowAlertDialogForDelete(product, adapterPosition);
+            }
+        });
+        holder.cardViewProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createAndShowAlertDialogForUpdate(product, adapterPosition);
             }
         });
     }
@@ -71,20 +85,27 @@ public class ManagingExistingProductsRecyclerViewAdapter extends RecyclerView
     }
 
     /**
-     * The method <code>createAndShowAlertDialogForDelete</code> create and shows a dialog, which
-     * need to confirm deleting shopping list.
+     * The method <code>createAndShowAlertDialogForDelete</code> creates and displays a
+     * {@link AlertDialog} for {@link Product} deletes.
      *
-     * @param adapterPosition is the position, where record about shopping list are located.
+     * @param product         {@link Product} which need to delete.
+     * @param adapterPosition position, where record about {@link Product} are located in
+     *                        {@link RecyclerView}.
      */
-    private void createAndShowAlertDialogForDelete(final int adapterPosition) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(context,R.style.MyDialogTheme);
+    private void createAndShowAlertDialogForDelete(final Product product,
+                                                   final int adapterPosition) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.MyDialogTheme);
         builder.setTitle(context.getString(R.string.ask_delete_product,
                 products.get(adapterPosition).getName()));
         builder.setMessage(R.string.ask_delete_product_from_database);
         builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                productDAO.deleteFromDatabase(products.get(adapterPosition).getId());
+                productDao.delete(product);
+                List<ExistingProduct> existingProducts =
+                        existingProductDao.queryBuilder().where(ExistingProductDao.Properties.
+                                ProductId.eq(product.getId())).list();
+                existingProductDao.deleteInTx(existingProducts);
                 products.remove(adapterPosition);
                 notifyItemRemoved(adapterPosition);
                 notifyItemRangeChanged(adapterPosition, products.size());
@@ -102,15 +123,17 @@ public class ManagingExistingProductsRecyclerViewAdapter extends RecyclerView
     }
 
     /**
-     * The method <code>createAndShowAlertDialogForUpdate</code> create and shows a dialog, which
-     * need to update product.
+     * The method <code>createAndShowAlertDialogForUpdate</code> creates and displays a
+     * {@link AlertDialog} for {@link Product} updates.
      *
-     * @param adapterPosition is the position, where record about product are located.
+     * @param product         {@link Product} which need to update.
+     * @param adapterPosition position, where record about {@link Product} are located in
+     *                        {@link RecyclerView}.
      */
-    private void createAndShowAlertDialogForUpdate(final int adapterPosition) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(context,R.style.MyDialogTheme);
-        builder.setTitle(context.getString(R.string.ask_update_product,
-                products.get(adapterPosition).getName()));
+    private void createAndShowAlertDialogForUpdate(final Product product,
+                                                   final int adapterPosition) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.MyDialogTheme);
+        builder.setTitle(context.getString(R.string.ask_update_product, product.getName()));
         builder.setMessage(context.getString(R.string.ask_update_product_from_database));
 
         LinearLayout layout = new LinearLayout(context);
@@ -119,7 +142,7 @@ public class ManagingExistingProductsRecyclerViewAdapter extends RecyclerView
         final EditText editTextName = new EditText(context);
         editTextName.setInputType(InputType.TYPE_CLASS_TEXT);
         editTextName.setHint(context.getString(R.string.enter_name));
-        editTextName.setText(products.get(adapterPosition).getName());
+        editTextName.setText(product.getName());
 
         final TextInputLayout textInputLayoutName = new TextInputLayout(context);
         textInputLayoutName.addView(editTextName);
@@ -127,7 +150,7 @@ public class ManagingExistingProductsRecyclerViewAdapter extends RecyclerView
         final EditText editTextCost = new EditText(context);
         editTextCost.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         editTextCost.setHint(context.getString(R.string.enter_cost));
-        editTextCost.setText(String.valueOf(products.get(adapterPosition).getCost()));
+        editTextCost.setText(String.valueOf(product.getCost()));
         editTextCost.setSelectAllOnFocus(true);
 
         final TextInputLayout textInputLayoutCost = new TextInputLayout(context);
@@ -145,17 +168,15 @@ public class ManagingExistingProductsRecyclerViewAdapter extends RecyclerView
                         && editTextName.getText().toString().length() != 0
                         && editTextCost.getText() != null
                         && editTextCost.getText().toString().length() != 0) {
-                    Product product = products.get(adapterPosition);
                     product.setName(editTextName.getText().toString());
                     product.setCost(Double.valueOf(editTextCost.getText().toString()));
-                    productDAO.update(product);
+                    productDao.update(product);
                     products.set(adapterPosition, product);
                     notifyItemChanged(adapterPosition);
                     dialog.dismiss();
                 } else {
-                    // FIXME: 09.06.2017 alert dialog for update
                     Toast.makeText(context, R.string.please_enter_all_data, Toast.LENGTH_SHORT).show();
-                    createAndShowAlertDialogForUpdate(adapterPosition);
+                    createAndShowAlertDialogForUpdate(product, adapterPosition);
                 }
             }
         });
@@ -170,31 +191,24 @@ public class ManagingExistingProductsRecyclerViewAdapter extends RecyclerView
     }
 
     /**
-     * Class <code>ManagingExistingProductsViewHolder</code> is the View Holder for
+     * Class <code>ManagingProductsRVViewHolder</code> is the View Holder for
      * {@link android.support.v7.widget.RecyclerView.Adapter}
      *
      * @see android.support.v7.widget.RecyclerView.ViewHolder
      */
-    static class ManagingExistingProductsViewHolder extends RecyclerView.ViewHolder {
+    static class ManagingProductsRVViewHolder extends RecyclerView.ViewHolder {
 
         private CardView cardViewProduct;
         private TextView textViewProductName;
         private TextView textViewProductCost;
-        private TextView textViewProductPopularity;
         private ImageButton imageButtonDelete;
-        private ImageButton imageButtonEdit;
 
-        ManagingExistingProductsViewHolder(View itemView) {
+        ManagingProductsRVViewHolder(View itemView) {
             super(itemView);
-            textViewProductName = (TextView) itemView.findViewById(
-                    R.id.product_name
-            );
-            textViewProductCost = (TextView) itemView.findViewById(
-                    R.id.product_cost
-            );
-            imageButtonDelete = (ImageButton) itemView.findViewById(
-                    R.id.product_delete
-            );
+            cardViewProduct = (CardView) itemView.findViewById(R.id.cv_in_managing_products);
+            textViewProductName = (TextView) itemView.findViewById(R.id.product_name);
+            textViewProductCost = (TextView) itemView.findViewById(R.id.product_cost);
+            imageButtonDelete = (ImageButton) itemView.findViewById(R.id.product_delete);
         }
     }
 }

@@ -10,18 +10,22 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.lidchanin.crudindiploma.R;
-import com.lidchanin.crudindiploma.adapters.ManagingExistingProductsRecyclerViewAdapter;
+import com.lidchanin.crudindiploma.adapters.ManagingProductsRVAdapter;
 import com.lidchanin.crudindiploma.customview.NavigationDrawerActivity;
-import com.lidchanin.crudindiploma.data.dao.ProductDAO;
-import com.lidchanin.crudindiploma.data.models.Product;
+import com.lidchanin.crudindiploma.database.DaoMaster;
+import com.lidchanin.crudindiploma.database.DaoSession;
+import com.lidchanin.crudindiploma.database.ExistingProductDao;
+import com.lidchanin.crudindiploma.database.Product;
+import com.lidchanin.crudindiploma.database.ProductDao;
 
-import java.util.ArrayList;
+import org.greenrobot.greendao.database.Database;
+
 import java.util.List;
 
 public class ManagingExistingProductsFragment extends Fragment {
 
     private RecyclerView recyclerViewAllProducts;
-    private ProductDAO productDAO;
+
     private List<Product> products;
 
     @Nullable
@@ -31,27 +35,20 @@ public class ManagingExistingProductsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_managing_existing_products, container,
                 false);
 
-        ((NavigationDrawerActivity)getActivity()).setButtonsToDefault();
-        productDAO = new ProductDAO(getContext());
-        productDAO.open();
+        ((NavigationDrawerActivity) getActivity()).setButtonsToDefault();
 
-        initializeData();
+        final DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(getContext(), "db", null);
+        final Database database = helper.getWritableDb();
+        final DaoMaster daoMaster = new DaoMaster(database);
+        final DaoSession daoSession = daoMaster.newSession();
+        final ProductDao productDao = daoSession.getProductDao();
+        final ExistingProductDao existingProductDao = daoSession.getExistingProductDao();
+
+        products = productDao.loadAll();
+
         initializeRecyclerView(view);
-        initializeAdapter();
+        initializeAdapter(productDao, existingProductDao);
         return view;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        productDAO.close();
-    }
-
-    private void initializeData() {
-        products = productDAO.getAll();
-        if (products == null) {
-            products = new ArrayList<>();
-        }
     }
 
     private void initializeRecyclerView(View view) {
@@ -61,9 +58,11 @@ public class ManagingExistingProductsFragment extends Fragment {
         recyclerViewAllProducts.setLayoutManager(layoutManager);
     }
 
-    private void initializeAdapter() {
-        ManagingExistingProductsRecyclerViewAdapter adapter
-                = new ManagingExistingProductsRecyclerViewAdapter(products, productDAO, getActivity());
+    private void initializeAdapter(ProductDao productDao,
+                                   ExistingProductDao existingProductDao) {
+        ManagingProductsRVAdapter adapter
+                = new ManagingProductsRVAdapter(products,
+                productDao, existingProductDao, getContext());
         recyclerViewAllProducts.setAdapter(adapter);
     }
 
