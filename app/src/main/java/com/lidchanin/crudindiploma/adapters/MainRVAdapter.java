@@ -20,6 +20,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -212,26 +214,29 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
         editTextCost.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         editTextCost.setHint(context.getString(R.string.enter_cost));
         editTextCost.setText("0");
+        editTextCost.setSelectAllOnFocus(true);
+        final TextInputLayout textInputLayoutCost = new TextInputLayout(context);
+        textInputLayoutCost.addView(editTextCost);
 
         final AutoCompleteTextView autoCompleteTextViewName = new AutoCompleteTextView(context);
         autoCompleteTextViewName.setInputType(InputType.TYPE_CLASS_TEXT);
         autoCompleteTextViewName.setHint(context.getString(R.string.enter_name));
         autoCompleteTextViewName.setHintTextColor(Color.BLACK);
         autoCompleteTextViewName.setTextColor(Color.BLACK);
-
         final List<Product> allProductsInDB = productDao.loadAll();
-
         AutoCompleteProductNamesAndCostsAdapter autoCompleteAdapter
                 = new AutoCompleteProductNamesAndCostsAdapter(context, allProductsInDB);
         autoCompleteTextViewName.setAdapter(autoCompleteAdapter);
-        autoCompleteTextViewName.setTextColor(Color.BLACK);
         autoCompleteTextViewName.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Product selected = (Product) parent.getAdapter().getItem(position);
+                autoCompleteTextViewName.setText(selected.getName());
                 editTextCost.setText(String.valueOf(selected.getCost()));
             }
         });
+        final TextInputLayout textInputLayoutAuto = new TextInputLayout(context);
+        textInputLayoutAuto.addView(autoCompleteTextViewName);
 
         final EditText editTextQuantity = new EditText(context);
         editTextQuantity.setInputType(InputType.TYPE_CLASS_NUMBER
@@ -239,18 +244,27 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
         editTextQuantity.setHint(context.getString(R.string.enter_quantity));
         editTextQuantity.setHintTextColor(Color.BLACK);
         editTextQuantity.setText("1");
-
-        final TextInputLayout textInputLayoutCost = new TextInputLayout(context);
-        final TextInputLayout textInputLayoutAuto = new TextInputLayout(context);
+        editTextQuantity.setSelectAllOnFocus(true);
         final TextInputLayout textInputLayoutQuantity = new TextInputLayout(context);
-
-        textInputLayoutCost.addView(editTextCost);
-        textInputLayoutAuto.addView(autoCompleteTextViewName);
         textInputLayoutQuantity.addView(editTextQuantity);
+
+        final RadioGroup radioGroup = new RadioGroup(context);
+        radioGroup.setOrientation(LinearLayout.HORIZONTAL);
+
+        final RadioButton radioButtonKg = new RadioButton(context);
+        radioButtonKg.setText(context.getString(R.string.kg));
+
+        final RadioButton radioButtonUnit = new RadioButton(context);
+        radioButtonUnit.setText(context.getString(R.string.unit));
+
+        radioGroup.addView(radioButtonKg);
+        radioGroup.addView(radioButtonUnit);
+        radioGroup.check(radioButtonKg.getId());
 
         layout.addView(textInputLayoutAuto);
         layout.addView(textInputLayoutCost);
         layout.addView(textInputLayoutQuantity);
+        layout.addView(radioGroup);
 
         builder.setView(layout);
 
@@ -275,6 +289,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
                         tempExistingProduct.setShoppingListId(shoppingLists.get(adapterPosition)
                                 .getId());
                         tempExistingProduct.setIsPurchased(false);
+                        tempExistingProduct.setUnit(radioButtonKg.isChecked());
 
                         boolean productExistence = isProductExists(allProductsInDB,
                                 tempProduct.getName());

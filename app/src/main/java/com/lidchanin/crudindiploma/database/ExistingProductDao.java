@@ -29,9 +29,10 @@ public class ExistingProductDao extends AbstractDao<ExistingProduct, Long> {
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property Quantity = new Property(1, Double.class, "quantity", false, "QUANTITY");
-        public final static Property IsPurchased = new Property(2, Boolean.class, "isPurchased", false, "IS_PURCHASED");
-        public final static Property ProductId = new Property(3, Long.class, "productId", false, "PRODUCT_ID");
-        public final static Property ShoppingListId = new Property(4, long.class, "shoppingListId", false, "SHOPPING_LIST_ID");
+        public final static Property Unit = new Property(2, Boolean.class, "unit", false, "UNIT");
+        public final static Property IsPurchased = new Property(3, Boolean.class, "isPurchased", false, "IS_PURCHASED");
+        public final static Property ProductId = new Property(4, Long.class, "productId", false, "PRODUCT_ID");
+        public final static Property ShoppingListId = new Property(5, long.class, "shoppingListId", false, "SHOPPING_LIST_ID");
     }
 
     private DaoSession daoSession;
@@ -53,9 +54,10 @@ public class ExistingProductDao extends AbstractDao<ExistingProduct, Long> {
         db.execSQL("CREATE TABLE " + constraint + "\"EXISTING_PRODUCT\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY ," + // 0: id
                 "\"QUANTITY\" REAL," + // 1: quantity
-                "\"IS_PURCHASED\" INTEGER," + // 2: isPurchased
-                "\"PRODUCT_ID\" INTEGER," + // 3: productId
-                "\"SHOPPING_LIST_ID\" INTEGER NOT NULL );"); // 4: shoppingListId
+                "\"UNIT\" INTEGER," + // 2: unit
+                "\"IS_PURCHASED\" INTEGER," + // 3: isPurchased
+                "\"PRODUCT_ID\" INTEGER," + // 4: productId
+                "\"SHOPPING_LIST_ID\" INTEGER NOT NULL );"); // 5: shoppingListId
     }
 
     /** Drops the underlying database table. */
@@ -78,16 +80,21 @@ public class ExistingProductDao extends AbstractDao<ExistingProduct, Long> {
             stmt.bindDouble(2, quantity);
         }
  
+        Boolean unit = entity.getUnit();
+        if (unit != null) {
+            stmt.bindLong(3, unit ? 1L: 0L);
+        }
+ 
         Boolean isPurchased = entity.getIsPurchased();
         if (isPurchased != null) {
-            stmt.bindLong(3, isPurchased ? 1L: 0L);
+            stmt.bindLong(4, isPurchased ? 1L: 0L);
         }
  
         Long productId = entity.getProductId();
         if (productId != null) {
-            stmt.bindLong(4, productId);
+            stmt.bindLong(5, productId);
         }
-        stmt.bindLong(5, entity.getShoppingListId());
+        stmt.bindLong(6, entity.getShoppingListId());
     }
 
     @Override
@@ -104,16 +111,21 @@ public class ExistingProductDao extends AbstractDao<ExistingProduct, Long> {
             stmt.bindDouble(2, quantity);
         }
  
+        Boolean unit = entity.getUnit();
+        if (unit != null) {
+            stmt.bindLong(3, unit ? 1L: 0L);
+        }
+ 
         Boolean isPurchased = entity.getIsPurchased();
         if (isPurchased != null) {
-            stmt.bindLong(3, isPurchased ? 1L: 0L);
+            stmt.bindLong(4, isPurchased ? 1L: 0L);
         }
  
         Long productId = entity.getProductId();
         if (productId != null) {
-            stmt.bindLong(4, productId);
+            stmt.bindLong(5, productId);
         }
-        stmt.bindLong(5, entity.getShoppingListId());
+        stmt.bindLong(6, entity.getShoppingListId());
     }
 
     @Override
@@ -132,9 +144,10 @@ public class ExistingProductDao extends AbstractDao<ExistingProduct, Long> {
         ExistingProduct entity = new ExistingProduct( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getDouble(offset + 1), // quantity
-            cursor.isNull(offset + 2) ? null : cursor.getShort(offset + 2) != 0, // isPurchased
-            cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3), // productId
-            cursor.getLong(offset + 4) // shoppingListId
+            cursor.isNull(offset + 2) ? null : cursor.getShort(offset + 2) != 0, // unit
+            cursor.isNull(offset + 3) ? null : cursor.getShort(offset + 3) != 0, // isPurchased
+            cursor.isNull(offset + 4) ? null : cursor.getLong(offset + 4), // productId
+            cursor.getLong(offset + 5) // shoppingListId
         );
         return entity;
     }
@@ -143,9 +156,10 @@ public class ExistingProductDao extends AbstractDao<ExistingProduct, Long> {
     public void readEntity(Cursor cursor, ExistingProduct entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setQuantity(cursor.isNull(offset + 1) ? null : cursor.getDouble(offset + 1));
-        entity.setIsPurchased(cursor.isNull(offset + 2) ? null : cursor.getShort(offset + 2) != 0);
-        entity.setProductId(cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3));
-        entity.setShoppingListId(cursor.getLong(offset + 4));
+        entity.setUnit(cursor.isNull(offset + 2) ? null : cursor.getShort(offset + 2) != 0);
+        entity.setIsPurchased(cursor.isNull(offset + 3) ? null : cursor.getShort(offset + 3) != 0);
+        entity.setProductId(cursor.isNull(offset + 4) ? null : cursor.getLong(offset + 4));
+        entity.setShoppingListId(cursor.getLong(offset + 5));
      }
     
     @Override

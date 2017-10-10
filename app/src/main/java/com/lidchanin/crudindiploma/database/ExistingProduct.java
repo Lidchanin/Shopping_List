@@ -15,6 +15,7 @@ public class ExistingProduct {
     @Id
     private Long id;
     private Double quantity;
+    private Boolean unit;
     private Boolean isPurchased;
     private Long productId;
     private long shoppingListId;
@@ -42,9 +43,10 @@ public class ExistingProduct {
     }
 
     @Generated
-    public ExistingProduct(Long id, Double quantity, Boolean isPurchased, Long productId, long shoppingListId) {
+    public ExistingProduct(Long id, Double quantity, Boolean unit, Boolean isPurchased, Long productId, long shoppingListId) {
         this.id = id;
         this.quantity = quantity;
+        this.unit = unit;
         this.isPurchased = isPurchased;
         this.productId = productId;
         this.shoppingListId = shoppingListId;
@@ -71,6 +73,14 @@ public class ExistingProduct {
 
     public void setQuantity(Double quantity) {
         this.quantity = quantity;
+    }
+
+    public Boolean getUnit() {
+        return unit;
+    }
+
+    public void setUnit(Boolean unit) {
+        this.unit = unit;
     }
 
     public Boolean getIsPurchased() {

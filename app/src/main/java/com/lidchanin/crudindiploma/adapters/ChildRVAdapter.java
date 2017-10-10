@@ -116,7 +116,9 @@ public class ChildRVAdapter extends RecyclerView.Adapter<ChildRVAdapter.ChildVie
                 .format(existingProduct.getProduct().getCost()));
         double totalCost = existingProduct.getProduct().getCost() * existingProduct.getQuantity();
         holder.tvTotalCost.setText(new DecimalFormat("#0.00").format(totalCost));
-        holder.tvQuantity.setText(String.valueOf(existingProduct.getQuantity()));
+        holder.tvQuantity.setText(context.getString(R.string.tv_quantity,
+                String.valueOf(existingProduct.getQuantity()),
+                existingProduct.getUnit() ? "kg" : "unit"));
 
         holder.buttonDelete.setOnClickListener(new View.OnClickListener() {
             @Override
