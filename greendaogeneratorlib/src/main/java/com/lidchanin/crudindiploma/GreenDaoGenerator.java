@@ -9,7 +9,7 @@ import org.greenrobot.greendao.generator.ToMany;
 public class GreenDaoGenerator {
 
     public static void main(String[] args) throws Exception {
-        Schema schema = new Schema(2, "com.lidchanin.crudindiploma.database");
+        Schema schema = new Schema(3, "com.lidchanin.crudindiploma.database");
 
         Entity shoppingList = schema.addEntity("ShoppingList");
         shoppingList.addIdProperty();
@@ -19,6 +19,8 @@ public class GreenDaoGenerator {
         Entity exProduct = schema.addEntity("ExistingProduct");
         exProduct.addIdProperty();
         exProduct.addDoubleProperty("quantity");
+        // 1 - kg, 0 - pieces
+        exProduct.addBooleanProperty("unit");
         exProduct.addBooleanProperty("isPurchased");
 
         Entity product = schema.addEntity("Product");

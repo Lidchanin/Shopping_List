@@ -159,4 +159,7 @@
     <string name="auth_filed">Auth filed.</string>
     <string name="number_of_products">number_of_products</string>
     <string name="product_with_name_exists">Product with current name already exists!</string>
+    <string name="kg">kg</string>
+    <string name="unit">unit</string>
+    <string name="tv_quantity">%1$s %2$s</string>
 </resources>
