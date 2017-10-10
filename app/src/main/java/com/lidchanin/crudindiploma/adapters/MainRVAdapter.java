@@ -215,6 +215,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
         editTextCost.setHint(context.getString(R.string.enter_cost));
         editTextCost.setText("0");
         editTextCost.setSelectAllOnFocus(true);
+
         final TextInputLayout textInputLayoutCost = new TextInputLayout(context);
         textInputLayoutCost.addView(editTextCost);
 
@@ -235,6 +236,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
                 editTextCost.setText(String.valueOf(selected.getCost()));
             }
         });
+
         final TextInputLayout textInputLayoutAuto = new TextInputLayout(context);
         textInputLayoutAuto.addView(autoCompleteTextViewName);
 
@@ -245,6 +247,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
         editTextQuantity.setHintTextColor(Color.BLACK);
         editTextQuantity.setText("1");
         editTextQuantity.setSelectAllOnFocus(true);
+
         final TextInputLayout textInputLayoutQuantity = new TextInputLayout(context);
         textInputLayoutQuantity.addView(editTextQuantity);
 

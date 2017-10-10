@@ -8,6 +8,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -223,9 +226,25 @@ public class ChildRVAdapter extends RecyclerView.Adapter<ChildRVAdapter.ChildVie
         final TextInputLayout textInputLayoutQuantity = new TextInputLayout(context);
         textInputLayoutQuantity.addView(editTextQuantity);
 
+        final RadioGroup radioGroup = new RadioGroup(context);
+        radioGroup.setOrientation(LinearLayout.HORIZONTAL);
+
+        final RadioButton radioButtonKg = new RadioButton(context);
+        radioButtonKg.setText(context.getString(R.string.kg));
+
+        final RadioButton radioButtonUnit = new RadioButton(context);
+        radioButtonUnit.setText(context.getString(R.string.unit));
+
+        radioGroup.addView(radioButtonKg);
+        radioGroup.addView(radioButtonUnit);
+        radioGroup.check((
+                existingProduct.getUnit() ? radioButtonKg.getId() : radioButtonUnit.getId())
+        );
+
         layout.addView(textInputLayoutName);
         layout.addView(textInputLayoutCost);
         layout.addView(textInputLayoutQuantity);
+        layout.addView(radioGroup);
 
         builder.setView(layout);
 
@@ -238,21 +257,30 @@ public class ChildRVAdapter extends RecyclerView.Adapter<ChildRVAdapter.ChildVie
                         && editTextCost.getText().toString().length() != 0
                         && editTextQuantity.getText() != null
                         && editTextQuantity.getText().toString().length() != 0) {
+
                     Product product = existingProduct.getProduct();
-                    if (isProductExists(productDao.loadAll(), editTextName.getText().toString())) {
-                        Toast.makeText(context, R.string.product_with_name_exists,
-                                Toast.LENGTH_SHORT).show();
-                        createAndShowAlertDialogForUpdate(adapterPosition, existingProduct);
-                    } else {
-                        product.setName(editTextName.getText().toString());
-                        product.setCost(Double.valueOf(editTextCost.getText().toString()));
+                    product.setCost(Double.valueOf(editTextCost.getText().toString()));
+                    try {
+                        if (isProductExists(productDao.loadAll(), 
+                                editTextName.getText().toString())) {
+                            Log.i(TAG, "Product \"" + editTextName.getText().toString()
+                                    + "\" exists in database. The product is being updated.");
+                            productDao.update(product);
+                        } else {
+                            Log.i(TAG, "Product \"" + editTextName.getText().toString()
+                                    + "\" not exists in database. The product is being created.");
+                            product.setName(editTextName.getText().toString());
+                            product.setId(null);
+                            product.setId(productDao.insert(product));
+                        }
+                    } finally {
                         existingProduct.setProduct(product);
-                        existingProduct.setQuantity(Double.valueOf(editTextQuantity.getText()
+                        existingProduct.setQuantity(Double.parseDouble(editTextQuantity.getText()
                                 .toString()));
+                        existingProduct.setUnit(radioButtonKg.isChecked());
+                        existingProductDao.update(existingProduct);
                         shoppingLists.get(mainAdapterPosition).getExistingProducts()
                                 .set(adapterPosition, existingProduct);
-                        productDao.update(product);
-                        existingProductDao.update(existingProduct);
 
                         if (mOnDataChangeListener != null) {
                             mOnDataChangeListener.onDataChanged(shoppingLists);
