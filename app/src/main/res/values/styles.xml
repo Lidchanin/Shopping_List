@@ -89,9 +89,20 @@
         <item name="colorPrimaryDark">?attr/endGradient</item>
         <item name="colorAccent">?attr/endGradient</item>
     </style>
+
     <style name="MyDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:textColor">@color/cardview_dark_background</item>
         <item name="android:textColorHint">@color/cardview_dark_background</item>
+    </style>
 
+    <style name="MyTextInputLayout">
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:textColor">?attr/endGradient</item>
+        <item name="android:textColorHint">?attr/endGradient</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
     </style>
 </resources>

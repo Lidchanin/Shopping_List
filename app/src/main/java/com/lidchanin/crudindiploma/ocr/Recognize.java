@@ -1,3 +1,4 @@
+/*
 package com.lidchanin.crudindiploma.ocr;
 
 import android.content.Context;
@@ -54,4 +55,4 @@ public class Recognize extends AsyncTask<Bitmap,TessBaseAPI.ProgressValues,Void>
     @Override
     public void onProgressValues(TessBaseAPI.ProgressValues progressValues) {
     }
-}
+}*/
