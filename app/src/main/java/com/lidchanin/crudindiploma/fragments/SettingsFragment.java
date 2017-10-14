@@ -1,23 +1,22 @@
 package com.lidchanin.crudindiploma.fragments;
 
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
-import com.lidchanin.crudindiploma.Constants;
 import com.lidchanin.crudindiploma.R;
-import com.lidchanin.crudindiploma.customview.NavigationDrawerActivity;
-import com.lidchanin.crudindiploma.utils.DownloadTask;
+import com.lidchanin.crudindiploma.forlib.DesignedViewPager;
+import com.lidchanin.crudindiploma.forlib.RecyclerFragment;
+import com.lidchanin.crudindiploma.forlib.ViewPagerAdapter;
 import com.lidchanin.crudindiploma.utils.SharedPrefsManager;
 
-import java.io.File;
+import java.util.ArrayList;
 
 public class SettingsFragment extends Fragment {
 
@@ -29,12 +28,23 @@ public class SettingsFragment extends Fragment {
     private Button buttonTessRus;
     private Button buttonTessEng;
     private SharedPrefsManager sharedPrefsManager;
+    private DesignedViewPager designedViewPager;
+    private TabLayout tabLayout;
+    private ArrayList<Fragment> fragmentArrayList;
 
     //todo recreate problem check!
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_settings,container,false);
+        View view = inflater.inflate(R.layout.fragment_theme_manager,container,false);
+        designedViewPager = (DesignedViewPager) view.findViewById(R.id.viewPager);
+        tabLayout = (TabLayout) view.findViewById(R.id.tabLayout);
+        fragmentArrayList = new ArrayList<>();
+        fragmentArrayList.add(new ShoppingListFragment());
+        fragmentArrayList.add(new RecyclerFragment());
+        designedViewPager.setAdapter(new ViewPagerAdapter(getActivity().getSupportFragmentManager(),fragmentArrayList));
+        //fragmentArrayList.add();
+        /*View view = inflater.inflate(R.layout.fragment_settings,container,false);
         ((NavigationDrawerActivity)getActivity()).setButtonsToDefault();
         sharedPrefsManager = new SharedPrefsManager(getActivity());
         blueGradient = (FrameLayout) view.findViewById(R.id.blue_gradient);
@@ -101,7 +111,7 @@ public class SettingsFragment extends Fragment {
                 getActivity().recreate();
             }
         });
-
+        */
         return view;
     }
 }
