@@ -9,36 +9,46 @@ import org.greenrobot.greendao.generator.ToMany;
 public class GreenDaoGenerator {
 
     public static void main(String[] args) throws Exception {
-        Schema schema = new Schema(3, "com.lidchanin.crudindiploma.database");
+        Schema schema = new Schema(5, "com.lidchanin.crudindiploma.database");
+        schema.setDefaultJavaPackageDao("com.lidchanin.crudindiploma.database.dao");
+        schema.enableKeepSectionsByDefault();
 
         Entity shoppingList = schema.addEntity("ShoppingList");
-        shoppingList.addIdProperty();
-        shoppingList.addStringProperty("name").notNull();
-        shoppingList.addStringProperty("date").notNull();
-
-        Entity exProduct = schema.addEntity("ExistingProduct");
-        exProduct.addIdProperty();
-        exProduct.addDoubleProperty("quantity");
-        // 1 - kg, 0 - pieces
-        exProduct.addBooleanProperty("unit");
-        exProduct.addBooleanProperty("isPurchased");
+        shoppingList.addIdProperty()
+                .codeBeforeField("/* id */");
+        shoppingList.addStringProperty("name").notNull()
+                .codeBeforeField("/* shopping list name */");
+        shoppingList.addLongProperty("date").notNull()
+                .codeBeforeField("/* date of creation */");
 
         Entity product = schema.addEntity("Product");
-        product.addIdProperty();
-        product.addStringProperty("name").notNull();
-        product.addDoubleProperty("cost").notNull();
-        product.addLongProperty("popularity");
+        product.addIdProperty()
+                .codeBeforeField("/* id */");
+        product.addStringProperty("name").notNull().unique()
+                .codeBeforeField("/* product name */");
+        product.addDoubleProperty("cost").notNull()
+                .codeBeforeField("/* product cost */");
+
+        Entity usedProduct = schema.addEntity("UsedProduct");
+        usedProduct.addIdProperty()
+                .codeBeforeField("/* id */");
+        usedProduct.addDoubleProperty("quantity").notNull()
+                .codeBeforeField("/* used product quantity */");
+        usedProduct.addBooleanProperty("unit").notNull()
+                .codeBeforeField("/* true -> kg, false - pieces */");
+        usedProduct.addBooleanProperty("isPurchased").notNull()
+                .codeBeforeField("/* true - purchased, false - not */");
 
         //Creating One-To-One relation, existing product has "one" product
-        Property productIdProperty = exProduct.addLongProperty("productId").getProperty();
-        exProduct.addToOne(product, productIdProperty);
+        Property productIdProperty = usedProduct.addLongProperty("productId").getProperty();
+        usedProduct.addToOne(product, productIdProperty);
 
         //Creating One-To-Many relation, shopping list has "many" existing products
-        Property shoppingListIdProperty = exProduct.addLongProperty("shoppingListId")
+        Property shoppingListIdProperty = usedProduct.addLongProperty("shoppingListId")
                 .notNull().getProperty();
-        ToMany shoppingListToExistingProducts = shoppingList.addToMany(exProduct,
+        ToMany shoppingListToExistingProducts = shoppingList.addToMany(usedProduct,
                 shoppingListIdProperty);
-        shoppingListToExistingProducts.setName("existingProducts");
+        shoppingListToExistingProducts.setName("usedProducts");
 
         new DaoGenerator().generateAll(schema, "./app/src/main/java");
     }

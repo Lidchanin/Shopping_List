@@ -111,17 +111,17 @@
     <string name="white_bread">батон</string>
     <string name="yogurt">йогурт</string>
     <string name="ok_btn">OK</string>
-    <string name="scan">скан</string>
-    <string name="type">вручную</string>
+    <string name="scan">Скан</string>
+    <string name="type">Вручную</string>
     <string name="profit">Выгода</string>
     <string name="settings">Настройки</string>
     <string name="add_new_product">Добавить новый продукт</string>
     <string name="ask_delete_product">Удалить \"%1$s\"?</string>
-    <string name="ask_delete_product_from_database">Вы действительно хотите удалить этот продукт отовсюду?</string>
+    <string name="ask_delete_product_from_database">Продукт будет удалён из всех списков.</string>
     <string name="ask_update_product">Обновить \"%1$s\"?</string>
-    <string name="ask_update_product_from_database">"Вы действительно хотите обновить продукт? Он будет обновлён во всех существующих списках."</string>
+    <string name="ask_update_product_from_database">"Продукт будет изменён во всех списках."</string>
     <string name="ask_update_shopping_list">Обновить \"%1$s\"?</string>
-    <string name="ask_update_shopping_list_from_database">Вы действительно хотите обновить этот список покупок?</string>
+    <string name="ask_update_shopping_list_from_database">Название списка покупок будет обновлено.</string>
     <string name="date_of_creation">дата создания</string>
     <string name="edit_product">Изменение продукта</string>
     <string name="edit_shopping_list">Изменение списка покупок</string>
@@ -147,5 +147,10 @@
     <string name="auth_filed">Ошибка аутентификации.</string>
     <string name="number_of_products">Количество продуктов</string>
     <string name="product_with_name_exists">Продукт с таким названием уже существует!</string>
+    <string name="kg">кг</string>
+    <string name="pieces">штук</string>
+    <string name="unit">Единица измерения</string>
+    <string name="product_name_exists">Продукт \"%1$s\" уже существует!</string>
+    <string name="product_name_exists_in_list">Продукт \"%1$s\" уже в списке!</string>
 
 </resources>

@@ -22,14 +22,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lidchanin.crudindiploma.R;
-import com.lidchanin.crudindiploma.database.ExistingProduct;
-import com.lidchanin.crudindiploma.database.ExistingProductDao;
 import com.lidchanin.crudindiploma.database.Product;
-import com.lidchanin.crudindiploma.database.ProductDao;
 import com.lidchanin.crudindiploma.database.ShoppingList;
-import com.lidchanin.crudindiploma.database.ShoppingListDao;
+import com.lidchanin.crudindiploma.database.UsedProduct;
+import com.lidchanin.crudindiploma.database.dao.ProductDao;
+import com.lidchanin.crudindiploma.database.dao.ShoppingListDao;
+import com.lidchanin.crudindiploma.database.dao.UsedProductDao;
+import com.lidchanin.crudindiploma.utils.DatabaseUtils;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -48,7 +50,7 @@ public class ChildRVAdapter extends RecyclerView.Adapter<ChildRVAdapter.ChildVie
 
     private final ShoppingListDao shoppingListDao;
     private final ProductDao productDao;
-    private final ExistingProductDao existingProductDao;
+    private final UsedProductDao usedProductDao;
 
     private List<ShoppingList> shoppingLists;
     private int mainAdapterPosition;
@@ -58,34 +60,17 @@ public class ChildRVAdapter extends RecyclerView.Adapter<ChildRVAdapter.ChildVie
     public ChildRVAdapter(final Context context,
                           final ShoppingListDao shoppingListDao,
                           final ProductDao productDao,
-                          final ExistingProductDao existingProductDao,
+                          final UsedProductDao usedProductDao,
                           final List<ShoppingList> shoppingLists,
                           final int mainAdapterPosition) {
         this.context = context;
 
         this.shoppingListDao = shoppingListDao;
         this.productDao = productDao;
-        this.existingProductDao = existingProductDao;
+        this.usedProductDao = usedProductDao;
 
         this.shoppingLists = shoppingLists;
         this.mainAdapterPosition = mainAdapterPosition;
-    }
-
-    /**
-     * The method <b>isProductExists</b> checks is {@link Product} exists in database or not.
-     *
-     * @param products all {@link Product}s in database.
-     * @param name     needed {@link Product} name.
-     * @return <i>true</i> - if {@link Product} exists <br> <i>false</i> - if not exists.
-     */
-    private static boolean isProductExists(final List<Product> products,
-                                           final String name) {
-        for (Product product : products) {
-            if (product != null && product.getName().equals(name)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     @Override
@@ -98,77 +83,77 @@ public class ChildRVAdapter extends RecyclerView.Adapter<ChildRVAdapter.ChildVie
     @Override
     public void onBindViewHolder(final ChildViewHolder holder, int position) {
         final int adapterPosition = holder.getAdapterPosition();
-        final ExistingProduct existingProduct = shoppingLists.get(mainAdapterPosition)
-                .getExistingProducts().get(adapterPosition);
+        final UsedProduct usedProduct = shoppingLists.get(mainAdapterPosition)
+                .getUsedProducts().get(adapterPosition);
 
-        holder.cbExistence.setChecked(existingProduct.getIsPurchased());
+        holder.cbExistence.setChecked(usedProduct.getIsPurchased());
 
         holder.cbExistence.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                existingProduct.setIsPurchased(holder.cbExistence.isChecked());
-                shoppingLists.get(mainAdapterPosition).getExistingProducts()
-                        .set(adapterPosition, existingProduct);
-                existingProductDao.update(existingProduct);
+                usedProduct.setIsPurchased(holder.cbExistence.isChecked());
+                shoppingLists.get(mainAdapterPosition).getUsedProducts()
+                        .set(adapterPosition, usedProduct);
+                usedProductDao.update(usedProduct);
                 notifyItemChanged(adapterPosition);
             }
         });
 
-        holder.tvName.setText(existingProduct.getProduct().getName());
+        holder.tvName.setText(usedProduct.getProduct().getName());
         holder.tvCost.setText(new DecimalFormat("#0.00")
-                .format(existingProduct.getProduct().getCost()));
-        double totalCost = existingProduct.getProduct().getCost() * existingProduct.getQuantity();
+                .format(usedProduct.getProduct().getCost()));
+        double totalCost = usedProduct.getProduct().getCost() * usedProduct.getQuantity();
         holder.tvTotalCost.setText(new DecimalFormat("#0.00").format(totalCost));
         holder.tvQuantity.setText(context.getString(R.string.tv_quantity,
-                String.valueOf(existingProduct.getQuantity()),
-                existingProduct.getUnit() ? "kg" : "unit"));
+                String.valueOf(usedProduct.getQuantity()),
+                usedProduct.getUnit() ? "kg" : "pieces"));
 
         holder.buttonDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createAndShowAlertDialogForDelete(adapterPosition, existingProduct);
+                createAndShowAlertDialogForDelete(adapterPosition, usedProduct);
             }
         });
 
         holder.cvChild.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createAndShowAlertDialogForUpdate(adapterPosition, existingProduct);
+                createAndShowAlertDialogForUpdate(adapterPosition, usedProduct);
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return shoppingLists.get(mainAdapterPosition).getExistingProducts().size();
+        return shoppingLists.get(mainAdapterPosition).getUsedProducts().size();
     }
 
     /**
      * The method <b>createAndShowAlertDialogForDelete</b> creates and shows a {@link AlertDialog}
-     * {@link ExistingProduct} deleting.
+     * {@link UsedProduct} deleting.
      *
      * @param adapterPosition the {@link RecyclerView} item position, where record about
-     *                        {@link ExistingProduct} are located.
-     * @param existingProduct required {@link ExistingProduct} for deleting.
+     *                        {@link UsedProduct} are located.
+     * @param usedProduct     required {@link UsedProduct} for deleting.
      */
     private void createAndShowAlertDialogForDelete(final int adapterPosition,
-                                                   final ExistingProduct existingProduct) {
+                                                   final UsedProduct usedProduct) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.MyDialogTheme);
         builder.setTitle(context.getString(R.string.ask_delete_product,
-                existingProduct.getProduct().getName()));
+                usedProduct.getProduct().getName()));
         builder.setMessage(context.getString(R.string.you_are_sure_you_want_to_delete_this_product));
         builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                existingProductDao.delete(existingProduct);
+                usedProductDao.delete(usedProduct);
 
-                shoppingLists.get(mainAdapterPosition).getExistingProducts().remove(existingProduct);
+                shoppingLists.get(mainAdapterPosition).getUsedProducts().remove(usedProduct);
                 if (mOnDataChangeListener != null) {
                     mOnDataChangeListener.onDataChanged(shoppingLists);
                 }
                 notifyItemRemoved(adapterPosition);
                 notifyItemRangeChanged(adapterPosition,
-                        shoppingLists.get(mainAdapterPosition).getExistingProducts().size());
+                        shoppingLists.get(mainAdapterPosition).getUsedProducts().size());
                 dialog.dismiss();
             }
         });
@@ -184,15 +169,17 @@ public class ChildRVAdapter extends RecyclerView.Adapter<ChildRVAdapter.ChildVie
 
     /**
      * The method <b>createAndShowAlertDialogForUpdate</b> creates and shows a {@link AlertDialog},
-     * which need to update {@link Product} and {@link ExistingProduct}.
+     * which need to update {@link Product} and {@link UsedProduct}.
      *
      * @param adapterPosition the {@link RecyclerView} item position, where record about
-     *                        {@link ExistingProduct} are located.
+     *                        {@link UsedProduct} are located.
      */
     private void createAndShowAlertDialogForUpdate(final int adapterPosition,
-                                                   final ExistingProduct existingProduct) {
+                                                   final UsedProduct usedProduct) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.MyDialogTheme);
-        builder.setTitle(context.getString(R.string.ask_update_product, shoppingLists.get(mainAdapterPosition).getExistingProducts().get(adapterPosition).getProduct().getName()));
+        builder.setTitle(context.getString(R.string.ask_update_product,
+                shoppingLists.get(mainAdapterPosition).getUsedProducts().get(adapterPosition)
+                        .getProduct().getName()));
         builder.setMessage(context.getString(R.string.ask_update_product_from_database));
 
         LinearLayout layout = new LinearLayout(context);
@@ -202,7 +189,7 @@ public class ChildRVAdapter extends RecyclerView.Adapter<ChildRVAdapter.ChildVie
         editTextName.setInputType(InputType.TYPE_CLASS_TEXT);
         editTextName.setHint(context.getString(R.string.enter_name));
         editTextName.setSelectAllOnFocus(true);
-        editTextName.setText(existingProduct.getProduct().getName());
+        editTextName.setText(usedProduct.getProduct().getName());
 
         final TextInputLayout textInputLayoutName = new TextInputLayout(context);
         textInputLayoutName.addView(editTextName);
@@ -210,7 +197,7 @@ public class ChildRVAdapter extends RecyclerView.Adapter<ChildRVAdapter.ChildVie
         final EditText editTextCost = new EditText(context);
         editTextCost.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         editTextCost.setHint(context.getString(R.string.enter_cost));
-        editTextCost.setText(String.valueOf(existingProduct.getProduct().getCost()));
+        editTextCost.setText(String.valueOf(usedProduct.getProduct().getCost()));
         editTextCost.setSelectAllOnFocus(true);
 
         final TextInputLayout textInputLayoutCost = new TextInputLayout(context);
@@ -220,7 +207,7 @@ public class ChildRVAdapter extends RecyclerView.Adapter<ChildRVAdapter.ChildVie
         editTextQuantity.setInputType(InputType.TYPE_CLASS_NUMBER
                 | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         editTextQuantity.setHint(R.string.enter_quantity);
-        editTextQuantity.setText(String.valueOf(existingProduct.getQuantity()));
+        editTextQuantity.setText(String.valueOf(usedProduct.getQuantity()));
         editTextQuantity.setSelectAllOnFocus(true);
 
         final TextInputLayout textInputLayoutQuantity = new TextInputLayout(context);
@@ -238,7 +225,7 @@ public class ChildRVAdapter extends RecyclerView.Adapter<ChildRVAdapter.ChildVie
         radioGroup.addView(radioButtonKg);
         radioGroup.addView(radioButtonUnit);
         radioGroup.check((
-                existingProduct.getUnit() ? radioButtonKg.getId() : radioButtonUnit.getId())
+                usedProduct.getUnit() ? radioButtonKg.getId() : radioButtonUnit.getId())
         );
 
         layout.addView(textInputLayoutName);
@@ -248,49 +235,57 @@ public class ChildRVAdapter extends RecyclerView.Adapter<ChildRVAdapter.ChildVie
 
         builder.setView(layout);
 
-        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("TEST", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (editTextName.getText() != null
-                        && editTextName.getText().toString().length() != 0
-                        && editTextCost.getText() != null
-                        && editTextCost.getText().toString().length() != 0
-                        && editTextQuantity.getText() != null
-                        && editTextQuantity.getText().toString().length() != 0) {
+                String enteredName = editTextName.getText().toString();
+                double enteredCost = Double.valueOf(editTextCost.getText().toString());
+                double enteredQuantity = Double.valueOf(editTextQuantity.getText().toString());
+                boolean enteredUnit = radioButtonKg.isChecked();
 
-                    Product product = existingProduct.getProduct();
-                    product.setCost(Double.valueOf(editTextCost.getText().toString()));
-                    try {
-                        if (isProductExists(productDao.loadAll(), 
-                                editTextName.getText().toString())) {
-                            Log.i(TAG, "Product \"" + editTextName.getText().toString()
-                                    + "\" exists in database. The product is being updated.");
-                            productDao.update(product);
+                if (DatabaseUtils.isProductExists(productDao.loadAll(), enteredName)) {
+                    Log.i(TAG, "Product \"" + enteredName + "\" exists in the db.");
+                    if (usedProduct.getProduct().getName().equals(enteredName)) {
+                        Log.i(TAG, "Product \"" + enteredName + "\" equals entered name.");
+                        usedProduct.getProduct().setCost(enteredCost);
+                        productDao.update(usedProduct.getProduct());
+                        updateUsedProductAndUI(usedProduct, enteredUnit, enteredQuantity,
+                                usedProduct.getProduct(), adapterPosition);
+                    } else {
+                        Log.i(TAG, "Product \"" + enteredName + "\" not equals entered name.");
+                        List<Product> productsInList = new ArrayList<>();
+                        for (UsedProduct up :
+                                shoppingLists.get(mainAdapterPosition).getUsedProducts()) {
+                            productsInList.add(up.getProduct());
+                        }
+                        if (DatabaseUtils.isProductExists(productsInList, enteredName)) {
+                            Log.i(TAG, "Product \"" + enteredName + "\" exists in current " +
+                                    "shopping list.");
+                            Toast.makeText(
+                                    context,
+                                    context.getString(R.string.product_name_exists_in_list, enteredName),
+                                    Toast.LENGTH_SHORT
+                            ).show();
+                            createAndShowAlertDialogForUpdate(adapterPosition, usedProduct);
                         } else {
-                            Log.i(TAG, "Product \"" + editTextName.getText().toString()
-                                    + "\" not exists in database. The product is being created.");
-                            product.setName(editTextName.getText().toString());
-                            product.setId(null);
-                            product.setId(productDao.insert(product));
+                            Log.i(TAG, "Product \"" + enteredName + "\" not exists in current " +
+                                    "shopping list.");
+                            Product productInDB = productDao.queryBuilder()
+                                    .where(ProductDao.Properties.Name.eq(enteredName)).unique();
+                            productInDB.setCost(enteredCost);
+                            productDao.update(productInDB);
+                            updateUsedProductAndUI(usedProduct, enteredUnit, enteredQuantity,
+                                    productInDB, adapterPosition);
                         }
-                    } finally {
-                        existingProduct.setProduct(product);
-                        existingProduct.setQuantity(Double.parseDouble(editTextQuantity.getText()
-                                .toString()));
-                        existingProduct.setUnit(radioButtonKg.isChecked());
-                        existingProductDao.update(existingProduct);
-                        shoppingLists.get(mainAdapterPosition).getExistingProducts()
-                                .set(adapterPosition, existingProduct);
-
-                        if (mOnDataChangeListener != null) {
-                            mOnDataChangeListener.onDataChanged(shoppingLists);
-                        }
-                        notifyItemChanged(adapterPosition);
-                        dialog.dismiss();
                     }
                 } else {
-                    Toast.makeText(context, R.string.please_enter_all_data, Toast.LENGTH_SHORT).show();
-                    createAndShowAlertDialogForUpdate(adapterPosition, existingProduct);
+                    Log.i(TAG, "Product \"" + enteredName + "\" not exists in the db.");
+                    Product product = new Product();
+                    product.setName(enteredName);
+                    product.setCost(enteredCost);
+                    product.setId(productDao.insert(product));
+                    updateUsedProductAndUI(usedProduct, enteredUnit, enteredQuantity, product,
+                            adapterPosition);
                 }
             }
         });
@@ -302,6 +297,24 @@ public class ChildRVAdapter extends RecyclerView.Adapter<ChildRVAdapter.ChildVie
         });
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    private void updateUsedProductAndUI(final UsedProduct usedProduct,
+                                        final boolean enteredUnit,
+                                        final double enteredQuantity,
+                                        final Product product,
+                                        final int adapterPosition) {
+        usedProduct.setUnit(enteredUnit);
+        usedProduct.setQuantity(enteredQuantity);
+        usedProduct.setProductId(product.getId());
+        usedProduct.setProduct(product);
+        usedProductDao.update(usedProduct);
+        shoppingLists.get(mainAdapterPosition).getUsedProducts()
+                .set(adapterPosition, usedProduct);
+        if (mOnDataChangeListener != null) {
+            mOnDataChangeListener.onDataChanged(shoppingLists);
+        }
+        notifyItemChanged(adapterPosition);
     }
 
     public void setOnDataChangeListener(OnDataChangeListener mOnDataChangeListener) {

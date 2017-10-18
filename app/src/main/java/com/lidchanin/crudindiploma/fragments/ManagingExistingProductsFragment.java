@@ -12,11 +12,11 @@ import android.view.ViewGroup;
 import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.adapters.ManagingProductsRVAdapter;
 import com.lidchanin.crudindiploma.customview.NavigationDrawerActivity;
-import com.lidchanin.crudindiploma.database.DaoMaster;
-import com.lidchanin.crudindiploma.database.DaoSession;
-import com.lidchanin.crudindiploma.database.ExistingProductDao;
 import com.lidchanin.crudindiploma.database.Product;
-import com.lidchanin.crudindiploma.database.ProductDao;
+import com.lidchanin.crudindiploma.database.dao.DaoMaster;
+import com.lidchanin.crudindiploma.database.dao.DaoSession;
+import com.lidchanin.crudindiploma.database.dao.ProductDao;
+import com.lidchanin.crudindiploma.database.dao.UsedProductDao;
 
 import org.greenrobot.greendao.database.Database;
 
@@ -42,12 +42,12 @@ public class ManagingExistingProductsFragment extends Fragment {
         final DaoMaster daoMaster = new DaoMaster(database);
         final DaoSession daoSession = daoMaster.newSession();
         final ProductDao productDao = daoSession.getProductDao();
-        final ExistingProductDao existingProductDao = daoSession.getExistingProductDao();
+        final UsedProductDao usedProductDao = daoSession.getUsedProductDao();
 
-        products = productDao.loadAll();
+        products = productDao.queryBuilder().orderAsc(ProductDao.Properties.Name).list();
 
         initializeRecyclerView(view);
-        initializeAdapter(productDao, existingProductDao);
+        initializeAdapter(productDao, usedProductDao);
         return view;
     }
 
@@ -59,10 +59,10 @@ public class ManagingExistingProductsFragment extends Fragment {
     }
 
     private void initializeAdapter(ProductDao productDao,
-                                   ExistingProductDao existingProductDao) {
+                                   UsedProductDao usedProductDao) {
         ManagingProductsRVAdapter adapter
                 = new ManagingProductsRVAdapter(products,
-                productDao, existingProductDao, getContext());
+                productDao, usedProductDao, getContext());
         recyclerViewAllProducts.setAdapter(adapter);
     }
 
