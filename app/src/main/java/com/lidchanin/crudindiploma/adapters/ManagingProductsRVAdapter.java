@@ -2,6 +2,7 @@ package com.lidchanin.crudindiploma.adapters;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.database.sqlite.SQLiteConstraintException;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
@@ -172,18 +173,30 @@ public class ManagingProductsRVAdapter extends RecyclerView
         builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (editTextName.getText() != null
-                        && editTextName.getText().toString().length() != 0
-                        && editTextCost.getText() != null
-                        && editTextCost.getText().toString().length() != 0) {
-                    product.setName(editTextName.getText().toString());
-                    product.setCost(Double.valueOf(editTextCost.getText().toString()));
-                    productDao.update(product);
-                    products.set(adapterPosition, product);
-                    notifyItemChanged(adapterPosition);
-                    dialog.dismiss();
+                String enteredName = editTextName.getText().toString();
+                double enteredCost = Double.parseDouble(editTextCost.getText().toString());
+                if (enteredName.length() != 0 && enteredCost >= 0) {
+                    try {
+                        product.setName(enteredName);
+                        product.setCost(enteredCost);
+                        productDao.update(product);
+                        products.set(adapterPosition, product);
+                        notifyItemChanged(adapterPosition);
+                        dialog.dismiss();
+                    } catch (SQLiteConstraintException e) {
+                        Toast.makeText(
+                                context,
+                                context.getString(R.string.product_name_exists, enteredName),
+                                Toast.LENGTH_SHORT
+                        ).show();
+                        createAndShowAlertDialogForUpdate(product, adapterPosition);
+                    }
                 } else {
-                    Toast.makeText(context, R.string.please_enter_all_data, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(
+                            context,
+                            context.getString(R.string.please_enter_all_data),
+                            Toast.LENGTH_SHORT
+                    ).show();
                     createAndShowAlertDialogForUpdate(product, adapterPosition);
                 }
             }
