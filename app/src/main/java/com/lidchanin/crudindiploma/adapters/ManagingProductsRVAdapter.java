@@ -17,10 +17,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lidchanin.crudindiploma.R;
-import com.lidchanin.crudindiploma.database.ExistingProduct;
-import com.lidchanin.crudindiploma.database.ExistingProductDao;
 import com.lidchanin.crudindiploma.database.Product;
-import com.lidchanin.crudindiploma.database.ProductDao;
+import com.lidchanin.crudindiploma.database.UsedProduct;
+import com.lidchanin.crudindiploma.database.dao.ProductDao;
+import com.lidchanin.crudindiploma.database.dao.UsedProductDao;
 
 import java.util.List;
 
@@ -37,25 +37,25 @@ public class ManagingProductsRVAdapter extends RecyclerView
     private Context context;
 
     private ProductDao productDao;
-    private ExistingProductDao existingProductDao;
+    private UsedProductDao usedProductDao;
 
     private List<Product> products;
 
     /**
      * Constructor.
      *
-     * @param products           {@link List} which contains all {@link Product}s from the database.
-     * @param productDao         {@link ProductDao} exemplar.
-     * @param existingProductDao {@link ExistingProductDao} exemplar.
-     * @param context            {@link Context} exemplar.
+     * @param products       {@link List} which contains all {@link Product}s from the database.
+     * @param productDao     {@link ProductDao} exemplar.
+     * @param usedProductDao {@link UsedProductDao} exemplar.
+     * @param context        {@link Context} exemplar.
      */
     public ManagingProductsRVAdapter(List<Product> products,
                                      ProductDao productDao,
-                                     ExistingProductDao existingProductDao,
+                                     UsedProductDao usedProductDao,
                                      Context context) {
         this.products = products;
         this.productDao = productDao;
-        this.existingProductDao = existingProductDao;
+        this.usedProductDao = usedProductDao;
         this.context = context;
     }
 
@@ -110,10 +110,10 @@ public class ManagingProductsRVAdapter extends RecyclerView
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 productDao.delete(product);
-                List<ExistingProduct> existingProducts =
-                        existingProductDao.queryBuilder().where(ExistingProductDao.Properties.
+                List<UsedProduct> usedProducts =
+                        usedProductDao.queryBuilder().where(UsedProductDao.Properties.
                                 ProductId.eq(product.getId())).list();
-                existingProductDao.deleteInTx(existingProducts);
+                usedProductDao.deleteInTx(usedProducts);
                 products.remove(adapterPosition);
                 notifyItemRemoved(adapterPosition);
                 notifyItemRangeChanged(adapterPosition, products.size());

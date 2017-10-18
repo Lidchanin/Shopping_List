@@ -161,5 +161,8 @@
     <string name="product_with_name_exists">Product with current name already exists!</string>
     <string name="kg">kg</string>
     <string name="unit">unit</string>
-    <string name="tv_quantity">%1$s %2$s</string>
+    <string name="tv_quantity" translatable="false">%1$s %2$s</string>
+    <string name="pieces">pieces</string>
+    <string name="product_name_exists">Product \"%1$s\" already exists!</string>
+    <string name="product_name_exists_in_list">Product \"%1$s\" already exists in this list!</string>
 </resources>

@@ -19,19 +19,16 @@ import android.widget.Toast;
 import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.adapters.MainRVAdapter;
 import com.lidchanin.crudindiploma.customview.NavigationDrawerActivity;
-import com.lidchanin.crudindiploma.database.DaoMaster;
-import com.lidchanin.crudindiploma.database.DaoSession;
-import com.lidchanin.crudindiploma.database.ExistingProductDao;
-import com.lidchanin.crudindiploma.database.ProductDao;
 import com.lidchanin.crudindiploma.database.ShoppingList;
-import com.lidchanin.crudindiploma.database.ShoppingListDao;
+import com.lidchanin.crudindiploma.database.dao.DaoMaster;
+import com.lidchanin.crudindiploma.database.dao.DaoSession;
+import com.lidchanin.crudindiploma.database.dao.ProductDao;
+import com.lidchanin.crudindiploma.database.dao.ShoppingListDao;
+import com.lidchanin.crudindiploma.database.dao.UsedProductDao;
 
 import org.greenrobot.greendao.database.Database;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class ShoppingListFragment extends android.support.v4.app.Fragment {
 
@@ -54,7 +51,7 @@ public class ShoppingListFragment extends android.support.v4.app.Fragment {
         final DaoSession daoSession = daoMaster.newSession();
         final ShoppingListDao shoppingListDao = daoSession.getShoppingListDao();
         final ProductDao productDao = daoSession.getProductDao();
-        final ExistingProductDao existingProductDao = daoSession.getExistingProductDao();
+        final UsedProductDao usedProductDao = daoSession.getUsedProductDao();
 
         shoppingLists = shoppingListDao.loadAll();
 
@@ -62,7 +59,7 @@ public class ShoppingListFragment extends android.support.v4.app.Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mainRV.setLayoutManager(layoutManager);
         mainRVAdapter = new MainRVAdapter(getContext(), shoppingListDao,
-                productDao, existingProductDao, shoppingLists);
+                productDao, usedProductDao, shoppingLists);
         mainRV.setAdapter(mainRVAdapter);
 
         addButton.setVisibility(View.VISIBLE);
@@ -102,10 +99,7 @@ public class ShoppingListFragment extends android.support.v4.app.Fragment {
                         && editTextName.getText().toString().length() != 0) {
                     ShoppingList shoppingList = new ShoppingList();
                     shoppingList.setName(editTextName.getText().toString());
-                    SimpleDateFormat sdf = new SimpleDateFormat(
-                            getString(R.string.database_date_format), Locale.getDefault());
-                    String currentDateAndTime = sdf.format(new Date());
-                    shoppingList.setDate(currentDateAndTime);
+                    shoppingList.setDate(System.currentTimeMillis());
                     shoppingListDao.insert(shoppingList);
                     shoppingLists.add(shoppingList);
                     mainRVAdapter.notifyDataSetChanged();
