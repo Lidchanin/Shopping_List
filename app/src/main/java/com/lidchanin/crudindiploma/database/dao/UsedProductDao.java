@@ -35,8 +35,9 @@ public class UsedProductDao extends AbstractDao<UsedProduct, Long> {
         public final static Property Quantity = new Property(1, double.class, "quantity", false, "QUANTITY");
         public final static Property Unit = new Property(2, boolean.class, "unit", false, "UNIT");
         public final static Property IsPurchased = new Property(3, boolean.class, "isPurchased", false, "IS_PURCHASED");
-        public final static Property ProductId = new Property(4, Long.class, "productId", false, "PRODUCT_ID");
-        public final static Property ShoppingListId = new Property(5, long.class, "shoppingListId", false, "SHOPPING_LIST_ID");
+        public final static Property Date = new Property(4, long.class, "date", false, "DATE");
+        public final static Property ProductId = new Property(5, Long.class, "productId", false, "PRODUCT_ID");
+        public final static Property ShoppingListId = new Property(6, long.class, "shoppingListId", false, "SHOPPING_LIST_ID");
     }
 
     private DaoSession daoSession;
@@ -60,8 +61,9 @@ public class UsedProductDao extends AbstractDao<UsedProduct, Long> {
                 "\"QUANTITY\" REAL NOT NULL ," + // 1: quantity
                 "\"UNIT\" INTEGER NOT NULL ," + // 2: unit
                 "\"IS_PURCHASED\" INTEGER NOT NULL ," + // 3: isPurchased
-                "\"PRODUCT_ID\" INTEGER," + // 4: productId
-                "\"SHOPPING_LIST_ID\" INTEGER NOT NULL );"); // 5: shoppingListId
+                "\"DATE\" INTEGER NOT NULL UNIQUE ," + // 4: date
+                "\"PRODUCT_ID\" INTEGER," + // 5: productId
+                "\"SHOPPING_LIST_ID\" INTEGER NOT NULL );"); // 6: shoppingListId
     }
 
     /** Drops the underlying database table. */
@@ -81,12 +83,13 @@ public class UsedProductDao extends AbstractDao<UsedProduct, Long> {
         stmt.bindDouble(2, entity.getQuantity());
         stmt.bindLong(3, entity.getUnit() ? 1L: 0L);
         stmt.bindLong(4, entity.getIsPurchased() ? 1L: 0L);
+        stmt.bindLong(5, entity.getDate());
  
         Long productId = entity.getProductId();
         if (productId != null) {
-            stmt.bindLong(5, productId);
+            stmt.bindLong(6, productId);
         }
-        stmt.bindLong(6, entity.getShoppingListId());
+        stmt.bindLong(7, entity.getShoppingListId());
     }
 
     @Override
@@ -100,12 +103,13 @@ public class UsedProductDao extends AbstractDao<UsedProduct, Long> {
         stmt.bindDouble(2, entity.getQuantity());
         stmt.bindLong(3, entity.getUnit() ? 1L: 0L);
         stmt.bindLong(4, entity.getIsPurchased() ? 1L: 0L);
+        stmt.bindLong(5, entity.getDate());
  
         Long productId = entity.getProductId();
         if (productId != null) {
-            stmt.bindLong(5, productId);
+            stmt.bindLong(6, productId);
         }
-        stmt.bindLong(6, entity.getShoppingListId());
+        stmt.bindLong(7, entity.getShoppingListId());
     }
 
     @Override
@@ -126,8 +130,9 @@ public class UsedProductDao extends AbstractDao<UsedProduct, Long> {
             cursor.getDouble(offset + 1), // quantity
             cursor.getShort(offset + 2) != 0, // unit
             cursor.getShort(offset + 3) != 0, // isPurchased
-            cursor.isNull(offset + 4) ? null : cursor.getLong(offset + 4), // productId
-            cursor.getLong(offset + 5) // shoppingListId
+            cursor.getLong(offset + 4), // date
+            cursor.isNull(offset + 5) ? null : cursor.getLong(offset + 5), // productId
+            cursor.getLong(offset + 6) // shoppingListId
         );
         return entity;
     }
@@ -138,8 +143,9 @@ public class UsedProductDao extends AbstractDao<UsedProduct, Long> {
         entity.setQuantity(cursor.getDouble(offset + 1));
         entity.setUnit(cursor.getShort(offset + 2) != 0);
         entity.setIsPurchased(cursor.getShort(offset + 3) != 0);
-        entity.setProductId(cursor.isNull(offset + 4) ? null : cursor.getLong(offset + 4));
-        entity.setShoppingListId(cursor.getLong(offset + 5));
+        entity.setDate(cursor.getLong(offset + 4));
+        entity.setProductId(cursor.isNull(offset + 5) ? null : cursor.getLong(offset + 5));
+        entity.setShoppingListId(cursor.getLong(offset + 6));
      }
     
     @Override
