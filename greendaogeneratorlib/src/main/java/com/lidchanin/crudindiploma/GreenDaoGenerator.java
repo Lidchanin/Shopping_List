@@ -47,8 +47,12 @@ public class GreenDaoGenerator {
                 .codeBeforeField("/* id */");
         statistic.addStringProperty("name").notNull()
                 .codeBeforeField("/* product name */");
-        statistic.addDoubleProperty("totalCost").notNull()
-                .codeBeforeField("/* total cost = product cost * used product quantity */");
+        statistic.addDoubleProperty("cost").notNull()
+                .codeBeforeField("/* product cost */");
+        statistic.addDoubleProperty("quantity").notNull()
+                .codeBeforeField("/* used product quantity */");
+        statistic.addBooleanProperty("unit").notNull()
+                .codeBeforeField("/* true -> kg, false -> pieces */");
         statistic.addLongProperty("date").notNull()
                 .codeBeforeField("/* date when the product in the shopping list was marked as" +
                         " purchased */");

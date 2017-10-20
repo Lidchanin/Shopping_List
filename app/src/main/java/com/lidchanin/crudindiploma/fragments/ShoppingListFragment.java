@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,10 +21,12 @@ import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.adapters.MainRVAdapter;
 import com.lidchanin.crudindiploma.customview.NavigationDrawerActivity;
 import com.lidchanin.crudindiploma.database.ShoppingList;
+import com.lidchanin.crudindiploma.database.Statistic;
 import com.lidchanin.crudindiploma.database.dao.DaoMaster;
 import com.lidchanin.crudindiploma.database.dao.DaoSession;
 import com.lidchanin.crudindiploma.database.dao.ProductDao;
 import com.lidchanin.crudindiploma.database.dao.ShoppingListDao;
+import com.lidchanin.crudindiploma.database.dao.StatisticDao;
 import com.lidchanin.crudindiploma.database.dao.UsedProductDao;
 
 import org.greenrobot.greendao.database.Database;
@@ -52,6 +55,7 @@ public class ShoppingListFragment extends android.support.v4.app.Fragment {
         final ShoppingListDao shoppingListDao = daoSession.getShoppingListDao();
         final ProductDao productDao = daoSession.getProductDao();
         final UsedProductDao usedProductDao = daoSession.getUsedProductDao();
+        final StatisticDao statisticDao = daoSession.getStatisticDao();
 
         shoppingLists = shoppingListDao.loadAll();
 
@@ -59,8 +63,17 @@ public class ShoppingListFragment extends android.support.v4.app.Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mainRV.setLayoutManager(layoutManager);
         mainRVAdapter = new MainRVAdapter(getContext(), shoppingListDao,
-                productDao, usedProductDao, shoppingLists);
+                productDao, usedProductDao, statisticDao, shoppingLists);
         mainRV.setAdapter(mainRVAdapter);
+
+        // TODO: 20.10.2017 delete test code 
+        List<Statistic> statistics = statisticDao.loadAll();
+        for (Statistic s : statistics) {
+            Log.d(TAG, "id=" + s.getId()
+                    + " name=" + s.getName()
+                    + " totalCost=" + (s.getCost() * s.getQuantity())
+                    + " date=" + s.getDate());
+        }
 
         addButton.setVisibility(View.VISIBLE);
         addButton.setOnClickListener(new View.OnClickListener() {

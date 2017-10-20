@@ -29,12 +29,15 @@ import android.widget.Toast;
 import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.database.Product;
 import com.lidchanin.crudindiploma.database.ShoppingList;
+import com.lidchanin.crudindiploma.database.Statistic;
 import com.lidchanin.crudindiploma.database.UsedProduct;
 import com.lidchanin.crudindiploma.database.dao.ProductDao;
 import com.lidchanin.crudindiploma.database.dao.ShoppingListDao;
+import com.lidchanin.crudindiploma.database.dao.StatisticDao;
 import com.lidchanin.crudindiploma.database.dao.UsedProductDao;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.lidchanin.crudindiploma.utils.DatabaseUtils.calculationOfEstimatedAmount;
@@ -57,6 +60,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
     private ShoppingListDao shoppingListDao;
     private ProductDao productDao;
     private UsedProductDao usedProductDao;
+    private StatisticDao statisticDao;
 
     private List<ShoppingList> shoppingLists;
 
@@ -69,21 +73,23 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
      * @param shoppingLists   {@link List} with all {@link ShoppingList}s.
      * @param shoppingListDao {@link ShoppingListDao} exemplar.
      * @param productDao      {@link ProductDao} exemplar.
+     * @param statisticDao    {@link StatisticDao} exemplar.
      * @param usedProductDao  {@link UsedProductDao} exemplar.
      */
     public MainRVAdapter(Context context,
                          ShoppingListDao shoppingListDao,
                          ProductDao productDao,
                          UsedProductDao usedProductDao,
+                         StatisticDao statisticDao,
                          List<ShoppingList> shoppingLists) {
         this.context = context;
 
         this.shoppingListDao = shoppingListDao;
         this.productDao = productDao;
         this.usedProductDao = usedProductDao;
+        this.statisticDao = statisticDao;
 
         this.shoppingLists = shoppingLists;
-
     }
 
     @Override
@@ -345,14 +351,31 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
         final AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.MyDialogTheme);
         builder.setTitle(context.getString(R.string.delete_shopping_list, shoppingList.getName()));
         builder.setMessage(context.getString(R.string.are_you_sure_you_want_to_delete_this_shopping_list));
-        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+        builder.setNeutralButton("Yes without statistic", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                shoppingListDao.delete(shoppingList);
-                usedProductDao.deleteInTx(shoppingList.getUsedProducts());
-                shoppingLists.remove(adapterPosition);
-                notifyItemRemoved(adapterPosition);
-                notifyItemRangeChanged(adapterPosition, shoppingLists.size());
+                deleteShoppingList(adapterPosition, shoppingList);
+                dialog.dismiss();
+            }
+        });
+        builder.setNeutralButton("Yes with statistic", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                final List<UsedProduct> usedProducts = usedProductDao.queryBuilder()
+                        .where(UsedProductDao.Properties.ShoppingListId.eq(shoppingList.getId()),
+                                UsedProductDao.Properties.IsPurchased.eq(1)).list();
+                final List<Statistic> statistics = new ArrayList<>();
+                for (UsedProduct up : usedProducts) {
+                    Statistic statistic = new Statistic();
+                    statistic.setName(up.getProduct().getName());
+                    statistic.setCost(up.getProduct().getCost());
+                    statistic.setQuantity(up.getQuantity());
+                    statistic.setUnit(up.getUnit());
+                    statistic.setDate(up.getDate());
+                    statistics.add(statistic);
+                }
+                statisticDao.insertInTx(statistics);
+                deleteShoppingList(adapterPosition, shoppingList);
                 dialog.dismiss();
             }
         });
@@ -364,6 +387,23 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
         });
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    /**
+     * The method <b>deleteShoppingList</b> deletes {@link ShoppingList} from the database and
+     * update {@link List}.
+     *
+     * @param adapterPosition the the {@link RecyclerView} item position, where record about
+     *                        {@link ShoppingList} are located.
+     * @param shoppingList    required {@link ShoppingList} for deleting.
+     */
+    private void deleteShoppingList(final int adapterPosition,
+                                    final ShoppingList shoppingList) {
+        shoppingListDao.delete(shoppingList);
+        usedProductDao.deleteInTx(shoppingList.getUsedProducts());
+        shoppingLists.remove(adapterPosition);
+        notifyItemRemoved(adapterPosition);
+        notifyItemRangeChanged(adapterPosition, shoppingLists.size());
     }
 
     /**
