@@ -265,6 +265,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
                         newUsedProduct.setQuantity(enteredQuantity);
                         newUsedProduct.setUnit(enteredUnit);
                         newUsedProduct.setIsPurchased(false);
+                        newUsedProduct.setDate(System.currentTimeMillis());
                         newUsedProduct.setProduct(newProduct);
                         newUsedProduct.setShoppingListId(shoppingLists.get(adapterPosition).getId());
                         newUsedProduct.setProductId(newProduct.getId());
