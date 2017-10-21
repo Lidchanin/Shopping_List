@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/side_nav_bar"
+    android:layout_height="180dp"
+    android:background="@drawable/drawer"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -14,21 +14,29 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="30dp"
+        android:paddingTop="10dp"
         android:src="@mipmap/ic_launcher_1"
         android:id="@+id/headerImageView"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="30dp"
+        android:paddingTop="110dp"
         android:text="Shopping list"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:id="@+id/user_name"/>
 
     <TextView
+        android:paddingTop="130dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/user_mail"/>
 
-</LinearLayout>
+    <com.google.android.gms.common.SignInButton
+        android:paddingTop="110dp"
+        android:id="@+id/sing_in_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|left" />
+
+</FrameLayout>
