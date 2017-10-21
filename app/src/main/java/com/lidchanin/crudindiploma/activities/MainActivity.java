@@ -36,6 +36,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.lidchanin.crudindiploma.Constants;
 import com.lidchanin.crudindiploma.R;
+import com.lidchanin.crudindiploma.customview.NavigationDrawerActivity;
 import com.lidchanin.crudindiploma.utils.DownloadTask;
 import com.lidchanin.crudindiploma.utils.SharedPrefsManager;
 import com.lidchanin.crudindiploma.utils.ThemeManager;
@@ -64,8 +65,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
-        new ThemeManager(this);
+        ///new ThemeManager(this);
         super.onCreate(savedInstanceState);
+        Intent intent = new Intent(MainActivity.this, ShoppingListFragmentManager.class);
+        startActivity(intent);
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
