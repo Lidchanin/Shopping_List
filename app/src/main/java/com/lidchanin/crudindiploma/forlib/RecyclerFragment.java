@@ -5,11 +5,13 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.lidchanin.crudindiploma.R;
+import com.lidchanin.crudindiploma.utils.ThemeManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +22,6 @@ import java.util.List;
 
 public class RecyclerFragment extends Fragment {
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -28,12 +29,8 @@ public class RecyclerFragment extends Fragment {
         RecyclerView mainRV = (RecyclerView) view.findViewById(R.id.design_recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mainRV.setLayoutManager(layoutManager);
-        List<RecyclerViewItems> list = new ArrayList<>();
-        list.add(new RecyclerViewItems());
-        list.add(new RecyclerViewItems());
-        list.add(new RecyclerViewItems());
-        list.add(new RecyclerViewItems());
-        RecyclerViewAdapter mainRVAdapter =  new RecyclerViewAdapter(list);
+        List<RecyclerViewItems> list = ThemeManager.getInstance(getContext()).getThemes(getArguments().getString("List"));
+        RecyclerViewAdapter mainRVAdapter =  new RecyclerViewAdapter(list,getActivity());
         mainRV.setAdapter(mainRVAdapter);
         return view;
     }

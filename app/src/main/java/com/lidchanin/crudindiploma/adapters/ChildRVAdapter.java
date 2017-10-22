@@ -312,6 +312,11 @@ public class ChildRVAdapter extends RecyclerView.Adapter<ChildRVAdapter.ChildVie
         void onDataChanged(List<ShoppingList> shoppingLists);
     }
 
+    @Override
+    public int getItemViewType(int position)
+    {
+        return position;
+    }
     /**
      * Static class {@link ChildViewHolder} describes an item view and metadata about its place
      * within the {@link RecyclerView}.

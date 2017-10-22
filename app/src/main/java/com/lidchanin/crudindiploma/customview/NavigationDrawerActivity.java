@@ -143,16 +143,16 @@ public class NavigationDrawerActivity extends AppCompatActivity implements Navig
         int id = item.getItemId();
         switch (id) {
             case R.id.nav_lists:
-                initFragment(-1, Constants.Bundles.SHOPPING_LIST_FRAGMENT_ID);
+                initFragment(Constants.Bundles.SHOPPING_LIST_FRAGMENT_ID);
                 break;
             case R.id.nav_existing_products:
-                initFragment(-1, Constants.Bundles.MANAGING_EXISTING_PRODUCTS_FRAGMENT_ID);
+                initFragment(Constants.Bundles.MANAGING_EXISTING_PRODUCTS_FRAGMENT_ID);
                 break;
             case R.id.nav_profit:
-                initFragment(-1, Constants.Bundles.PROFIT_FRAGMENT_ID);
+                initFragment(Constants.Bundles.PROFIT_FRAGMENT_ID);
                 break;
             case R.id.nav_settings:
-                initFragment(-1, Constants.Bundles.SETTINGS_FRAGMENT_ID);
+                initFragment(Constants.Bundles.SETTINGS_FRAGMENT_ID);
                 break;
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -231,9 +231,8 @@ public class NavigationDrawerActivity extends AppCompatActivity implements Navig
     }
 
 
-    public void initFragment(long shoppingListId, String fragmentExtra) {
+    public void initFragment(String fragmentExtra) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        Bundle bundle = new Bundle();
         switch (fragmentExtra) {
             case Constants.Bundles.SHOPPING_LIST_FRAGMENT_ID:
                 ShoppingListFragment shoppingListFragment = new ShoppingListFragment();

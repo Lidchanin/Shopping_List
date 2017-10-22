@@ -17,7 +17,7 @@ public class ShoppingListFragmentManager extends NavigationDrawerActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            this.initFragment(-1, Constants.Bundles.SHOPPING_LIST_FRAGMENT_ID);
+            this.initFragment(Constants.Bundles.SHOPPING_LIST_FRAGMENT_ID);
             return true;
         }
         return false;
@@ -31,12 +31,9 @@ public class ShoppingListFragmentManager extends NavigationDrawerActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
-
-        long tempListId = 0;
         if (getIntent().hasExtra(Constants.Bundles.SHOPPING_LIST_ID)) {
-            tempListId = getIntent().getLongExtra(Constants.Bundles.SHOPPING_LIST_ID, -1);
+            initFragment(getIntent().getStringExtra(Constants.Bundles.SHOPPING_LIST_ID));
         }
-        initFragment(tempListId, Constants.Bundles.SHOPPING_LIST_FRAGMENT_ID);
     }
 
     private void createAndShowAlertDialogForExit() {

@@ -128,6 +128,12 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
     }
 
     @Override
+    public int getItemViewType(int position)
+    {
+        return position;
+    }
+
+    @Override
     public void onBindViewHolder(final MainViewHolder holder, int position) {
         final int adapterPosition = holder.getAdapterPosition();
         final ShoppingList shoppingList = shoppingLists.get(adapterPosition);
