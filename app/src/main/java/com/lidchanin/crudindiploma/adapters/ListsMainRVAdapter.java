@@ -44,16 +44,16 @@ import static com.lidchanin.crudindiploma.utils.DatabaseUtils.calculationOfEstim
 import static com.lidchanin.crudindiploma.utils.DatabaseUtils.isUsedProductExists;
 
 /**
- * Class {@link MainRVAdapter} provide a binding from an app-specific data set to views that are
+ * Class {@link ListsMainRVAdapter} provide a binding from an app-specific data set to views that are
  * displayed within a {@link RecyclerView}.
  * Class extends {@link android.support.v7.widget.RecyclerView.Adapter}.
  *
  * @author Lidchanin
  * @see android.support.v7.widget.RecyclerView.Adapter
  */
-public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHolder> {
+public class ListsMainRVAdapter extends RecyclerView.Adapter<ListsMainRVAdapter.MainViewHolder> {
 
-    private static final String TAG = "MainRVAdapter";
+    private static final String TAG = "ListsMainRVAdapter";
 
     private Context context;
 
@@ -64,7 +64,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
 
     private List<ShoppingList> shoppingLists;
 
-    private ChildRVAdapter childRVAdapter;
+    private ListsChildRVAdapter listsChildRVAdapter;
 
     /**
      * Constructor.
@@ -76,12 +76,12 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
      * @param statisticDao    {@link StatisticDao} exemplar.
      * @param usedProductDao  {@link UsedProductDao} exemplar.
      */
-    public MainRVAdapter(Context context,
-                         ShoppingListDao shoppingListDao,
-                         ProductDao productDao,
-                         UsedProductDao usedProductDao,
-                         StatisticDao statisticDao,
-                         List<ShoppingList> shoppingLists) {
+    public ListsMainRVAdapter(Context context,
+                              ShoppingListDao shoppingListDao,
+                              ProductDao productDao,
+                              UsedProductDao usedProductDao,
+                              StatisticDao statisticDao,
+                              List<ShoppingList> shoppingLists) {
         this.context = context;
 
         this.shoppingListDao = shoppingListDao;
@@ -110,9 +110,9 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
                 LinearLayoutManager layoutManager = new LinearLayoutManager(context);
                 holder.rvChild.setLayoutManager(layoutManager);
 
-                childRVAdapter = new ChildRVAdapter(context, shoppingListDao, productDao,
+                listsChildRVAdapter = new ListsChildRVAdapter(context, shoppingListDao, productDao,
                         usedProductDao, shoppingLists, adapterPosition);
-                childRVAdapter.setOnDataChangeListener(new ChildRVAdapter
+                listsChildRVAdapter.setOnDataChangeListener(new ListsChildRVAdapter
                         .OnDataChangeListener() {
                     @Override
                     public void onDataChanged(List<ShoppingList> shoppingLists) {
@@ -123,7 +123,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
                                                         .getUsedProducts()))));
                     }
                 });
-                holder.rvChild.setAdapter(childRVAdapter);
+                holder.rvChild.setAdapter(listsChildRVAdapter);
 
                 holder.tvEstimatedSum.setText(context.getString(R.string.estimated_amount,
                         new DecimalFormat("#.##").format(calculationOfEstimatedAmount(
@@ -300,7 +300,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
                                             .getUsedProducts().indexOf(up);
                                     shoppingLists.get(adapterPosition).getUsedProducts()
                                             .set(position, newUsedProduct);
-                                    childRVAdapter.notifyItemChanged(position);
+                                    listsChildRVAdapter.notifyItemChanged(position);
                                     break;
                                 }
                             }
@@ -310,7 +310,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
                             Log.i(TAG, "UsedProduct has been created.");
                             shoppingLists.get(adapterPosition).getUsedProducts()
                                     .add(newUsedProduct);
-                            childRVAdapter.notifyItemInserted(shoppingLists.get(adapterPosition)
+                            listsChildRVAdapter.notifyItemInserted(shoppingLists.get(adapterPosition)
                                     .getUsedProducts().size());
                         }
                         holder.tvEstimatedSum

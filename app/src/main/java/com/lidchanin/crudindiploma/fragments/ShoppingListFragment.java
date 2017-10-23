@@ -18,7 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.lidchanin.crudindiploma.R;
-import com.lidchanin.crudindiploma.adapters.MainRVAdapter;
+import com.lidchanin.crudindiploma.adapters.ListsMainRVAdapter;
 import com.lidchanin.crudindiploma.customview.NavigationDrawerActivity;
 import com.lidchanin.crudindiploma.database.ShoppingList;
 import com.lidchanin.crudindiploma.database.Statistic;
@@ -37,7 +37,7 @@ public class ShoppingListFragment extends android.support.v4.app.Fragment {
 
     private static final String TAG = "ShoppingListFragment";
 
-    private MainRVAdapter mainRVAdapter;
+    private ListsMainRVAdapter listsMainRVAdapter;
 
     private List<ShoppingList> shoppingLists;
 
@@ -62,11 +62,11 @@ public class ShoppingListFragment extends android.support.v4.app.Fragment {
         RecyclerView mainRV = (RecyclerView) view.findViewById(R.id.main_screen_rv);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mainRV.setLayoutManager(layoutManager);
-        mainRVAdapter = new MainRVAdapter(getContext(), shoppingListDao,
+        listsMainRVAdapter = new ListsMainRVAdapter(getContext(), shoppingListDao,
                 productDao, usedProductDao, statisticDao, shoppingLists);
-        mainRV.setAdapter(mainRVAdapter);
+        mainRV.setAdapter(listsMainRVAdapter);
 
-        // TODO: 20.10.2017 delete test code 
+        // TODO: 20.10.2017 delete test code
         List<Statistic> statistics = statisticDao.loadAll();
         for (Statistic s : statistics) {
             Log.d(TAG, "id=" + s.getId()
@@ -115,7 +115,7 @@ public class ShoppingListFragment extends android.support.v4.app.Fragment {
                     shoppingList.setDate(System.currentTimeMillis());
                     shoppingListDao.insert(shoppingList);
                     shoppingLists.add(shoppingList);
-                    mainRVAdapter.notifyDataSetChanged();
+                    listsMainRVAdapter.notifyDataSetChanged();
                     dialog.dismiss();
                 } else {
                     Toast.makeText(getContext(), R.string.please_enter_name,

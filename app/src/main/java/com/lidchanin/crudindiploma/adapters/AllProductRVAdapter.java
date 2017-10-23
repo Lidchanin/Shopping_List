@@ -26,14 +26,14 @@ import com.lidchanin.crudindiploma.database.dao.UsedProductDao;
 import java.util.List;
 
 /**
- * Class <code>{@link ManagingProductsRVAdapter}</code> is an adapter
+ * Class <code>{@link AllProductRVAdapter}</code> is an adapter
  * for {@link RecyclerView}.
  *
  * @author Lidchanin
  * @see android.support.v7.widget.RecyclerView.Adapter
  */
-public class ManagingProductsRVAdapter extends RecyclerView
-        .Adapter<ManagingProductsRVAdapter.ManagingProductsRVViewHolder> {
+public class AllProductRVAdapter extends RecyclerView
+        .Adapter<AllProductRVAdapter.ManagingProductsRVViewHolder> {
 
     private Context context;
 
@@ -50,10 +50,10 @@ public class ManagingProductsRVAdapter extends RecyclerView
      * @param usedProductDao {@link UsedProductDao} exemplar.
      * @param context        {@link Context} exemplar.
      */
-    public ManagingProductsRVAdapter(List<Product> products,
-                                     ProductDao productDao,
-                                     UsedProductDao usedProductDao,
-                                     Context context) {
+    public AllProductRVAdapter(List<Product> products,
+                               ProductDao productDao,
+                               UsedProductDao usedProductDao,
+                               Context context) {
         this.products = products;
         this.productDao = productDao;
         this.usedProductDao = usedProductDao;

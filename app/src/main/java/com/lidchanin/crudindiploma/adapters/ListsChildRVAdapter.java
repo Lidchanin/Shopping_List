@@ -35,16 +35,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class {@link ChildRVAdapter} provide a binding from an app-specific data set to views that are
+ * Class {@link ListsChildRVAdapter} provide a binding from an app-specific data set to views that are
  * displayed within a {@link RecyclerView}.
  * Class extends {@link android.support.v7.widget.RecyclerView.Adapter}.
  *
  * @author Lidchanin
  * @see android.support.v7.widget.RecyclerView.Adapter
  */
-public class ChildRVAdapter extends RecyclerView.Adapter<ChildRVAdapter.ChildViewHolder> {
+public class ListsChildRVAdapter extends RecyclerView.Adapter<ListsChildRVAdapter.ChildViewHolder> {
 
-    private static final String TAG = "ChildRVAdapter";
+    private static final String TAG = "ListsChildRVAdapter";
 
     private final Context context;
 
@@ -55,14 +55,14 @@ public class ChildRVAdapter extends RecyclerView.Adapter<ChildRVAdapter.ChildVie
     private List<ShoppingList> shoppingLists;
     private int mainAdapterPosition;
 
-    private ChildRVAdapter.OnDataChangeListener mOnDataChangeListener;
+    private ListsChildRVAdapter.OnDataChangeListener mOnDataChangeListener;
 
-    public ChildRVAdapter(final Context context,
-                          final ShoppingListDao shoppingListDao,
-                          final ProductDao productDao,
-                          final UsedProductDao usedProductDao,
-                          final List<ShoppingList> shoppingLists,
-                          final int mainAdapterPosition) {
+    public ListsChildRVAdapter(final Context context,
+                               final ShoppingListDao shoppingListDao,
+                               final ProductDao productDao,
+                               final UsedProductDao usedProductDao,
+                               final List<ShoppingList> shoppingLists,
+                               final int mainAdapterPosition) {
         this.context = context;
 
         this.shoppingListDao = shoppingListDao;

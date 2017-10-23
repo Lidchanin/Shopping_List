@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.lidchanin.crudindiploma.R;
-import com.lidchanin.crudindiploma.adapters.ManagingProductsRVAdapter;
+import com.lidchanin.crudindiploma.adapters.AllProductRVAdapter;
 import com.lidchanin.crudindiploma.customview.NavigationDrawerActivity;
 import com.lidchanin.crudindiploma.database.Product;
 import com.lidchanin.crudindiploma.database.dao.DaoMaster;
@@ -60,8 +60,8 @@ public class ManagingExistingProductsFragment extends Fragment {
 
     private void initializeAdapter(ProductDao productDao,
                                    UsedProductDao usedProductDao) {
-        ManagingProductsRVAdapter adapter
-                = new ManagingProductsRVAdapter(products,
+        AllProductRVAdapter adapter
+                = new AllProductRVAdapter(products,
                 productDao, usedProductDao, getContext());
         recyclerViewAllProducts.setAdapter(adapter);
     }
