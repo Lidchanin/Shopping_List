@@ -11,7 +11,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,7 +29,6 @@ import com.lidchanin.crudindiploma.fragments.ProfitFragment;
 import com.lidchanin.crudindiploma.fragments.SettingsFragment;
 import com.lidchanin.crudindiploma.fragments.ShoppingListFragment;
 import com.lidchanin.crudindiploma.fragments.StatisticsFragment;
-import com.lidchanin.crudindiploma.utils.SharedPrefsManager;
 import com.lidchanin.crudindiploma.utils.ThemeManager;
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
@@ -38,8 +36,6 @@ import com.squareup.picasso.Transformation;
 
 public class NavigationDrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    public static final String KEY_DEFAULT_SORT_BY = "defaultSortBy";
-    public static final String KEY_DEFAULT_ORDER_BY = "defaultOrderBy";
     private static final String TAG = NavigationDrawerActivity.class.getCanonicalName();
 
     private ImageButton buttonHamburger;
@@ -56,23 +52,17 @@ public class NavigationDrawerActivity extends AppCompatActivity implements Navig
     private TextView pageTitle;
     private ImageButton alphabetSort;
     private ImageButton dateSort;
-    private boolean defaultSortBy; // false - by date, true - alphabetically
-    private boolean defaultOrderBy;
-    private SharedPrefsManager sharedPrefsManager;
     private ImageButton addItem;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         new ThemeManager(this);
         super.onCreate(savedInstanceState);
-        Log.d(TAG, "OnCreate");
-
     }
 
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
         super.setContentView(R.layout.activity_drawer);
-        Log.d(TAG, "setContentView");
         ViewGroup content = (ViewGroup) findViewById(R.id.container);
         if (content != null) {
             getLayoutInflater().inflate(layoutResID, content);
@@ -81,20 +71,14 @@ public class NavigationDrawerActivity extends AppCompatActivity implements Navig
         initializeViewsAndButtons();
         currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
-            assert currentUser != null;
             photoUrl = currentUser.getPhotoUrl();
             accountName = currentUser.getDisplayName();
             accountEmail = currentUser.getEmail();
             emailTextView.setText(accountEmail);
             nameTextView.setText(accountName);
-            Picasso.with(getApplicationContext()).load(photoUrl).transform(transformation).into(headerImageView);
+            Picasso.with(getApplicationContext()).load(photoUrl).transform(transformation)
+                    .into(headerImageView);
         }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.d(TAG, "onStart");
     }
 
     private void initNavigationDrawer() {
@@ -111,7 +95,7 @@ public class NavigationDrawerActivity extends AppCompatActivity implements Navig
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, null, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         navigationView.setNavigationItemSelectedListener(this);
         toggle.syncState();
     }
@@ -139,19 +123,19 @@ public class NavigationDrawerActivity extends AppCompatActivity implements Navig
         int id = item.getItemId();
         switch (id) {
             case R.id.nav_lists:
-                initFragment(-1, Constants.Bundles.SHOPPING_LIST_FRAGMENT_ID);
+                initFragment(Constants.Bundles.SHOPPING_LIST_FRAGMENT_ID);
                 break;
             case R.id.nav_existing_products:
-                initFragment(-1, Constants.Bundles.ALL_PRODUCTS_FRAGMENT_ID);
+                initFragment(Constants.Bundles.ALL_PRODUCTS_FRAGMENT_ID);
                 break;
             case R.id.nav_profit:
-                initFragment(-1, Constants.Bundles.PROFIT_FRAGMENT_ID);
+                initFragment(Constants.Bundles.PROFIT_FRAGMENT_ID);
                 break;
             case R.id.nav_statistics:
-                initFragment(-1, Constants.Bundles.STATISTICS_FRAGMENT_ID);
+                initFragment(Constants.Bundles.STATISTICS_FRAGMENT_ID);
                 break;
             case R.id.nav_settings:
-                initFragment(-1, Constants.Bundles.SETTINGS_FRAGMENT_ID);
+                initFragment(Constants.Bundles.SETTINGS_FRAGMENT_ID);
                 break;
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -172,80 +156,19 @@ public class NavigationDrawerActivity extends AppCompatActivity implements Navig
     public ImageButton addNewItem() {
         return addItem;
     }
-/*
-    public void setShoppingListSorts(final List <ShoppingList> shoppingLists, final MainScreenRecyclerViewAdapter mainScreenRecyclerViewAdapter){
-        sharedPrefsManager = new SharedPrefsManager(this);
-        alphabetSort.setVisibility(View.VISIBLE);
-        defaultSortBy = sharedPrefsManager.readBoolean(KEY_DEFAULT_SORT_BY);
-        defaultOrderBy = sharedPrefsManager.readBoolean(KEY_DEFAULT_ORDER_BY);
-        sortShoppingLists(shoppingLists,defaultSortBy, defaultOrderBy,mainScreenRecyclerViewAdapter);
-        alphabetSort.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sortShoppingLists(shoppingLists,defaultSortBy,defaultOrderBy,mainScreenRecyclerViewAdapter);
-                defaultOrderBy = !defaultOrderBy;
-                defaultSortBy = false;}
-        });
-        dateSort.setVisibility(View.VISIBLE);
-        dateSort.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sortShoppingLists(shoppingLists,defaultSortBy,defaultOrderBy,mainScreenRecyclerViewAdapter);
-                defaultOrderBy = !defaultOrderBy;
-                defaultSortBy = true;
-            }
-        });
-    }
-    */
-    /*public void setInsideShoppingListSorts(final List <ShoppingList> shoppingLists, final MainScreenRecyclerViewAdapter mainScreenRecyclerViewAdapter){
-        // TODO: 30.07.2017 plz , Fokin set sorts by cost and by name!
-    }*/
-
-    /*private void sortShoppingLists(List<ShoppingList> shoppingLists, final boolean lastSortedBy, final boolean lastOrderBy , MainScreenRecyclerViewAdapter mainScreenRecyclerViewAdapter) {
-        Collections.sort(shoppingLists, new Comparator<ShoppingList>() {
-            @Override
-            public int compare(ShoppingList s1, ShoppingList s2) {
-                if (!lastSortedBy) {
-                    if (!lastOrderBy) {
-                        return s1.getDateOfCreation().compareToIgnoreCase(s2.getDateOfCreation());
-                    } else {
-                        return s2.getDateOfCreation().compareToIgnoreCase(s1.getDateOfCreation());
-                    }
-                } else {
-                    if (!lastOrderBy) {
-                        return s1.getName().compareToIgnoreCase(s2.getName());
-                    } else {
-                        return s2.getName().compareToIgnoreCase(s1.getName());
-                    }
-                }
-            }
-        });
-        sharedPrefsManager.editBoolean(KEY_DEFAULT_SORT_BY, lastSortedBy);
-        sharedPrefsManager.editBoolean(KEY_DEFAULT_ORDER_BY, lastOrderBy);
-        mainScreenRecyclerViewAdapter.notifyDataSetChanged();
-    }*/
 
     public void setTitle(String title) {
         pageTitle.setText(title);
     }
 
-
-    public void initFragment(long shoppingListId, String fragmentExtra) {
+    public void initFragment(String fragmentExtra) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        Bundle bundle = new Bundle();
         switch (fragmentExtra) {
             case Constants.Bundles.SHOPPING_LIST_FRAGMENT_ID:
                 ShoppingListFragment shoppingListFragment = new ShoppingListFragment();
                 fragmentTransaction.replace(R.id.container, shoppingListFragment);
                 fragmentTransaction.commit();
                 break;
-            /*case Constants.Bundles.INSIDE_SHOPPING_LIST_FRAGMENT_ID:
-                InsideShoppingListFragment insideShoppingListFragment = new InsideShoppingListFragment();
-                bundle.putLong(Constants.Bundles.SHOPPING_LIST_ID, shoppingListId);
-                insideShoppingListFragment.setArguments(bundle);
-                fragmentTransaction.replace(R.id.container, insideShoppingListFragment);
-                fragmentTransaction.commit();
-                break;*/
             case Constants.Bundles.STATISTICS_FRAGMENT_ID:
                 StatisticsFragment statisticsFragment = new StatisticsFragment();
                 fragmentTransaction.replace(R.id.container, statisticsFragment);

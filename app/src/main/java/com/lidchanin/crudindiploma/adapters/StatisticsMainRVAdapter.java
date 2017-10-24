@@ -3,7 +3,6 @@ package com.lidchanin.crudindiploma.adapters;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,8 +23,6 @@ import java.util.List;
  */
 public class StatisticsMainRVAdapter
         extends RecyclerView.Adapter<StatisticsMainRVAdapter.StatisticsMainVewHolder> {
-
-    private static final String TAG = StatisticsMainRVAdapter.class.getSimpleName();
 
     private Context context;
 
@@ -59,19 +56,8 @@ public class StatisticsMainRVAdapter
     public void onBindViewHolder(StatisticsMainVewHolder holder, int position) {
         final int adapterPosition = holder.getAdapterPosition();
 
-        Log.d(TAG, "\n_____________________________________item " + adapterPosition + " before");
-        for (Statistic s : statistics.get(adapterPosition)) {
-            Log.d(TAG, s.getName() + "\t" + s.getDate() + "\t" + s.getTotalCost());
-        }
-        Log.d(TAG, "__________________________________________________________\n");
-
-        Log.d(TAG, "\n_____________________________________item " + adapterPosition + " after");
         statistics.set(adapterPosition,
                 ModelUtils.removeDuplicatesInStatistics(statistics.get(adapterPosition)));
-        for (Statistic s : statistics.get(adapterPosition)) {
-            Log.d(TAG, s.getName() + "\t" + s.getDate() + "\t" + s.getTotalCost());
-        }
-        Log.d(TAG, "__________________________________________________________\n");
 
         holder.tvName.setText(ModelUtils.convertLongDateToString(
                 statistics.get(adapterPosition).get(0).getDate()));

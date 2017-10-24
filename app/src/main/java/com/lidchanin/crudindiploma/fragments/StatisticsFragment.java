@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,13 +19,15 @@ import com.lidchanin.crudindiploma.utils.ModelUtils;
 
 import org.greenrobot.greendao.database.Database;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
+/**
+ * Class extends {@link Fragment}.
+ *
+ * @author Lidchanin
+ * @see android.support.v4.app.Fragment
+ */
 public class StatisticsFragment extends Fragment {
-
-    private static final String TAG = StatisticsFragment.class.getSimpleName();
 
     @Nullable
     @Override
@@ -40,51 +41,27 @@ public class StatisticsFragment extends Fragment {
         final DaoSession daoSession = daoMaster.newSession();
         final StatisticDao statisticDao = daoSession.getStatisticDao();
 
+        List<List<Statistic>> statisticsByMonths = initData(statisticDao);
+        initRV(view, statisticDao, statisticsByMonths);
+
+        return view;
+    }
+
+    private List<List<Statistic>> initData(StatisticDao statisticDao) {
         List<Statistic> statistics = statisticDao.queryBuilder()
                 .orderAsc(StatisticDao.Properties.Date).list();
-        Log.d(TAG, "onCreateView: " + statistics.size());
-        Log.d(TAG, "\n_______________in db ");
-        for (Statistic s : statistics) {
-            Log.d(TAG, s.getName() + "\t" + s.getDate() + "\t" + s.getTotalCost());
-        }
-        Log.d(TAG, "______________________________\n");
-
         List<List<Statistic>> statisticsByMonths = ModelUtils.divideStatisticsByMonths(statistics);
-        Log.d(TAG, "\n_______________after divide");
-        for (List<Statistic> sl : statisticsByMonths) {
-            Log.d(TAG, "--- list");
-            for (Statistic s : sl) {
-                Log.d(TAG, s.getName() + "\t" + s.getDate() + "\t" + s.getTotalCost());
-            }
-        }
-        Log.d(TAG, "______________________________\n");
+        ModelUtils.sortStatisticsByName(statisticsByMonths);
+        return statisticsByMonths;
+    }
 
-        for (List<Statistic> sl : statisticsByMonths) {
-            if (sl.size() > 0) {
-                Collections.sort(sl, new Comparator<Statistic>() {
-                    @Override
-                    public int compare(final Statistic object1, final Statistic object2) {
-                        return object1.getName().compareTo(object2.getName());
-                    }
-                });
-            }
-        }
-        Log.d(TAG, "\n_______________after sorting");
-        for (List<Statistic> sl : statisticsByMonths) {
-            Log.d(TAG, "--- list");
-            for (Statistic s : sl) {
-                Log.d(TAG, s.getName() + "\t" + s.getDate() + "\t" + s.getTotalCost());
-            }
-        }
-        Log.d(TAG, "______________________________\n");
-
+    private void initRV(View view, StatisticDao statisticDao,
+                        List<List<Statistic>> statisticsByMonths) {
         RecyclerView mainRV = (RecyclerView) view.findViewById(R.id.statistics_main_rv);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         mainRV.setLayoutManager(layoutManager);
         StatisticsMainRVAdapter mainRVAdapter = new StatisticsMainRVAdapter(getContext(),
                 statisticDao, statisticsByMonths);
         mainRV.setAdapter(mainRVAdapter);
-
-        return view;
     }
 }

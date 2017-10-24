@@ -1,7 +1,5 @@
 package com.lidchanin.crudindiploma.utils;
 
-import android.util.Log;
-
 import com.lidchanin.crudindiploma.database.Product;
 import com.lidchanin.crudindiploma.database.ShoppingList;
 import com.lidchanin.crudindiploma.database.Statistic;
@@ -9,6 +7,8 @@ import com.lidchanin.crudindiploma.database.UsedProduct;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
@@ -16,9 +16,6 @@ import java.util.Locale;
  * @author Lidchanin
  */
 public class ModelUtils {
-
-    private static final String TAG = ModelUtils.class.getSimpleName();
-
 
     /**
      * The method <b>isProductExists</b> checks is {@link Product} exists in list or not.
@@ -74,29 +71,6 @@ public class ModelUtils {
     }
 
     /**
-     * The method <b>getMonthsCount</b> counts the number of months in list.
-     *
-     * @param statistics all {@link Statistic}s in list.
-     * @return the number of different mounts in list.
-     */
-    public static int getMonthsCount(List<Statistic> statistics) {
-        if (statistics.size() > 0) {
-            int monthCount = 1;
-            SimpleDateFormat sdf = new SimpleDateFormat("MMM yy", Locale.getDefault());
-            String month = sdf.format(statistics.get(0).getDate());
-            for (Statistic s : statistics) {
-                if (!sdf.format(s.getDate()).equals(month)) {
-                    month = sdf.format(s.getDate());
-                    monthCount++;
-                }
-            }
-            return monthCount;
-        } else {
-            return 0;
-        }
-    }
-
-    /**
      * The method <b>divideStatisticsByMonths</b> divides the list with {@link Statistic}s into
      * the categories. "One" date - "many" statistics, which corresponds by date.
      *
@@ -105,10 +79,8 @@ public class ModelUtils {
      */
     public static List<List<Statistic>> divideStatisticsByMonths(List<Statistic> initialStatistics) {
         List<List<Statistic>> sortedStatistics = new ArrayList<>();
-//        Log.d(TAG, "_______________________________");
         if (initialStatistics != null && initialStatistics.size() > 0) {
             String month = convertLongDateToString(initialStatistics.get(0).getDate());
-//            Log.d(TAG, "divideStatisticsByMonths: \ncurrent month : " + month);
             List<Statistic> statisticsByOneMonth = new ArrayList<>();
             for (Statistic s : initialStatistics) {
                 if (convertLongDateToString(s.getDate()).equals(month)) {
@@ -119,7 +91,6 @@ public class ModelUtils {
                     statisticsByOneMonth.add(s);
                     month = convertLongDateToString(s.getDate());
                 }
-//                Log.d(TAG, "divideStatisticsByMonths: \ncurrent month : " + month);
             }
             sortedStatistics.add(statisticsByOneMonth);
         }
@@ -138,6 +109,13 @@ public class ModelUtils {
         return sdf.format(date);
     }
 
+    /**
+     * The method <b>removeDuplicatesInStatistics</b> finds duplicates in list. Then duplicates
+     * are combined.
+     *
+     * @param initialStatistics statistics with duplicates.
+     * @return statistics without duplicates.
+     */
     public static List<Statistic> removeDuplicatesInStatistics(List<Statistic> initialStatistics) {
         List<Statistic> newStatistics = new ArrayList<>();
         newStatistics.add(initialStatistics.get(0));
@@ -152,19 +130,39 @@ public class ModelUtils {
                 }
             }
         }
-//        Log.d(TAG, "_________________________________________removeDuplicatesInStatistics: ");
-//        Log.d(TAG, "iS = " + initialStatistics.size() + " | nS = " + newStatistics.size());
-//        Log.d(TAG, "_________________________________________removeDuplicatesInStatistics: ");
         return newStatistics;
     }
 
-    // FIXME: 24.10.2017
+    /**
+     * The method <b>calculateTotalCostInStatistics</b> calculates total cost in all statistics.
+     *
+     * @param statistics the {@link List} with statistics.
+     * @return total cost.
+     */
     public static double calculateTotalCostInStatistics(List<Statistic> statistics) {
         double totalCost = 0;
         for (Statistic s : statistics) {
             totalCost += s.getTotalCost();
         }
         return totalCost;
+    }
+
+    /**
+     * The method <b>sortStatisticsByName</b> sorts statistics in lists by name by asc.
+     *
+     * @param statistics initial statistics list.
+     */
+    public static void sortStatisticsByName(List<List<Statistic>> statistics) {
+        for (List<Statistic> sl : statistics) {
+            if (sl.size() > 0) {
+                Collections.sort(sl, new Comparator<Statistic>() {
+                    @Override
+                    public int compare(final Statistic object1, final Statistic object2) {
+                        return object1.getName().compareTo(object2.getName());
+                    }
+                });
+            }
+        }
     }
 
 }
