@@ -40,18 +40,19 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.lidchanin.crudindiploma.utils.DatabaseUtils.calculationOfEstimatedAmount;
-import static com.lidchanin.crudindiploma.utils.DatabaseUtils.isUsedProductExists;
+import static com.lidchanin.crudindiploma.utils.ModelUtils.calculateEstimatedAmount;
+import static com.lidchanin.crudindiploma.utils.ModelUtils.isUsedProductExists;
 
 /**
- * Class {@link ListsMainRVAdapter} provide a binding from an app-specific data set to views that are
- * displayed within a {@link RecyclerView}.
+ * Class {@link ListsMainRVAdapter} provide a binding from an app-specific data set to views that
+ * are displayed within a {@link RecyclerView}.
  * Class extends {@link android.support.v7.widget.RecyclerView.Adapter}.
  *
  * @author Lidchanin
  * @see android.support.v7.widget.RecyclerView.Adapter
  */
-public class ListsMainRVAdapter extends RecyclerView.Adapter<ListsMainRVAdapter.MainViewHolder> {
+public class ListsMainRVAdapter
+        extends RecyclerView.Adapter<ListsMainRVAdapter.ListsMainViewHolder> {
 
     private static final String TAG = "ListsMainRVAdapter";
 
@@ -93,14 +94,14 @@ public class ListsMainRVAdapter extends RecyclerView.Adapter<ListsMainRVAdapter.
     }
 
     @Override
-    public MainViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ListsMainViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_in_main_rv, parent, false);
-        return new MainViewHolder(view);
+                .inflate(R.layout.item_in_lists_main_rv, parent, false);
+        return new ListsMainViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final MainViewHolder holder, int position) {
+    public void onBindViewHolder(final ListsMainViewHolder holder, int position) {
         final int adapterPosition = holder.getAdapterPosition();
         final ShoppingList shoppingList = shoppingLists.get(adapterPosition);
 
@@ -119,14 +120,14 @@ public class ListsMainRVAdapter extends RecyclerView.Adapter<ListsMainRVAdapter.
                         holder.tvEstimatedSum
                                 .setText(context.getString(R.string.estimated_amount,
                                         new DecimalFormat("#.##").format(
-                                                calculationOfEstimatedAmount(shoppingList
+                                                calculateEstimatedAmount(shoppingList
                                                         .getUsedProducts()))));
                     }
                 });
                 holder.rvChild.setAdapter(listsChildRVAdapter);
 
                 holder.tvEstimatedSum.setText(context.getString(R.string.estimated_amount,
-                        new DecimalFormat("#.##").format(calculationOfEstimatedAmount(
+                        new DecimalFormat("#.##").format(calculateEstimatedAmount(
                                 shoppingList.getUsedProducts()))));
 
                 if (holder.rvChild.getVisibility() == View.GONE) {
@@ -171,10 +172,10 @@ public class ListsMainRVAdapter extends RecyclerView.Adapter<ListsMainRVAdapter.
      *
      * @param adapterPosition the {@link RecyclerView} item position, where record about
      *                        {@link ShoppingList} will located.
-     * @param holder          current {@link MainViewHolder}.
+     * @param holder          current {@link ListsMainViewHolder}.
      */
     private void createAndShowAlertDialogForManualType(final int adapterPosition,
-                                                       final MainViewHolder holder) {
+                                                       final ListsMainViewHolder holder) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.MyDialogTheme);
         builder.setTitle(R.string.add_new_product);
 
@@ -316,7 +317,7 @@ public class ListsMainRVAdapter extends RecyclerView.Adapter<ListsMainRVAdapter.
                         holder.tvEstimatedSum
                                 .setText(context.getString(R.string.estimated_amount,
                                         new DecimalFormat("#.##").format(
-                                                calculationOfEstimatedAmount(shoppingLists
+                                                calculateEstimatedAmount(shoppingLists
                                                         .get(adapterPosition)
                                                         .getUsedProducts()))));
                         dialog.dismiss();
@@ -358,7 +359,7 @@ public class ListsMainRVAdapter extends RecyclerView.Adapter<ListsMainRVAdapter.
                 dialog.dismiss();
             }
         });
-        builder.setNeutralButton("Yes with statistic", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Yes with statistic", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 final List<UsedProduct> usedProducts = usedProductDao.queryBuilder()
@@ -368,8 +369,9 @@ public class ListsMainRVAdapter extends RecyclerView.Adapter<ListsMainRVAdapter.
                 for (UsedProduct up : usedProducts) {
                     Statistic statistic = new Statistic();
                     statistic.setName(up.getProduct().getName());
-                    statistic.setCost(up.getProduct().getCost());
-                    statistic.setQuantity(up.getQuantity());
+                    statistic.setTotalCost(up.getQuantity() * up.getProduct().getCost());
+//                    statistic.setCost(up.getProduct().getCost());
+//                    statistic.setQuantity(up.getQuantity());
                     statistic.setUnit(up.getUnit());
                     statistic.setDate(up.getDate());
                     statistics.add(statistic);
@@ -463,13 +465,13 @@ public class ListsMainRVAdapter extends RecyclerView.Adapter<ListsMainRVAdapter.
     }
 
     /**
-     * Static class {@link MainViewHolder} describes an item view and metadata about its place
+     * Static class {@link ListsMainViewHolder} describes an item view and metadata about its place
      * within the {@link RecyclerView}.
      * Class extends {@link ViewHolder}.
      *
      * @see android.support.v7.widget.RecyclerView.ViewHolder
      */
-    static class MainViewHolder extends ViewHolder {
+    static class ListsMainViewHolder extends ViewHolder {
 
         private CardView cvMain;
         private TextView tvName;
@@ -484,7 +486,7 @@ public class ListsMainRVAdapter extends RecyclerView.Adapter<ListsMainRVAdapter.
          *
          * @param itemView - item in {@link RecyclerView}.
          */
-        MainViewHolder(View itemView) {
+        ListsMainViewHolder(View itemView) {
             super(itemView);
             cvMain = (CardView) itemView.findViewById(R.id.cv_in_main_rv);
             tvName = (TextView) itemView.findViewById(R.id.tv_name_in_main_rv);

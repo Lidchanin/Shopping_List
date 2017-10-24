@@ -60,6 +60,4 @@ public class ShoppingListFragmentManager extends NavigationDrawerActivity {
         AlertDialog dialog = builder.create();
         dialog.show();
     }
-
-
 }

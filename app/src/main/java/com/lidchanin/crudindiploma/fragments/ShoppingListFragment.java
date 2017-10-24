@@ -8,7 +8,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +20,6 @@ import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.adapters.ListsMainRVAdapter;
 import com.lidchanin.crudindiploma.customview.NavigationDrawerActivity;
 import com.lidchanin.crudindiploma.database.ShoppingList;
-import com.lidchanin.crudindiploma.database.Statistic;
 import com.lidchanin.crudindiploma.database.dao.DaoMaster;
 import com.lidchanin.crudindiploma.database.dao.DaoSession;
 import com.lidchanin.crudindiploma.database.dao.ProductDao;
@@ -66,15 +64,6 @@ public class ShoppingListFragment extends android.support.v4.app.Fragment {
                 productDao, usedProductDao, statisticDao, shoppingLists);
         mainRV.setAdapter(listsMainRVAdapter);
 
-        // TODO: 20.10.2017 delete test code
-        List<Statistic> statistics = statisticDao.loadAll();
-        for (Statistic s : statistics) {
-            Log.d(TAG, "id=" + s.getId()
-                    + " name=" + s.getName()
-                    + " totalCost=" + (s.getCost() * s.getQuantity())
-                    + " date=" + s.getDate());
-        }
-
         addButton.setVisibility(View.VISIBLE);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,7 +79,8 @@ public class ShoppingListFragment extends android.support.v4.app.Fragment {
      * need to create new {@link ShoppingList}.
      */
     private void createAndShowAlertDialogForAdd(final ShoppingListDao shoppingListDao) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.MyDialogTheme);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(),
+                R.style.MyDialogTheme);
         builder.setTitle(R.string.add_a_new_shopping_list);
 
         LinearLayout layout = new LinearLayout(getContext());

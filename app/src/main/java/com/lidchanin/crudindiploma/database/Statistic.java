@@ -19,10 +19,8 @@ public class Statistic {
     /* product name */
     @NotNull
     private String name;
-    /* product cost */
-    private double cost;
-    /* used product quantity */
-    private double quantity;
+    /* product cost * used product quantity */
+    private double totalCost;
     /* true -> kg, false -> pieces */
     private boolean unit;
     /* date when the product in the shopping list was marked as purchased */
@@ -40,11 +38,10 @@ public class Statistic {
     }
 
     @Generated
-    public Statistic(Long id, String name, double cost, double quantity, boolean unit, long date) {
+    public Statistic(Long id, String name, double totalCost, boolean unit, long date) {
         this.id = id;
         this.name = name;
-        this.cost = cost;
-        this.quantity = quantity;
+        this.totalCost = totalCost;
         this.unit = unit;
         this.date = date;
     }
@@ -67,20 +64,12 @@ public class Statistic {
         this.name = name;
     }
 
-    public double getCost() {
-        return cost;
+    public double getTotalCost() {
+        return totalCost;
     }
 
-    public void setCost(double cost) {
-        this.cost = cost;
-    }
-
-    public double getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(double quantity) {
-        this.quantity = quantity;
+    public void setTotalCost(double totalCost) {
+        this.totalCost = totalCost;
     }
 
     public boolean getUnit() {

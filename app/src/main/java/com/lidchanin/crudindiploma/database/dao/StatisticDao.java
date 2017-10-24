@@ -26,10 +26,9 @@ public class StatisticDao extends AbstractDao<Statistic, Long> {
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property Name = new Property(1, String.class, "name", false, "NAME");
-        public final static Property Cost = new Property(2, double.class, "cost", false, "COST");
-        public final static Property Quantity = new Property(3, double.class, "quantity", false, "QUANTITY");
-        public final static Property Unit = new Property(4, boolean.class, "unit", false, "UNIT");
-        public final static Property Date = new Property(5, long.class, "date", false, "DATE");
+        public final static Property TotalCost = new Property(2, double.class, "totalCost", false, "TOTAL_COST");
+        public final static Property Unit = new Property(3, boolean.class, "unit", false, "UNIT");
+        public final static Property Date = new Property(4, long.class, "date", false, "DATE");
     }
 
 
@@ -47,10 +46,9 @@ public class StatisticDao extends AbstractDao<Statistic, Long> {
         db.execSQL("CREATE TABLE " + constraint + "\"STATISTIC\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY ," + // 0: id
                 "\"NAME\" TEXT NOT NULL ," + // 1: name
-                "\"COST\" REAL NOT NULL ," + // 2: cost
-                "\"QUANTITY\" REAL NOT NULL ," + // 3: quantity
-                "\"UNIT\" INTEGER NOT NULL ," + // 4: unit
-                "\"DATE\" INTEGER NOT NULL );"); // 5: date
+                "\"TOTAL_COST\" REAL NOT NULL ," + // 2: totalCost
+                "\"UNIT\" INTEGER NOT NULL ," + // 3: unit
+                "\"DATE\" INTEGER NOT NULL );"); // 4: date
     }
 
     /** Drops the underlying database table. */
@@ -68,10 +66,9 @@ public class StatisticDao extends AbstractDao<Statistic, Long> {
             stmt.bindLong(1, id);
         }
         stmt.bindString(2, entity.getName());
-        stmt.bindDouble(3, entity.getCost());
-        stmt.bindDouble(4, entity.getQuantity());
-        stmt.bindLong(5, entity.getUnit() ? 1L: 0L);
-        stmt.bindLong(6, entity.getDate());
+        stmt.bindDouble(3, entity.getTotalCost());
+        stmt.bindLong(4, entity.getUnit() ? 1L: 0L);
+        stmt.bindLong(5, entity.getDate());
     }
 
     @Override
@@ -83,10 +80,9 @@ public class StatisticDao extends AbstractDao<Statistic, Long> {
             stmt.bindLong(1, id);
         }
         stmt.bindString(2, entity.getName());
-        stmt.bindDouble(3, entity.getCost());
-        stmt.bindDouble(4, entity.getQuantity());
-        stmt.bindLong(5, entity.getUnit() ? 1L: 0L);
-        stmt.bindLong(6, entity.getDate());
+        stmt.bindDouble(3, entity.getTotalCost());
+        stmt.bindLong(4, entity.getUnit() ? 1L: 0L);
+        stmt.bindLong(5, entity.getDate());
     }
 
     @Override
@@ -99,10 +95,9 @@ public class StatisticDao extends AbstractDao<Statistic, Long> {
         Statistic entity = new Statistic( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.getString(offset + 1), // name
-            cursor.getDouble(offset + 2), // cost
-            cursor.getDouble(offset + 3), // quantity
-            cursor.getShort(offset + 4) != 0, // unit
-            cursor.getLong(offset + 5) // date
+            cursor.getDouble(offset + 2), // totalCost
+            cursor.getShort(offset + 3) != 0, // unit
+            cursor.getLong(offset + 4) // date
         );
         return entity;
     }
@@ -111,10 +106,9 @@ public class StatisticDao extends AbstractDao<Statistic, Long> {
     public void readEntity(Cursor cursor, Statistic entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setName(cursor.getString(offset + 1));
-        entity.setCost(cursor.getDouble(offset + 2));
-        entity.setQuantity(cursor.getDouble(offset + 3));
-        entity.setUnit(cursor.getShort(offset + 4) != 0);
-        entity.setDate(cursor.getLong(offset + 5));
+        entity.setTotalCost(cursor.getDouble(offset + 2));
+        entity.setUnit(cursor.getShort(offset + 3) != 0);
+        entity.setDate(cursor.getLong(offset + 4));
      }
     
     @Override

@@ -26,14 +26,13 @@ import com.lidchanin.crudindiploma.database.dao.UsedProductDao;
 import java.util.List;
 
 /**
- * Class <code>{@link AllProductRVAdapter}</code> is an adapter
- * for {@link RecyclerView}.
+ * Class <code>{@link AllProductsRVAdapter}</code> is an adapter for {@link RecyclerView}.
  *
  * @author Lidchanin
  * @see android.support.v7.widget.RecyclerView.Adapter
  */
-public class AllProductRVAdapter extends RecyclerView
-        .Adapter<AllProductRVAdapter.ManagingProductsRVViewHolder> {
+public class AllProductsRVAdapter extends RecyclerView
+        .Adapter<AllProductsRVAdapter.AllProductsRVViewHolder> {
 
     private Context context;
 
@@ -50,10 +49,10 @@ public class AllProductRVAdapter extends RecyclerView
      * @param usedProductDao {@link UsedProductDao} exemplar.
      * @param context        {@link Context} exemplar.
      */
-    public AllProductRVAdapter(List<Product> products,
-                               ProductDao productDao,
-                               UsedProductDao usedProductDao,
-                               Context context) {
+    public AllProductsRVAdapter(List<Product> products,
+                                ProductDao productDao,
+                                UsedProductDao usedProductDao,
+                                Context context) {
         this.products = products;
         this.productDao = productDao;
         this.usedProductDao = usedProductDao;
@@ -61,14 +60,14 @@ public class AllProductRVAdapter extends RecyclerView
     }
 
     @Override
-    public ManagingProductsRVViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public AllProductsRVViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_managing_products, parent, false);
-        return new ManagingProductsRVViewHolder(view);
+                .inflate(R.layout.item_in_all_products, parent, false);
+        return new AllProductsRVViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final ManagingProductsRVViewHolder holder, int position) {
+    public void onBindViewHolder(final AllProductsRVViewHolder holder, int position) {
         final int adapterPosition = holder.getAdapterPosition();
         final Product product = products.get(holder.getAdapterPosition());
 
@@ -212,19 +211,19 @@ public class AllProductRVAdapter extends RecyclerView
     }
 
     /**
-     * Class <code>ManagingProductsRVViewHolder</code> is the View Holder for
+     * Class <code>AllProductsRVViewHolder</code> is the View Holder for
      * {@link android.support.v7.widget.RecyclerView.Adapter}
      *
      * @see android.support.v7.widget.RecyclerView.ViewHolder
      */
-    static class ManagingProductsRVViewHolder extends RecyclerView.ViewHolder {
+    static class AllProductsRVViewHolder extends RecyclerView.ViewHolder {
 
         private CardView cardViewProduct;
         private TextView textViewProductName;
         private TextView textViewProductCost;
         private ImageButton imageButtonDelete;
 
-        ManagingProductsRVViewHolder(View itemView) {
+        AllProductsRVViewHolder(View itemView) {
             super(itemView);
             cardViewProduct = (CardView) itemView.findViewById(R.id.cv_in_managing_products);
             textViewProductName = (TextView) itemView.findViewById(R.id.product_name);

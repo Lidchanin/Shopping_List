@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.lidchanin.crudindiploma.R;
-import com.lidchanin.crudindiploma.adapters.AllProductRVAdapter;
+import com.lidchanin.crudindiploma.adapters.AllProductsRVAdapter;
 import com.lidchanin.crudindiploma.customview.NavigationDrawerActivity;
 import com.lidchanin.crudindiploma.database.Product;
 import com.lidchanin.crudindiploma.database.dao.DaoMaster;
@@ -22,7 +22,7 @@ import org.greenrobot.greendao.database.Database;
 
 import java.util.List;
 
-public class ManagingExistingProductsFragment extends Fragment {
+public class AllProductsFragment extends Fragment {
 
     private RecyclerView recyclerViewAllProducts;
 
@@ -32,7 +32,7 @@ public class ManagingExistingProductsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_managing_existing_products, container,
+        View view = inflater.inflate(R.layout.fragment_all_products, container,
                 false);
 
         ((NavigationDrawerActivity) getActivity()).setButtonsToDefault();
@@ -60,8 +60,8 @@ public class ManagingExistingProductsFragment extends Fragment {
 
     private void initializeAdapter(ProductDao productDao,
                                    UsedProductDao usedProductDao) {
-        AllProductRVAdapter adapter
-                = new AllProductRVAdapter(products,
+        AllProductsRVAdapter adapter
+                = new AllProductsRVAdapter(products,
                 productDao, usedProductDao, getContext());
         recyclerViewAllProducts.setAdapter(adapter);
     }

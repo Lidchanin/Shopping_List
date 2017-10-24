@@ -25,26 +25,23 @@ import com.google.firebase.auth.FirebaseUser;
 import com.lidchanin.crudindiploma.Constants;
 import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.adapters.ProfitAdapter;
-import com.lidchanin.crudindiploma.fragments.ManagingExistingProductsFragment;
+import com.lidchanin.crudindiploma.fragments.AllProductsFragment;
 import com.lidchanin.crudindiploma.fragments.ProfitFragment;
 import com.lidchanin.crudindiploma.fragments.SettingsFragment;
 import com.lidchanin.crudindiploma.fragments.ShoppingListFragment;
+import com.lidchanin.crudindiploma.fragments.StatisticsFragment;
 import com.lidchanin.crudindiploma.utils.SharedPrefsManager;
 import com.lidchanin.crudindiploma.utils.ThemeManager;
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
-/**
- * Created by Alexander Destroyed on 08.07.2017.
- */
-
 public class NavigationDrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
 
     public static final String KEY_DEFAULT_SORT_BY = "defaultSortBy";
     public static final String KEY_DEFAULT_ORDER_BY = "defaultOrderBy";
     private static final String TAG = NavigationDrawerActivity.class.getCanonicalName();
+
     private ImageButton buttonHamburger;
     private DrawerLayout drawer;
     private Uri photoUrl;
@@ -98,7 +95,6 @@ public class NavigationDrawerActivity extends AppCompatActivity implements Navig
     protected void onStart() {
         super.onStart();
         Log.d(TAG, "onStart");
-
     }
 
     private void initNavigationDrawer() {
@@ -146,10 +142,13 @@ public class NavigationDrawerActivity extends AppCompatActivity implements Navig
                 initFragment(-1, Constants.Bundles.SHOPPING_LIST_FRAGMENT_ID);
                 break;
             case R.id.nav_existing_products:
-                initFragment(-1, Constants.Bundles.MANAGING_EXISTING_PRODUCTS_FRAGMENT_ID);
+                initFragment(-1, Constants.Bundles.ALL_PRODUCTS_FRAGMENT_ID);
                 break;
             case R.id.nav_profit:
                 initFragment(-1, Constants.Bundles.PROFIT_FRAGMENT_ID);
+                break;
+            case R.id.nav_statistics:
+                initFragment(-1, Constants.Bundles.STATISTICS_FRAGMENT_ID);
                 break;
             case R.id.nav_settings:
                 initFragment(-1, Constants.Bundles.SETTINGS_FRAGMENT_ID);
@@ -247,6 +246,11 @@ public class NavigationDrawerActivity extends AppCompatActivity implements Navig
                 fragmentTransaction.replace(R.id.container, insideShoppingListFragment);
                 fragmentTransaction.commit();
                 break;*/
+            case Constants.Bundles.STATISTICS_FRAGMENT_ID:
+                StatisticsFragment statisticsFragment = new StatisticsFragment();
+                fragmentTransaction.replace(R.id.container, statisticsFragment);
+                fragmentTransaction.commit();
+                break;
             case Constants.Bundles.PROFIT_FRAGMENT_ID:
                 ProfitFragment profitFragment = new ProfitFragment();
                 fragmentTransaction.replace(R.id.container, profitFragment);
@@ -257,9 +261,9 @@ public class NavigationDrawerActivity extends AppCompatActivity implements Navig
                 fragmentTransaction.replace(R.id.container, settingsFragment);
                 fragmentTransaction.commit();
                 break;
-            case Constants.Bundles.MANAGING_EXISTING_PRODUCTS_FRAGMENT_ID:
-                ManagingExistingProductsFragment managingExistingProductsFragment = new ManagingExistingProductsFragment();
-                fragmentTransaction.replace(R.id.container, managingExistingProductsFragment);
+            case Constants.Bundles.ALL_PRODUCTS_FRAGMENT_ID:
+                AllProductsFragment allProductsFragment = new AllProductsFragment();
+                fragmentTransaction.replace(R.id.container, allProductsFragment);
                 fragmentTransaction.commit();
                 break;
         }

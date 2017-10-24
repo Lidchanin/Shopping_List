@@ -28,21 +28,22 @@ import com.lidchanin.crudindiploma.database.UsedProduct;
 import com.lidchanin.crudindiploma.database.dao.ProductDao;
 import com.lidchanin.crudindiploma.database.dao.ShoppingListDao;
 import com.lidchanin.crudindiploma.database.dao.UsedProductDao;
-import com.lidchanin.crudindiploma.utils.DatabaseUtils;
+import com.lidchanin.crudindiploma.utils.ModelUtils;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class {@link ListsChildRVAdapter} provide a binding from an app-specific data set to views that are
- * displayed within a {@link RecyclerView}.
+ * Class {@link ListsChildRVAdapter} provide a binding from an app-specific data set to views that
+ * are displayed within a {@link RecyclerView}.
  * Class extends {@link android.support.v7.widget.RecyclerView.Adapter}.
  *
  * @author Lidchanin
  * @see android.support.v7.widget.RecyclerView.Adapter
  */
-public class ListsChildRVAdapter extends RecyclerView.Adapter<ListsChildRVAdapter.ChildViewHolder> {
+public class ListsChildRVAdapter
+        extends RecyclerView.Adapter<ListsChildRVAdapter.ListsChildViewHolder> {
 
     private static final String TAG = "ListsChildRVAdapter";
 
@@ -74,14 +75,14 @@ public class ListsChildRVAdapter extends RecyclerView.Adapter<ListsChildRVAdapte
     }
 
     @Override
-    public ChildViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
+    public ListsChildViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_in_child_rv, parent, false);
-        return new ChildViewHolder(view);
+                .inflate(R.layout.item_in_lists_child_rv, parent, false);
+        return new ListsChildViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final ChildViewHolder holder, int position) {
+    public void onBindViewHolder(final ListsChildViewHolder holder, int position) {
         final int adapterPosition = holder.getAdapterPosition();
         final UsedProduct usedProduct = shoppingLists.get(mainAdapterPosition)
                 .getUsedProducts().get(adapterPosition);
@@ -243,7 +244,7 @@ public class ListsChildRVAdapter extends RecyclerView.Adapter<ListsChildRVAdapte
                 double enteredQuantity = Double.valueOf(editTextQuantity.getText().toString());
                 boolean enteredUnit = radioButtonKg.isChecked();
 
-                if (DatabaseUtils.isProductExists(productDao.loadAll(), enteredName)) {
+                if (ModelUtils.isProductExists(productDao.loadAll(), enteredName)) {
                     Log.i(TAG, "Product \"" + enteredName + "\" exists in the db.");
                     if (usedProduct.getProduct().getName().equals(enteredName)) {
                         Log.i(TAG, "Product \"" + enteredName + "\" equals entered name.");
@@ -258,7 +259,7 @@ public class ListsChildRVAdapter extends RecyclerView.Adapter<ListsChildRVAdapte
                                 shoppingLists.get(mainAdapterPosition).getUsedProducts()) {
                             productsInList.add(up.getProduct());
                         }
-                        if (DatabaseUtils.isProductExists(productsInList, enteredName)) {
+                        if (ModelUtils.isProductExists(productsInList, enteredName)) {
                             Log.i(TAG, "Product \"" + enteredName + "\" exists in current " +
                                     "shopping list.");
                             Toast.makeText(
@@ -326,14 +327,14 @@ public class ListsChildRVAdapter extends RecyclerView.Adapter<ListsChildRVAdapte
     }
 
     /**
-     * Static class {@link ChildViewHolder} describes an item view and metadata about its place
+     * Static class {@link ListsChildViewHolder} describes an item view and metadata about its place
      * within the {@link RecyclerView}.
      * Class extends {@link ViewHolder}.
      *
      * @author Lidchanin
      * @see android.support.v7.widget.RecyclerView.ViewHolder
      */
-    static class ChildViewHolder extends ViewHolder {
+    static class ListsChildViewHolder extends ViewHolder {
 
         private CardView cvChild;
         private TextView tvName;
@@ -343,7 +344,7 @@ public class ListsChildRVAdapter extends RecyclerView.Adapter<ListsChildRVAdapte
         private TextView tvQuantity;
         private CheckBox cbExistence;
 
-        ChildViewHolder(View itemView) {
+        ListsChildViewHolder(View itemView) {
             super(itemView);
             cvChild = (CardView) itemView.findViewById(R.id.cv_in_child_rv);
             tvName = (TextView) itemView.findViewById(R.id.tv_name_in_child_rv);
