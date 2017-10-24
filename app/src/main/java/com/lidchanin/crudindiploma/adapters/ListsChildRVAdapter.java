@@ -236,7 +236,7 @@ public class ListsChildRVAdapter
 
         builder.setView(layout);
 
-        builder.setPositiveButton("TEST", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String enteredName = editTextName.getText().toString();
