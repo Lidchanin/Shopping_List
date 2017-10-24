@@ -161,7 +161,7 @@ public class ListsMainRVAdapter
         holder.buttonDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createAndShowAlertDialogForDelete(adapterPosition, shoppingList);
+                createAndShowAlertDialogForDelete(adapterPosition, shoppingList, holder);
             }
         });
     }
@@ -346,16 +346,18 @@ public class ListsMainRVAdapter
      * @param adapterPosition the {@link RecyclerView} item position, where record about
      *                        {@link ShoppingList} are located.
      * @param shoppingList    required {@link ShoppingList} for deleting.
+     * @param holder          current {@link ListsMainViewHolder}.
      */
     private void createAndShowAlertDialogForDelete(final int adapterPosition,
-                                                   final ShoppingList shoppingList) {
+                                                   final ShoppingList shoppingList,
+                                                   final ListsMainViewHolder holder) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.MyDialogTheme);
         builder.setTitle(context.getString(R.string.delete_shopping_list, shoppingList.getName()));
         builder.setMessage(context.getString(R.string.are_you_sure_you_want_to_delete_this_shopping_list));
         builder.setNeutralButton("Yes without statistic", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                deleteShoppingList(adapterPosition, shoppingList);
+                deleteShoppingList(adapterPosition, shoppingList, holder);
                 dialog.dismiss();
             }
         });
@@ -377,7 +379,7 @@ public class ListsMainRVAdapter
                     statistics.add(statistic);
                 }
                 statisticDao.insertInTx(statistics);
-                deleteShoppingList(adapterPosition, shoppingList);
+                deleteShoppingList(adapterPosition, shoppingList, holder);
                 dialog.dismiss();
             }
         });
@@ -398,12 +400,17 @@ public class ListsMainRVAdapter
      * @param adapterPosition the the {@link RecyclerView} item position, where record about
      *                        {@link ShoppingList} are located.
      * @param shoppingList    required {@link ShoppingList} for deleting.
+     * @param holder          current {@link ListsMainViewHolder}.
      */
     private void deleteShoppingList(final int adapterPosition,
-                                    final ShoppingList shoppingList) {
+                                    final ShoppingList shoppingList,
+                                    final ListsMainViewHolder holder) {
         shoppingListDao.delete(shoppingList);
         usedProductDao.deleteInTx(shoppingList.getUsedProducts());
         shoppingLists.remove(adapterPosition);
+        holder.rvChild.setVisibility(View.GONE);
+        holder.buttonChildAdd.setVisibility(View.GONE);
+        holder.tvEstimatedSum.setVisibility(View.GONE);
         notifyItemRemoved(adapterPosition);
         notifyItemRangeChanged(adapterPosition, shoppingLists.size());
     }

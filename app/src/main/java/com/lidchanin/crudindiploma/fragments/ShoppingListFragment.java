@@ -31,9 +31,13 @@ import org.greenrobot.greendao.database.Database;
 
 import java.util.List;
 
+/**
+ * Class extends {@link android.support.v4.app.Fragment}.
+ *
+ * @author Lidchanin
+ * @see android.support.v4.app.Fragment
+ */
 public class ShoppingListFragment extends android.support.v4.app.Fragment {
-
-    private static final String TAG = "ShoppingListFragment";
 
     private ListsMainRVAdapter listsMainRVAdapter;
 
@@ -108,8 +112,11 @@ public class ShoppingListFragment extends android.support.v4.app.Fragment {
                     listsMainRVAdapter.notifyDataSetChanged();
                     dialog.dismiss();
                 } else {
-                    Toast.makeText(getContext(), R.string.please_enter_name,
-                            Toast.LENGTH_SHORT).show();
+                    Toast.makeText(
+                            getContext(),
+                            getString(R.string.please_enter_name),
+                            Toast.LENGTH_SHORT
+                    ).show();
                     createAndShowAlertDialogForAdd(shoppingListDao);
                 }
             }
