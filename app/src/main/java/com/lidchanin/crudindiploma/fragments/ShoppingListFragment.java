@@ -17,24 +17,29 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.lidchanin.crudindiploma.R;
-import com.lidchanin.crudindiploma.adapters.MainRVAdapter;
+import com.lidchanin.crudindiploma.adapters.ListsMainRVAdapter;
 import com.lidchanin.crudindiploma.customview.NavigationDrawerActivity;
 import com.lidchanin.crudindiploma.database.ShoppingList;
 import com.lidchanin.crudindiploma.database.dao.DaoMaster;
 import com.lidchanin.crudindiploma.database.dao.DaoSession;
 import com.lidchanin.crudindiploma.database.dao.ProductDao;
 import com.lidchanin.crudindiploma.database.dao.ShoppingListDao;
+import com.lidchanin.crudindiploma.database.dao.StatisticDao;
 import com.lidchanin.crudindiploma.database.dao.UsedProductDao;
 
 import org.greenrobot.greendao.database.Database;
 
 import java.util.List;
 
+/**
+ * Class extends {@link android.support.v4.app.Fragment}.
+ *
+ * @author Lidchanin
+ * @see android.support.v4.app.Fragment
+ */
 public class ShoppingListFragment extends android.support.v4.app.Fragment {
 
-    private static final String TAG = "ShoppingListFragment";
-
-    private MainRVAdapter mainRVAdapter;
+    private ListsMainRVAdapter listsMainRVAdapter;
 
     private List<ShoppingList> shoppingLists;
 
@@ -52,15 +57,16 @@ public class ShoppingListFragment extends android.support.v4.app.Fragment {
         final ShoppingListDao shoppingListDao = daoSession.getShoppingListDao();
         final ProductDao productDao = daoSession.getProductDao();
         final UsedProductDao usedProductDao = daoSession.getUsedProductDao();
+        final StatisticDao statisticDao = daoSession.getStatisticDao();
 
         shoppingLists = shoppingListDao.loadAll();
 
         RecyclerView mainRV = (RecyclerView) view.findViewById(R.id.main_screen_rv);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mainRV.setLayoutManager(layoutManager);
-        mainRVAdapter = new MainRVAdapter(getContext(), shoppingListDao,
-                productDao, usedProductDao, shoppingLists);
-        mainRV.setAdapter(mainRVAdapter);
+        listsMainRVAdapter = new ListsMainRVAdapter(getContext(), shoppingListDao,
+                productDao, usedProductDao, statisticDao, shoppingLists);
+        mainRV.setAdapter(listsMainRVAdapter);
 
         addButton.setVisibility(View.VISIBLE);
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -77,7 +83,8 @@ public class ShoppingListFragment extends android.support.v4.app.Fragment {
      * need to create new {@link ShoppingList}.
      */
     private void createAndShowAlertDialogForAdd(final ShoppingListDao shoppingListDao) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.MyDialogTheme);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(),
+                R.style.MyDialogTheme);
         builder.setTitle(R.string.add_a_new_shopping_list);
 
         LinearLayout layout = new LinearLayout(getContext());
@@ -102,11 +109,14 @@ public class ShoppingListFragment extends android.support.v4.app.Fragment {
                     shoppingList.setDate(System.currentTimeMillis());
                     shoppingListDao.insert(shoppingList);
                     shoppingLists.add(shoppingList);
-                    mainRVAdapter.notifyDataSetChanged();
+                    listsMainRVAdapter.notifyDataSetChanged();
                     dialog.dismiss();
                 } else {
-                    Toast.makeText(getContext(), R.string.please_enter_name,
-                            Toast.LENGTH_SHORT).show();
+                    Toast.makeText(
+                            getContext(),
+                            getString(R.string.please_enter_name),
+                            Toast.LENGTH_SHORT
+                    ).show();
                     createAndShowAlertDialogForAdd(shoppingListDao);
                 }
             }

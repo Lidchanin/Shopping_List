@@ -29,7 +29,7 @@
     <string name="update_shopping_list">обновить список покупок</string>
     <string name="you_did_not_select_anything">Вы ничего не выбрали</string>
     <string name="lists">Списки</string>
-    <string name="all_existing_products">Все существующие продукты</string>
+    <string name="all_products">Все продукты</string>
 
     <string name="potatoes">картофель</string>
     <string name="cabbage">капуста</string>

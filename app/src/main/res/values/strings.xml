@@ -34,7 +34,7 @@
     <string name="main_screen_logo" translatable="false">main screen logo</string>
     <string name="main_screen_background" translatable="false">main screen background</string>
     <string name="lists">Lists</string>
-    <string name="all_existing_products">All existing products</string>
+    <string name="all_products">All products</string>
     <string name="scan_btn" translatable="false">Scan</string>
     <string name="ok_btn">OK</string>
     <string name="hint_choice_activity_name" translatable="false">Choose item under</string>
@@ -165,4 +165,5 @@
     <string name="pieces">pieces</string>
     <string name="product_name_exists">Product \"%1$s\" already exists!</string>
     <string name="product_name_exists_in_list">Product \"%1$s\" already exists in this list!</string>
+    <string name="statistics">Statistics</string>
 </resources>

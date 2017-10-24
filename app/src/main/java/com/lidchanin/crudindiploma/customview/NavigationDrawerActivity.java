@@ -1,7 +1,6 @@
 package com.lidchanin.crudindiploma.customview;
 
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
@@ -13,7 +12,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,29 +37,23 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.lidchanin.crudindiploma.Constants;
 import com.lidchanin.crudindiploma.R;
-import com.lidchanin.crudindiploma.activities.MainActivity;
 import com.lidchanin.crudindiploma.adapters.ProfitAdapter;
-import com.lidchanin.crudindiploma.fragments.ManagingExistingProductsFragment;
+import com.lidchanin.crudindiploma.fragments.AllProductsFragment;
 import com.lidchanin.crudindiploma.fragments.ProfitFragment;
 import com.lidchanin.crudindiploma.fragments.SettingsFragment;
 import com.lidchanin.crudindiploma.fragments.ShoppingListFragment;
-import com.lidchanin.crudindiploma.utils.SharedPrefsManager;
+import com.lidchanin.crudindiploma.fragments.StatisticsFragment;
 import com.lidchanin.crudindiploma.utils.ThemeManager;
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
-/**
- * Created by Alexander Destroyed on 08.07.2017.
- */
-
 public class NavigationDrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener {
 
-
-    public static final String KEY_DEFAULT_SORT_BY = "defaultSortBy";
-    public static final String KEY_DEFAULT_ORDER_BY = "defaultOrderBy";
     private static final int RC_SIGN_IN = 9001;
+
     private static final String TAG = NavigationDrawerActivity.class.getCanonicalName();
+
     private ImageButton buttonHamburger;
     private DrawerLayout drawer;
     private Uri photoUrl;
@@ -78,23 +70,17 @@ public class NavigationDrawerActivity extends AppCompatActivity implements Navig
     private ImageButton alphabetSort;
     private GoogleApiClient googleApiClient;
     private ImageButton dateSort;
-    private boolean defaultSortBy; // false - by date, true - alphabetically
-    private boolean defaultOrderBy;
-    private SharedPrefsManager sharedPrefsManager;
     private ImageButton addItem;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         new ThemeManager(this);
         super.onCreate(savedInstanceState);
-        Log.d(TAG, "OnCreate");
-
     }
 
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
         super.setContentView(R.layout.activity_drawer);
-        Log.d(TAG, "setContentView");
         ViewGroup content = (ViewGroup) findViewById(R.id.container);
         if (content != null) {
             getLayoutInflater().inflate(layoutResID, content);
@@ -104,7 +90,6 @@ public class NavigationDrawerActivity extends AppCompatActivity implements Navig
         currentUser = mAuth.getCurrentUser();
 
         if (currentUser != null) {
-            assert currentUser != null;
             photoUrl = currentUser.getPhotoUrl();
             accountName = currentUser.getDisplayName();
             accountEmail = currentUser.getEmail();
@@ -115,14 +100,9 @@ public class NavigationDrawerActivity extends AppCompatActivity implements Navig
         } else {
             emailTextView.setVisibility(View.GONE);
             nameTextView.setVisibility(View.GONE);
+            Picasso.with(getApplicationContext()).load(photoUrl).transform(transformation)
+                    .into(headerImageView);
         }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.d(TAG, "onStart");
-
     }
 
     private void initNavigationDrawer() {
@@ -159,7 +139,8 @@ public class NavigationDrawerActivity extends AppCompatActivity implements Navig
         });
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, null, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, null, R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         navigationView.setNavigationItemSelectedListener(this);
         toggle.syncState();
@@ -188,16 +169,19 @@ public class NavigationDrawerActivity extends AppCompatActivity implements Navig
         int id = item.getItemId();
         switch (id) {
             case R.id.nav_lists:
-                initFragment(-1, Constants.Bundles.SHOPPING_LIST_FRAGMENT_ID);
+                initFragment(Constants.Bundles.SHOPPING_LIST_FRAGMENT_ID);
                 break;
             case R.id.nav_existing_products:
-                initFragment(-1, Constants.Bundles.MANAGING_EXISTING_PRODUCTS_FRAGMENT_ID);
+                initFragment(Constants.Bundles.ALL_PRODUCTS_FRAGMENT_ID);
                 break;
             case R.id.nav_profit:
-                initFragment(-1, Constants.Bundles.PROFIT_FRAGMENT_ID);
+                initFragment(Constants.Bundles.PROFIT_FRAGMENT_ID);
+                break;
+            case R.id.nav_statistics:
+                initFragment(Constants.Bundles.STATISTICS_FRAGMENT_ID);
                 break;
             case R.id.nav_settings:
-                initFragment(-1, Constants.Bundles.SETTINGS_FRAGMENT_ID);
+                initFragment(Constants.Bundles.SETTINGS_FRAGMENT_ID);
                 break;
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -223,23 +207,19 @@ public class NavigationDrawerActivity extends AppCompatActivity implements Navig
         pageTitle.setText(title);
     }
 
-
-    public void initFragment(long shoppingListId, String fragmentExtra) {
+    public void initFragment(String fragmentExtra) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        Bundle bundle = new Bundle();
         switch (fragmentExtra) {
             case Constants.Bundles.SHOPPING_LIST_FRAGMENT_ID:
                 ShoppingListFragment shoppingListFragment = new ShoppingListFragment();
                 fragmentTransaction.replace(R.id.container, shoppingListFragment);
                 fragmentTransaction.commit();
                 break;
-            /*case Constants.Bundles.INSIDE_SHOPPING_LIST_FRAGMENT_ID:
-                InsideShoppingListFragment insideShoppingListFragment = new InsideShoppingListFragment();
-                bundle.putLong(Constants.Bundles.SHOPPING_LIST_ID, shoppingListId);
-                insideShoppingListFragment.setArguments(bundle);
-                fragmentTransaction.replace(R.id.container, insideShoppingListFragment);
+            case Constants.Bundles.STATISTICS_FRAGMENT_ID:
+                StatisticsFragment statisticsFragment = new StatisticsFragment();
+                fragmentTransaction.replace(R.id.container, statisticsFragment);
                 fragmentTransaction.commit();
-                break;*/
+                break;
             case Constants.Bundles.PROFIT_FRAGMENT_ID:
                 ProfitFragment profitFragment = new ProfitFragment();
                 fragmentTransaction.replace(R.id.container, profitFragment);
@@ -250,9 +230,9 @@ public class NavigationDrawerActivity extends AppCompatActivity implements Navig
                 fragmentTransaction.replace(R.id.container, settingsFragment);
                 fragmentTransaction.commit();
                 break;
-            case Constants.Bundles.MANAGING_EXISTING_PRODUCTS_FRAGMENT_ID:
-                ManagingExistingProductsFragment managingExistingProductsFragment = new ManagingExistingProductsFragment();
-                fragmentTransaction.replace(R.id.container, managingExistingProductsFragment);
+            case Constants.Bundles.ALL_PRODUCTS_FRAGMENT_ID:
+                AllProductsFragment allProductsFragment = new AllProductsFragment();
+                fragmentTransaction.replace(R.id.container, allProductsFragment);
                 fragmentTransaction.commit();
                 break;
         }

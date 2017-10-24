@@ -23,10 +23,14 @@ public class UsedProduct {
     private Long id;
     /* used product quantity */
     private double quantity;
-    /* true -> kg, false - pieces */
+    /* true -> kg, false -> pieces */
     private boolean unit;
-    /* true - purchased, false - not */
+    /* true -> purchased, false -> not */
     private boolean isPurchased;
+
+    /* date when the product in the shopping list was marked as purchased */
+    @Unique
+    private long date;
     private Long productId;
     private long shoppingListId;
 
@@ -56,11 +60,12 @@ public class UsedProduct {
     }
 
     @Generated
-    public UsedProduct(Long id, double quantity, boolean unit, boolean isPurchased, Long productId, long shoppingListId) {
+    public UsedProduct(Long id, double quantity, boolean unit, boolean isPurchased, long date, Long productId, long shoppingListId) {
         this.id = id;
         this.quantity = quantity;
         this.unit = unit;
         this.isPurchased = isPurchased;
+        this.date = date;
         this.productId = productId;
         this.shoppingListId = shoppingListId;
     }
@@ -102,6 +107,14 @@ public class UsedProduct {
 
     public void setIsPurchased(boolean isPurchased) {
         this.isPurchased = isPurchased;
+    }
+
+    public long getDate() {
+        return date;
+    }
+
+    public void setDate(long date) {
+        this.date = date;
     }
 
     public Long getProductId() {

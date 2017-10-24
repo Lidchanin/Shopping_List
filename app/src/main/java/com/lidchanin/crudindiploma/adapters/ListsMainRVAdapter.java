@@ -29,38 +29,43 @@ import android.widget.Toast;
 import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.database.Product;
 import com.lidchanin.crudindiploma.database.ShoppingList;
+import com.lidchanin.crudindiploma.database.Statistic;
 import com.lidchanin.crudindiploma.database.UsedProduct;
 import com.lidchanin.crudindiploma.database.dao.ProductDao;
 import com.lidchanin.crudindiploma.database.dao.ShoppingListDao;
+import com.lidchanin.crudindiploma.database.dao.StatisticDao;
 import com.lidchanin.crudindiploma.database.dao.UsedProductDao;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
-import static com.lidchanin.crudindiploma.utils.DatabaseUtils.calculationOfEstimatedAmount;
-import static com.lidchanin.crudindiploma.utils.DatabaseUtils.isUsedProductExists;
+import static com.lidchanin.crudindiploma.utils.ModelUtils.calculateEstimatedAmount;
+import static com.lidchanin.crudindiploma.utils.ModelUtils.isUsedProductExists;
 
 /**
- * Class {@link MainRVAdapter} provide a binding from an app-specific data set to views that are
- * displayed within a {@link RecyclerView}.
+ * Class {@link ListsMainRVAdapter} provide a binding from an app-specific data set to views that
+ * are displayed within a {@link RecyclerView}.
  * Class extends {@link android.support.v7.widget.RecyclerView.Adapter}.
  *
  * @author Lidchanin
  * @see android.support.v7.widget.RecyclerView.Adapter
  */
-public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHolder> {
+public class ListsMainRVAdapter
+        extends RecyclerView.Adapter<ListsMainRVAdapter.ListsMainViewHolder> {
 
-    private static final String TAG = "MainRVAdapter";
+    private static final String TAG = "ListsMainRVAdapter";
 
     private Context context;
 
     private ShoppingListDao shoppingListDao;
     private ProductDao productDao;
     private UsedProductDao usedProductDao;
+    private StatisticDao statisticDao;
 
     private List<ShoppingList> shoppingLists;
 
-    private ChildRVAdapter childRVAdapter;
+    private ListsChildRVAdapter listsChildRVAdapter;
 
     /**
      * Constructor.
@@ -69,32 +74,34 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
      * @param shoppingLists   {@link List} with all {@link ShoppingList}s.
      * @param shoppingListDao {@link ShoppingListDao} exemplar.
      * @param productDao      {@link ProductDao} exemplar.
+     * @param statisticDao    {@link StatisticDao} exemplar.
      * @param usedProductDao  {@link UsedProductDao} exemplar.
      */
-    public MainRVAdapter(Context context,
-                         ShoppingListDao shoppingListDao,
-                         ProductDao productDao,
-                         UsedProductDao usedProductDao,
-                         List<ShoppingList> shoppingLists) {
+    public ListsMainRVAdapter(Context context,
+                              ShoppingListDao shoppingListDao,
+                              ProductDao productDao,
+                              UsedProductDao usedProductDao,
+                              StatisticDao statisticDao,
+                              List<ShoppingList> shoppingLists) {
         this.context = context;
 
         this.shoppingListDao = shoppingListDao;
         this.productDao = productDao;
         this.usedProductDao = usedProductDao;
+        this.statisticDao = statisticDao;
 
         this.shoppingLists = shoppingLists;
-
     }
 
     @Override
-    public MainViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ListsMainViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_in_main_rv, parent, false);
-        return new MainViewHolder(view);
+                .inflate(R.layout.item_in_lists_main_rv, parent, false);
+        return new ListsMainViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final MainViewHolder holder, int position) {
+    public void onBindViewHolder(final ListsMainViewHolder holder, int position) {
         final int adapterPosition = holder.getAdapterPosition();
         final ShoppingList shoppingList = shoppingLists.get(adapterPosition);
 
@@ -104,23 +111,23 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
                 LinearLayoutManager layoutManager = new LinearLayoutManager(context);
                 holder.rvChild.setLayoutManager(layoutManager);
 
-                childRVAdapter = new ChildRVAdapter(context, shoppingListDao, productDao,
+                listsChildRVAdapter = new ListsChildRVAdapter(context, shoppingListDao, productDao,
                         usedProductDao, shoppingLists, adapterPosition);
-                childRVAdapter.setOnDataChangeListener(new ChildRVAdapter
+                listsChildRVAdapter.setOnDataChangeListener(new ListsChildRVAdapter
                         .OnDataChangeListener() {
                     @Override
                     public void onDataChanged(List<ShoppingList> shoppingLists) {
                         holder.tvEstimatedSum
                                 .setText(context.getString(R.string.estimated_amount,
                                         new DecimalFormat("#.##").format(
-                                                calculationOfEstimatedAmount(shoppingList
+                                                calculateEstimatedAmount(shoppingList
                                                         .getUsedProducts()))));
                     }
                 });
-                holder.rvChild.setAdapter(childRVAdapter);
+                holder.rvChild.setAdapter(listsChildRVAdapter);
 
                 holder.tvEstimatedSum.setText(context.getString(R.string.estimated_amount,
-                        new DecimalFormat("#.##").format(calculationOfEstimatedAmount(
+                        new DecimalFormat("#.##").format(calculateEstimatedAmount(
                                 shoppingList.getUsedProducts()))));
 
                 if (holder.rvChild.getVisibility() == View.GONE) {
@@ -154,7 +161,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
         holder.buttonDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createAndShowAlertDialogForDelete(adapterPosition, shoppingList);
+                createAndShowAlertDialogForDelete(adapterPosition, shoppingList, holder);
             }
         });
     }
@@ -165,10 +172,10 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
      *
      * @param adapterPosition the {@link RecyclerView} item position, where record about
      *                        {@link ShoppingList} will located.
-     * @param holder          current {@link MainViewHolder}.
+     * @param holder          current {@link ListsMainViewHolder}.
      */
     private void createAndShowAlertDialogForManualType(final int adapterPosition,
-                                                       final MainViewHolder holder) {
+                                                       final ListsMainViewHolder holder) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.MyDialogTheme);
         builder.setTitle(R.string.add_new_product);
 
@@ -265,6 +272,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
                         newUsedProduct.setQuantity(enteredQuantity);
                         newUsedProduct.setUnit(enteredUnit);
                         newUsedProduct.setIsPurchased(false);
+                        newUsedProduct.setDate(System.currentTimeMillis());
                         newUsedProduct.setProduct(newProduct);
                         newUsedProduct.setShoppingListId(shoppingLists.get(adapterPosition).getId());
                         newUsedProduct.setProductId(newProduct.getId());
@@ -293,7 +301,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
                                             .getUsedProducts().indexOf(up);
                                     shoppingLists.get(adapterPosition).getUsedProducts()
                                             .set(position, newUsedProduct);
-                                    childRVAdapter.notifyItemChanged(position);
+                                    listsChildRVAdapter.notifyItemChanged(position);
                                     break;
                                 }
                             }
@@ -303,13 +311,13 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
                             Log.i(TAG, "UsedProduct has been created.");
                             shoppingLists.get(adapterPosition).getUsedProducts()
                                     .add(newUsedProduct);
-                            childRVAdapter.notifyItemInserted(shoppingLists.get(adapterPosition)
+                            listsChildRVAdapter.notifyItemInserted(shoppingLists.get(adapterPosition)
                                     .getUsedProducts().size());
                         }
                         holder.tvEstimatedSum
                                 .setText(context.getString(R.string.estimated_amount,
                                         new DecimalFormat("#.##").format(
-                                                calculationOfEstimatedAmount(shoppingLists
+                                                calculateEstimatedAmount(shoppingLists
                                                         .get(adapterPosition)
                                                         .getUsedProducts()))));
                         dialog.dismiss();
@@ -338,20 +346,40 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
      * @param adapterPosition the {@link RecyclerView} item position, where record about
      *                        {@link ShoppingList} are located.
      * @param shoppingList    required {@link ShoppingList} for deleting.
+     * @param holder          current {@link ListsMainViewHolder}.
      */
     private void createAndShowAlertDialogForDelete(final int adapterPosition,
-                                                   final ShoppingList shoppingList) {
+                                                   final ShoppingList shoppingList,
+                                                   final ListsMainViewHolder holder) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.MyDialogTheme);
         builder.setTitle(context.getString(R.string.delete_shopping_list, shoppingList.getName()));
         builder.setMessage(context.getString(R.string.are_you_sure_you_want_to_delete_this_shopping_list));
-        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+        builder.setNeutralButton("Yes without statistic", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                shoppingListDao.delete(shoppingList);
-                usedProductDao.deleteInTx(shoppingList.getUsedProducts());
-                shoppingLists.remove(adapterPosition);
-                notifyItemRemoved(adapterPosition);
-                notifyItemRangeChanged(adapterPosition, shoppingLists.size());
+                deleteShoppingList(adapterPosition, shoppingList, holder);
+                dialog.dismiss();
+            }
+        });
+        builder.setPositiveButton("Yes with statistic", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                final List<UsedProduct> usedProducts = usedProductDao.queryBuilder()
+                        .where(UsedProductDao.Properties.ShoppingListId.eq(shoppingList.getId()),
+                                UsedProductDao.Properties.IsPurchased.eq(1)).list();
+                final List<Statistic> statistics = new ArrayList<>();
+                for (UsedProduct up : usedProducts) {
+                    Statistic statistic = new Statistic();
+                    statistic.setName(up.getProduct().getName());
+                    statistic.setTotalCost(up.getQuantity() * up.getProduct().getCost());
+//                    statistic.setCost(up.getProduct().getCost());
+//                    statistic.setQuantity(up.getQuantity());
+                    statistic.setUnit(up.getUnit());
+                    statistic.setDate(up.getDate());
+                    statistics.add(statistic);
+                }
+                statisticDao.insertInTx(statistics);
+                deleteShoppingList(adapterPosition, shoppingList, holder);
                 dialog.dismiss();
             }
         });
@@ -363,6 +391,28 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
         });
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    /**
+     * The method <b>deleteShoppingList</b> deletes {@link ShoppingList} from the database and
+     * update {@link List}.
+     *
+     * @param adapterPosition the the {@link RecyclerView} item position, where record about
+     *                        {@link ShoppingList} are located.
+     * @param shoppingList    required {@link ShoppingList} for deleting.
+     * @param holder          current {@link ListsMainViewHolder}.
+     */
+    private void deleteShoppingList(final int adapterPosition,
+                                    final ShoppingList shoppingList,
+                                    final ListsMainViewHolder holder) {
+        shoppingListDao.delete(shoppingList);
+        usedProductDao.deleteInTx(shoppingList.getUsedProducts());
+        shoppingLists.remove(adapterPosition);
+        holder.rvChild.setVisibility(View.GONE);
+        holder.buttonChildAdd.setVisibility(View.GONE);
+        holder.tvEstimatedSum.setVisibility(View.GONE);
+        notifyItemRemoved(adapterPosition);
+        notifyItemRangeChanged(adapterPosition, shoppingLists.size());
     }
 
     /**
@@ -422,13 +472,13 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
     }
 
     /**
-     * Static class {@link MainViewHolder} describes an item view and metadata about its place
+     * Static class {@link ListsMainViewHolder} describes an item view and metadata about its place
      * within the {@link RecyclerView}.
      * Class extends {@link ViewHolder}.
      *
      * @see android.support.v7.widget.RecyclerView.ViewHolder
      */
-    static class MainViewHolder extends ViewHolder {
+    static class ListsMainViewHolder extends ViewHolder {
 
         private CardView cvMain;
         private TextView tvName;
@@ -443,7 +493,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MainViewHo
          *
          * @param itemView - item in {@link RecyclerView}.
          */
-        MainViewHolder(View itemView) {
+        ListsMainViewHolder(View itemView) {
             super(itemView);
             cvMain = (CardView) itemView.findViewById(R.id.cv_in_main_rv);
             tvName = (TextView) itemView.findViewById(R.id.tv_name_in_main_rv);
