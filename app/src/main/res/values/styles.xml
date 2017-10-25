@@ -83,6 +83,10 @@
 
     </style>
 
+    <style name="Splash" parent="Theme.AppCompat.Light">
+        <item name="android:windowBackground">@drawable/splashscreen</item>
+    </style>
+
     <style name="LoveAndLibertyGradientTheme" parent="Theme.AppCompat.Light">
         <item name="android:panelBackground">@color/blueDark</item>
         <item name="android:textColor">@color/cardview_light_background</item>

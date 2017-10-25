@@ -233,6 +233,7 @@ public class NavigationDrawerActivity extends AppCompatActivity implements Navig
 
     public void initFragment(String fragmentExtra) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        setButtonsToDefault();
         switch (fragmentExtra) {
             case Constants.Bundles.SHOPPING_LIST_FRAGMENT_ID:
                 ShoppingListFragment shoppingListFragment = new ShoppingListFragment();
