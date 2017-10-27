@@ -326,6 +326,11 @@ public class ListsChildRVAdapter
         void onDataChanged(List<ShoppingList> shoppingLists);
     }
 
+    @Override
+    public int getItemViewType(int position)
+    {
+        return position;
+    }
     /**
      * Static class {@link ListsChildViewHolder} describes an item view and metadata about its place
      * within the {@link RecyclerView}.

@@ -100,6 +100,12 @@ public class ListsMainRVAdapter
         return new ListsMainViewHolder(view);
     }
 
+
+    public int getItemViewType(int position)
+    {
+        return position;
+    }
+
     @Override
     public void onBindViewHolder(final ListsMainViewHolder holder, int position) {
         final int adapterPosition = holder.getAdapterPosition();

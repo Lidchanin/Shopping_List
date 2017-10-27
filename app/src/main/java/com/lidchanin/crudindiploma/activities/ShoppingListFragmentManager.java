@@ -30,5 +30,6 @@ public class ShoppingListFragmentManager extends NavigationDrawerActivity {
         }
 
         initFragment(Constants.Bundles.SHOPPING_LIST_FRAGMENT_ID);
+
     }
 }
