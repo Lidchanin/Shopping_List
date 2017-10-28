@@ -3,16 +3,11 @@ package com.lidchanin.crudindiploma.forlib;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.support.v4.content.IntentCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,11 +24,13 @@ import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.RecyclerViewHolder> {
 
-    List<RecyclerViewItems> recyclerViewItemses;
-    Activity activity;
+    private List<RecyclerViewItems> recyclerViewItemses;
+    private Activity activity;
+    private int page;
 
-    public RecyclerViewAdapter (List<RecyclerViewItems> recyclerViewItemses, Context context){
+    public RecyclerViewAdapter (List<RecyclerViewItems> recyclerViewItemses, Context context, int page){
         this.recyclerViewItemses = recyclerViewItemses;
+        this.page = page;
         activity =(Activity) context;
     }
 
@@ -53,6 +50,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 new SharedPrefsManager(activity).editString(Constants.SharedPreferences.PREF_KEY_THEME, recyclerViewItemses.get(holder.getAdapterPosition()).getName());
                 Intent intent = new Intent(activity, ShoppingListFragmentManager.class);
                 intent.putExtra(Constants.Bundles.SHOPPING_LIST_ID,Constants.Bundles.SETTINGS_FRAGMENT_ID);
+                intent.putExtra(Constants.Bundles.VIEWPAGER_PAGE,page);
                 activity.startActivity(intent);
             }
         });

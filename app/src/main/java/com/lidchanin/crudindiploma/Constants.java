@@ -29,5 +29,6 @@ public interface Constants {
         String INSIDE_SHOPPING_LIST_FRAGMENT_ID = "insideShoppingListFragmentId";
         String FRAGMENT_ID = "fragmentId";
         String SHOPPING_LIST_ID = "shoppingListId";
+        String VIEWPAGER_PAGE = "shoppingListId";
     }
 }

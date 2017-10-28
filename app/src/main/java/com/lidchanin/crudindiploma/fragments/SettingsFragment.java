@@ -4,19 +4,15 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.FrameLayout;
 
+import com.lidchanin.crudindiploma.Constants;
 import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.forlib.DesignedViewPager;
 import com.lidchanin.crudindiploma.forlib.RecyclerFragment;
 import com.lidchanin.crudindiploma.forlib.ViewPagerAdapter;
-import com.lidchanin.crudindiploma.utils.SharedPrefsManager;
-import com.lidchanin.crudindiploma.utils.ThemeManager;
 
 import java.util.ArrayList;
 
@@ -37,20 +33,25 @@ public class SettingsFragment extends Fragment {
         RecyclerFragment fragment = new RecyclerFragment();
         Bundle bundle = new Bundle();
         bundle.putString("List", "Dark");
+        bundle.putInt(Constants.Bundles.VIEWPAGER_PAGE,0);
         fragment.setArguments(bundle);
         fragmentArrayList.add(fragment);
         RecyclerFragment fragment1 = new RecyclerFragment();
         Bundle bundle1 = new Bundle();
         bundle1.putString("List", "Bright");
+        bundle1.putInt(Constants.Bundles.VIEWPAGER_PAGE,1);
         fragment1.setArguments(bundle1);
         fragmentArrayList.add(fragment1);
         RecyclerFragment fragment2 = new RecyclerFragment();
         Bundle bundle2 = new Bundle();
         bundle2.putString("List", "Material");
+        bundle2.putInt(Constants.Bundles.VIEWPAGER_PAGE,2);
         fragment2.setArguments(bundle2);
         fragmentArrayList.add(fragment2);
         designedViewPager.setAdapter(new ViewPagerAdapter(getChildFragmentManager(),fragmentArrayList));
-        //fragmentArrayList.add();
+        if(getArguments()!=null){
+            designedViewPager.setCurrentItem(getArguments().getInt(Constants.Bundles.VIEWPAGER_PAGE));
+        }//fragmentArrayList.add();
         /*View view = inflater.inflate(R.layout.fragment_settings,container,false);
         ((NavigationDrawerActivity)getActivity()).setButtonsToDefault();
         sharedPrefsManager = new SharedPrefsManager(getActivity());

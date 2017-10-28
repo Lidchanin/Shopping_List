@@ -28,8 +28,11 @@ public class ShoppingListFragmentManager extends NavigationDrawerActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
-
-        initFragment(Constants.Bundles.SHOPPING_LIST_FRAGMENT_ID);
-
+        if(getIntent().hasExtra(Constants.Bundles.VIEWPAGER_PAGE)){
+            initFragment(Constants.Bundles.SETTINGS_FRAGMENT_ID,
+                    getIntent().getIntExtra(Constants.Bundles.VIEWPAGER_PAGE,0));
+        }else {
+            initFragment(Constants.Bundles.SHOPPING_LIST_FRAGMENT_ID);
+        }
     }
 }

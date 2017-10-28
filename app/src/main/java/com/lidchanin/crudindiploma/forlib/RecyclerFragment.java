@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.lidchanin.crudindiploma.Constants;
 import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.utils.ThemeManager;
 
@@ -30,7 +31,7 @@ public class RecyclerFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mainRV.setLayoutManager(layoutManager);
         List<RecyclerViewItems> list = ThemeManager.getInstance(getContext()).getThemes(getArguments().getString("List"));
-        RecyclerViewAdapter mainRVAdapter =  new RecyclerViewAdapter(list,getActivity());
+        RecyclerViewAdapter mainRVAdapter =  new RecyclerViewAdapter(list,getActivity(),getArguments().getInt(Constants.Bundles.VIEWPAGER_PAGE));
         mainRV.setAdapter(mainRVAdapter);
         return view;
     }

@@ -76,6 +76,7 @@ public class NavigationDrawerActivity extends AppCompatActivity implements Navig
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         new ThemeManager(this);
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -209,6 +210,10 @@ public class NavigationDrawerActivity extends AppCompatActivity implements Navig
 
 
     public void initFragment(String fragmentExtra) {
+        initFragment(fragmentExtra,0);
+    }
+
+    public void initFragment(String fragmentExtra, int page) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         setButtonsToDefault();
         switch (fragmentExtra) {
@@ -229,7 +234,12 @@ public class NavigationDrawerActivity extends AppCompatActivity implements Navig
                 break;
             case Constants.Bundles.SETTINGS_FRAGMENT_ID:
                 SettingsFragment settingsFragment = new SettingsFragment();
-                fragmentTransaction.replace(R.id.container, settingsFragment);
+                if(page!=0){
+                    Bundle bundle = new Bundle();
+                    bundle.putInt(Constants.Bundles.VIEWPAGER_PAGE,page);
+                    settingsFragment.setArguments(bundle);
+                }
+                    fragmentTransaction.replace(R.id.container, settingsFragment);
                 fragmentTransaction.commit();
                 break;
             case Constants.Bundles.ALL_PRODUCTS_FRAGMENT_ID:
