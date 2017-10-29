@@ -47,7 +47,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.rootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new SharedPrefsManager(activity).editString(Constants.SharedPreferences.PREF_KEY_THEME, recyclerViewItemses.get(holder.getAdapterPosition()).getName());
+                new SharedPrefsManager(activity).editString(Constants.SharedPreferences.PREF_KEY_THEME, recyclerViewItemses.get(holder.getAdapterPosition()).getTheme());
                 Intent intent = new Intent(activity, ShoppingListFragmentManager.class);
                 intent.putExtra(Constants.Bundles.SHOPPING_LIST_ID,Constants.Bundles.SETTINGS_FRAGMENT_ID);
                 intent.putExtra(Constants.Bundles.VIEWPAGER_PAGE,page);

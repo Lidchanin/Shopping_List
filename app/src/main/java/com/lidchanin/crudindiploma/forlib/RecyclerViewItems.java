@@ -10,9 +10,17 @@ import com.lidchanin.crudindiploma.R;
 
 public class RecyclerViewItems {
 
-    public RecyclerViewItems(String cost, String name){
-        this.cost=cost;
-        this.name=name;
+    public RecyclerViewItems(String cost, String name, String theme, int previewId){
+        this.cost = cost;
+        this.name = name;
+        this.theme = theme;
+        this.previewId = previewId;
+    }
+
+    public RecyclerViewItems(String cost, String name, String theme){
+        this.cost = cost;
+        this.name = name;
+        this.theme = theme;
     }
 
     public String getName() {
@@ -33,6 +41,16 @@ public class RecyclerViewItems {
 
     private String cost = "Free";
     private String name = "Theme Shit";
+
+    public String getTheme() {
+        return theme;
+    }
+
+    public void setTheme(String theme) {
+        this.theme = theme;
+    }
+
+    private String theme;
 
     public int getPreviewId() {
         return previewId;

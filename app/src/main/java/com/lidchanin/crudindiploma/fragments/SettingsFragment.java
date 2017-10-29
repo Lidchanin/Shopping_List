@@ -48,7 +48,7 @@ public class SettingsFragment extends Fragment {
         bundle2.putInt(Constants.Bundles.VIEWPAGER_PAGE,2);
         fragment2.setArguments(bundle2);
         fragmentArrayList.add(fragment2);
-        designedViewPager.setAdapter(new ViewPagerAdapter(getChildFragmentManager(),fragmentArrayList));
+        designedViewPager.setAdapter(new ViewPagerAdapter(getChildFragmentManager(), fragmentArrayList));
         if(getArguments()!=null){
             designedViewPager.setCurrentItem(getArguments().getInt(Constants.Bundles.VIEWPAGER_PAGE));
         }//fragmentArrayList.add();

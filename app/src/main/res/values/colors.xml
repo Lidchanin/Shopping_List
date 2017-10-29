@@ -6,7 +6,7 @@
     <color name="purpleBright">#ac3fff</color>
     <color name="purple">#9000ff</color>
     <color name="yellow">#ffd900</color>
-    <color name="orange">#ff9900</color>
+    <color name="orange">#ffb625</color>
     <color name="greenBrightSoft">#70e1f5</color>
     <color name="pinkBrightSoft">#FFAFBD</color>
     <color name="purpleSoft">#7b4397</color>
@@ -18,6 +18,8 @@
     <color name="redDark">#6f0000</color>
     <color name="redDarkButtons">#b40000</color>
     <color name="blueDark">#200122</color>
+    <color name="pink">#d4145a</color>
+    <color name="yellowBright">#fcee21</color>
     <color name="colorPrimary">@color/blueLittleDarker</color>
     <color name="colorPrimaryDark">@color/blueLittleDarker</color>
     <color name="colorAccent">@color/blueLittleDarker</color>

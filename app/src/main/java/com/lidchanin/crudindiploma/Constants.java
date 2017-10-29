@@ -31,4 +31,25 @@ public interface Constants {
         String SHOPPING_LIST_ID = "shoppingListId";
         String VIEWPAGER_PAGE = "shoppingListId";
     }
+
+    interface ThemesBright{
+        String THEME_RED_SOFT = "redsoft";
+        String THEME_GREEN = "green";
+        String THEME_BLUE = "blue";
+        String THEME_PURPLE = "purple";
+    }
+
+    interface ThemesDark{
+        String THEME_RED_SOFT = "redsoftdark";
+        String THEME_GREEN = "greendark";
+        String THEME_BLUE = "bluedark";
+        String THEME_PURPLE = "purpledark";
+    }
+
+    interface ThemesMaterials{
+        String THEME_RED_SOFT = "redsoftmaterial";
+        String THEME_GREEN = "greenmaterial";
+        String THEME_BLUE = "bluematerial";
+        String THEME_PURPLE = "purplematerial";
+    }
 }
