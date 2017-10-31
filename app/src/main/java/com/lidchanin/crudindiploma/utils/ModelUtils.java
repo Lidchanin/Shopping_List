@@ -1,5 +1,8 @@
 package com.lidchanin.crudindiploma.utils;
 
+import android.content.Context;
+import android.widget.Toast;
+
 import com.lidchanin.crudindiploma.database.Product;
 import com.lidchanin.crudindiploma.database.ShoppingList;
 import com.lidchanin.crudindiploma.database.Statistic;
@@ -110,13 +113,36 @@ public class ModelUtils {
     }
 
     /**
-     * The method <b>removeDuplicatesInStatistics</b> finds duplicates in list. Then duplicates
-     * are combined.
+     * The method <b>convertStringDateToLong</b> convert string date (month + year) to
+     * milliseconds.
+     *
+     * @param context context.
+     * @param date    the date in string.
+     * @return date in milliseconds.
+     */
+    public static long convertStringDateToLong(Context context, String date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
+        try {
+            return sdf.parse(date).getTime();
+        } catch (Exception e) {
+            Toast.makeText(
+                    context,
+                    "Error: " + e.getLocalizedMessage(),
+                    Toast.LENGTH_LONG
+            ).show();
+            return 0;
+        }
+    }
+
+    /**
+     * The method <b>removeDuplicatesInStatistics</b> finds duplicates by name in list.
+     * Then duplicates are combined.
      *
      * @param initialStatistics statistics with duplicates.
      * @return statistics without duplicates.
      */
     public static List<Statistic> removeDuplicatesInStatistics(List<Statistic> initialStatistics) {
+        sortListStatisticsByName(initialStatistics);
         List<Statistic> newStatistics = new ArrayList<>();
         newStatistics.add(initialStatistics.get(0));
         if (initialStatistics.size() > 1) {
@@ -148,20 +174,18 @@ public class ModelUtils {
     }
 
     /**
-     * The method <b>sortStatisticsByName</b> sorts statistics in lists by name by asc.
+     * The method <b>sortListStatisticsByName</b> sorts statistics list by name by asc.
      *
      * @param statistics initial statistics list.
      */
-    public static void sortStatisticsByName(List<List<Statistic>> statistics) {
-        for (List<Statistic> sl : statistics) {
-            if (sl.size() > 0) {
-                Collections.sort(sl, new Comparator<Statistic>() {
-                    @Override
-                    public int compare(final Statistic object1, final Statistic object2) {
-                        return object1.getName().compareTo(object2.getName());
-                    }
-                });
-            }
+    private static void sortListStatisticsByName(List<Statistic> statistics) {
+        if (statistics.size() > 0) {
+            Collections.sort(statistics, new Comparator<Statistic>() {
+                @Override
+                public int compare(final Statistic object1, final Statistic object2) {
+                    return object1.getName().compareTo(object2.getName());
+                }
+            });
         }
     }
 
