@@ -12,7 +12,7 @@ import android.widget.Filter;
 import android.widget.TextView;
 
 import com.lidchanin.crudindiploma.R;
-import com.lidchanin.crudindiploma.models.Product;
+import com.lidchanin.crudindiploma.database.Product;
 
 import java.util.ArrayList;
 import java.util.List;

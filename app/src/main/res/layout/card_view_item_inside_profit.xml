@@ -59,7 +59,7 @@
             android:layout_margin="5dp"
             android:background="?attr/selectableItemBackground"
             android:gravity="right"
-            android:src="@drawable/ic_clear_black_24dp" />
+            android:src="@drawable/ic_clear_24dp" />
 
     <com.lidchanin.crudindiploma.customview.DesignedTextView
         android:layout_centerVertical="true"

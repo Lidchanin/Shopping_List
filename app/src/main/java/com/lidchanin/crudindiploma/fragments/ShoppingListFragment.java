@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,114 +11,96 @@ import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.lidchanin.crudindiploma.Constants;
 import com.lidchanin.crudindiploma.R;
-import com.lidchanin.crudindiploma.adapters.MainScreenRecyclerViewAdapter;
+import com.lidchanin.crudindiploma.adapters.ListsMainRVAdapter;
 import com.lidchanin.crudindiploma.customview.NavigationDrawerActivity;
-import com.lidchanin.crudindiploma.data.dao.ExistingProductDAO;
-import com.lidchanin.crudindiploma.data.dao.ShoppingListDAO;
-import com.lidchanin.crudindiploma.models.ShoppingList;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.Locale;
+import com.lidchanin.crudindiploma.database.ShoppingList;
+import com.lidchanin.crudindiploma.database.dao.DaoMaster;
+import com.lidchanin.crudindiploma.database.dao.DaoSession;
+import com.lidchanin.crudindiploma.database.dao.ProductDao;
+import com.lidchanin.crudindiploma.database.dao.ShoppingListDao;
+import com.lidchanin.crudindiploma.database.dao.StatisticDao;
+import com.lidchanin.crudindiploma.database.dao.UsedProductDao;
 
+import org.greenrobot.greendao.database.Database;
+
+import java.util.List;
+
+/**
+ * Class extends {@link android.support.v4.app.Fragment}.
+ *
+ * @author Lidchanin
+ * @see android.support.v4.app.Fragment
+ */
 public class ShoppingListFragment extends android.support.v4.app.Fragment {
 
-    private ExistingProductDAO existingProductDAO;
-    private ShoppingListDAO shoppingListDAO;
-    private List<ShoppingList> shoppingLists;
-    private RecyclerView recyclerViewAllShoppingLists;
-    private MainScreenRecyclerViewAdapter mainScreenRecyclerViewAdapter;
-    private Button buttonAdd;
-
-    public static ShoppingListFragment getInstance() {
-        return new ShoppingListFragment();
-    }
+    private ListsMainRVAdapter listsMainRVAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((NavigationDrawerActivity)getActivity()).setButtonsToDefault();
-        shoppingListDAO = new ShoppingListDAO(getActivity());
-        existingProductDAO = new ExistingProductDAO(getActivity());
-
-        initializeData();
     }
+    private List<ShoppingList> shoppingLists;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-                             Bundle savedInstanceState) {
-        View fragmentView = inflater.inflate(R.layout.fragment_shoppinglist, container, false);
-        recyclerViewAllShoppingLists = (RecyclerView)
-                fragmentView.findViewById(R.id.main_screen_recycler_view_all_shopping_lists);
-        buttonAdd = (Button)
-                fragmentView.findViewById(R.id.main_screen_button_add_shopping_list);
-        initializeButtonAdd();
-        initializeRecyclerViews();
-        initializeAdapters();
-        shoppingListDAO.open();
-        existingProductDAO.open();
-        ((NavigationDrawerActivity) getActivity()).setShoppingListSorts(shoppingLists,mainScreenRecyclerViewAdapter);
-        return fragmentView;
-    }
 
-    /**
-     * Method <code>initializeRecyclerView</code> initializes {@link RecyclerView}.
-     */
+                             @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_shoppinglist, container, false);
+        ImageButton addButton = ((NavigationDrawerActivity) getActivity()).addNewItem();
 
-    public void initializeRecyclerViews() {
+        final DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(getContext(), "db", null);
+        final Database database = helper.getWritableDb();
+        final DaoMaster daoMaster = new DaoMaster(database);
+        final DaoSession daoSession = daoMaster.newSession();
+        final ShoppingListDao shoppingListDao = daoSession.getShoppingListDao();
+        final ProductDao productDao = daoSession.getProductDao();
+        final UsedProductDao usedProductDao = daoSession.getUsedProductDao();
+        final StatisticDao statisticDao = daoSession.getStatisticDao();
+
+        shoppingLists = shoppingListDao.loadAll();
+
+        RecyclerView mainRV = (RecyclerView) view.findViewById(R.id.main_screen_rv);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        recyclerViewAllShoppingLists.setLayoutManager(layoutManager);
-    }
+        mainRV.setLayoutManager(layoutManager);
+        listsMainRVAdapter = new ListsMainRVAdapter(getContext(), shoppingListDao,
+                productDao, usedProductDao, statisticDao, shoppingLists);
+        mainRV.setAdapter(listsMainRVAdapter);
 
-    /**
-     * Method <code>initializeAdapters</code> initializes adapter for {@link RecyclerView}.
-     */
-
-    private void initializeAdapters() {
-        mainScreenRecyclerViewAdapter
-                = new MainScreenRecyclerViewAdapter(shoppingLists, shoppingListDAO,
-                existingProductDAO, getActivity());
-        recyclerViewAllShoppingLists.setAdapter(mainScreenRecyclerViewAdapter);
-    }
-
-    /**
-     * Method <code>initializeButtonAdd</code> initializes {@link Button} for adding shopping list.
-     */
-
-    private void initializeButtonAdd() {
-        buttonAdd.setOnClickListener(new View.OnClickListener() {
+        addButton.setVisibility(View.VISIBLE);
+        addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createAndShowAlertDialogForAdd();
+                createAndShowAlertDialogForAdd(shoppingListDao);
             }
         });
+        return view;
     }
 
-
     /**
-     * The method <code>createAndShowAlertDialogForAdd</code> create and shows a dialog, which
-     * need to add new shopping list.
+     * The method <b>createAndShowAlertDialogForAdd</b> creates and shows a dialog, which
+     * need to create new {@link ShoppingList}.
      */
-
-    private void createAndShowAlertDialogForAdd() {
+    private void createAndShowAlertDialogForAdd(final ShoppingListDao shoppingListDao) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(),
                 R.style.MyDialogTheme);
         builder.setTitle(R.string.add_a_new_shopping_list);
 
-        LinearLayout layout = new LinearLayout(getActivity());
+        LinearLayout layout = new LinearLayout(getContext());
         layout.setOrientation(LinearLayout.VERTICAL);
 
-        final EditText editTextName = new EditText(getActivity());
+        final EditText editTextName = new EditText(getContext());
         editTextName.setInputType(InputType.TYPE_CLASS_TEXT);
         editTextName.setHint(getString(R.string.enter_name));
 
@@ -133,27 +114,20 @@ public class ShoppingListFragment extends android.support.v4.app.Fragment {
             public void onClick(DialogInterface dialog, int which) {
                 if (editTextName.getText() != null
                         && editTextName.getText().toString().length() != 0) {
-                    ShoppingList temp = new ShoppingList();
-                    temp.setName(editTextName.getText().toString());
-                    SimpleDateFormat sdf = new SimpleDateFormat(
-                            getString(R.string.database_date_format), Locale.getDefault());
-                    String currentDateAndTime = sdf.format(new Date());
-                    temp.setDateOfCreation(currentDateAndTime);
-                    long shoppingListId = shoppingListDAO.add(temp);
-                    FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                    InsideShoppingListFragment fragment = new InsideShoppingListFragment();
-                    Bundle bundle = new Bundle();
-                    bundle.putLong(Constants.Bundles.SHOPPING_LIST_ID, shoppingListId);
-                    fragment.setArguments(bundle);
-                    //// TODO: 14.07.2017 add to add to another container!!! , and replace to replace :D your friend Cap ;x
-                    fragmentTransaction.replace(R.id.container, fragment);
-                    fragmentTransaction.commit();
+                    ShoppingList shoppingList = new ShoppingList();
+                    shoppingList.setName(editTextName.getText().toString());
+                    shoppingList.setDate(System.currentTimeMillis());
+                    shoppingListDao.insert(shoppingList);
+                    shoppingLists.add(shoppingList);
+                    listsMainRVAdapter.notifyDataSetChanged();
                     dialog.dismiss();
                 } else {
-                    // FIXME: 09.06.2017 alert dialog for add
-                    Toast.makeText(getActivity(), R.string.please_enter_name,
-                            Toast.LENGTH_SHORT).show();
-                    createAndShowAlertDialogForAdd();
+                    Toast.makeText(
+                            getContext(),
+                            getString(R.string.please_enter_name),
+                            Toast.LENGTH_SHORT
+                    ).show();
+                    createAndShowAlertDialogForAdd(shoppingListDao);
                 }
             }
         });
@@ -165,35 +139,5 @@ public class ShoppingListFragment extends android.support.v4.app.Fragment {
         });
         AlertDialog dialog = builder.create();
         dialog.show();
-
-
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        shoppingListDAO.open();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        shoppingListDAO.close();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        shoppingListDAO.close();
-    }
-
-    /**
-     * Method <code>initializeData</code> reads and receives all shopping lists from the database.
-     */
-    private void initializeData() {
-        shoppingLists = shoppingListDAO.getAll();
-        if (shoppingLists == null) {
-            shoppingLists = new ArrayList<>();
-        }
     }
 }

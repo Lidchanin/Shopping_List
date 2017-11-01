@@ -40,11 +40,18 @@
         android:background="@drawable/gradient_turquoise" />
     <FrameLayout
         android:layout_below="@+id/turquoise_gradient"
-        android:id="@+id/virgin_gradient"
+        android:id="@+id/vigin_gradient"
         android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:background="@drawable/gradient_virgin" />
+            <FrameLayout
+                android:layout_below="@+id/turquoise_gradient"
+                android:id="@+id/virgin_gradient"
+                android:layout_margin="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@drawable/gradient_virgin" />
     <FrameLayout
         android:layout_below="@+id/virgin_gradient"
         android:id="@+id/love_and_liberty_gradient"
@@ -53,6 +60,7 @@
         android:layout_height="80dp"
         android:background="@drawable/gradient_love_and_liberty" />
     <TextView
+            android:visibility="gone"
             android:textColor="@color/cardview_dark_background"
             android:gravity="center"
             android:id="@+id/label_change_lang"
@@ -62,6 +70,7 @@
             android:layout_below="@+id/love_and_liberty_gradient"
             android:layout_centerHorizontal="true" />
     <LinearLayout
+        android:visibility="gone"
         android:layout_below="@id/label_change_lang"
         android:gravity="center_horizontal"
         android:layout_height="wrap_content"

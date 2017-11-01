@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.TransitionDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,7 +15,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -38,6 +36,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.lidchanin.crudindiploma.Constants;
 import com.lidchanin.crudindiploma.R;
+import com.lidchanin.crudindiploma.customview.NavigationDrawerActivity;
 import com.lidchanin.crudindiploma.utils.DownloadTask;
 import com.lidchanin.crudindiploma.utils.SharedPrefsManager;
 import com.lidchanin.crudindiploma.utils.ThemeManager;
@@ -66,8 +65,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
-        new ThemeManager(this);
+        ///new ThemeManager(this);
         super.onCreate(savedInstanceState);
+        Intent intent = new Intent(MainActivity.this, ShoppingListFragmentManager.class);
+        startActivity(intent);
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
@@ -101,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             public void onClick(View v) {
                 if (Build.VERSION.SDK_INT >= 21) {
                     if (engTessaract.exists() || rusTessaract.exists()) {
-                        Intent intent = new Intent(MainActivity.this,ShoppingListFragmentManager.class);
+                        Intent intent = new Intent(MainActivity.this, ShoppingListFragmentManager.class);
                         startActivity(intent);
                     } else {
                         createAndShowAlertDialogRecognizeLang();
@@ -172,7 +173,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 googleBackground.setVisibility(View.VISIBLE);
                 userName.setVisibility(View.VISIBLE);
                 userPhoto.setVisibility(View.VISIBLE);
-
             } else {
                 googleBackground.setVisibility(View.GONE);
                 userName.setVisibility(View.GONE);
@@ -203,7 +203,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -215,7 +214,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                             Toast.makeText(MainActivity.this, getString(R.string.auth_filed),
                                     Toast.LENGTH_SHORT).show();
                         }
-
                     }
                 });
     }
