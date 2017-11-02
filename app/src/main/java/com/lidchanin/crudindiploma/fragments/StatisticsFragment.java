@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +12,7 @@ import android.widget.Button;
 
 import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.adapters.StatisticsMainRVAdapter;
+import com.lidchanin.crudindiploma.customview.NavigationDrawerActivity;
 import com.lidchanin.crudindiploma.database.Statistic;
 import com.lidchanin.crudindiploma.database.dao.DaoMaster;
 import com.lidchanin.crudindiploma.database.dao.DaoSession;
@@ -153,19 +153,14 @@ public class StatisticsFragment extends Fragment {
                 statisticDao = daoSession.getStatisticDao();
 
                 statisticsByMonths.clear();
-                long currentMonth = ModelUtils.getCurrentMonth(System.currentTimeMillis());
+                long currentMonth = ModelUtils.getMontWithStep(System.currentTimeMillis(), -6);
                 List<Statistic> statistics = statisticDao.queryBuilder()
                         .where(StatisticDao.Properties.Date.ge(currentMonth)).list();
 
-                if (statistics.size() > 0) {
-                    for (int i = 0; i < statistics.size(); i++) {
-                        if (ModelUtils.getCurrentMonth(statistics.get(i).getDate()) != currentMonth) {
-                            statistics.subList(i, statistics.size()).clear();
-                            break;
-                        }
-                    }
-                    statistics = ModelUtils.removeDuplicatesInStatistics(statistics);
-                    statisticsByMonths.add(statistics);
+                statisticsByMonths.addAll(ModelUtils.divideStatisticsByMonths(statistics));
+                for (int i = 0; i < statisticsByMonths.size(); i++) {
+                    statisticsByMonths.set(i,
+                            ModelUtils.removeDuplicatesInStatistics(statisticsByMonths.get(i)));
                 }
                 mainRVAdapter.notifyDataSetChanged();
             }
@@ -173,6 +168,33 @@ public class StatisticsFragment extends Fragment {
     }
 
     private void initButtonYear(View view) {
+        Button button = (Button) view.findViewById(R.id.button_show_year);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                database.close();
+                helper = new DaoMaster.DevOpenHelper(
+                        getContext(),
+                        "db",
+                        null
+                );
+                database = helper.getWritableDb();
+                daoMaster = new DaoMaster(database);
+                daoSession = daoMaster.newSession();
+                statisticDao = daoSession.getStatisticDao();
 
+                statisticsByMonths.clear();
+                long currentMonth = ModelUtils.getMontWithStep(System.currentTimeMillis(), -12);
+                List<Statistic> statistics = statisticDao.queryBuilder()
+                        .where(StatisticDao.Properties.Date.ge(currentMonth)).list();
+
+                statisticsByMonths.addAll(ModelUtils.divideStatisticsByMonths(statistics));
+                for (int i = 0; i < statisticsByMonths.size(); i++) {
+                    statisticsByMonths.set(i,
+                            ModelUtils.removeDuplicatesInStatistics(statisticsByMonths.get(i)));
+                }
+                mainRVAdapter.notifyDataSetChanged();
+            }
+        });
     }
 }

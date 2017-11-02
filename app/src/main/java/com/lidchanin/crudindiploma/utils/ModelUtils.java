@@ -116,6 +116,7 @@ public class ModelUtils {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(dateInMillis);
         calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.clear(Calendar.AM_PM);
         calendar.clear(Calendar.HOUR_OF_DAY);
         calendar.clear(Calendar.HOUR);
         calendar.clear(Calendar.MINUTE);
@@ -125,29 +126,17 @@ public class ModelUtils {
     }
 
     /**
-     * The method <b>getPreviousMonth</b> The method changes the current month to the previous.
+     * The method <b>getMontWithStep</b> The method changes the current month to the previous.
      *
      * @param currentMonth the current month in millis.
+     * @param steps        the number of steps.
      * @return the previous month in millis.
      */
-    public static long getPreviousMonth(long currentMonth) {
+    public static long getMontWithStep(long currentMonth, int steps) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(currentMonth);
-        calendar.add(Calendar.MONTH, -1);
+        calendar.add(Calendar.MONTH, steps);
         return calendar.getTime().getTime();
-    }
-
-    /**
-     * The method <b>convertLongDateToString</b> converts <i>System.currentTimeMillis()</i> to date
-     * only with year and month.
-     *
-     * @param date the date in milliseconds.
-     * @return string date with year and month.
-     */
-    // TODO: 02.11.2017 convertLongDateToString or convertDateInMillisToString?
-    public static String convertLongDateToString(long date) {
-        SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
-        return sdf.format(date);
     }
 
     /**
@@ -158,9 +147,7 @@ public class ModelUtils {
      */
     public static String convertDateInMillisToString(long millis) {
         SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(millis);
-        return sdf.format(calendar.getTime());
+        return sdf.format(millis);
     }
 
     /**
