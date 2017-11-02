@@ -10,6 +10,7 @@ import com.lidchanin.crudindiploma.database.UsedProduct;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -19,6 +20,9 @@ import java.util.Locale;
  * @author Lidchanin
  */
 public class ModelUtils {
+
+    private static final String TAG = ModelUtils.class.getSimpleName();
+
 
     /**
      * The method <b>isProductExists</b> checks is {@link Product} exists in list or not.
@@ -77,27 +81,60 @@ public class ModelUtils {
      * The method <b>divideStatisticsByMonths</b> divides the list with {@link Statistic}s into
      * the categories. "One" date - "many" statistics, which corresponds by date.
      *
-     * @param initialStatistics all started {@link Statistic}s in list.
-     * @return divided list with statistics.
+     * @param initialStatistics all initial {@link Statistic}s in {@link List}.
+     * @return divided {@link List} with statistics {@link List}s, which are sorted by months.
      */
     public static List<List<Statistic>> divideStatisticsByMonths(List<Statistic> initialStatistics) {
-        List<List<Statistic>> sortedStatistics = new ArrayList<>();
+        List<List<Statistic>> dividedStatistics = new ArrayList<>();
         if (initialStatistics != null && initialStatistics.size() > 0) {
-            String month = convertLongDateToString(initialStatistics.get(0).getDate());
-            List<Statistic> statisticsByOneMonth = new ArrayList<>();
-            for (Statistic s : initialStatistics) {
-                if (convertLongDateToString(s.getDate()).equals(month)) {
-                    statisticsByOneMonth.add(s);
+            long currentMonth = getCurrentMonth(initialStatistics.get(0).getDate());
+            List<Statistic> statisticsOneMonth = new ArrayList<>();
+            statisticsOneMonth.add(initialStatistics.get(0));
+            for (int i = 1; i < initialStatistics.size(); i++) {
+                if (getCurrentMonth(initialStatistics.get(i).getDate()) == currentMonth) {
+                    statisticsOneMonth.add(initialStatistics.get(i));
                 } else {
-                    sortedStatistics.add(statisticsByOneMonth);
-                    statisticsByOneMonth = new ArrayList<>();
-                    statisticsByOneMonth.add(s);
-                    month = convertLongDateToString(s.getDate());
+                    dividedStatistics.add(statisticsOneMonth);
+                    statisticsOneMonth = new ArrayList<>();
+                    statisticsOneMonth.add(initialStatistics.get(i));
+                    currentMonth = getCurrentMonth(initialStatistics.get(i).getDate());
                 }
             }
-            sortedStatistics.add(statisticsByOneMonth);
+            dividedStatistics.add(statisticsOneMonth);
         }
-        return sortedStatistics;
+        return dividedStatistics;
+    }
+
+    /**
+     * The method <b>getCurrentMonth</b> convert date with days, hours and etc in milliseconds to
+     * date with month in milliseconds.
+     *
+     * @param dateInMillis initial date.
+     * @return date with only month in millis.
+     */
+    public static long getCurrentMonth(long dateInMillis) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(dateInMillis);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.clear(Calendar.HOUR_OF_DAY);
+        calendar.clear(Calendar.HOUR);
+        calendar.clear(Calendar.MINUTE);
+        calendar.clear(Calendar.SECOND);
+        calendar.clear(Calendar.MILLISECOND);
+        return calendar.getTimeInMillis();
+    }
+
+    /**
+     * The method <b>getPreviousMonth</b> The method changes the current month to the previous.
+     *
+     * @param currentMonth the current month in millis.
+     * @return the previous month in millis.
+     */
+    public static long getPreviousMonth(long currentMonth) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(currentMonth);
+        calendar.add(Calendar.MONTH, -1);
+        return calendar.getTime().getTime();
     }
 
     /**
@@ -107,9 +144,23 @@ public class ModelUtils {
      * @param date the date in milliseconds.
      * @return string date with year and month.
      */
+    // TODO: 02.11.2017 convertLongDateToString or convertDateInMillisToString?
     public static String convertLongDateToString(long date) {
         SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
         return sdf.format(date);
+    }
+
+    /**
+     * The method <b>convertDateInMillisToString</b> convert date in milliseconds to date in String.
+     *
+     * @param millis the date in milliseconds.
+     * @return date in {@link String} format.
+     */
+    public static String convertDateInMillisToString(long millis) {
+        SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(millis);
+        return sdf.format(calendar.getTime());
     }
 
     /**

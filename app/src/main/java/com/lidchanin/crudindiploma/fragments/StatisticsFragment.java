@@ -118,36 +118,58 @@ public class StatisticsFragment extends Fragment {
                 statisticDao = daoSession.getStatisticDao();
 
                 statisticsByMonths.clear();
-                //
-                Log.d(TAG, "---- in DB");
-                for (Statistic s : statisticDao.loadAll()) {
-                    Log.d(TAG, "- " + s.getDate() + "\t" + s.getName() + "\t" + s.getTotalCost());
-                }
-                //
-                String sMonth = ModelUtils.convertLongDateToString(System.currentTimeMillis());
-                long lMonth = ModelUtils.convertStringDateToLong(getContext(), sMonth);
+                long currentMonth = ModelUtils.getCurrentMonth(System.currentTimeMillis());
                 List<Statistic> statistics = statisticDao.queryBuilder()
-                        .where(StatisticDao.Properties.Date.ge(lMonth)).list();
-                Log.d(TAG, "---- in List");
-                for (Statistic s : statistics) {
-                    Log.d(TAG, "- " + s.getDate() + "\t" + s.getName() + "\t" + s.getTotalCost());
-                }
-                for (int i = 0; i < statistics.size(); i++) {
-                    if (!ModelUtils.convertLongDateToString(statistics.get(i).getDate())
-                            .equals(sMonth)) {
-                        statistics.subList(i, statistics.size()).clear();
-                        break;
+                        .where(StatisticDao.Properties.Date.ge(currentMonth)).list();
+                if (statistics.size() > 0) {
+                    for (int i = 0; i < statistics.size(); i++) {
+                        if (ModelUtils.getCurrentMonth(statistics.get(i).getDate()) != currentMonth) {
+                            statistics.subList(i, statistics.size()).clear();
+                            break;
+                        }
                     }
+                    statistics = ModelUtils.removeDuplicatesInStatistics(statistics);
+                    statisticsByMonths.add(statistics);
                 }
-                statistics = ModelUtils.removeDuplicatesInStatistics(statistics);
-                statisticsByMonths.add(statistics);
                 mainRVAdapter.notifyDataSetChanged();
             }
         });
     }
 
     private void initButtonHalfYear(View view) {
+        Button button = (Button) view.findViewById(R.id.button_show_half_year);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                database.close();
+                helper = new DaoMaster.DevOpenHelper(
+                        getContext(),
+                        "db",
+                        null
+                );
+                database = helper.getWritableDb();
+                daoMaster = new DaoMaster(database);
+                daoSession = daoMaster.newSession();
+                statisticDao = daoSession.getStatisticDao();
 
+                statisticsByMonths.clear();
+                long currentMonth = ModelUtils.getCurrentMonth(System.currentTimeMillis());
+                List<Statistic> statistics = statisticDao.queryBuilder()
+                        .where(StatisticDao.Properties.Date.ge(currentMonth)).list();
+
+                if (statistics.size() > 0) {
+                    for (int i = 0; i < statistics.size(); i++) {
+                        if (ModelUtils.getCurrentMonth(statistics.get(i).getDate()) != currentMonth) {
+                            statistics.subList(i, statistics.size()).clear();
+                            break;
+                        }
+                    }
+                    statistics = ModelUtils.removeDuplicatesInStatistics(statistics);
+                    statisticsByMonths.add(statistics);
+                }
+                mainRVAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     private void initButtonYear(View view) {

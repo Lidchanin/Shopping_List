@@ -25,6 +25,8 @@ import java.util.List;
 public class StatisticsMainRVAdapter
         extends RecyclerView.Adapter<StatisticsMainRVAdapter.StatisticsMainVewHolder> {
 
+    private static final String TAG = StatisticsMainRVAdapter.class.getSimpleName();
+
     private Context context;
 
     private StatisticDao statisticDao;
@@ -57,12 +59,7 @@ public class StatisticsMainRVAdapter
     public void onBindViewHolder(StatisticsMainVewHolder holder, int position) {
         final int adapterPosition = holder.getAdapterPosition();
 
-        Log.d("----", "onBind");
-        for (Statistic s :
-                statistics.get(adapterPosition)) {
-            Log.d("----", "  \t  " + s.getName() + "\t" + s.getTotalCost());
-        }
-        holder.tvName.setText(ModelUtils.convertLongDateToString(
+        holder.tvName.setText(ModelUtils.convertDateInMillisToString(
                 statistics.get(adapterPosition).get(0).getDate()));
 
         holder.tvCost.setText(String.valueOf(
