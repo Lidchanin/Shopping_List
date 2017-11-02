@@ -1,8 +1,5 @@
 package com.lidchanin.crudindiploma.utils;
 
-import android.content.Context;
-import android.widget.Toast;
-
 import com.lidchanin.crudindiploma.database.Product;
 import com.lidchanin.crudindiploma.database.ShoppingList;
 import com.lidchanin.crudindiploma.database.Statistic;
@@ -126,17 +123,21 @@ public class ModelUtils {
     }
 
     /**
-     * The method <b>getMontWithStep</b> The method changes the current month to the previous.
+     * The method <b>getMonthWithStep</b> The method changes the current month to the needed.
      *
      * @param currentMonth the current month in millis.
      * @param steps        the number of steps.
-     * @return the previous month in millis.
+     * @return the needed month in millis.
      */
-    public static long getMontWithStep(long currentMonth, int steps) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(currentMonth);
-        calendar.add(Calendar.MONTH, steps);
-        return calendar.getTime().getTime();
+    public static long getMonthWithStep(long currentMonth, int steps) {
+        if (steps == 0) {
+            return getCurrentMonth(currentMonth);
+        } else {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(currentMonth);
+            calendar.add(Calendar.MONTH, steps);
+            return calendar.getTime().getTime();
+        }
     }
 
     /**
@@ -148,28 +149,6 @@ public class ModelUtils {
     public static String convertDateInMillisToString(long millis) {
         SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
         return sdf.format(millis);
-    }
-
-    /**
-     * The method <b>convertStringDateToLong</b> convert string date (month + year) to
-     * milliseconds.
-     *
-     * @param context context.
-     * @param date    the date in string.
-     * @return date in milliseconds.
-     */
-    public static long convertStringDateToLong(Context context, String date) {
-        SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
-        try {
-            return sdf.parse(date).getTime();
-        } catch (Exception e) {
-            Toast.makeText(
-                    context,
-                    "Error: " + e.getLocalizedMessage(),
-                    Toast.LENGTH_LONG
-            ).show();
-            return 0;
-        }
     }
 
     /**
