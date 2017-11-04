@@ -11,7 +11,6 @@
             android:icon="@drawable/ic_allexisting"
             android:title="@string/all_products" />
         <item
-            android:visible="false"
             android:id="@+id/nav_profit"
             android:icon="@drawable/ic_profit_black_24dp"
             android:title="@string/profit" />

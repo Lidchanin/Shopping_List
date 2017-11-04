@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.percent.PercentRelativeLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:background="?attr/backgroundTheme"
     android:layout_height="match_parent">
 
     <android.support.v7.widget.CardView
@@ -17,38 +18,50 @@
             android:layout_height="wrap_content">
 
             <android.support.design.widget.TextInputLayout
-                style="@style/MyTextInputLayout">
+                style="@style/MyNameTextInputLayout">
                 <EditText
-                    android:inputType="numberDecimal"
                     android:singleLine="true"
                     android:id="@+id/name_first"
                     android:hint="@string/name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </android.support.design.widget.TextInputLayout>
-
+            <RelativeLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
             <android.support.design.widget.TextInputLayout
+                android:id="@+id/cost_first_container"
                 style="@style/MyTextInputLayout">
                 <EditText
                     android:inputType="numberDecimal"
                     android:singleLine="true"
                     android:id="@+id/cost_first"
                     android:hint="@string/cost"
-                    android:layout_width="match_parent"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
+                android:layout_toRightOf="@id/cost_first_container"
                 style="@style/MyTextInputLayout">
                 <EditText
                     android:inputType="numberDecimal"
                     android:singleLine="true"
                     android:id="@+id/weight_first"
                     android:hint="@string/weight"
-                    android:layout_width="match_parent"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content" />
             </android.support.design.widget.TextInputLayout>
-
+                <ImageView
+                    android:padding="5dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/ic_allexisting"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp" />
+            </RelativeLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>
 
@@ -66,38 +79,49 @@
             android:layout_height="wrap_content">
 
             <android.support.design.widget.TextInputLayout
-                style="@style/MyTextInputLayout">
+                style="@style/MyNameTextInputLayout">
                 <EditText
-                    android:inputType="numberDecimal"
                     android:singleLine="true"
                     android:id="@+id/name_second"
                     android:hint="@string/name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </android.support.design.widget.TextInputLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/cost_second_container"
+                    style="@style/MyTextInputLayout">
+                    <EditText
 
-            <android.support.design.widget.TextInputLayout
-                style="@style/MyTextInputLayout">
-                <EditText
-                    android:inputType="numberDecimal"
-                    android:singleLine="true"
-                    android:id="@+id/cost_second"
-                    android:hint="@string/cost"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </android.support.design.widget.TextInputLayout>
+                        android:inputType="numberDecimal"
+                        android:singleLine="true"
+                        android:id="@+id/cost_second"
+                        android:hint="@string/cost"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content" />
+                </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
-                style="@style/MyTextInputLayout">
-                <EditText
-                    android:inputType="numberDecimal"
-                    android:singleLine="true"
-                    android:id="@+id/weight_second"
-                    android:hint="@string/weight"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </android.support.design.widget.TextInputLayout>
-
+                <android.support.design.widget.TextInputLayout
+                    android:layout_toRightOf="@id/cost_second_container"
+                    style="@style/MyTextInputLayout">
+                    <EditText
+                        android:inputType="numberDecimal"
+                        android:singleLine="true"
+                        android:id="@+id/weight_second"
+                        android:hint="@string/weight"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content" />
+                </android.support.design.widget.TextInputLayout>
+                <ImageView
+                    android:padding="5dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/ic_allexisting"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp" />
+            </RelativeLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>
 
@@ -138,4 +162,4 @@
             android:text="@string/clear" />
     </LinearLayout>
 
-</android.support.percent.PercentRelativeLayout>
+</RelativeLayout>

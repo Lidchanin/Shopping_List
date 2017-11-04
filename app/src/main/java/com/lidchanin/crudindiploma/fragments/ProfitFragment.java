@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.adapters.ProfitAdapter;
@@ -66,15 +67,16 @@ public class ProfitFragment extends Fragment {
                 double firstProductWeight = 0;
                 double secondProductCost = 0;
                 double secondProductWeight = 0;
-                if(!TextUtils.isEmpty(firstCost.getText())&&TextUtils.isEmpty(secondCost.getText())&&TextUtils.isEmpty(firstWeight.getText())&&TextUtils.isEmpty(secondWeight.getText())){
+                if(!TextUtils.isEmpty(firstCost.getText()) && !TextUtils.isEmpty(secondCost.getText()) && !TextUtils.isEmpty(firstWeight.getText()) && !TextUtils.isEmpty(secondWeight.getText())){
                     firstProductCost = Double.parseDouble((String.valueOf(firstCost.getText())));
                     firstProductWeight = Double.parseDouble((String.valueOf(firstWeight.getText())));
                     secondProductCost = Double.parseDouble((String.valueOf(secondCost.getText())));
                     secondProductWeight = Double.parseDouble((String.valueOf(secondWeight.getText())));
+                    Toast.makeText(getContext(),"SHIT",Toast.LENGTH_LONG).show();
                     if(firstProductCost*firstProductWeight<secondProductCost*secondProductWeight){
                         secondElement.setVisibility(View.GONE);
                     }else if(firstProductCost*firstProductWeight>secondProductCost*secondProductWeight){
-                        secondElement.setVisibility(View.GONE);
+                        firstElement.setVisibility(View.GONE);
                     }else {
                         firstName.setText("BETTTEER!");
                         secondName.setText("BETTTEER");
@@ -86,6 +88,8 @@ public class ProfitFragment extends Fragment {
         clearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                firstElement.setVisibility(View.VISIBLE);
+                secondElement.setVisibility(View.VISIBLE);
                 firstName.setText("");
                 firstCost.setText("");
                 firstWeight.setText("");
