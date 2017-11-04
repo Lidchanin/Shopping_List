@@ -2,18 +2,22 @@
 <resources>
     <color name="cyan">#00ffd9</color>
     <color name="blue">#00c4ff</color>
+    <color name="blueBG">#039BE5</color>
     <color name="blueLittleDarker">#00b2ff</color>
     <color name="purpleBright">#ac3fff</color>
     <color name="purple">#9000ff</color>
+    <color name="purpleBG">#6A1B9A</color>
     <color name="yellow">#ffd900</color>
     <color name="orange">#ffb625</color>
     <color name="greenBrightSoft">#70e1f5</color>
     <color name="pinkBrightSoft">#FFAFBD</color>
     <color name="purpleSoft">#7b4397</color>
-    <color name="redSoft">#dc2430</color>
+    <color name="redSoft">#ea3b3b</color>
+    <color name="redSoftBG">#c62828</color>
     <color name="cyanDark">#136a8a</color>
     <color name="cyanDarkest">#105670</color>
     <color name="cyanSoft">#267871</color>
+    <color name="cyanSoftBG">#00897B</color>
     <color name="cyanSoftDark">#216660</color>
     <color name="redDark">#6f0000</color>
     <color name="redDarkButtons">#b40000</color>
