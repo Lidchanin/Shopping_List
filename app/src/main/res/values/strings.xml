@@ -166,4 +166,9 @@
     <string name="product_name_exists">Product \"%1$s\" already exists!</string>
     <string name="product_name_exists_in_list">Product \"%1$s\" already exists in this list!</string>
     <string name="statistics">Statistics</string>
+    <string name="current_month">CURRENT MONTH</string>
+    <string name="half_year">HALF-YEAR</string>
+    <string name="year">YEAR</string>
+    <string name="date_picker_dialog_first_date">FIRST DATE</string>
+    <string name="date_picker_dialog_second_date">SECOND DATE</string>
 </resources>

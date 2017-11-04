@@ -3,7 +3,6 @@ package com.lidchanin.crudindiploma.adapters;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,7 +58,7 @@ public class StatisticsMainRVAdapter
     public void onBindViewHolder(StatisticsMainVewHolder holder, int position) {
         final int adapterPosition = holder.getAdapterPosition();
 
-        holder.tvName.setText(ModelUtils.convertDateInMillisToString(
+        holder.tvName.setText(ModelUtils.convertLongDateToString(
                 statistics.get(adapterPosition).get(0).getDate()));
 
         holder.tvCost.setText(String.valueOf(
