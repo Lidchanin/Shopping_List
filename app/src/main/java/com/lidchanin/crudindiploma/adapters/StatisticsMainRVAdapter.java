@@ -24,6 +24,8 @@ import java.util.List;
 public class StatisticsMainRVAdapter
         extends RecyclerView.Adapter<StatisticsMainRVAdapter.StatisticsMainVewHolder> {
 
+    private static final String TAG = StatisticsMainRVAdapter.class.getSimpleName();
+
     private Context context;
 
     private StatisticDao statisticDao;
@@ -55,9 +57,6 @@ public class StatisticsMainRVAdapter
     @Override
     public void onBindViewHolder(StatisticsMainVewHolder holder, int position) {
         final int adapterPosition = holder.getAdapterPosition();
-
-        statistics.set(adapterPosition,
-                ModelUtils.removeDuplicatesInStatistics(statistics.get(adapterPosition)));
 
         holder.tvName.setText(ModelUtils.convertLongDateToString(
                 statistics.get(adapterPosition).get(0).getDate()));

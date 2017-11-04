@@ -139,7 +139,7 @@
     <string name="quantity">Количество</string>
     <string name="choose_your_colors_and_gradients">Выберите цветовую гамму:</string>
     <string name="sum">Сумма</string>
-    <string name="recognize_speech">Пожалуйста, выберите язык для распознавания</string>
+    <string name="recognize_speech">Пожалуйста, выберите язык для распознавания.</string>
     <string name="download_error">Ошибка скачивания: </string>
     <string name="file_downloaded">Скачивание завершено </string>
     <string name="lang_downloading">Скачивание языка распознавания.</string>
@@ -152,5 +152,13 @@
     <string name="unit">Единица измерения</string>
     <string name="product_name_exists">Продукт \"%1$s\" уже существует!</string>
     <string name="product_name_exists_in_list">Продукт \"%1$s\" уже в списке!</string>
+    <string name="statistics">Статистика</string>
+    <string name="current_month">ТЕКУЩИЙ МЕСЯЦ</string>
+    <string name="half_year">ПОЛГОДА</string>
+    <string name="year">ГОД</string>
+    <string name="cancel">ОТМЕНА</string>
+    <string name="show">ПОКАЗАТЬ</string>
+    <string name="date_picker_dialog_first_date">Нажмите и выберите первую дату.</string>
+    <string name="date_picker_dialog_second_date">Нажмите и выберите вторую дату.</string>
 
 </resources>

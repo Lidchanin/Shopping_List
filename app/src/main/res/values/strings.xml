@@ -152,7 +152,7 @@
     <string name="clear">Clear</string>
     <string name="choose_your_colors_and_gradients">Choose app style:</string>
     <string name="sum">Sum</string>
-    <string name="recognize_speech">Please ,select a language for recognition</string>
+    <string name="recognize_speech">Please ,select a language for recognition.</string>
     <string name="download_error">Download error: </string>
     <string name="file_downloaded">File downloaded</string>
     <string name="lang_downloading">Recognize language downloading.</string>
@@ -167,4 +167,11 @@
     <string name="product_name_exists">Product \"%1$s\" already exists!</string>
     <string name="product_name_exists_in_list">Product \"%1$s\" already exists in this list!</string>
     <string name="statistics">Statistics</string>
+    <string name="current_month">CURRENT MONTH</string>
+    <string name="half_year">HALF-YEAR</string>
+    <string name="year">YEAR</string>
+    <string name="date_picker_dialog_second_date">Press and select the second date.</string>
+    <string name="cancel">CANCEL</string>
+    <string name="show">SHOW</string>
+    <string name="date_picker_dialog_first_date">Press and select the first date.</string>
 </resources>

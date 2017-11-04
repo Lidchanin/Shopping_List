@@ -1,14 +1,19 @@
 package com.lidchanin.crudindiploma.utils;
 
+import android.util.Log;
+
 import com.lidchanin.crudindiploma.database.Product;
 import com.lidchanin.crudindiploma.database.ShoppingList;
 import com.lidchanin.crudindiploma.database.Statistic;
 import com.lidchanin.crudindiploma.database.UsedProduct;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -16,6 +21,8 @@ import java.util.Locale;
  * @author Lidchanin
  */
 public class ModelUtils {
+
+    private static final String TAG = ModelUtils.class.getSimpleName();
 
     /**
      * The method <b>isProductExists</b> checks is {@link Product} exists in list or not.
@@ -74,49 +81,121 @@ public class ModelUtils {
      * The method <b>divideStatisticsByMonths</b> divides the list with {@link Statistic}s into
      * the categories. "One" date - "many" statistics, which corresponds by date.
      *
-     * @param initialStatistics all started {@link Statistic}s in list.
-     * @return divided list with statistics.
+     * @param initialStatistics all initial {@link Statistic}s in {@link List}.
+     * @return divided {@link List} with statistics {@link List}s, which are sorted by months.
      */
     public static List<List<Statistic>> divideStatisticsByMonths(List<Statistic> initialStatistics) {
-        List<List<Statistic>> sortedStatistics = new ArrayList<>();
+        List<List<Statistic>> dividedStatistics = new ArrayList<>();
         if (initialStatistics != null && initialStatistics.size() > 0) {
-            String month = convertLongDateToString(initialStatistics.get(0).getDate());
-            List<Statistic> statisticsByOneMonth = new ArrayList<>();
-            for (Statistic s : initialStatistics) {
-                if (convertLongDateToString(s.getDate()).equals(month)) {
-                    statisticsByOneMonth.add(s);
+            long currentMonth = getCurrentMonth(initialStatistics.get(0).getDate());
+            List<Statistic> statisticsOneMonth = new ArrayList<>();
+            statisticsOneMonth.add(initialStatistics.get(0));
+            for (int i = 1; i < initialStatistics.size(); i++) {
+                if (getCurrentMonth(initialStatistics.get(i).getDate()) == currentMonth) {
+                    statisticsOneMonth.add(initialStatistics.get(i));
                 } else {
-                    sortedStatistics.add(statisticsByOneMonth);
-                    statisticsByOneMonth = new ArrayList<>();
-                    statisticsByOneMonth.add(s);
-                    month = convertLongDateToString(s.getDate());
+                    dividedStatistics.add(statisticsOneMonth);
+                    statisticsOneMonth = new ArrayList<>();
+                    statisticsOneMonth.add(initialStatistics.get(i));
+                    currentMonth = getCurrentMonth(initialStatistics.get(i).getDate());
                 }
             }
-            sortedStatistics.add(statisticsByOneMonth);
+            dividedStatistics.add(statisticsOneMonth);
         }
-        return sortedStatistics;
+        return dividedStatistics;
     }
 
     /**
-     * The method <b>convertLongDateToString</b> converts <i>System.currentTimeMillis()</i> to date
-     * only with year and month.
+     * The method <b>getCurrentMonth</b> convert date with days, hours and etc in milliseconds to
+     * date with month in milliseconds.
      *
-     * @param date the date in milliseconds.
-     * @return string date with year and month.
+     * @param dateInMillis initial date.
+     * @return date with only month in millis.
      */
-    public static String convertLongDateToString(long date) {
-        SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
-        return sdf.format(date);
+    public static long getCurrentMonth(long dateInMillis) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(dateInMillis);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.clear(Calendar.AM_PM);
+        calendar.clear(Calendar.HOUR_OF_DAY);
+        calendar.clear(Calendar.HOUR);
+        calendar.clear(Calendar.MINUTE);
+        calendar.clear(Calendar.SECOND);
+        calendar.clear(Calendar.MILLISECOND);
+        return calendar.getTimeInMillis();
     }
 
     /**
-     * The method <b>removeDuplicatesInStatistics</b> finds duplicates in list. Then duplicates
-     * are combined.
+     * The method <b>getMonthWithStep</b> The method changes the current month to the needed.
+     *
+     * @param currentMonth the current month in millis.
+     * @param steps        the number of steps.
+     * @return the needed month in millis.
+     */
+    public static long getMonthWithStep(long currentMonth, int steps) {
+        if (steps == 0) {
+            return getCurrentMonth(currentMonth);
+        } else {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(currentMonth);
+            calendar.add(Calendar.MONTH, steps);
+            return calendar.getTime().getTime();
+        }
+    }
+
+    /**
+     * The method <b>getLastMomentOfMonth</b> changes current date in millis to date, which contains
+     * last moment of month, like 30.11.2017 23.59.59
+     *
+     * @param currentDate the current date in millis.
+     * @return changed date.
+     */
+    public static long getLastMomentOfMonth(long currentDate) {
+        Log.i(TAG, "getLastMomentOfMonth: initial date = " + currentDate);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(currentDate);
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+        calendar.set(Calendar.AM_PM, calendar.getActualMaximum(Calendar.AM_PM));
+        calendar.set(Calendar.HOUR_OF_DAY, calendar.getActualMaximum(Calendar.HOUR_OF_DAY));
+        calendar.set(Calendar.HOUR, calendar.getActualMaximum(Calendar.HOUR));
+        calendar.set(Calendar.MINUTE, calendar.getActualMaximum(Calendar.MINUTE));
+        calendar.set(Calendar.SECOND, calendar.getActualMaximum(Calendar.SECOND));
+        calendar.set(Calendar.MILLISECOND, calendar.getActualMaximum(Calendar.MILLISECOND));
+        Log.i(TAG, "getLastMomentOfMonth: final date = " + calendar.getTimeInMillis());
+        return calendar.getTimeInMillis();
+    }
+
+    /**
+     * The method <b>convertLongDateToString</b> convert date in milliseconds to date in String.
+     *
+     * @param millis the date in milliseconds.
+     * @return date in {@link String} format.
+     */
+    public static String convertLongDateToString(long millis) {
+        SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
+        return sdf.format(millis);
+    }
+
+    public static long convertStringDateToLong(String dateInString) {
+        SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
+        try {
+            Date date = sdf.parse(dateInString);
+            return date.getTime();
+        } catch (ParseException e) {
+            Log.e(TAG, "convertStringDateToLong: " + e.getMessage());
+            return -1;
+        }
+    }
+
+    /**
+     * The method <b>removeDuplicatesInStatistics</b> finds duplicates by name in list.
+     * Then duplicates are combined.
      *
      * @param initialStatistics statistics with duplicates.
      * @return statistics without duplicates.
      */
     public static List<Statistic> removeDuplicatesInStatistics(List<Statistic> initialStatistics) {
+        sortListStatisticsByName(initialStatistics);
         List<Statistic> newStatistics = new ArrayList<>();
         newStatistics.add(initialStatistics.get(0));
         if (initialStatistics.size() > 1) {
@@ -148,20 +227,18 @@ public class ModelUtils {
     }
 
     /**
-     * The method <b>sortStatisticsByName</b> sorts statistics in lists by name by asc.
+     * The method <b>sortListStatisticsByName</b> sorts statistics list by name by asc.
      *
      * @param statistics initial statistics list.
      */
-    public static void sortStatisticsByName(List<List<Statistic>> statistics) {
-        for (List<Statistic> sl : statistics) {
-            if (sl.size() > 0) {
-                Collections.sort(sl, new Comparator<Statistic>() {
-                    @Override
-                    public int compare(final Statistic object1, final Statistic object2) {
-                        return object1.getName().compareTo(object2.getName());
-                    }
-                });
-            }
+    private static void sortListStatisticsByName(List<Statistic> statistics) {
+        if (statistics.size() > 0) {
+            Collections.sort(statistics, new Comparator<Statistic>() {
+                @Override
+                public int compare(final Statistic object1, final Statistic object2) {
+                    return object1.getName().compareTo(object2.getName());
+                }
+            });
         }
     }
 
