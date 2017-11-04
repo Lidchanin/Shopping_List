@@ -151,7 +151,7 @@ public class ModelUtils {
      * @return changed date.
      */
     public static long getLastMomentOfMonth(long currentDate) {
-        Log.d(TAG, "getLastMomentOfMonth: initial date = " + currentDate);
+        Log.i(TAG, "getLastMomentOfMonth: initial date = " + currentDate);
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(currentDate);
         calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
@@ -161,7 +161,7 @@ public class ModelUtils {
         calendar.set(Calendar.MINUTE, calendar.getActualMaximum(Calendar.MINUTE));
         calendar.set(Calendar.SECOND, calendar.getActualMaximum(Calendar.SECOND));
         calendar.set(Calendar.MILLISECOND, calendar.getActualMaximum(Calendar.MILLISECOND));
-        Log.d(TAG, "getLastMomentOfMonth: final date = " + calendar.getTimeInMillis());
+        Log.i(TAG, "getLastMomentOfMonth: final date = " + calendar.getTimeInMillis());
         return calendar.getTimeInMillis();
     }
 

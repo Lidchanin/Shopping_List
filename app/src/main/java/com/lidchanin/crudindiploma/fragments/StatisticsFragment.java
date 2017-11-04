@@ -169,7 +169,7 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
         linearLayout.addView(buttonSecondDate);
         builder.setView(linearLayout);
 
-        builder.setPositiveButton("GO", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.show, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Log.d(TAG, "onClick: " + buttonFirstDate.getText().toString()
@@ -207,12 +207,13 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
                     database.close();
 
                     fillInAdapterWithStatistics(statistics);
-                    Log.d(TAG, "onClick: selected period: " + firstDate + "-" + secondDate);
+                    Log.i(TAG, "onClick: selected period: " + firstDate + "-" + secondDate);
+                    dialog.dismiss();
                 }
             }
         });
 
-        builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
