@@ -190,6 +190,17 @@
         <item name="colorAccent">@color/orange</item>
     </style>
 
+    <style name="TESTLoveAndLibertyGradientTheme" parent="Theme.AppCompat.Light">
+        <item name="backgroundTheme">@drawable/background_for_all</item>
+        <item name="android:textColor">@color/cardview_light_background</item>
+        <item name="android:textColorHint">@color/cardview_dark_background</item>
+        <item name="startGradient">@color/yellowBright</item>
+        <item name="endGradient">@color/pink</item>
+        <item name="colorPrimary">@color/orange</item>
+        <item name="colorPrimaryDark">@color/orange</item>
+        <item name="colorAccent">@color/orange</item>
+    </style>
+
     <style name="MyDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:textColor">@color/cardview_dark_background</item>
         <item name="android:textColorHint">@color/cardview_dark_background</item>
