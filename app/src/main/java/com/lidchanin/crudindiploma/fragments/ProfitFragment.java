@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -42,6 +43,11 @@ public class ProfitFragment extends Fragment {
     private EditText secondCost;
     private EditText firstWeight;
     private EditText secondWeight;
+    private ImageView redCross;
+    private ImageView redCross2;
+    private ImageView betterChoice;
+    private ImageView betterChoice2;
+
 
 
     @Nullable
@@ -59,6 +65,10 @@ public class ProfitFragment extends Fragment {
         secondWeight = (EditText) view.findViewById(R.id.weight_second);
         clearButton = (Button) view.findViewById(R.id.button_clean);
         compare = (Button) view.findViewById(R.id.button_compare);
+        betterChoice = (ImageView) view.findViewById(R.id.best_choice);
+        betterChoice2 = (ImageView) view.findViewById(R.id.best_choice2);
+        redCross = (ImageView) view.findViewById(R.id.red_cross);
+        redCross2 = (ImageView) view.findViewById(R.id.red_cross2);
 
         compare.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,12 +84,15 @@ public class ProfitFragment extends Fragment {
                     secondProductWeight = Double.parseDouble((String.valueOf(secondWeight.getText())));
                     Toast.makeText(getContext(),"SHIT",Toast.LENGTH_LONG).show();
                     if(firstProductCost*firstProductWeight<secondProductCost*secondProductWeight){
-                        secondElement.setVisibility(View.GONE);
+                        dropVisibility();
+                        betterChoice.setVisibility(View.VISIBLE);
+                        redCross2.setVisibility(View.VISIBLE);
                     }else if(firstProductCost*firstProductWeight>secondProductCost*secondProductWeight){
-                        firstElement.setVisibility(View.GONE);
+                        dropVisibility();
+                        redCross.setVisibility(View.VISIBLE);
+                        betterChoice2.setVisibility(View.VISIBLE);
                     }else {
-                        firstName.setText("BETTTEER!");
-                        secondName.setText("BETTTEER");
+                       dropVisibility();
                     }
                 }
             }
@@ -88,6 +101,7 @@ public class ProfitFragment extends Fragment {
         clearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                dropVisibility();
                 firstElement.setVisibility(View.VISIBLE);
                 secondElement.setVisibility(View.VISIBLE);
                 firstName.setText("");
@@ -102,6 +116,13 @@ public class ProfitFragment extends Fragment {
         view.setFocusableInTouchMode(true);
         view.requestFocus();
         return view;
+    }
+
+    private void dropVisibility(){
+        redCross.setVisibility(View.GONE);
+        redCross2.setVisibility(View.GONE);
+        betterChoice.setVisibility(View.GONE);
+        betterChoice2.setVisibility(View.GONE);
     }
 
 

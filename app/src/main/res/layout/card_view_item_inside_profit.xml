@@ -1,85 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/framelayout_profit"
+<android.support.v7.widget.CardView android:layout_margin="5dp"
+    android:id="@+id/first_element"
     android:layout_width="match_parent"
-    android:layout_height="70dp"
-    android:orientation="horizontal">
-    <RelativeLayout
-        android:layout_marginTop="10dp"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:id="@+id/inside_first"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="60dp">
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/cost_input"
-            android:textColorHint="?attr/startGradient"
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
-            android:layout_width="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_height="60dp">
-
-            <com.lidchanin.crudindiploma.customview.DesignedEditText
-                android:id="@+id/cost"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                android:hint="@string/cost"
-                android:textColorHint="@color/blueLittleDarker"
-                android:textColor="?attr/startGradient"
-                android:textSize="20sp" />
-        </android.support.design.widget.TextInputLayout>
+        android:layout_height="wrap_content">
 
         <android.support.design.widget.TextInputLayout
-            android:layout_toRightOf="@id/cost_input"
-            android:layout_width="wrap_content"
-            android:textColorHint="?attr/startGradient"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:layout_height="60dp">
-
-            <com.lidchanin.crudindiploma.customview.DesignedEditText
-                android:id="@+id/weight"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:textColorHint="@color/blueLittleDarker"
-                android:hint="@string/weight"
-                android:inputType="numberDecimal"
-                android:textColor="?attr/startGradient"
-                android:textSize="20sp" />
+            style="@style/MyNameTextInputLayout">
+            <EditText
+                android:singleLine="true"
+                android:id="@+id/name"
+                android:hint="@string/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
         </android.support.design.widget.TextInputLayout>
+        <RelativeLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/cost_container"
+                style="@style/MyTextInputLayout">
+                <EditText
+                    android:inputType="numberDecimal"
+                    android:singleLine="true"
+                    android:id="@+id/cost"
+                    android:hint="@string/cost"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content" />
+            </android.support.design.widget.TextInputLayout>
 
-
-        <ImageButton
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:id="@+id/profit_delete"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_margin="5dp"
-            android:background="?attr/selectableItemBackground"
-            android:gravity="right"
-            android:src="@drawable/ic_clear_24dp" />
-
-    <com.lidchanin.crudindiploma.customview.DesignedTextView
-        android:layout_centerVertical="true"
-        android:layout_toLeftOf="@id/profit_delete"
-        android:id="@+id/sum"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="5dp"
-        android:layout_weight="2"
-        android:hint="@string/sum"
-        android:textColorHint="?attr/startGradient"
-        android:textColor="?attr/startGradient"
-        android:textSize="20sp" />
-
-    <View
-        android:layout_alignParentBottom="true"
-        android:alpha="0.7"
-        android:background="?attr/startGradient"
-        android:layout_height="1dp"
-        android:layout_width="match_parent"/>
-    </RelativeLayout>
-</RelativeLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_toRightOf="@id/cost_container"
+                style="@style/MyTextInputLayout">
+                <EditText
+                    android:inputType="numberDecimal"
+                    android:singleLine="true"
+                    android:id="@+id/weight"
+                    android:hint="@string/weight"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content" />
+            </android.support.design.widget.TextInputLayout>
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/best_choice"
+                android:padding="5dp"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="right"
+                android:layout_margin="10dp"
+                app:srcCompat="@drawable/done_green"
+                android:layout_width="48dp"
+                android:layout_height="48dp" />
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/red_cross"
+                android:padding="5dp"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="right"
+                android:layout_margin="10dp"
+                app:srcCompat="@drawable/red_cross"
+                android:layout_width="48dp"
+                android:layout_height="48dp" />
+        </RelativeLayout>
+    </LinearLayout>
+</android.support.v7.widget.CardView>

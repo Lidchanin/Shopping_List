@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lidchanin.crudindiploma.R;
@@ -52,7 +53,7 @@ public class ProfitAdapter extends RecyclerView.Adapter<ProfitAdapter.ProfitView
 
     @Override
     public void onBindViewHolder(final ProfitViewHolder holder, final int position) {
-        Log.d("POSITIONS", "onBindViewHolder: " + holder.getAdapterPosition());
+       /* Log.d("POSITIONS", "onBindViewHolder: " + holder.getAdapterPosition());
         if(profitItemsList.get(holder.getAdapterPosition()).isCustomized()){
             holder.backgroundProfit.setBackgroundColor(Color.BLACK);
         }else {
@@ -67,7 +68,7 @@ public class ProfitAdapter extends RecyclerView.Adapter<ProfitAdapter.ProfitView
                 profitItemsList.remove(holder.getAdapterPosition());
                 notifyItemRemoved(holder.getAdapterPosition());
             }
-        });
+        });*/
         holder.editTextCost.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -114,7 +115,7 @@ public class ProfitAdapter extends RecyclerView.Adapter<ProfitAdapter.ProfitView
     private void calculate(ProfitViewHolder holder, ProfitItems profitItem) {
         double weight = Double.parseDouble(holder.editTextWeight.getText().toString());
         double cost = Double.parseDouble(holder.editTextCost.getText().toString());
-        holder.textViewSum.setText(new DecimalFormat("#####.##").format(cost / weight));
+        //holder.textViewSum.setText(new DecimalFormat("#####.##").format(cost / weight));
         profitItem.setSum(cost / weight);
         profitItemsList.set(holder.getAdapterPosition(), profitItem);
         if (cost / weight > 0) {
@@ -135,16 +136,15 @@ public class ProfitAdapter extends RecyclerView.Adapter<ProfitAdapter.ProfitView
     static class ProfitViewHolder extends RecyclerView.ViewHolder {
         EditText editTextCost;
         EditText editTextWeight;
-        TextView textViewSum;
-        ImageButton buttonDelete;
-        View backgroundProfit;
+        ImageView betterChoice;
+        ImageView redCross;
+
         ProfitViewHolder(final View view) {
             super(view);
-            backgroundProfit = view.findViewById(R.id.framelayout_profit);
+            betterChoice = (ImageView) view.findViewById(R.id.best_choice);
+            redCross = (ImageView) view.findViewById(R.id.red_cross);
             editTextCost = (EditText) view.findViewById(R.id.cost);
             editTextWeight = (EditText) view.findViewById(R.id.weight);
-            textViewSum = (TextView) view.findViewById(R.id.sum);
-            buttonDelete = (ImageButton) view.findViewById(R.id.profit_delete);
 
         }
     }
