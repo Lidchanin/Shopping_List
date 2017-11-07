@@ -19,6 +19,10 @@ import android.widget.Toast;
 import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.adapters.ListsMainRVAdapter;
 import com.lidchanin.crudindiploma.customview.NavigationDrawerActivity;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import com.lidchanin.crudindiploma.database.ShoppingList;
 import com.lidchanin.crudindiploma.database.dao.DaoMaster;
 import com.lidchanin.crudindiploma.database.dao.DaoSession;
@@ -41,11 +45,17 @@ public class ShoppingListFragment extends android.support.v4.app.Fragment {
 
     private ListsMainRVAdapter listsMainRVAdapter;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ((NavigationDrawerActivity)getActivity()).setButtonsToDefault();
+    }
     private List<ShoppingList> shoppingLists;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_shoppinglist, container, false);
         ImageButton addButton = ((NavigationDrawerActivity) getActivity()).addNewItem();

@@ -190,8 +190,41 @@
         <item name="colorAccent">@color/orange</item>
     </style>
 
+    <style name="TESTLoveAndLibertyGradientTheme" parent="Theme.AppCompat.Light">
+        <item name="backgroundTheme">@drawable/background_for_all</item>
+        <item name="android:textColor">@color/cardview_light_background</item>
+        <item name="android:textColorHint">@color/cardview_dark_background</item>
+        <item name="startGradient">@color/yellowBright</item>
+        <item name="endGradient">@color/pink</item>
+        <item name="colorPrimary">@color/orange</item>
+        <item name="colorPrimaryDark">@color/orange</item>
+        <item name="colorAccent">@color/orange</item>
+    </style>
+
     <style name="MyDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:textColor">@color/cardview_dark_background</item>
         <item name="android:textColorHint">@color/cardview_dark_background</item>
+    </style>
+
+    <style name="MyTextInputLayout">
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:textColor">?attr/endGradient</item>
+        <item name="android:textColorHint">?attr/endGradient</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:layout_width">100dp</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="MyNameTextInputLayout">
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:textColor">?attr/endGradient</item>
+        <item name="android:textColorHint">?attr/endGradient</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
     </style>
 </resources>
