@@ -9,7 +9,9 @@ import org.greenrobot.greendao.generator.ToMany;
 public class GreenDaoGenerator {
 
     public static void main(String[] args) throws Exception {
-        Schema schema = new Schema(7, "com.lidchanin.crudindiploma.database");
+
+
+        Schema schema = new Schema(8, "com.lidchanin.crudindiploma.database");
         schema.setDefaultJavaPackageDao("com.lidchanin.crudindiploma.database.dao");
         schema.enableKeepSectionsByDefault();
 
@@ -47,12 +49,10 @@ public class GreenDaoGenerator {
                 .codeBeforeField("/* id */");
         statistic.addStringProperty("name").notNull()
                 .codeBeforeField("/* product name */");
-        /*statistic.addDoubleProperty("cost").notNull()
-                .codeBeforeField("*//* product cost *//*");
         statistic.addDoubleProperty("quantity").notNull()
-                .codeBeforeField("*//* used product quantity *//*");*/
+                .codeBeforeField("/* used product quantity */");
         statistic.addDoubleProperty("totalCost").notNull()
-                .codeBeforeField("/* product cost * used product quantity */");
+                .codeBeforeField("/* product cost * used product quantity * product cost */");
         statistic.addBooleanProperty("unit").notNull()
                 .codeBeforeField("/* true -> kg, false -> pieces */");
         statistic.addLongProperty("date").notNull()
@@ -70,6 +70,6 @@ public class GreenDaoGenerator {
                 shoppingListIdProperty);
         shoppingListToExistingProducts.setName("usedProducts");
 
-        new DaoGenerator().generateAll(schema, "./app/src/main/java");
+        new DaoGenerator().generateAll(schema, "../app/src/main/java");
     }
 }

@@ -378,8 +378,7 @@ public class ListsMainRVAdapter
                     Statistic statistic = new Statistic();
                     statistic.setName(up.getProduct().getName());
                     statistic.setTotalCost(up.getQuantity() * up.getProduct().getCost());
-//                    statistic.setCost(up.getProduct().getCost());
-//                    statistic.setQuantity(up.getQuantity());
+                    statistic.setQuantity(up.getQuantity());
                     statistic.setUnit(up.getUnit());
                     statistic.setDate(up.getDate());
                     statistics.add(statistic);

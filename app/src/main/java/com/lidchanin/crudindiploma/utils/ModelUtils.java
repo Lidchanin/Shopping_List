@@ -203,6 +203,8 @@ public class ModelUtils {
                 if (newStatistics.get(j).getName().equals(initialStatistics.get(i).getName())) {
                     newStatistics.get(j).setTotalCost(newStatistics.get(j).getTotalCost()
                             + initialStatistics.get(i).getTotalCost());
+                    newStatistics.get(j).setQuantity(newStatistics.get(j).getQuantity()
+                            + initialStatistics.get(i).getQuantity());
                 } else {
                     newStatistics.add(initialStatistics.get(i));
                     j++;
