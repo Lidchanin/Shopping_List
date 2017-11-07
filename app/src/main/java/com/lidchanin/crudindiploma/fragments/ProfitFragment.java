@@ -82,7 +82,6 @@ public class ProfitFragment extends Fragment {
                     firstProductWeight = Double.parseDouble((String.valueOf(firstWeight.getText())));
                     secondProductCost = Double.parseDouble((String.valueOf(secondCost.getText())));
                     secondProductWeight = Double.parseDouble((String.valueOf(secondWeight.getText())));
-                    Toast.makeText(getContext(),"SHIT",Toast.LENGTH_LONG).show();
                     if(firstProductCost*firstProductWeight<secondProductCost*secondProductWeight){
                         dropVisibility();
                         betterChoice.setVisibility(View.VISIBLE);
