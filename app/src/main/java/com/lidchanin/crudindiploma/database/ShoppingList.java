@@ -13,6 +13,7 @@ import com.lidchanin.crudindiploma.database.dao.UsedProductDao;
 
 // KEEP INCLUDES - put your custom includes here
 // KEEP INCLUDES END
+
 /**
  * Entity mapped to table "SHOPPING_LIST".
  */

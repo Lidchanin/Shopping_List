@@ -6,6 +6,7 @@ import org.greenrobot.greendao.annotation.*;
 
 // KEEP INCLUDES - put your custom includes here
 // KEEP INCLUDES END
+
 /**
  * Entity mapped to table "STATISTIC".
  */
@@ -19,7 +20,9 @@ public class Statistic {
     /* product name */
     @NotNull
     private String name;
-    /* product cost * used product quantity */
+    /* used product quantity */
+    private double quantity;
+    /* product cost * used product quantity * product cost */
     private double totalCost;
     /* true -> kg, false -> pieces */
     private boolean unit;
@@ -38,9 +41,10 @@ public class Statistic {
     }
 
     @Generated
-    public Statistic(Long id, String name, double totalCost, boolean unit, long date) {
+    public Statistic(Long id, String name, double quantity, double totalCost, boolean unit, long date) {
         this.id = id;
         this.name = name;
+        this.quantity = quantity;
         this.totalCost = totalCost;
         this.unit = unit;
         this.date = date;
@@ -62,6 +66,14 @@ public class Statistic {
     /** Not-null value; ensure this value is available before it is saved to the database. */
     public void setName(@NotNull String name) {
         this.name = name;
+    }
+
+    public double getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(double quantity) {
+        this.quantity = quantity;
     }
 
     public double getTotalCost() {

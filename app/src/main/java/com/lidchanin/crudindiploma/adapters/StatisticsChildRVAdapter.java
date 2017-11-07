@@ -58,6 +58,7 @@ public class StatisticsChildRVAdapter
 
         holder.tvName.setText(statistics.get(adapterPosition).getName());
         holder.tvTotalCost.setText(String.valueOf(statistics.get(adapterPosition).getTotalCost()));
+        holder.tvQuantity.setText(String.valueOf(statistics.get(adapterPosition).getQuantity()));
     }
 
     @Override
@@ -77,11 +78,13 @@ public class StatisticsChildRVAdapter
 
         private TextView tvName;
         private TextView tvTotalCost;
+        private TextView tvQuantity;
 
         StatisticsChildViewHolder(View itemView) {
             super(itemView);
             tvName = (TextView) itemView.findViewById(R.id.tv_name_in_statistics_child_rv);
             tvTotalCost = (TextView) itemView.findViewById(R.id.tv_total_cost_in_statistics_child_rv);
+            tvQuantity = (TextView) itemView.findViewById(R.id.tv_quantity_in_statistics_child_rv);
         }
     }
 }
