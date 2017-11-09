@@ -26,7 +26,7 @@ public interface Constants {
         String PROFIT_FRAGMENT_ID = "profitFramgentId";
         String SETTINGS_FRAGMENT_ID = "settingsFragmentId";
         String STATISTICS_FRAGMENT_ID = "statisticsFragmentId";
-        String INSIDE_SHOPPING_LIST_FRAGMENT_ID = "insideShoppingListFragmentId";
+        String ABOUT_US_FRAGMENT_ID = "aboutUsFragmentId";
         String FRAGMENT_ID = "fragmentId";
         String SHOPPING_LIST_ID = "shoppingListId";
         String VIEWPAGER_PAGE = "shoppingListId";

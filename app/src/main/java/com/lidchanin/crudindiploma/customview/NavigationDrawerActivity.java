@@ -38,6 +38,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.lidchanin.crudindiploma.Constants;
 import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.adapters.ProfitAdapter;
+import com.lidchanin.crudindiploma.fragments.AboutUsFragment;
 import com.lidchanin.crudindiploma.fragments.AllProductsFragment;
 import com.lidchanin.crudindiploma.fragments.ProfitFragment;
 import com.lidchanin.crudindiploma.fragments.SettingsFragment;
@@ -184,6 +185,9 @@ public class NavigationDrawerActivity extends AppCompatActivity implements Navig
             case R.id.nav_settings:
                 initFragment(Constants.Bundles.SETTINGS_FRAGMENT_ID);
                 break;
+            case R.id.nav_about_us:
+                initFragment(Constants.Bundles.ABOUT_US_FRAGMENT_ID);
+                break;
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -210,7 +214,7 @@ public class NavigationDrawerActivity extends AppCompatActivity implements Navig
 
 
     public void initFragment(String fragmentExtra) {
-        initFragment(fragmentExtra,0);
+        initFragment(fragmentExtra, 0);
     }
 
     public void initFragment(String fragmentExtra, int page) {
@@ -234,17 +238,22 @@ public class NavigationDrawerActivity extends AppCompatActivity implements Navig
                 break;
             case Constants.Bundles.SETTINGS_FRAGMENT_ID:
                 SettingsFragment settingsFragment = new SettingsFragment();
-                if(page!=0){
+                if (page != 0) {
                     Bundle bundle = new Bundle();
-                    bundle.putInt(Constants.Bundles.VIEWPAGER_PAGE,page);
+                    bundle.putInt(Constants.Bundles.VIEWPAGER_PAGE, page);
                     settingsFragment.setArguments(bundle);
                 }
-                    fragmentTransaction.replace(R.id.container, settingsFragment);
+                fragmentTransaction.replace(R.id.container, settingsFragment);
                 fragmentTransaction.commit();
                 break;
             case Constants.Bundles.ALL_PRODUCTS_FRAGMENT_ID:
                 AllProductsFragment allProductsFragment = new AllProductsFragment();
                 fragmentTransaction.replace(R.id.container, allProductsFragment);
+                fragmentTransaction.commit();
+                break;
+            case Constants.Bundles.ABOUT_US_FRAGMENT_ID:
+                AboutUsFragment aboutUsFragment = new AboutUsFragment();
+                fragmentTransaction.replace(R.id.container, aboutUsFragment);
                 fragmentTransaction.commit();
                 break;
         }
