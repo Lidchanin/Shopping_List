@@ -178,7 +178,7 @@
     <string name="about_us">About us</string>
     <string name="fokin_email"><u>zanuda.lidchanin@gmail.com</u></string>
     <string name="alexei">Alexei</string>
-    <string name="sinukovich_email"><u>glDestroyed@gmail.com</u></string>
+    <string name="sinukovich_email"><u>Gldestroyed@gmail.com</u></string>
     <string name="alexander">Alexander</string>
     <string name="company_email"><u>SimpleButComfortableSBC@gmail.com</u></string>
     <string name="contact_us_full_text">
@@ -189,4 +189,9 @@
         \n\nWe will always be happy to help and just talk.
     </string>
     <string name="developed_by">Developed by</string>
+    <string name="subject">Subject</string>
+    <string name="compose_email">Compose email</string>
+    <string name="send">Send</string>
+    <string name="choose_an_email_client">Choose an Email client :</string>
+    <string name="write_message">Write message</string>
 </resources>

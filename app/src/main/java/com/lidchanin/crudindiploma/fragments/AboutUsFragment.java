@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -60,30 +61,38 @@ public class AboutUsFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    /**
+     * The method <b>showDialogForSendEmail</b> creates and shows AlertDialog for sending user
+     * email to us.
+     *
+     * @param ourEmail needed our email address.
+     */
     private void showDialogForSendEmail(final String ourEmail) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(),
                 R.style.MyDialogTheme);
-        // FIXME: 10.11.2017 need string res
-        builder.setTitle("SEND EMAIL TITLE");
+        builder.setTitle(R.string.write_message);
 
         LinearLayout linearLayout = new LinearLayout(getContext());
         linearLayout.setOrientation(LinearLayout.VERTICAL);
 
         final EditText etSubject = new EditText(getContext());
-        // FIXME: 10.11.2017 need string res
-        etSubject.setHint("Subject");
+        etSubject.setHint(R.string.subject);
 
         final EditText etMessage = new EditText(getContext());
-        // FIXME: 10.11.2017 need string res
-        etMessage.setHint("Compose email");
+        etMessage.setHint(R.string.compose_email);
 
-        linearLayout.addView(etSubject);
-        linearLayout.addView(etMessage);
+        TextInputLayout tilSubject = new TextInputLayout(getContext());
+        tilSubject.addView(etSubject);
+
+        TextInputLayout tilMessage = new TextInputLayout(getContext());
+        tilMessage.addView(etMessage);
+
+        linearLayout.addView(tilSubject);
+        linearLayout.addView(tilMessage);
 
         builder.setView(linearLayout);
 
-        // FIXME: 10.11.2017 need string res
-        builder.setPositiveButton("GO", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.send, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent emailIntent = new Intent(Intent.ACTION_SEND);
@@ -91,8 +100,8 @@ public class AboutUsFragment extends Fragment implements View.OnClickListener {
                 emailIntent.putExtra(Intent.EXTRA_SUBJECT, etSubject.getText().toString());
                 emailIntent.putExtra(Intent.EXTRA_TEXT, etMessage.getText().toString());
                 emailIntent.setType("message/rfc822");
-                // FIXME: 10.11.2017 need string res
-                startActivity(Intent.createChooser(emailIntent, "Choose an Email client :"));
+                startActivity(Intent.createChooser(emailIntent,
+                        getString(R.string.choose_an_email_client)));
             }
         });
 
@@ -105,6 +114,5 @@ public class AboutUsFragment extends Fragment implements View.OnClickListener {
 
         AlertDialog dialog = builder.create();
         dialog.show();
-
     }
 }
