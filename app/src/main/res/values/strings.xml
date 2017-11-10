@@ -168,11 +168,30 @@
     <string name="product_name_exists">Product \"%1$s\" already exists!</string>
     <string name="product_name_exists_in_list">Product \"%1$s\" already exists in this list!</string>
     <string name="statistics">Statistics</string>
-    <string name="current_month">CURRENT MONTH</string>
-    <string name="half_year">HALF-YEAR</string>
-    <string name="year">YEAR</string>
+    <string name="current_month">Current month</string>
+    <string name="half_year">Half-year</string>
+    <string name="year">Year</string>
     <string name="date_picker_dialog_second_date">Press and select the second date.</string>
-    <string name="cancel">CANCEL</string>
-    <string name="show">SHOW</string>
+    <string name="cancel">Cancel</string>
+    <string name="show">Show</string>
     <string name="date_picker_dialog_first_date">Press and select the first date.</string>
+    <string name="about_us">About us</string>
+    <string name="fokin_email"><u>zanuda.lidchanin@gmail.com</u></string>
+    <string name="alexei">Alexei</string>
+    <string name="sinukovich_email"><u>Gldestroyed@gmail.com</u></string>
+    <string name="alexander">Alexander</string>
+    <string name="company_email"><u>SimpleButComfortableSBC@gmail.com</u></string>
+    <string name="contact_us_full_text">
+        \tContact us if:
+        \n1) you see any mistakes 😣
+        \n2) you know how to improve the application 😎
+        \n3) you are simply bored 😀
+        \n\nWe will always be happy to help and just talk.
+    </string>
+    <string name="developed_by">Developed by</string>
+    <string name="subject">Subject</string>
+    <string name="compose_email">Compose email</string>
+    <string name="send">Send</string>
+    <string name="choose_an_email_client">Choose an Email client :</string>
+    <string name="write_message">Write message</string>
 </resources>
