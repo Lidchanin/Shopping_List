@@ -6,47 +6,72 @@
     android:background="?attr/backgroundTheme">
 
     <LinearLayout
+        android:layout_alignParentBottom="true"
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <Button
+            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="5dp"
             android:id="@+id/button_show_month"
             android:layout_width="0dp"
+            android:maxHeight="48dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@drawable/rect_buttons_main_nrc_left"
             android:text="@string/current_month" />
+        <View
+            android:layout_width="1dp"
+            android:layout_height="48dp"
+            android:background="?attr/colorAccent" />
 
         <Button
+            android:layout_marginBottom="5dp"
             android:id="@+id/button_show_half_year"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:maxHeight="48dp"
+            android:layout_height="48dp"
             android:layout_weight="1"
+            android:background="@drawable/rect_buttons_main_nrc"
             android:text="@string/half_year" />
 
+        <View
+            android:layout_width="1dp"
+            android:layout_height="48dp"
+            android:background="?attr/colorAccent" />
         <Button
+            android:layout_marginBottom="5dp"
             android:id="@+id/button_show_year"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:maxHeight="48dp"
+            android:layout_height="48dp"
             android:layout_weight="1"
+            android:background="@drawable/rect_buttons_main_nrc"
             android:text="@string/year" />
-
+        <View
+            android:layout_width="1dp"
+            android:layout_height="48dp"
+            android:background="?attr/colorAccent" />
         <Button
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
             android:id="@+id/button_show_custom"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:background="@drawable/rect_buttons_main_nrc_right"
+            android:layout_height="48dp"
             android:layout_weight="1"
             android:text="CUSTOM" />
 
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
+        android:layout_above="@id/linearLayout"
         android:id="@+id/statistics_main_rv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/linearLayout" />
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

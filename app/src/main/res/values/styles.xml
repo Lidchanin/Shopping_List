@@ -2,6 +2,7 @@
     <attr name="startGradient" format="reference|color" />
     <attr name="endGradient" format="reference|color" />
     <attr name="backgroundTheme" format="reference|color" />
+    <attr name="textColorOnBackground" format="reference|color" />
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
@@ -34,6 +35,7 @@
         <item name="backgroundTheme">@color/cardview_light_background</item>
         <item name="android:textColor">@color/cardview_light_background</item>
         <item name="android:textColorHint">@color/cardview_dark_background</item>
+        <item name="textColorOnBackground">@color/cardview_dark_background</item>
         <item name="startGradient">@color/blue</item>
         <item name="endGradient">@color/blue</item>
         <item name="colorPrimary">@color/blueBG</item>
@@ -45,6 +47,7 @@
         <item name="backgroundTheme">@color/cardview_dark_background</item>
         <item name="android:textColor">@color/cardview_light_background</item>
         <item name="android:textColorHint">@color/cardview_dark_background</item>
+        <item name="textColorOnBackground">@color/cardview_light_background</item>
         <item name="startGradient">@color/blue</item>
         <item name="endGradient">@color/blue</item>
         <item name="colorPrimary">@color/blueBG</item>
@@ -56,6 +59,7 @@
         <item name="backgroundTheme">@color/blueBG</item>
         <item name="android:textColor">@color/cardview_light_background</item>
         <item name="android:textColorHint">@color/cardview_dark_background</item>
+        <item name="textColorOnBackground">@color/cardview_light_background</item>
         <item name="startGradient">@color/blue</item>
         <item name="endGradient">@color/blue</item>
         <item name="colorPrimary">@color/blueBG</item>
@@ -67,6 +71,7 @@
         <item name="backgroundTheme">@color/cardview_light_background</item>
         <item name="android:textColor">@color/cardview_light_background</item>
         <item name="android:textColorHint">@color/cardview_dark_background</item>
+        <item name="textColorOnBackground">@color/cardview_dark_background</item>
         <item name="startGradient">@color/purple</item>
         <item name="endGradient">@color/purple</item>
         <item name="colorPrimary">@color/purpleBG</item>
@@ -78,6 +83,7 @@
         <item name="backgroundTheme">@color/cardview_dark_background</item>
         <item name="android:textColor">@color/cardview_light_background</item>
         <item name="android:textColorHint">@color/cardview_dark_background</item>
+        <item name="textColorOnBackground">@color/cardview_light_background</item>
         <item name="startGradient">@color/purple</item>
         <item name="endGradient">@color/purple</item>
         <item name="colorPrimary">@color/purpleBG</item>
@@ -89,6 +95,7 @@
         <item name="backgroundTheme">@color/purpleBG</item>
         <item name="android:textColor">@color/cardview_light_background</item>
         <item name="android:textColorHint">@color/cardview_dark_background</item>
+        <item name="textColorOnBackground">@color/cardview_light_background</item>
         <item name="startGradient">@color/purple</item>
         <item name="endGradient">@color/purple</item>
         <item name="colorPrimary">@color/purpleBG</item>
@@ -100,6 +107,7 @@
         <item name="backgroundTheme">@color/cardview_light_background</item>
         <item name="android:textColor">@color/cardview_light_background</item>
         <item name="android:textColorHint">@color/cardview_dark_background</item>
+        <item name="textColorOnBackground">@color/cardview_dark_background</item>
         <item name="startGradient">@color/cyanSoft</item>
         <item name="endGradient">@color/cyanSoft</item>
         <item name="colorPrimary">@color/cyanSoftBG</item>
@@ -111,6 +119,7 @@
         <item name="backgroundTheme">@color/cardview_dark_background</item>
         <item name="android:textColor">@color/cardview_light_background</item>
         <item name="android:textColorHint">@color/cardview_dark_background</item>
+        <item name="textColorOnBackground">@color/cardview_light_background</item>
         <item name="startGradient">@color/cyanSoft</item>
         <item name="endGradient">@color/cyanSoft</item>
         <item name="colorPrimary">@color/cyanSoftBG</item>
@@ -122,6 +131,7 @@
         <item name="backgroundTheme">@color/cyanSoftBG</item>
         <item name="android:textColor">@color/cardview_light_background</item>
         <item name="android:textColorHint">@color/cardview_dark_background</item>
+        <item name="textColorOnBackground">@color/cardview_light_background</item>
         <item name="startGradient">@color/cyanSoft</item>
         <item name="endGradient">@color/cyanSoft</item>
         <item name="colorPrimary">@color/cyanSoftBG</item>
@@ -143,6 +153,7 @@
         <item name="backgroundTheme">@color/cardview_light_background</item>
         <item name="android:textColor">@color/cardview_light_background</item>
         <item name="android:textColorHint">@color/cardview_dark_background</item>
+        <item name="textColorOnBackground">@color/cardview_dark_background</item>
         <item name="startGradient">@color/redSoft</item>
         <item name="endGradient">@color/redSoft</item>
         <item name="colorPrimary">@color/redSoftBG</item>
@@ -155,6 +166,7 @@
         <item name="backgroundTheme">@color/cardview_dark_background</item>
         <item name="android:textColor">@color/cardview_light_background</item>
         <item name="android:textColorHint">@color/cardview_dark_background</item>
+        <item name="textColorOnBackground">@color/cardview_light_background</item>
         <item name="startGradient">@color/redSoft</item>
         <item name="endGradient">@color/redSoft</item>
         <item name="colorPrimary">@color/redSoftBG</item>
@@ -167,6 +179,7 @@
         <item name="backgroundTheme">@color/redSoftBG</item>
         <item name="android:textColor">@color/cardview_light_background</item>
         <item name="android:textColorHint">@color/cardview_dark_background</item>
+        <item name="textColorOnBackground">@color/cardview_light_background</item>
         <item name="startGradient">@color/redSoft</item>
         <item name="endGradient">@color/redSoft</item>
         <item name="colorPrimary">@color/redSoftBG</item>
@@ -183,6 +196,7 @@
         <item name="backgroundTheme">@color/cardview_light_background</item>
         <item name="android:textColor">@color/cardview_light_background</item>
         <item name="android:textColorHint">@color/cardview_dark_background</item>
+        <item name="textColorOnBackground">@color/cardview_dark_background</item>
         <item name="startGradient">@color/yellowBright</item>
         <item name="endGradient">@color/pink</item>
         <item name="colorPrimary">@color/orange</item>
@@ -194,6 +208,7 @@
         <item name="backgroundTheme">@drawable/background_for_all</item>
         <item name="android:textColor">@color/cardview_light_background</item>
         <item name="android:textColorHint">@color/cardview_dark_background</item>
+        <item name="textColorOnBackground">@color/cardview_dark_background</item>
         <item name="startGradient">@color/yellowBright</item>
         <item name="endGradient">@color/pink</item>
         <item name="colorPrimary">@color/orange</item>
@@ -202,8 +217,14 @@
     </style>
 
     <style name="MyDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:buttonStyle">@style/MaterialButton</item>
         <item name="android:textColor">@color/cardview_dark_background</item>
         <item name="android:textColorHint">@color/cardview_dark_background</item>
+    </style>
+
+    <style name="MaterialButton">
+        <item name="android:background">?attr/startGradient</item>
+        <item name="android:padding">5dp</item>
     </style>
 
     <style name="MyTextInputLayout">
