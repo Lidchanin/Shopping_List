@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><!-- main layout-->
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -34,13 +34,6 @@
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="#000"
-                android:contentDescription="@string/about_us"
-                android:src="@drawable/ic_accessible_black_24dp" />
 
             <TextView
                 android:id="@+id/tv_company_email_in_about_us_screen"

@@ -101,8 +101,7 @@ public class ListsMainRVAdapter
     }
 
 
-    public int getItemViewType(int position)
-    {
+    public int getItemViewType(int position) {
         return position;
     }
 
@@ -360,14 +359,7 @@ public class ListsMainRVAdapter
         final AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.MyDialogTheme);
         builder.setTitle(context.getString(R.string.delete_shopping_list, shoppingList.getName()));
         builder.setMessage(context.getString(R.string.are_you_sure_you_want_to_delete_this_shopping_list));
-        builder.setNeutralButton("Yes without statistic", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                deleteShoppingList(adapterPosition, shoppingList, holder);
-                dialog.dismiss();
-            }
-        });
-        builder.setPositiveButton("Yes with statistic", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 final List<UsedProduct> usedProducts = usedProductDao.queryBuilder()
