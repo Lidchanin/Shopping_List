@@ -160,5 +160,22 @@
     <string name="show">ПОКАЗАТЬ</string>
     <string name="date_picker_dialog_first_date">Нажмите и выберите первую дату.</string>
     <string name="date_picker_dialog_second_date">Нажмите и выберите вторую дату.</string>
-
+    <string name="themes">Темы</string>
+    <string name="compare">Сравнить</string>
+    <string name="about_us">О нас</string>
+    <string name="alexei">Алексей</string>
+    <string name="alexander">Александр</string>
+    <string name="developed_by">Создано</string>
+    <string name="subject">Тема</string>
+    <string name="compose_email">"Написать письмо "</string>
+    <string name="send">Отправить</string>
+    <string name="choose_an_email_client">Выберите почтовый клиент:</string>
+    <string name="write_message">Написать сообщение</string>
+    <string name="contact_us_full_text">
+        \tПишите нам, если:
+        \n1) Вы нашли ошибки 😣
+        \n2) Вы знаете, как можно улучшить приложение 😎
+        \n3) Вам просто скучно 😀
+        \n\nМы всегда рады помочь, да и просто пообщаться.
+    </string>
 </resources>
