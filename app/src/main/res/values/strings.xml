@@ -176,11 +176,11 @@
     <string name="show">Show</string>
     <string name="date_picker_dialog_first_date">Press and select the first date.</string>
     <string name="about_us">About us</string>
-    <string name="fokin_email"><u>zanuda.lidchanin@gmail.com</u></string>
+    <string name="fokin_email" translatable="false"><u>zanuda.lidchanin@gmail.com</u></string>
     <string name="alexei">Alexei</string>
-    <string name="sinukovich_email"><u>Gldestroyed@gmail.com</u></string>
+    <string name="sinukovich_email" translatable="false"><u>Gldestroyed@gmail.com</u></string>
     <string name="alexander">Alexander</string>
-    <string name="company_email"><u>SimpleButComfortableSBC@gmail.com</u></string>
+    <string name="company_email" translatable="false"><u>SimpleButComfortableSBC@gmail.com</u></string>
     <string name="contact_us_full_text">
         \tContact us if:
         \n1) you see any mistakes 😣
