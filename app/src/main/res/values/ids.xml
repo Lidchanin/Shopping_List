@@ -1,4 +1,4 @@
 <resources>
-    <item type="id" name="button_first_date_in_custom_stat_dialog"/>
-    <item type="id" name="button_second_date_in_custom_stat_dialog"/>
+    <item type="id" name="button_first_date_in_alternate_stat_dialog"/>
+    <item type="id" name="button_second_date_in_alternate_stat_dialog"/>
 </resources>

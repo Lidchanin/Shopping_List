@@ -158,8 +158,8 @@
     <string name="year">ГОД</string>
     <string name="cancel">ОТМЕНА</string>
     <string name="show">ПОКАЗАТЬ</string>
-    <string name="date_picker_dialog_first_date">Нажмите и выберите первую дату.</string>
-    <string name="date_picker_dialog_second_date">Нажмите и выберите вторую дату.</string>
+    <string name="date_picker_dialog_first_date">Выберите первую дату</string>
+    <string name="date_picker_dialog_second_date">Выберите вторую дату</string>
     <string name="themes">Темы</string>
     <string name="compare">Сравнить</string>
     <string name="about_us">О нас</string>
@@ -178,4 +178,7 @@
         \n3) Вам просто скучно 😀
         \n\nМы всегда рады помочь, да и просто пообщаться.
     </string>
+    <string name="other">Другой</string>
+    <string name="alternate_date">Альтернативная дата</string>
+    <string name="alternate">Альтернативная</string>
 </resources>

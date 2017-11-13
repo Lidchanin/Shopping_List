@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -49,8 +51,8 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
 
     private static final String TAG = StatisticsFragment.class.getSimpleName();
 
-    private Button buttonFirstDate;
-    private Button buttonSecondDate;
+    private EditText etFirstDate;
+    private EditText etSecondDate;
 
     private StatisticsMainRVAdapter mainRVAdapter;
 
@@ -84,14 +86,14 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
             case R.id.button_show_year:
                 fillInAdapterWithStatistics(getStatisticsWithStep(-12));
                 break;
-            case R.id.button_show_custom:
-                showDialogForCustomStatistics();
+            case R.id.button_show_alternate:
+                showDialogForOtherStatistics();
                 break;
-            case R.id.button_first_date_in_custom_stat_dialog:
-                setDateInButtonFromPicker(buttonFirstDate);
+            case R.id.button_first_date_in_alternate_stat_dialog:
+                setDateInViewFromPicker(etFirstDate);
                 break;
-            case R.id.button_second_date_in_custom_stat_dialog:
-                setDateInButtonFromPicker(buttonSecondDate);
+            case R.id.button_second_date_in_alternate_stat_dialog:
+                setDateInViewFromPicker(etSecondDate);
                 break;
         }
     }
@@ -125,8 +127,8 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
         buttonHalfYear.setOnClickListener(this);
         Button buttonYear = (Button) view.findViewById(R.id.button_show_year);
         buttonYear.setOnClickListener(this);
-        Button buttonCustom = (Button) view.findViewById(R.id.button_show_custom);
-        buttonCustom.setOnClickListener(this);
+        Button buttonOther = (Button) view.findViewById(R.id.button_show_alternate);
+        buttonOther.setOnClickListener(this);
     }
 
     private void fillInAdapterWithStatistics(List<Statistic> statistics) {
@@ -148,50 +150,61 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
         return statistics;
     }
 
-    private void showDialogForCustomStatistics() {
+    private void showDialogForOtherStatistics() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getContext(),
                 R.style.MyDialogTheme);
+        builder.setTitle(R.string.alternate_date);
 
         LinearLayout linearLayout = new LinearLayout(getContext());
         linearLayout.setOrientation(LinearLayout.VERTICAL);
 
-        buttonFirstDate = new Button(getContext());
-        buttonFirstDate.setId(R.id.button_first_date_in_custom_stat_dialog);
-        buttonFirstDate.setText(R.string.date_picker_dialog_first_date);
-        buttonFirstDate.setOnClickListener(this);
+        Drawable drawable = getContext().getResources()
+                .getDrawable(R.drawable.ic_date_range_black_24dp);
 
-        buttonSecondDate = new Button(getContext());
-        buttonSecondDate.setId(R.id.button_second_date_in_custom_stat_dialog);
-        buttonSecondDate.setText(R.string.date_picker_dialog_second_date);
-        buttonSecondDate.setOnClickListener(this);
 
-        linearLayout.addView(buttonFirstDate);
-        linearLayout.addView(buttonSecondDate);
+        etFirstDate = new EditText(getContext());
+        etFirstDate.setId(R.id.button_first_date_in_alternate_stat_dialog);
+        etFirstDate.setHint(R.string.date_picker_dialog_first_date);
+        etFirstDate.setInputType(0);
+        etFirstDate.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable,
+                null);
+        etFirstDate.setOnClickListener(this);
+
+        etSecondDate = new EditText(getContext());
+        etSecondDate.setId(R.id.button_second_date_in_alternate_stat_dialog);
+        etSecondDate.setHint(R.string.date_picker_dialog_second_date);
+        etSecondDate.setInputType(0);
+        etSecondDate.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable,
+                null);
+        etSecondDate.setOnClickListener(this);
+
+        linearLayout.addView(etFirstDate);
+        linearLayout.addView(etSecondDate);
         builder.setView(linearLayout);
 
         builder.setPositiveButton(R.string.show, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Log.d(TAG, "onClick: " + buttonFirstDate.getText().toString()
-                        + "\t" + buttonSecondDate.getText().toString());
+                Log.d(TAG, "onClick: " + etFirstDate.getText().toString()
+                        + "\t" + etSecondDate.getText().toString());
                 Log.d(TAG, "onClick: "
-                        + convertStringDateToLong(buttonFirstDate.getText().toString())
+                        + convertStringDateToLong(etFirstDate.getText().toString())
                         + "\t"
-                        + convertStringDateToLong(buttonSecondDate.getText().toString())
+                        + convertStringDateToLong(etSecondDate.getText().toString())
                 );
-                if (buttonFirstDate.getText().toString()
+                if (etFirstDate.getText().toString()
                         .equals(getString(R.string.date_picker_dialog_first_date))
-                        || buttonSecondDate.getText().toString()
+                        || etSecondDate.getText().toString()
                         .equals(getString(R.string.date_picker_dialog_second_date))) {
                     Toast.makeText(
                             getContext(),
                             getString(R.string.please_enter_all_data),
                             Toast.LENGTH_SHORT
                     ).show();
-                    showDialogForCustomStatistics();
+                    showDialogForOtherStatistics();
                 } else {
-                    long firstDate = convertStringDateToLong(buttonFirstDate.getText().toString());
-                    long secondDate = convertStringDateToLong(buttonSecondDate.getText().toString());
+                    long firstDate = convertStringDateToLong(etFirstDate.getText().toString());
+                    long secondDate = convertStringDateToLong(etSecondDate.getText().toString());
                     if (firstDate > secondDate) {
                         long temp = firstDate;
                         firstDate = secondDate;
@@ -207,7 +220,7 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
                     database.close();
 
                     fillInAdapterWithStatistics(statistics);
-                    Log.i(TAG, "onClick: selected period: " + firstDate + "-" + secondDate);
+                    Log.i(TAG, "onClick: selected period: " + firstDate + " - " + secondDate);
                     dialog.dismiss();
                 }
             }
@@ -223,7 +236,7 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
         builder.create().show();
     }
 
-    private void setDateInButtonFromPicker(final Button button) {
+    private void setDateInViewFromPicker(final EditText et) {
         final Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
@@ -237,7 +250,7 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
                 calendar.set(Calendar.YEAR, year);
                 calendar.set(Calendar.MONTH, monthOfYear);
                 long date = getCurrentMonth(calendar.getTimeInMillis());
-                button.setText(convertLongDateToString(date));
+                et.setText(convertLongDateToString(date));
             }
         }, year, month, day);
         datePickerDialog.getDatePicker().findViewById(Resources.getSystem()

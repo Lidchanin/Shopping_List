@@ -171,10 +171,10 @@
     <string name="current_month">Current month</string>
     <string name="half_year">Half-year</string>
     <string name="year">Year</string>
-    <string name="date_picker_dialog_second_date">Press and select the second date.</string>
+    <string name="date_picker_dialog_second_date">Select the second date.</string>
     <string name="cancel">Cancel</string>
     <string name="show">Show</string>
-    <string name="date_picker_dialog_first_date">Press and select the first date.</string>
+    <string name="date_picker_dialog_first_date">Select the first date.</string>
     <string name="about_us">About us</string>
     <string name="fokin_email" translatable="false"><u>zanuda.lidchanin@gmail.com</u></string>
     <string name="alexei">Alexei</string>
@@ -194,4 +194,7 @@
     <string name="send">Send</string>
     <string name="choose_an_email_client">Choose an Email client :</string>
     <string name="write_message">Write message</string>
+    <string name="other">Other</string>
+    <string name="alternate_date">Alternate date</string>
+    <string name="alternate">Alternate</string>
 </resources>
