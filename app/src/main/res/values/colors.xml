@@ -29,6 +29,7 @@
     <color name="colorAccent">@color/blueLittleDarker</color>
     <color name="fragmentChoiceColor">#fafafa</color>
     <color name="white">#ffffff</color>
+    <color name="greyLight">#838383</color>
     <color name="colorPopupBackground">#4a4e46</color>
     <color name="colorPopupBar">#272825</color>
     <color name="colorPopupBarText">#cecece</color>

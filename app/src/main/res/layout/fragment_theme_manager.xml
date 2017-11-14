@@ -12,7 +12,10 @@
 
          <android.support.design.widget.TabLayout
             android:id="@+id/tabLayout"
-            app:tabTextColor="@color/blue"
+            app:tabTextColor="@color/greyLight"
+            app:tabIndicatorColor="@color/white"
+            app:tabSelectedTextColor="@color/white"
+            android:background="?attr/colorPrimaryDark"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
         </com.lidchanin.crudindiploma.forlib.DesignedViewPager>

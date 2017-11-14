@@ -222,21 +222,25 @@ public class NavigationDrawerActivity extends AppCompatActivity implements Navig
         setButtonsToDefault();
         switch (fragmentExtra) {
             case Constants.Bundles.SHOPPING_LIST_FRAGMENT_ID:
+                setTitle(getString(R.string.lists));
                 ShoppingListFragment shoppingListFragment = new ShoppingListFragment();
                 fragmentTransaction.replace(R.id.container, shoppingListFragment);
                 fragmentTransaction.commit();
                 break;
             case Constants.Bundles.STATISTICS_FRAGMENT_ID:
+                setTitle(getString(R.string.statistics));
                 StatisticsFragment statisticsFragment = new StatisticsFragment();
                 fragmentTransaction.replace(R.id.container, statisticsFragment);
                 fragmentTransaction.commit();
                 break;
             case Constants.Bundles.PROFIT_FRAGMENT_ID:
+                setTitle(getString(R.string.profit));
                 ProfitFragment profitFragment = new ProfitFragment();
                 fragmentTransaction.replace(R.id.container, profitFragment);
                 fragmentTransaction.commit();
                 break;
             case Constants.Bundles.SETTINGS_FRAGMENT_ID:
+                setTitle(getString(R.string.themes));
                 SettingsFragment settingsFragment = new SettingsFragment();
                 if (page != 0) {
                     Bundle bundle = new Bundle();
@@ -247,11 +251,13 @@ public class NavigationDrawerActivity extends AppCompatActivity implements Navig
                 fragmentTransaction.commit();
                 break;
             case Constants.Bundles.ALL_PRODUCTS_FRAGMENT_ID:
+                setTitle(getString(R.string.all_products));
                 AllProductsFragment allProductsFragment = new AllProductsFragment();
                 fragmentTransaction.replace(R.id.container, allProductsFragment);
                 fragmentTransaction.commit();
                 break;
             case Constants.Bundles.ABOUT_US_FRAGMENT_ID:
+                setTitle(getString(R.string.about_us));
                 AboutUsFragment aboutUsFragment = new AboutUsFragment();
                 fragmentTransaction.replace(R.id.container, aboutUsFragment);
                 fragmentTransaction.commit();
