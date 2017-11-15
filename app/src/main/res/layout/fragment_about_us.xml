@@ -49,6 +49,7 @@
     </LinearLayout>
 
     <TextView
+        android:layout_margin="15dp"
         android:id="@+id/tv_contact_full_in_about_us_screen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -76,9 +77,9 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#000"
+                android:background="?attr/selectableItemBackground"
                 android:contentDescription="@string/about_us"
-                android:src="@drawable/ic_accessible_black_24dp" />
+                android:src="@drawable/destr" />
 
             <TextView
                 android:id="@+id/tv_sin_email_in_about_us_screen"
@@ -103,9 +104,9 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#000"
+                android:background="?attr/selectableItemBackground"
                 android:contentDescription="@string/about_us"
-                android:src="@drawable/ic_accessible_black_24dp" />
+                android:src="@drawable/lidchanin" />
 
             <TextView
                 android:id="@+id/tv_fok_email_in_about_us_screen"
