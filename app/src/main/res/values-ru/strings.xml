@@ -181,4 +181,12 @@
     <string name="other">Другой</string>
     <string name="alternate_date">Альтернативная дата</string>
     <string name="alternate">Альтернативная</string>
+    <string name="free">Бесплатно</string>
+    <string name="blue">Голубой</string>
+    <string name="purple">Пурпурный</string>
+    <string name="green">Зелёный</string>
+    <string name="red_soft">Красный мягкий</string>
+    <string name="dark">Тёмные</string>
+    <string name="bright">Светлые</string>
+    <string name="material">Материальные</string>
 </resources>

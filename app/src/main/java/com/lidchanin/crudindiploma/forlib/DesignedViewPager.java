@@ -11,7 +11,6 @@ import android.util.AttributeSet;
 public class DesignedViewPager extends ViewPager {
 
 
-
     public DesignedViewPager(Context context) {
         super(context);
     }
@@ -19,7 +18,6 @@ public class DesignedViewPager extends ViewPager {
     public DesignedViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
-
 
 
 }

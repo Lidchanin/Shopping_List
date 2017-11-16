@@ -12,12 +12,13 @@ import java.util.List;
 
 public class ThemeManager {
 
-    public static ThemeManager getInstance(Context context){
-        return new ThemeManager(context);
-    }
+    private Context context;
 
-    public ThemeManager(Context context){
-        final String prefOutput =new SharedPrefsManager(context).readString(Constants.SharedPreferences.PREF_KEY_THEME);
+    public ThemeManager(Context context) {
+        this.context = context;
+
+        final String prefOutput = new SharedPrefsManager(context)
+                .readString(Constants.SharedPreferences.PREF_KEY_THEME);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 
             if (prefOutput.equals(Constants.ThemesBright.THEME_BLUE)) {
@@ -29,7 +30,7 @@ public class ThemeManager {
             if (prefOutput.equals(Constants.ThemesBright.THEME_GREEN)) {
                 context.setTheme(R.style.GreenTheme);
             }
-            if (prefOutput.equals(Constants.ThemesBright.THEME_RED_SOFT)||prefOutput.equals("")) {
+            if (prefOutput.equals(Constants.ThemesBright.THEME_RED_SOFT) || prefOutput.equals("")) {
                 context.setTheme(R.style.RedsoftTheme);
             }
             if (prefOutput.equals(Constants.ThemesDark.THEME_BLUE)) {
@@ -62,39 +63,128 @@ public class ThemeManager {
         }
     }
 
-    public List<RecyclerViewItems> getThemes(String type){
-        switch (type){
-            case "Dark":return getDarkThemes();
-            case "Bright":return getBrightThemes();
-            case "Material":return getMaterialThemes();
+    public static ThemeManager getInstance(Context context) {
+        return new ThemeManager(context);
+    }
+
+    public List<RecyclerViewItems> getThemes(String type) {
+        if (type.equals(context.getString(R.string.dark))) {
+            return getDarkThemes();
+        } else if (type.equals(context.getString(R.string.bright))) {
+            return getBrightThemes();
+        } else if (type.equals(context.getString(R.string.material))) {
+            return getMaterialThemes();
+        } else {
+            return new ArrayList<>();
         }
-        return null;
+
+        /*switch (type) {
+            case "Dark":
+                return getDarkThemes();
+            case "Bright":
+                return getBrightThemes();
+            case "Material":
+                return getMaterialThemes();
+        }
+        return null;*/
     }
 
-    private List<RecyclerViewItems> getMaterialThemes(){
+    private List<RecyclerViewItems> getMaterialThemes() {
         List<RecyclerViewItems> list = new ArrayList<>();
-        list.add(new RecyclerViewItems("Free","Blue", Constants.ThemesMaterials.THEME_BLUE, R.drawable.material_blue));
-        list.add(new RecyclerViewItems("Free","Purple", Constants.ThemesMaterials.THEME_PURPLE, R.drawable.material_purple));
-        list.add(new RecyclerViewItems("Free","Green", Constants.ThemesMaterials.THEME_GREEN, R.drawable.material_green));
-        list.add(new RecyclerViewItems("Free","Red Soft", Constants.ThemesMaterials.THEME_RED_SOFT, R.drawable.material_redsoft));
+        list.add(new RecyclerViewItems(
+                        context.getString(R.string.free),
+                        context.getString(R.string.blue),
+                        Constants.ThemesMaterials.THEME_BLUE,
+                        R.drawable.material_blue
+                )
+        );
+        list.add(new RecyclerViewItems(
+                        context.getString(R.string.free),
+                        context.getString(R.string.purple),
+                        Constants.ThemesMaterials.THEME_PURPLE,
+                        R.drawable.material_purple
+                )
+        );
+        list.add(new RecyclerViewItems(
+                        context.getString(R.string.free),
+                        context.getString(R.string.green),
+                        Constants.ThemesMaterials.THEME_GREEN,
+                        R.drawable.material_green
+                )
+        );
+        list.add(new RecyclerViewItems(
+                        context.getString(R.string.free),
+                        context.getString(R.string.red_soft),
+                        Constants.ThemesMaterials.THEME_RED_SOFT,
+                        R.drawable.material_redsoft
+                )
+        );
         return list;
     }
 
-    private List<RecyclerViewItems> getDarkThemes(){
+    private List<RecyclerViewItems> getDarkThemes() {
         List<RecyclerViewItems> list = new ArrayList<>();
-        list.add(new RecyclerViewItems("Free", "Blue", Constants.ThemesDark.THEME_BLUE, R.drawable.dark_blue));
-        list.add(new RecyclerViewItems("Free", "Purple", Constants.ThemesDark.THEME_PURPLE, R.drawable.dark_purple));
-        list.add(new RecyclerViewItems("Free", "Green", Constants.ThemesDark.THEME_GREEN, R.drawable.dark_green));
-        list.add(new RecyclerViewItems("Free", "Red Soft", Constants.ThemesDark.THEME_RED_SOFT, R.drawable.dark_redsoft));
+        list.add(new RecyclerViewItems(
+                        context.getString(R.string.free),
+                        context.getString(R.string.blue),
+                        Constants.ThemesDark.THEME_BLUE,
+                        R.drawable.dark_blue
+                )
+        );
+        list.add(new RecyclerViewItems(
+                        context.getString(R.string.free),
+                        context.getString(R.string.purple),
+                        Constants.ThemesDark.THEME_PURPLE,
+                        R.drawable.dark_purple
+                )
+        );
+        list.add(new RecyclerViewItems(
+                        context.getString(R.string.free),
+                        context.getString(R.string.green),
+                        Constants.ThemesDark.THEME_GREEN,
+                        R.drawable.dark_green
+                )
+        );
+        list.add(new RecyclerViewItems(
+                        context.getString(R.string.free),
+                        context.getString(R.string.red_soft),
+                        Constants.ThemesDark.THEME_RED_SOFT,
+                        R.drawable.dark_redsoft
+                )
+        );
         return list;
     }
 
-    private List<RecyclerViewItems> getBrightThemes(){
+    private List<RecyclerViewItems> getBrightThemes() {
         List<RecyclerViewItems> list = new ArrayList<>();
-        list.add(new RecyclerViewItems("Free","Blue", Constants.ThemesBright.THEME_BLUE, R.drawable.blue));
-        list.add(new RecyclerViewItems("Free","Purple", Constants.ThemesBright.THEME_PURPLE, R.drawable.purple));
-        list.add(new RecyclerViewItems("Free","Green", Constants.ThemesBright.THEME_GREEN, R.drawable.green));
-        list.add(new RecyclerViewItems("Free","Red Soft", Constants.ThemesBright.THEME_RED_SOFT, R.drawable.redsoft));
+        list.add(new RecyclerViewItems(
+                        context.getString(R.string.free),
+                        context.getString(R.string.blue),
+                        Constants.ThemesBright.THEME_BLUE,
+                        R.drawable.blue
+                )
+        );
+        list.add(new RecyclerViewItems(
+                        context.getString(R.string.free),
+                        context.getString(R.string.purple),
+                        Constants.ThemesBright.THEME_PURPLE,
+                        R.drawable.purple
+                )
+        );
+        list.add(new RecyclerViewItems(
+                        context.getString(R.string.free),
+                        context.getString(R.string.green),
+                        Constants.ThemesBright.THEME_GREEN,
+                        R.drawable.green
+                )
+        );
+        list.add(new RecyclerViewItems(
+                        context.getString(R.string.free),
+                        context.getString(R.string.red_soft),
+                        Constants.ThemesBright.THEME_RED_SOFT,
+                        R.drawable.redsoft
+                )
+        );
         return list;
     }
 }

@@ -4,7 +4,6 @@ import android.os.Environment;
 
 public interface Constants {
     interface Tessaract {
-
         String SLASH = "/";
         String DATA_PATH = String.valueOf(Environment.getExternalStorageDirectory());
         String TESSDATA = "tessdata";
@@ -32,21 +31,21 @@ public interface Constants {
         String VIEWPAGER_PAGE = "shoppingListId";
     }
 
-    interface ThemesBright{
+    interface ThemesBright {
         String THEME_RED_SOFT = "redsoft";
         String THEME_GREEN = "green";
         String THEME_BLUE = "blue";
         String THEME_PURPLE = "purple";
     }
 
-    interface ThemesDark{
+    interface ThemesDark {
         String THEME_RED_SOFT = "redsoftdark";
         String THEME_GREEN = "greendark";
         String THEME_BLUE = "bluedark";
         String THEME_PURPLE = "purpledark";
     }
 
-    interface ThemesMaterials{
+    interface ThemesMaterials {
         String THEME_RED_SOFT = "redsoftmaterial";
         String THEME_GREEN = "greenmaterial";
         String THEME_BLUE = "bluematerial";

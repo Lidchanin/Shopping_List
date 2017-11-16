@@ -1,7 +1,5 @@
 package com.lidchanin.crudindiploma.forlib;
 
-import android.os.Parcelable;
-
 import com.lidchanin.crudindiploma.R;
 
 /**
@@ -10,14 +8,19 @@ import com.lidchanin.crudindiploma.R;
 
 public class RecyclerViewItems {
 
-    public RecyclerViewItems(String cost, String name, String theme, int previewId){
+    private String cost;
+    private String name;
+    private String theme;
+    private int previewId = R.drawable.virgintest;
+
+    public RecyclerViewItems(String cost, String name, String theme, int previewId) {
         this.cost = cost;
         this.name = name;
         this.theme = theme;
         this.previewId = previewId;
     }
 
-    public RecyclerViewItems(String cost, String name, String theme){
+    public RecyclerViewItems(String cost, String name, String theme) {
         this.cost = cost;
         this.name = name;
         this.theme = theme;
@@ -39,9 +42,6 @@ public class RecyclerViewItems {
         this.cost = cost;
     }
 
-    private String cost = "Free";
-    private String name = "Theme Shit";
-
     public String getTheme() {
         return theme;
     }
@@ -50,8 +50,6 @@ public class RecyclerViewItems {
         this.theme = theme;
     }
 
-    private String theme;
-
     public int getPreviewId() {
         return previewId;
     }
@@ -59,7 +57,5 @@ public class RecyclerViewItems {
     public void setPreviewId(int previewId) {
         this.previewId = previewId;
     }
-
-    private int previewId = R.drawable.virgintest ;
 
 }

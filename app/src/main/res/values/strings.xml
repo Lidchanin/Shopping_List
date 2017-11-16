@@ -197,4 +197,12 @@
     <string name="other">Other</string>
     <string name="alternate_date">Alternate date</string>
     <string name="alternate">Alternate</string>
+    <string name="free">Free</string>
+    <string name="blue">Blue</string>
+    <string name="purple">Purple</string>
+    <string name="green">Green</string>
+    <string name="red_soft">Red Soft</string>
+    <string name="bright">Bright</string>
+    <string name="material">Material</string>
+    <string name="dark">Dark</string>
 </resources>

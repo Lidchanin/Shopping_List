@@ -25,31 +25,32 @@ public class SettingsFragment extends Fragment {
     //todo recreate problem check!
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_theme_manager,container,false);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_theme_manager, container, false);
         designedViewPager = (DesignedViewPager) view.findViewById(R.id.viewPager);
         tabLayout = (TabLayout) view.findViewById(R.id.tabLayout);
         fragmentArrayList = new ArrayList<>();
         RecyclerFragment fragment = new RecyclerFragment();
         Bundle bundle = new Bundle();
-        bundle.putString("List", "Dark");
-        bundle.putInt(Constants.Bundles.VIEWPAGER_PAGE,0);
+        bundle.putString("List", getString(R.string.dark));
+        bundle.putInt(Constants.Bundles.VIEWPAGER_PAGE, 0);
         fragment.setArguments(bundle);
         fragmentArrayList.add(fragment);
         RecyclerFragment fragment1 = new RecyclerFragment();
         Bundle bundle1 = new Bundle();
-        bundle1.putString("List", "Bright");
-        bundle1.putInt(Constants.Bundles.VIEWPAGER_PAGE,1);
+        bundle1.putString("List", getString(R.string.bright));
+        bundle1.putInt(Constants.Bundles.VIEWPAGER_PAGE, 1);
         fragment1.setArguments(bundle1);
         fragmentArrayList.add(fragment1);
         RecyclerFragment fragment2 = new RecyclerFragment();
         Bundle bundle2 = new Bundle();
-        bundle2.putString("List", "Material");
-        bundle2.putInt(Constants.Bundles.VIEWPAGER_PAGE,2);
+        bundle2.putString("List", getString(R.string.material));
+        bundle2.putInt(Constants.Bundles.VIEWPAGER_PAGE, 2);
         fragment2.setArguments(bundle2);
         fragmentArrayList.add(fragment2);
         designedViewPager.setAdapter(new ViewPagerAdapter(getChildFragmentManager(), fragmentArrayList));
-        if(getArguments()!=null){
+        if (getArguments() != null) {
             designedViewPager.setCurrentItem(getArguments().getInt(Constants.Bundles.VIEWPAGER_PAGE));
         }//fragmentArrayList.add();
         /*View view = inflater.inflate(R.layout.fragment_settings,container,false);

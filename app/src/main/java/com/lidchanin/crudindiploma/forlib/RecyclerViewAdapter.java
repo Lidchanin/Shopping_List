@@ -28,10 +28,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private Activity activity;
     private int page;
 
-    public RecyclerViewAdapter (List<RecyclerViewItems> recyclerViewItemses, Context context, int page){
+    public RecyclerViewAdapter(List<RecyclerViewItems> recyclerViewItemses, Context context, int page) {
         this.recyclerViewItemses = recyclerViewItemses;
         this.page = page;
-        activity =(Activity) context;
+        activity = (Activity) context;
     }
 
     @Override
@@ -49,8 +49,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             public void onClick(View v) {
                 new SharedPrefsManager(activity).editString(Constants.SharedPreferences.PREF_KEY_THEME, recyclerViewItemses.get(holder.getAdapterPosition()).getTheme());
                 Intent intent = new Intent(activity, ShoppingListFragmentManager.class);
-                intent.putExtra(Constants.Bundles.SHOPPING_LIST_ID,Constants.Bundles.SETTINGS_FRAGMENT_ID);
-                intent.putExtra(Constants.Bundles.VIEWPAGER_PAGE,page);
+                intent.putExtra(Constants.Bundles.SHOPPING_LIST_ID, Constants.Bundles.SETTINGS_FRAGMENT_ID);
+                intent.putExtra(Constants.Bundles.VIEWPAGER_PAGE, page);
                 activity.startActivity(intent);
             }
         });
@@ -65,8 +65,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     @Override
-    public int getItemViewType(int position)
-    {
+    public int getItemViewType(int position) {
         return position;
     }
 
