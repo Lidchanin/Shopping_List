@@ -205,4 +205,6 @@
     <string name="bright">Bright</string>
     <string name="material">Material</string>
     <string name="dark">Dark</string>
+    <string name="button_previous">Previous</string>
+    <string name="button_next">Next</string>
 </resources>

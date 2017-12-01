@@ -189,4 +189,6 @@
     <string name="dark">Тёмные</string>
     <string name="bright">Светлые</string>
     <string name="material">Материальные</string>
+    <string name="button_previous">Назад</string>
+    <string name="button_next">Далее</string>
 </resources>

@@ -51,4 +51,9 @@ public interface Constants {
         String THEME_BLUE = "bluematerial";
         String THEME_PURPLE = "purplematerial";
     }
+
+    interface Tutorial {
+        String IMAGES = "tutorialImages";
+        String STRINGS = "tutorialStrings";
+    }
 }
