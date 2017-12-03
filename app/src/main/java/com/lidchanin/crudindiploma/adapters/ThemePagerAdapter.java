@@ -1,4 +1,4 @@
-package com.lidchanin.crudindiploma.forlib;
+package com.lidchanin.crudindiploma.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,11 +10,11 @@ import java.util.List;
  * Created by Alexander Destroyed on 12.10.2017.
  */
 
-public class ViewPagerAdapter extends FragmentPagerAdapter {
+public class ThemePagerAdapter extends FragmentPagerAdapter {
 
     private List<Fragment> fragmentList;
 
-    public ViewPagerAdapter(FragmentManager fm, List<Fragment> fragmentList) {
+    public ThemePagerAdapter(FragmentManager fm, List<Fragment> fragmentList) {
         super(fm);
         this.fragmentList = fragmentList;
     }

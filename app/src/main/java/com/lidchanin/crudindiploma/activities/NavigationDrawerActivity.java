@@ -1,4 +1,4 @@
-package com.lidchanin.crudindiploma.customview;
+package com.lidchanin.crudindiploma.activities;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -175,10 +175,10 @@ public class NavigationDrawerActivity extends AppCompatActivity implements Navig
                 break;
             case R.id.nav_existing_products:
                 initFragment(Constants.Bundles.ALL_PRODUCTS_FRAGMENT_ID);
-                break;
+                break;/*
             case R.id.nav_profit:
                 initFragment(Constants.Bundles.PROFIT_FRAGMENT_ID);
-                break;
+                break;*/
             case R.id.nav_statistics:
                 initFragment(Constants.Bundles.STATISTICS_FRAGMENT_ID);
                 break;

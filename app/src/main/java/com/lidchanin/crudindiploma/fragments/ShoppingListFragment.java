@@ -18,7 +18,7 @@ import android.widget.Toast;
 
 import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.adapters.ListsMainRVAdapter;
-import com.lidchanin.crudindiploma.customview.NavigationDrawerActivity;
+import com.lidchanin.crudindiploma.activities.NavigationDrawerActivity;
 import com.lidchanin.crudindiploma.database.ShoppingList;
 import com.lidchanin.crudindiploma.database.dao.DaoMaster;
 import com.lidchanin.crudindiploma.database.dao.DaoSession;

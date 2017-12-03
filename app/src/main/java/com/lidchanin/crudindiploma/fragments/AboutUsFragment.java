@@ -15,7 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lidchanin.crudindiploma.R;
-import com.lidchanin.crudindiploma.customview.NavigationDrawerActivity;
+import com.lidchanin.crudindiploma.activities.NavigationDrawerActivity;
 
 /**
  * Class extends {@link Fragment}. Class implements {@link android.view.View.OnClickListener}.

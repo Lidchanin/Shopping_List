@@ -6,7 +6,6 @@ import android.view.KeyEvent;
 
 import com.lidchanin.crudindiploma.Constants;
 import com.lidchanin.crudindiploma.R;
-import com.lidchanin.crudindiploma.customview.NavigationDrawerActivity;
 import com.lidchanin.crudindiploma.utils.ThemeManager;
 
 public class ShoppingListFragmentManager extends NavigationDrawerActivity {

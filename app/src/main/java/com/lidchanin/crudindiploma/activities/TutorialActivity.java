@@ -9,13 +9,13 @@ import android.widget.Button;
 
 import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.adapters.TutorialPagerAdapter;
-import com.lidchanin.crudindiploma.forlib.DesignedViewPager;
+import com.lidchanin.crudindiploma.customview.DesignedViewPager;
+import com.lidchanin.crudindiploma.utils.TutorialManager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity {
+public class TutorialActivity extends AppCompatActivity {
 
     private DesignedViewPager designedViewPager;
     private TabLayout tabLayout;
@@ -31,30 +31,34 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         designedViewPager = (DesignedViewPager) findViewById(R.id.viewPager);
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        final List<Integer> tutorialImages = TutorialManager.getTutorialImageList(this);
+        List<String> tutorialStrings = TutorialManager.getTutorialTextList(this);
         previous = (Button) findViewById(R.id.previous);
+        previous.setVisibility(View.GONE);
         previous.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: 01.12.2017 move it to previous
+                if(designedViewPager.getCurrentItem()-1>=0) {
+                    designedViewPager.setCurrentItem(designedViewPager.getCurrentItem()-1);
+                }
+                if(designedViewPager.getCurrentItem() == 0 ){
+                    previous.setVisibility(View.GONE);
+                }
             }
         });
         next = (Button) findViewById(R.id.next);
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: 01.12.2017 move it to next
-                startActivity(new Intent(MainActivity.this, ShoppingListFragmentManager.class));
+                previous.setVisibility(View.VISIBLE);
+                if(designedViewPager.getCurrentItem()+1<tutorialImages.size()) {
+                    designedViewPager.setCurrentItem(designedViewPager.getCurrentItem()+1);
+                }else {
+                    // TODO: 03.12.2017 make animation to hide load
+                    startActivity(new Intent(TutorialActivity.this, ShoppingListFragmentManager.class));
+                }
             }
         });
-        List<Integer> tutorialImages = new ArrayList<>();
-        List<String> tutorialStrings = new ArrayList<>();
-        tutorialImages.add(R.mipmap.tutorial_first);
-        tutorialImages.add(R.mipmap.tutorial_first);
-        tutorialImages.add(R.mipmap.tutorial_first);
-        tutorialStrings.add(getString(R.string.lists));
-        tutorialStrings.add(getString(R.string.lists));
-        tutorialStrings.add(getString(R.string.lists));
-
         designedViewPager.setAdapter(new TutorialPagerAdapter(getSupportFragmentManager(), tutorialImages, tutorialStrings));
     }
 

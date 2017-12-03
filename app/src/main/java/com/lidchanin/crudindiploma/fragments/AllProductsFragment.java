@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 
 import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.adapters.AllProductsRVAdapter;
-import com.lidchanin.crudindiploma.customview.NavigationDrawerActivity;
+import com.lidchanin.crudindiploma.activities.NavigationDrawerActivity;
 import com.lidchanin.crudindiploma.database.Product;
 import com.lidchanin.crudindiploma.database.dao.DaoMaster;
 import com.lidchanin.crudindiploma.database.dao.DaoSession;

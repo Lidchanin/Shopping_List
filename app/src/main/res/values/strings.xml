@@ -207,4 +207,7 @@
     <string name="dark">Dark</string>
     <string name="button_previous">Previous</string>
     <string name="button_next">Next</string>
+    <string name="tutorial_screen_first"></string>
+    <string name="tutorial_screen_second"></string>
+    <string name="tutorial_screen_third"></string>
 </resources>

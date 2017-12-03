@@ -1,4 +1,4 @@
-package com.lidchanin.crudindiploma.forlib;
+package com.lidchanin.crudindiploma.adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.lidchanin.crudindiploma.Constants;
 import com.lidchanin.crudindiploma.R;
 import com.lidchanin.crudindiploma.activities.ShoppingListFragmentManager;
+import com.lidchanin.crudindiploma.models.ThemeViewModels;
 import com.lidchanin.crudindiploma.utils.SharedPrefsManager;
 
 import java.util.List;
@@ -22,14 +23,14 @@ import java.util.List;
  * Created by Alexander Destroyed on 13.10.2017.
  */
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.RecyclerViewHolder> {
+public class ThemeRecyclerAdapter extends RecyclerView.Adapter<ThemeRecyclerAdapter.RecyclerViewHolder> {
 
-    private List<RecyclerViewItems> recyclerViewItemses;
+    private List<ThemeViewModels> themeViewModels;
     private Activity activity;
     private int page;
 
-    public RecyclerViewAdapter(List<RecyclerViewItems> recyclerViewItemses, Context context, int page) {
-        this.recyclerViewItemses = recyclerViewItemses;
+    public ThemeRecyclerAdapter(List<ThemeViewModels> themeViewModels, Context context, int page) {
+        this.themeViewModels = themeViewModels;
         this.page = page;
         activity = (Activity) context;
     }
@@ -47,21 +48,21 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.rootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new SharedPrefsManager(activity).editString(Constants.SharedPreferences.PREF_KEY_THEME, recyclerViewItemses.get(holder.getAdapterPosition()).getTheme());
+                new SharedPrefsManager(activity).editString(Constants.SharedPreferences.PREF_KEY_THEME, themeViewModels.get(holder.getAdapterPosition()).getTheme());
                 Intent intent = new Intent(activity, ShoppingListFragmentManager.class);
                 intent.putExtra(Constants.Bundles.SHOPPING_LIST_ID, Constants.Bundles.SETTINGS_FRAGMENT_ID);
                 intent.putExtra(Constants.Bundles.VIEWPAGER_PAGE, page);
                 activity.startActivity(intent);
             }
         });
-        holder.themeName.setText(recyclerViewItemses.get(holder.getAdapterPosition()).getName());
-        holder.themeImage.setImageResource(recyclerViewItemses.get(holder.getAdapterPosition()).getPreviewId());
-        holder.themeCost.setText(recyclerViewItemses.get(holder.getAdapterPosition()).getCost());
+        holder.themeName.setText(themeViewModels.get(holder.getAdapterPosition()).getName());
+        holder.themeImage.setImageResource(themeViewModels.get(holder.getAdapterPosition()).getPreviewId());
+        holder.themeCost.setText(themeViewModels.get(holder.getAdapterPosition()).getCost());
     }
 
     @Override
     public int getItemCount() {
-        return recyclerViewItemses.size();
+        return themeViewModels.size();
     }
 
     @Override

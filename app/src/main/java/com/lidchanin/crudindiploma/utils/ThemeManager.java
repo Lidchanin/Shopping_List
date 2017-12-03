@@ -5,7 +5,7 @@ import android.os.Build;
 
 import com.lidchanin.crudindiploma.Constants;
 import com.lidchanin.crudindiploma.R;
-import com.lidchanin.crudindiploma.forlib.RecyclerViewItems;
+import com.lidchanin.crudindiploma.models.ThemeViewModels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +67,7 @@ public class ThemeManager {
         return new ThemeManager(context);
     }
 
-    public List<RecyclerViewItems> getThemes(String type) {
+    public List<ThemeViewModels> getThemes(String type) {
         if (type.equals(context.getString(R.string.dark))) {
             return getDarkThemes();
         } else if (type.equals(context.getString(R.string.bright))) {
@@ -89,30 +89,30 @@ public class ThemeManager {
         return null;*/
     }
 
-    private List<RecyclerViewItems> getMaterialThemes() {
-        List<RecyclerViewItems> list = new ArrayList<>();
-        list.add(new RecyclerViewItems(
+    private List<ThemeViewModels> getMaterialThemes() {
+        List<ThemeViewModels> list = new ArrayList<>();
+        list.add(new ThemeViewModels(
                         context.getString(R.string.free),
                         context.getString(R.string.blue),
                         Constants.ThemesMaterials.THEME_BLUE,
                         R.drawable.material_blue
                 )
         );
-        list.add(new RecyclerViewItems(
+        list.add(new ThemeViewModels(
                         context.getString(R.string.free),
                         context.getString(R.string.purple),
                         Constants.ThemesMaterials.THEME_PURPLE,
                         R.drawable.material_purple
                 )
         );
-        list.add(new RecyclerViewItems(
+        list.add(new ThemeViewModels(
                         context.getString(R.string.free),
                         context.getString(R.string.green),
                         Constants.ThemesMaterials.THEME_GREEN,
                         R.drawable.material_green
                 )
         );
-        list.add(new RecyclerViewItems(
+        list.add(new ThemeViewModels(
                         context.getString(R.string.free),
                         context.getString(R.string.red_soft),
                         Constants.ThemesMaterials.THEME_RED_SOFT,
@@ -122,30 +122,30 @@ public class ThemeManager {
         return list;
     }
 
-    private List<RecyclerViewItems> getDarkThemes() {
-        List<RecyclerViewItems> list = new ArrayList<>();
-        list.add(new RecyclerViewItems(
+    private List<ThemeViewModels> getDarkThemes() {
+        List<ThemeViewModels> list = new ArrayList<>();
+        list.add(new ThemeViewModels(
                         context.getString(R.string.free),
                         context.getString(R.string.blue),
                         Constants.ThemesDark.THEME_BLUE,
                         R.drawable.dark_blue
                 )
         );
-        list.add(new RecyclerViewItems(
+        list.add(new ThemeViewModels(
                         context.getString(R.string.free),
                         context.getString(R.string.purple),
                         Constants.ThemesDark.THEME_PURPLE,
                         R.drawable.dark_purple
                 )
         );
-        list.add(new RecyclerViewItems(
+        list.add(new ThemeViewModels(
                         context.getString(R.string.free),
                         context.getString(R.string.green),
                         Constants.ThemesDark.THEME_GREEN,
                         R.drawable.dark_green
                 )
         );
-        list.add(new RecyclerViewItems(
+        list.add(new ThemeViewModels(
                         context.getString(R.string.free),
                         context.getString(R.string.red_soft),
                         Constants.ThemesDark.THEME_RED_SOFT,
@@ -155,30 +155,30 @@ public class ThemeManager {
         return list;
     }
 
-    private List<RecyclerViewItems> getBrightThemes() {
-        List<RecyclerViewItems> list = new ArrayList<>();
-        list.add(new RecyclerViewItems(
+    private List<ThemeViewModels> getBrightThemes() {
+        List<ThemeViewModels> list = new ArrayList<>();
+        list.add(new ThemeViewModels(
                         context.getString(R.string.free),
                         context.getString(R.string.blue),
                         Constants.ThemesBright.THEME_BLUE,
                         R.drawable.blue
                 )
         );
-        list.add(new RecyclerViewItems(
+        list.add(new ThemeViewModels(
                         context.getString(R.string.free),
                         context.getString(R.string.purple),
                         Constants.ThemesBright.THEME_PURPLE,
                         R.drawable.purple
                 )
         );
-        list.add(new RecyclerViewItems(
+        list.add(new ThemeViewModels(
                         context.getString(R.string.free),
                         context.getString(R.string.green),
                         Constants.ThemesBright.THEME_GREEN,
                         R.drawable.green
                 )
         );
-        list.add(new RecyclerViewItems(
+        list.add(new ThemeViewModels(
                         context.getString(R.string.free),
                         context.getString(R.string.red_soft),
                         Constants.ThemesBright.THEME_RED_SOFT,

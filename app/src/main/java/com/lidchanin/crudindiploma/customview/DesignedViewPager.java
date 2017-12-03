@@ -1,4 +1,4 @@
-package com.lidchanin.crudindiploma.forlib;
+package com.lidchanin.crudindiploma.customview;
 
 import android.content.Context;
 import android.support.v4.view.ViewPager;

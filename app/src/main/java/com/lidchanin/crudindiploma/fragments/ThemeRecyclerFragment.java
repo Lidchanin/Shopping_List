@@ -1,4 +1,4 @@
-package com.lidchanin.crudindiploma.forlib;
+package com.lidchanin.crudindiploma.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 
 import com.lidchanin.crudindiploma.Constants;
 import com.lidchanin.crudindiploma.R;
+import com.lidchanin.crudindiploma.adapters.ThemeRecyclerAdapter;
+import com.lidchanin.crudindiploma.models.ThemeViewModels;
 import com.lidchanin.crudindiploma.utils.ThemeManager;
 
 import java.util.List;
@@ -19,7 +21,7 @@ import java.util.List;
  * Created by Alexander Destroyed on 12.10.2017.
  */
 
-public class RecyclerFragment extends Fragment {
+public class ThemeRecyclerFragment extends Fragment {
 
     @Nullable
     @Override
@@ -29,9 +31,9 @@ public class RecyclerFragment extends Fragment {
         RecyclerView mainRV = (RecyclerView) view.findViewById(R.id.design_recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mainRV.setLayoutManager(layoutManager);
-        List<RecyclerViewItems> list = ThemeManager.getInstance(getContext())
+        List<ThemeViewModels> list = ThemeManager.getInstance(getContext())
                 .getThemes(getArguments().getString("List"));
-        RecyclerViewAdapter mainRVAdapter = new RecyclerViewAdapter(list,
+        ThemeRecyclerAdapter mainRVAdapter = new ThemeRecyclerAdapter(list,
                 getActivity(), getArguments().getInt(Constants.Bundles.VIEWPAGER_PAGE));
         mainRV.setAdapter(mainRVAdapter);
         return view;
