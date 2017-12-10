@@ -3,6 +3,7 @@ package com.lidchanin.crudindiploma.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -59,6 +60,26 @@ public class TutorialActivity extends AppCompatActivity {
                     // TODO: 03.12.2017 make animation to hide load
                     startActivity(new Intent(TutorialActivity.this, ShoppingListFragmentManager.class));
                 }
+            }
+        });
+        designedViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                if(designedViewPager.getCurrentItem() == 0 ){
+                    previous.setVisibility(View.GONE);
+                }else {
+                    previous.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
             }
         });
         designedViewPager.setAdapter(new TutorialPagerAdapter(getSupportFragmentManager(), tutorialImages, tutorialStrings));

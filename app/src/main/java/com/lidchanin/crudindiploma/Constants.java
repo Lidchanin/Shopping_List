@@ -53,6 +53,7 @@ public interface Constants {
     }
 
     interface Tutorial {
+        String IS_TUTORIAL = "tutorialBoolean";
         String IMAGES = "tutorialImages";
         String STRINGS = "tutorialStrings";
     }
