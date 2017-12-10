@@ -33,6 +33,8 @@ public class TutorialActivity extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         final List<Integer> tutorialImages = TutorialManager.getTutorialImageList(this);
         List<String> tutorialStrings = TutorialManager.getTutorialTextList(this);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        tabLayout.setupWithViewPager(designedViewPager, true);
         previous = (Button) findViewById(R.id.previous);
         previous.setVisibility(View.GONE);
         previous.setOnClickListener(new View.OnClickListener() {

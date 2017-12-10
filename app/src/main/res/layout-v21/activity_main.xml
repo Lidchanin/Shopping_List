@@ -9,18 +9,8 @@
         android:id="@+id/viewPager"
         android:layout_above="@+id/button_bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"/>
 
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tabLayout"
-            android:pointerIcon="alias"
-            app:tabTextColor="@color/blackSimpleBlack"
-            app:tabIndicatorColor="@color/white"
-            app:tabSelectedTextColor="@color/white"
-            android:background="?attr/colorPrimaryDark"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </com.lidchanin.crudindiploma.customview.DesignedViewPager>
 
     <FrameLayout
         android:id="@+id/button_bar"
@@ -37,6 +27,19 @@
             android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabLayout"
+            android:pointerIcon="alias"
+            app:tabTextColor="@color/blackSimpleBlack"
+            app:tabIndicatorColor="@color/white"
+            app:tabSelectedTextColor="@color/white"
+            app:tabBackground="@drawable/dot_selector"
+            android:background="?attr/selectableItemBackground"
+            app:tabIndicatorHeight="0dp"
+            app:tabGravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
         <!--Make this shit moved by points as sick viewPager-->
         <Button
             android:background="?attr/selectableItemBackground"

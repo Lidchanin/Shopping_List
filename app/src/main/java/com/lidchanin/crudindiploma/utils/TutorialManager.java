@@ -2,7 +2,6 @@ package com.lidchanin.crudindiploma.utils;
 
 import android.content.Context;
 
-import com.lidchanin.crudindiploma.Constants;
 import com.lidchanin.crudindiploma.R;
 
 import java.util.ArrayList;
@@ -24,9 +23,9 @@ public class TutorialManager {
 
     public static List<Integer> getTutorialImageList(Context context){
         List<Integer> tutorialImageList = new ArrayList<>();
-        tutorialImageList.add(R.mipmap.tutorial_first);
-        tutorialImageList.add(R.mipmap.tutorial_first);
-        tutorialImageList.add(R.mipmap.tutorial_first);
+        tutorialImageList.add(R.drawable.tutorial_first);
+        tutorialImageList.add(R.drawable.tutorial_second);
+        tutorialImageList.add(R.drawable.tutorial_third);
         return tutorialImageList;
     }
 }

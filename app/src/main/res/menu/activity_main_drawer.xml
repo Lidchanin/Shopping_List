@@ -24,7 +24,7 @@
             android:title="@string/themes" />
         <item
             android:id="@+id/nav_about_us"
-            android:icon="@drawable/ic_accessible_black_24dp"
+            android:icon="@drawable/ic_whoweare"
             android:title="@string/about_us" />
     </group>
 </menu>
