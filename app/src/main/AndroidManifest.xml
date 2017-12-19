@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.lidchanin.crudindiploma">
+    package="com.lidchanin.shoppinglist">
 
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -11,14 +11,14 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/logo"
+        android:icon="@mipmap/icon_logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/logo"
+        android:roundIcon="@mipmap/icon_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".activities.SplashScreen"
+            android:name="com.lidchanin.shoppinglist.activities.SplashScreen"
             android:theme="@style/Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,11 +27,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.TutorialActivity"
+            android:name="com.lidchanin.shoppinglist.activities.TutorialActivity"
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".activities.ShoppingListFragmentManager"
+            android:name="com.lidchanin.shoppinglist.activities.ShoppingListFragmentManager"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 

@@ -14,7 +14,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-            <com.lidchanin.crudindiploma.customview.DesignedTextView
+            <com.lidchanin.shoppinglist.customview.DesignedTextView
 
                 android:id="@+id/product_name"
                 android:layout_width="wrap_content"
@@ -26,7 +26,7 @@
                 android:textSize="20sp"
                 android:textStyle="italic" />
 
-            <com.lidchanin.crudindiploma.customview.DesignedTextView
+            <com.lidchanin.shoppinglist.customview.DesignedTextView
                 android:id="@+id/product_cost"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -16,7 +16,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="100dp">
 
-        <com.lidchanin.crudindiploma.customview.DesignedTextView
+        <com.lidchanin.shoppinglist.customview.DesignedTextView
             android:id="@+id/theme_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -27,7 +27,7 @@
             android:textColor="@color/blue"
             android:textSize="16sp" />
 
-        <com.lidchanin.crudindiploma.customview.DesignedTextView
+        <com.lidchanin.shoppinglist.customview.DesignedTextView
             android:id="@+id/theme_cost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

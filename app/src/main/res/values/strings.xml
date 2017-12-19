@@ -207,7 +207,7 @@
     <string name="dark">Dark</string>
     <string name="button_previous">Previous</string>
     <string name="button_next">Next</string>
-    <string name="tutorial_screen_first"></string>
-    <string name="tutorial_screen_second"></string>
-    <string name="tutorial_screen_third"></string>
+    <string name="tutorial_screen_first">In app\s part, named as "Lists", you can add or edit each of your shopping lists. For each item, you can enter cost, quantity\weight and name, to get correct final sum.</string>
+    <string name="tutorial_screen_second">In this part of app, you can change your app\'s theme, on which you want.</string>
+    <string name="tutorial_screen_third">In this part of app, you can see products, from deleted lists, which was marked as bought.</string>
 </resources>

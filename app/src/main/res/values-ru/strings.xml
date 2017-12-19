@@ -180,7 +180,7 @@
     </string>
     <string name="other">Другой</string>
     <string name="alternate_date">Альтернативная дата</string>
-    <string name="alternate">Альтернативная</string>
+    <string name="alternate">Иная</string>
     <string name="free">Бесплатно</string>
     <string name="blue">Голубой</string>
     <string name="purple">Пурпурный</string>
@@ -191,7 +191,7 @@
     <string name="material">Материальные</string>
     <string name="button_previous">Назад</string>
     <string name="button_next">Далее</string>
-    <string name="tutorial_screen_first">На экране списков вы можете видеть пыпадающие списки покупок с элементами, для которых вы можете задать цену, вес и название, для удобства подсчёта полной суммы данного списка.</string>
+    <string name="tutorial_screen_first">На экране списков вы можете видеть выпадающие списки покупок с элементами, для которых вы можете задать цену, вес и название, для удобства подсчёта полной суммы данного списка.</string>
     <string name="tutorial_screen_second">В данном разделе, у вас есть возможность сменить тему приложения на любую понравившуюся.</string>
     <string name="tutorial_screen_third">В данный раздел вносятся только продукты из удалённых списков, которые были отмечены как приобретённые.</string>
 </resources>

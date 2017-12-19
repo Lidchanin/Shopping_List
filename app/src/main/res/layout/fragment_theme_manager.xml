@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.lidchanin.crudindiploma.customview.DesignedViewPager
+    <com.lidchanin.shoppinglist.customview.DesignedViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -18,6 +18,6 @@
             android:background="?attr/colorPrimaryDark"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
-        </com.lidchanin.crudindiploma.customview.DesignedViewPager>
+        </com.lidchanin.shoppinglist.customview.DesignedViewPager>
 
 </LinearLayout>

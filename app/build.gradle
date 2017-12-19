@@ -1,13 +1,22 @@
 apply plugin: 'com.android.application'
 android {
+    signingConfigs {
+        config {
+            keyAlias 'Shopping List'
+            keyPassword 'tr1force'
+            storeFile file('C:/Android/Key/key_shopping_list.jks')
+            storePassword 'tr1force'
+        }
+    }
     compileSdkVersion 25
     buildToolsVersion '26.0.2'
     defaultConfig {
-        applicationId "com.lidchanin.crudindiploma"
+        applicationId "com.lidchanin.shoppinglist"
         minSdkVersion 16
         targetSdkVersion 25
         versionCode 4
         versionName "1.0"
+        signingConfig signingConfigs.config
     }
     buildTypes {
         release {
@@ -16,12 +25,14 @@ android {
                     'proguard-rules.pro'
         }
     }
+    productFlavors {
+    }
 }
 repositories {
     mavenCentral() // jcenter() works as well because it pulls from Maven Central
 }
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'org.greenrobot:greendao:3.2.2'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.makeramen:roundedimageview:2.3.0'
@@ -36,6 +47,5 @@ dependencies {
     compile 'com.google.firebase:firebase-crash:10.2.6'
     compile 'com.google.android.gms:play-services-gcm:10.2.6'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-
 }
 apply plugin: 'com.google.gms.google-services'

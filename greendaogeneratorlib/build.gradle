@@ -1,7 +1,7 @@
 apply plugin: 'java'
 apply plugin: 'application'
 
-mainClassName = "com.lidchanin.crudindiploma.GreenDaoGenerator"
+mainClassName = "com.lidchanin.shoppinglist.GreenDaoGenerator"
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
