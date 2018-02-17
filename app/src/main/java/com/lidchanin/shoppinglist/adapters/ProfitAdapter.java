@@ -21,13 +21,13 @@ public class ProfitAdapter extends RecyclerView.Adapter<ProfitAdapter.ProfitView
     private static OnSumChangeListener onSumChangeListener;
     private List<ProfitItems> profitItemsList;
 
-    public ProfitAdapter (){
+    public ProfitAdapter(){
         profitItemsList = new ArrayList<>();
         profitItemsList.add(new ProfitItems());
         profitItemsList.add(new ProfitItems());
     }
 
-    public ProfitAdapter (List<ProfitItems> profitItemsList){
+    public ProfitAdapter(List<ProfitItems> profitItemsList){
         this.profitItemsList = profitItemsList;
     }
 
@@ -79,7 +79,7 @@ public class ProfitAdapter extends RecyclerView.Adapter<ProfitAdapter.ProfitView
             public void afterTextChanged(Editable s) {
                 ProfitItems profitItem = profitItemsList.get(holder.getAdapterPosition());
                 profitItem.setCost(Double.parseDouble(String.valueOf(s)));
-                calculate(holder,profitItem);
+                calculate(holder, profitItem);
             }
         });
         holder.editTextWeight.addTextChangedListener(new TextWatcher() {
@@ -96,15 +96,13 @@ public class ProfitAdapter extends RecyclerView.Adapter<ProfitAdapter.ProfitView
             public void afterTextChanged(Editable s) {
                 ProfitItems profitItem = profitItemsList.get(holder.getAdapterPosition());
                 profitItem.setWeiht(Double.parseDouble(String.valueOf(s)));
-                calculate(holder,profitItem);
+                calculate(holder, profitItem);
             }
         });
     }
 
     @Override
     public int getItemCount() {
-
-        Log.d("NEWSIZE", "counter: " + profitItemsList.size());
         return profitItemsList.size();
     }
 
@@ -122,7 +120,6 @@ public class ProfitAdapter extends RecyclerView.Adapter<ProfitAdapter.ProfitView
     public void addNewItem() {
         profitItemsList.add(new ProfitItems());
         notifyItemInserted(profitItemsList.size());
-        Log.d("NEWSIZE", "addNewItem: " + profitItemsList.size());
     }
 
     public interface OnSumChangeListener {
@@ -141,7 +138,6 @@ public class ProfitAdapter extends RecyclerView.Adapter<ProfitAdapter.ProfitView
             redCross = (ImageView) view.findViewById(R.id.red_cross);
             editTextCost = (EditText) view.findViewById(R.id.cost);
             editTextWeight = (EditText) view.findViewById(R.id.weight);
-
         }
     }
 

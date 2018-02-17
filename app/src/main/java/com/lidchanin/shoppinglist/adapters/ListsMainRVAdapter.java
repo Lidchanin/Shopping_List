@@ -239,7 +239,7 @@ public class ListsMainRVAdapter
 
         radioGroup.addView(radioButtonKg);
         radioGroup.addView(radioButtonUnit);
-        radioGroup.check(radioButtonKg.getId());
+        radioGroup.check(radioButtonUnit.getId());
 
         layout.addView(textInputLayoutAuto);
         layout.addView(textInputLayoutCost);

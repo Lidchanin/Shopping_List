@@ -221,7 +221,7 @@ public class ListsChildRVAdapter
         radioButtonKg.setText(context.getString(R.string.kg));
 
         final RadioButton radioButtonUnit = new RadioButton(context);
-        radioButtonUnit.setText(context.getString(R.string.unit));
+        radioButtonUnit.setText(context.getString(R.string.pieces));
 
         radioGroup.addView(radioButtonKg);
         radioGroup.addView(radioButtonUnit);

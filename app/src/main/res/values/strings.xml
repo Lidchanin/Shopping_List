@@ -147,6 +147,7 @@
     <string name="ask_close_app">Are you sure you want to close \"%1$s\"?</string>
     <string name="enter_quantity">Enter quantity</string>
     <string name="weight">Weight</string>
+    <string name="weight_profit">Weight/Quantity</string>
     <string name="quantity">Quantity</string>
     <string name="add_best">Add best</string>
     <string name="clear">Clear</string>
