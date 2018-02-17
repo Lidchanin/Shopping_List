@@ -14,7 +14,7 @@ android {
         applicationId "com.lidchanin.shoppinglist"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 4
+        versionCode 5
         versionName "1.0"
         signingConfig signingConfigs.config
     }
