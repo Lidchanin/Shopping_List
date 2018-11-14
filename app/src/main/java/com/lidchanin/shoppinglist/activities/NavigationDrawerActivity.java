@@ -98,12 +98,12 @@ public class NavigationDrawerActivity extends AppCompatActivity implements Navig
             emailTextView.setText(accountEmail);
             nameTextView.setText(accountName);
             signInButton.setVisibility(View.GONE);
-            Picasso.with(getApplicationContext()).load(photoUrl).transform(transformation).into(headerImageView);
+            //Picasso.with(getApplicationContext()).load(photoUrl).transform(transformation).into(headerImageView);
         } else {
             emailTextView.setVisibility(View.GONE);
             nameTextView.setVisibility(View.GONE);
-            Picasso.with(getApplicationContext()).load(photoUrl).transform(transformation)
-                    .into(headerImageView);
+            /*Picasso.with(getApplicationContext()).load(photoUrl).transform(transformation)
+                    .into(headerImageView);*/
         }
     }
 
@@ -297,7 +297,7 @@ public class NavigationDrawerActivity extends AppCompatActivity implements Navig
                 nameTextView.setVisibility(View.VISIBLE);
                 emailTextView.setText(accountEmail);
                 nameTextView.setText(accountName);
-                Picasso.with(getApplicationContext()).load(photoUrl).transform(transformation).into(headerImageView);
+                //Picasso.with(getApplicationContext()).load(photoUrl).transform(transformation).into(headerImageView);
                 signInButton.setVisibility(View.GONE);
             } else {
                 Toast.makeText(NavigationDrawerActivity.this, getString(R.string.auth_filed), Toast.LENGTH_SHORT).show();
