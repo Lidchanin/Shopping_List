@@ -22,8 +22,6 @@ import kotlinx.android.synthetic.main.activity_drawer.*
 
 open class NavigationDrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{
 
-    private var buttonHamburger: ImageButton? = null
-    private var drawer: DrawerLayout? = null
     private var transformation: Transformation? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,15 +32,13 @@ open class NavigationDrawerActivity : AppCompatActivity(), NavigationView.OnNavi
 
     override fun setContentView(@LayoutRes layoutResID: Int) {
         super.setContentView(R.layout.activity_drawer)
-        layoutInflater.inflate(layoutResID, content)
+        layoutInflater.inflate(layoutResID, container)
         initNavigationDrawer()
         initializeViewsAndButtons()
     }
 
     private fun initNavigationDrawer() {
         transformation = RoundedTransformationBuilder().oval(true).build()
-        val navigationView = findViewById<View>(R.id.nav_view) as NavigationView
-
         val toggle = ActionBarDrawerToggle(
                 this, drawer, null, R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close)
@@ -58,8 +54,7 @@ open class NavigationDrawerActivity : AppCompatActivity(), NavigationView.OnNavi
     }
 
     private fun initializeViewsAndButtons() {
-        buttonHamburger = findViewById<View>(R.id.hamburger) as ImageButton
-        buttonHamburger!!.setOnClickListener { drawer!!.openDrawer(Gravity.START) }
+        hamburger!!.setOnClickListener { drawer!!.openDrawer(Gravity.START) }
 
     }
 

@@ -38,7 +38,6 @@ class TutorialActivity : AppCompatActivity(){
             if (viewPager!!.currentItem + 1 < tutorialImages.size) {
                 viewPager!!.currentItem = viewPager!!.currentItem + 1
             } else {
-                // TODO: 03.12.2017 make animation to hide load
                 startActivity(Intent(this@TutorialActivity, ShoppingListFragmentManager::class.java))
             }
         }

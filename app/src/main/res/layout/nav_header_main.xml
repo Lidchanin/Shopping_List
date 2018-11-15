@@ -31,12 +31,4 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/emailTextView"/>
-
-    <com.google.android.gms.common.SignInButton
-        android:paddingTop="110dp"
-        android:id="@+id/signInButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|left" />
-
 </FrameLayout>
