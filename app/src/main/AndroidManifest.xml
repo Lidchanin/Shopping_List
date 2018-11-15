@@ -27,10 +27,10 @@
 
         <activity
             android:name=".activities.TutorialActivity"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.ShoppingListFragmentManager"/>
         <activity
-            android:name=".activities.ShoppingListFragmentManager"
+            android:name=".activities.NavigationDrawerActivity"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 

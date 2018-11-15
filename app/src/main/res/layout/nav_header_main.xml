@@ -24,17 +24,17 @@
         android:paddingTop="110dp"
         android:text="Shopping list"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:id="@+id/user_name"/>
+        android:id="@+id/nameTextView"/>
 
     <TextView
         android:paddingTop="130dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/user_mail"/>
+        android:id="@+id/emailTextView"/>
 
     <com.google.android.gms.common.SignInButton
         android:paddingTop="110dp"
-        android:id="@+id/sing_in_button"
+        android:id="@+id/signInButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|left" />
